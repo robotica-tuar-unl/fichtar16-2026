@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "clases/index.html",
+    "href": "clases/index.html",
+    "title": "Clases",
+    "section": "",
+    "text": "Nota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nLab\nT.R.\nTeoría\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n\n\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes). Instalación y ejemplos básicos.\n\n\n\n\n\n\n\n4\n07/04\nROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación.\n\n\n\n\n\n\n\n5\n14/04\nRevisión conceptos clase anterior. Programación de nodos, compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+  },
+  {
+    "objectID": "clases/index.html#universidad-nacional-del-litoral-unl",
+    "href": "clases/index.html#universidad-nacional-del-litoral-unl",
+    "title": "Clases",
+    "section": "Universidad Nacional del Litoral (UNL)\n",
+    "text": "Universidad Nacional del Litoral (UNL)\n\n\nFacultad de Ingeniería y Ciencias Hídricas (FICH) \n\nTecnicatura Universitaria en Automatización y Robótica (TUAR)"
+  },
+  {
     "objectID": "index.html#universidad-nacional-del-litoral-unl",
     "href": "index.html#universidad-nacional-del-litoral-unl",
     "title": "Robótica 2026",
