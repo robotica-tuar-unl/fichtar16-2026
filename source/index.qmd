@@ -11,7 +11,7 @@ format:
 
 # Intro
 
-- **Carreras en FICH**: Tecnicatura en automatización y robótica
+- **Carreras en FICH**: Tecnicatura universitaria en automatización y robótica
 - **Extensión**: Anual
 - **Carga Horaria**: 120hs
 - **Sitio**: [Robótica 2026](https://robotica-tuar-unl.github.io/fichtar16-2026/)
