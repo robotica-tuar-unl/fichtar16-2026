@@ -1,0 +1,19 @@
+---
+title: "Robótica 2026"
+page-navigation: false
+anchor-sections: false
+format:
+    html:
+        html-table-processing: none
+---
+
+---
+
+# Intro
+
+- **Carreras en FICH**: Tecnicatura en automatización y robótica
+- **Extensión**: Anual
+- **Carga Horaria**: 120hs
+- **Sitio**: [Robótica 2026](https://robotica-tuar-unl.github.io/fichtar16-2026/)
+- **Docente**:
+    - *Capovilla, Agustín* ([`acapovilla@sinc.unl.edu.ar`](mailto:acapovilla@sinc.unl.edu.ar))
