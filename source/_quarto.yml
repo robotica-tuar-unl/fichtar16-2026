@@ -5,6 +5,8 @@ project:
     port: 4200
     browser: false
 
+lang: es
+
 website:
   title: "Robótica 2026"
   sidebar:
