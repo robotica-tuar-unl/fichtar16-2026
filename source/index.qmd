@@ -17,3 +17,5 @@ format:
 - **Sitio**: [Robótica 2026](https://robotica-tuar-unl.github.io/fichtar16-2026/)
 - **Docente**:
     - *Capovilla, Agustín* ([`acapovilla@sinc.unl.edu.ar`](mailto:acapovilla@sinc.unl.edu.ar))
+
+{{< include clases/index.qmd >}}

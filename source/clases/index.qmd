@@ -1,0 +1,25 @@
+# Clases
+
+::: {.callout-note}
+El siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado
+:::
+
+| Semana | Fecha | Tema | Slides | Notas | [Lab]{title="Laboratorio"} | [T.R.]{title="Taller de resolución"}  | Teoría |
+|:------:|--------|--------|:------:|:------:|:------:|:------:|:------:|
+|1  | 17/03 | Introducción a la Robótica. Organización de la materia. Herramientas de trabajo. | |
+|2  | 24/03 | **Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia** | |
+|3  | 31/03 | ROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes). Instalación y ejemplos básicos. | |
+|4  | 07/04 | ROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación. | |
+|5  | 14/04 | Revisión conceptos clase anterior. Programación de nodos, compilación y ejecución. | |
+|6  | 21/04 | Programación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación. | |
+|7  | 28/04 | Parámetros en nodos. `roslaunch`, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.  | |
+|8  | 05/05 | ROS2 _R.E.P._. Traslación y rotación 2D. Transformaciones homogéneas. `tf2` | |
+|9  | 12/05 | _U.R.D.F._: Representación de geometría de un robot. Uso de _XACRO_, `robot_state_publisher` y `tf2`. | |
+|10 | 19/05 | Gazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete `ros2_control` y `gz_ros2_contol`. *Hardware interface* y controladores. | |
+|11 | 26/05 | Cinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa. | |
+|12 | 02/06 | Odometría: Cálculo de posición en base al modelo cinemático directo. | |
+|13 | 09/06 | Percepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir. | |
+|14 | 16/06 | Simulación de sensores en Gazebo | |
+|15 | 23/06 | Presentación entregable 1 | |
+
+: {.striped .hover tbl-colwidths="[8, 8, 60, 8, 8, 8]"}
