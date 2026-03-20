@@ -1,0 +1,7 @@
+code.sourceCode.bash > span {
+  text-indent: 1.5em;
+}
+
+code.sourceCode.bash > span::before {
+  content: "$ ";
+}

@@ -1,10 +1,87 @@
 [
   {
+    "objectID": "clases/01/index.html#organización-de-la-materia-1",
+    "href": "clases/01/index.html#organización-de-la-materia-1",
+    "title": "Robótica",
+    "section": "Organización de la materia",
+    "text": "Organización de la materia\n\nDocente: Tec. Agustín Capovilla\nCursado: Martes de 15:00 a 17:00 (T/P) 1\nComunicación: vía email (o por Classroom)\nRepositorio: robotica-tuar-unl.github.io/fichtar16-2026\n\nclases de consulta a coordinar"
+  },
+  {
+    "objectID": "clases/01/index.html#evaluaciones",
+    "href": "clases/01/index.html#evaluaciones",
+    "title": "Robótica",
+    "section": "Evaluaciones",
+    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\n\n\n\n\n\n\nCon sus respectivas instancias de recuperación"
+  },
+  {
+    "objectID": "clases/01/index.html#evaluaciones-1",
+    "href": "clases/01/index.html#evaluaciones-1",
+    "title": "Robótica",
+    "section": "Evaluaciones",
+    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\nCodiciones de aprobación\n\nPara regularizar\n\nAprobación de al menos 2\n\nPara promocionar\n\nAprobación de todos los trabajos con mínimo de 60% + promedio mínimo de 70%"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-1",
+    "href": "clases/01/index.html#programa-1",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-2",
+    "href": "clases/01/index.html#programa-2",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 0\n\nRobot Operating System (ROS 2)"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-3",
+    "href": "clases/01/index.html#programa-3",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 1\n\nCinemática\nSimulación y control"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-4",
+    "href": "clases/01/index.html#programa-4",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 2\n\nPercepción\nLocalización y mapeo"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-5",
+    "href": "clases/01/index.html#programa-5",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 3\n\nPlaneamiento\nNavegación"
+  },
+  {
+    "objectID": "clases/01/index.html#herramientas-de-trabajo",
+    "href": "clases/01/index.html#herramientas-de-trabajo",
+    "title": "Robótica",
+    "section": "Herramientas de trabajo",
+    "text": "Herramientas de trabajo\n\nFramework de robótica: ROS2\nSimulador: Gazebo\nLenguaje de programación: C++ / Python\nIDE: VSCode (potencial en sus extensiones)\nAdicionales:\n\nContenedores: Docker\nControl de versiones: Git (+ GitHub o GitLab)\nEscritura: Latex, Markdown\nDiagramas: Draw.io"
+  },
+  {
+    "objectID": "clases/01/index.html#bibliografía-recursos-oficiales",
+    "href": "clases/01/index.html#bibliografía-recursos-oficiales",
+    "title": "Robótica",
+    "section": "Bibliografía Recursos Oficiales",
+    "text": "Bibliografía Recursos Oficiales\n\nROS 2 Documentation, Tutorials\nGazebo\nrospy, ros_control, Nav2\nentre otros… *\n\n\n\n(*) se complementarán según el tema"
+  },
+  {
+    "objectID": "clases/01/index.html#material-adicional-recomendado",
+    "href": "clases/01/index.html#material-adicional-recomendado",
+    "title": "Robótica",
+    "section": "Material adicional recomendado",
+    "text": "Material adicional recomendado\n\nArticulated Robotics\nThe Construct\nETH Zürich - Programming for Robotic (2021)\nAutomatic Addison\n\nBibliografía (muy) complementaria\n\nSpringer Handbook of Robotics\nRobotic Systems (draft), Kris Hauser"
+  },
+  {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Nota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nLab\nT.R.\nTeoría\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n\n\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes). Instalación y ejemplos básicos.\n\n\n\n\n\n\n\n4\n07/04\nROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación.\n\n\n\n\n\n\n\n5\n14/04\nRevisión conceptos clase anterior. Programación de nodos, compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+    "text": "Nota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes). Instalación y ejemplos básicos.\n\n\n\n\n\n\n\n4\n07/04\nROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación.\n\n\n\n\n\n\n\n5\n14/04\nRevisión conceptos clase anterior. Programación de nodos, compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
   },
   {
     "objectID": "clases/index.html#universidad-nacional-del-litoral-unl",
