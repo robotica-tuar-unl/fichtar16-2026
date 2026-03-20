@@ -1,0 +1,58 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: false
+---
+
+\section{Presentación de la materia}
+\begin{itemize}
+    \item Organización, horarios, asistencia, comunicación
+    \item Evaluación, condiciones de aprobación
+    \item Programa y temario
+    \item Herramientas de trabajo
+        \begin{itemize}
+            \item Framework y librerías: ROS 2 (Jazzy)
+            \item Simulación: Gazebo
+            \item Lenguaje de programación: Python/C++
+            \item IDE: VSCode (+ extensiones)
+            \item Versionado: Git
+            \item Contenedores: Docker
+            \item Producción de informes y texto: Latex, \texttt{diagrams.net}
+        \end{itemize}
+    \item Material online, recursos oficiales, bibliografía complementaria
+    \item Repositorio: \href{https://robotica-tuar-unl.github.io/fichtar16-2026/}{\texttt{robotica-tuar-unl.github.io/fichtar16-2026}}
+\end{itemize}
+\textbf{A definir...}
+\begin{itemize}
+    \item Horario consultas
+    \item Capacidad de ejecución local o en la nube
+    \item Entorno/s + lenguaje a utilizar
+\end{itemize}
+
+<!--
+\section{Introducción}
+\begin{itemize}
+    \item Concepto de robótica. Algo de historia. Aplicaciones \textbf{actuales} de la robótica (\textit{Estado del Arte} sin entrar en profundidad). \textit{Hibachi} de ejemplo.
+    \item Clasificación de los robots haciendo hincapié en el método de locomoción. \textbf{Robótica móvil} y \textbf{Robots con ruedas}.
+    \item Desafíos a resolver de la robótica móvil:
+        \begin{itemize}
+            \item Entorno
+            \item Sistema de locomoción
+            \item Sensores
+            \item Aplicación
+        \end{itemize}
+\end{itemize}
+-->

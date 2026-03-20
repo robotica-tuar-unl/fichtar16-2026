@@ -1,0 +1,113 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+output-file: index.html
+---
+
+# Organización de la materia {visibility="hidden"}
+
+## Organización de la materia
+- __Docente__: Tec. Agustín Capovilla 
+- __Cursado__: Martes de 15:00 a 17:00 (T/P) ^[clases de consulta a coordinar]
+- __Comunicación__: vía email (o por *Classroom*)
+- __Repositorio__: [robotica-tuar-unl.github.io/fichtar16-2026](https://robotica-tuar-unl.github.io/fichtar16-2026/){target="_blank"}
+
+---
+
+## Evaluaciones
+- 3 trabajos prácticos integradores
+
+::: {.callout-note appearance="simple"}
+Con sus respectivas instancias de recuperación
+:::
+
+
+## Evaluaciones
+- 3 trabajos prácticos integradores
+
+### Codiciones de aprobación
+- Para regularizar
+    - Aprobación de al menos 2
+- Para promocionar
+    - Aprobación de todos los trabajos con mínimo de 60% + promedio mínimo de 70%
+
+# Programa {visibility="hidden"}
+
+## Programa
+- 4 bloques principales
+
+## Programa
+- 4 bloques principales
+
+### Bloque 0
+- Robot Operating System (ROS 2)
+
+## Programa
+- 4 bloques principales
+
+### Bloque 1
+- Cinemática
+- Simulación y control
+
+## Programa
+- 4 bloques principales
+
+### Bloque 2
+- Percepción
+- Localización y mapeo
+
+## Programa
+- 4 bloques principales
+
+### Bloque 3
+- Planeamiento
+- Navegación
+
+# Herramientas y recursos {visibility="hidden"}
+
+## Herramientas de trabajo {.smaller}
+::: {.incremental}
+- Framework de robótica: ROS2 
+- Simulador: Gazebo
+- Lenguaje de programación: C++ / Python
+- IDE: VSCode (**potencial en sus extensiones**)
+- Adicionales:
+    - Contenedores: Docker
+    - Control de versiones: Git (+ GitHub o GitLab)
+    - Escritura: Latex, Markdown
+    - Diagramas: [Draw.io](https://app.diagrams.net/){target="_blank"}
+:::
+
+
+## ~~Bibliografía~~ Recursos Oficiales
+- [ROS 2 Documentation](https://docs.ros.org/en/jazzy/index.html){target="_blank"}, [Tutorials](https://docs.ros.org/en/jazzy/Tutorials.html){target="_blank"}
+- [Gazebo](https://gazebosim.org/docs/harmonic/getstarted/){target="_blank"}
+- [`rospy`](https://docs.ros2.org/latest/api/rclpy/index.html){target="_blank"}, [`ros_control`](https://control.ros.org/jazzy/index.html){target="_blank"}, [Nav2](https://docs.nav2.org/){target="_blank"}
+- entre otros... *
+
+::: aside
+(*) se complementarán según el tema
+:::
+
+## Material adicional recomendado
+- [Articulated Robotics](https://articulatedrobotics.xyz/category/getting-ready-to-build-a-ros-robot){target="_blank"}
+- [The Construct](https://www.theconstruct.ai/ros-projects-exploring-ros-using-2-wheeled-robot-part-1/){target="_blank"}
+- [ETH Zürich - Programming for Robotic (2021)](https://rsl.ethz.ch/education-students/lectures/ros.html){target="_blank"}
+- [Automatic Addison](https://automaticaddison.com/){target="_blank"} 
+
+### Bibliografía (muy) complementaria
+- [Springer Handbook of Robotics](https://link.springer.com/book/10.1007/978-3-319-32552-1){target="_blank"}
+- [Robotic Systems (draft), Kris Hauser](https://motion.cs.illinois.edu/RoboticSystems/){target="_blank"}

@@ -4,9 +4,9 @@
 El siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado
 :::
 
-| Semana | Fecha | Tema | Slides | Notas | [Lab]{title="Laboratorio"} | [T.R.]{title="Taller de resolución"}  | Teoría |
+| Semana | Fecha | Tema | [Slides]{title="Slides"} | [Notas]{title="Notas"} | [T.]{title="Teórico"} | [Lab.]{title="Laboratorio"} | [T.R.]{title="Taller de resolución"} |
 |:------:|--------|--------|:------:|:------:|:------:|:------:|:------:|
-|1  | 17/03 | Introducción a la Robótica. Organización de la materia. Herramientas de trabajo. | |
+|1  | 17/03 | Introducción a la Robótica. Organización de la materia. Herramientas de trabajo. | [🖥️](/clases/01/slides.qmd "Slides"){aria-label="Clase 1 slides"} | [📝](/clases/01/notas.qmd "Notas"){aria-label="Clase 1 notas"} | |
 |2  | 24/03 | **Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia** | |
 |3  | 31/03 | ROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes). Instalación y ejemplos básicos. | |
 |4  | 07/04 | ROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación. | |
