@@ -1,0 +1,350 @@
+## ROS 2 *Graph* {.smaller}
+ 
+### `Nodos`
+
+::: {.columns}
+::: {.column}
+
+> Programa único e independiente que **realiza una tarea** específica
+
+> Un sistema robótico completo se compone de múltiples nodos
+
+::: {.fragment}
+[Ejemplo]{.underline}: robot aspiradora
+
+- Nodo A: sensor de obstáculos
+- Nodo B: seguir el recorrido
+- Nodo C: controlar las ruedas 
+:::
+
+:::
+::: {.column}
+
+![](slides/anktdn.jpg){width="80%" fig-align="center"}
+
+:::
+:::
+
+::: {.notes}
+- Programas ejecutables de propósito único (no es 100% estricto)
+- En vez de 1 programa principal gigante que controla todo, ROS2 utiliza pequeños nodos
+- Beneficio -> Si un nodo (por ejemplo el de la cámara) falla, el resto puede seguir funcionando o pasar a un estado seguro (ejemplo, frenar un vehículo)
+:::
+
+## ROS 2 *Graph* {.smaller}
+ 
+### `Nodos`
+
+::: {.columns}
+::: {.column}
+
+> Se compila, ejecuta y gestiona de forma individual
+
+::: {.fragment}
+> Se organiza en paquetes y ejecutables que pueden contener más de un nodo
+:::
+
+::: {.fragment}
+> Un nodo se comunica con otros nodos, que pueden estar dentro del mismo proceso, en otro o incluso en otro dispositivo
+:::
+
+:::
+::: {.column}
+
+![](slides/anktdn.jpg){width="80%" fig-align="center"}
+
+:::
+:::
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Nodes/Understanding-ROS2-Nodes.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Nodes.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- Se compilan, ejecutan y gestionan de forma individual
+- Se organiza en paquetes y ejecutables, cada ejecutable puede contener más de un nodo
+- Un nodo se comunica con otros nodos, que pueden estar dentro del mismo proceso, en otro o incluso en otro dispositivo
+:::
+
+
+## ROS 2 *Graph* 
+
+> 3 modos de comunicación
+
+1. *Topics* &nbsp;&nbsp; ⬅️
+2. *Servicios*
+3. *Acciones*
+
+
+## ROS 2 *Graph* {.smaller}
+
+### `Topics`
+
+::: {.columns}
+::: {.column}
+
+> Transmisión de datos continua en una única dirección entre nodos
+
+- [Analogía]{.underline}: **estación de radio**
+  - **1** *publicador*: productores de datos
+  - **N** *suscriptores*: consumidores de datos
+
+:::
+::: {.column}
+
+<!-- ![](https://www.contentful.com/blog/publish-subscribe-pattern/) -->
+![](slides/image6.webp){fig-align="center"}
+
+:::
+:::
+
+::: {.notes}
+- Principal forma de intercambio de información entre nodos
+- Arquitectura publicador (productores de datos) / suscriptor (consumidores de datos)
+- Medio de comunicación entre nodos
+- Única dirección y transmisión continua (perfecta para datos de sensores o estado del robot)
+- Estación de radio: The node Publishes to a topic, and any node that Subscribes to it hears the message.
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### `Topics`
+
+#### [Publicador / Suscriptor]{.underline}
+
+- Al crear un publicador se le asigna un **nombre de topic** al cual va a publicar
+
+- Para suscribirse se deberá utilizar el mismo nombre
+
+- En un *topic* puede haber cero o muchos publicadores y cero o muchos suscriptores
+
+- Un nodo puede suscribirse a múltiples *topics* y publicar en múltiples *topics*, todo a la vez
+
+::: {.notes}
+- Los nodos pueden publicar o subscribirse: Generalmente en un esquema 1-pub y n-subs
+- Al crear un publicador se le asigna un nombre de "topic" al cual va a publicar -> el mismo nombre va al suscriptor
+- En un topic puede haber cero o muchos publicadores y cero o muchos suscriptores
+- Un nodo puede suscribirse a múltiples nodos y publicar en múltiples nodos, todo a la vez
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Topics`
+
+#### [Anónimo]{.underline}
+
+- Cuando un suscriptor recibe mensajes desconoce quién los produjo
+  - **Ventaja**: publicadores y suscrptores pueden intercambiarse sin afectar el sistema
+
+::: {.fragment}
+- Los publicadores y suscriptores pueden aparecer y desaparecer de forma dinámica
+  - **Desventaja**: hace falta inspeccionar y depurar en vivo
+:::
+
+::: {.fragment}
+#### [Fuertemente tipado]{.underline}
+
+- Cómo definimos los tipos?
+:::
+
+::: {.notes}
+- Los publicadores y suscriptores pueden aparecer y desaparecer según sea necesario, lo que significa que la depuración y la introspección son extensiones naturales del sistema
+- La comunicación es anónima -> cuando un suscriptor recibe datos, por lo general desconoce quién los produjo -> el beneficio es que ambos (suscriptor o publicador) pueden intercambiarse sin afectar el sistema
+- Cómo se "tipa" -> con las interfaces .. lo que sigue
+:::
+
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Topics.html){target="_blank"}
+:::
+
+
+## ROS 2 *Graph* 
+
+> 3 interfaces (asociadas a los modos de comunicación)
+
+1. *Mensajes* (`.msg`) &nbsp;&nbsp; ⬅️
+2. *Definiciones de servicio* (`.srv`)
+3. *Definiciones de acciones* (`.action`)
+
+::: {.notes}
+- Analogía: si los topics o servicios son las líneas telefónicas, las interfaces son el lenguaje
+::::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### `Mensajes`
+
+> Mecanismo para enviar información donde no se espera una respuesta
+
+<br>
+
+#### *Lenguaje de Definición de Interfaz* (`IDL`)
+
+- Lenguaje simplificado
+- Permite generar código de forma automática
+- Archivos `.msg` con múltiples *campos* y/o *constantes*
+
+
+
+::: {.notes}
+- Mecanismo para enviar información donde no se espera una respuesta
+- Ejemplo, si un node lee el valor de temperatura de un sensor, puede publicar ese dato en la red de ROS2 usando el mensaje de tipo `Temperature`. Otros nodos podrían suscribirse a esos datos y recibirían mensajes de `Temperature`
+- Estructuras de datos simples -> Ejemplos: `integer` para la velocidad o `string` para un mensaje de estado
+- ROS2 es estricto -> si un nodo envía un `integer` y el otro nodo no espera uno, no se van a poder comunicar
+- ROS2 utiliza un lenguaje de descripción simplificado para describir/definir las interfaces: EL IDL (Interface Definition Language)
+- IDL permite generar el código fuente automaticamente para la interfaz en distintos lenguajes de programación
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### Archivos `.msg`
+
+- #### [Campos]{.underline}: `tipo` + `nombre`
+```{.default filename="mensaje.msg" code-line-numbers="false"}
+tipocampo1 campo1
+tipocampo2 campo2
+```
+
+- #### [Constantes]{.underline}: `tipo` + `NOMBRE`=`valor`
+```{.default filename="mensaje.msg" code-line-numbers="false"}
+tipoconstante NOMBRECONSTANTE=valorconstante
+```
+
+<br>
+
+- 2 tipos de campo
+  - *built-in* (predefinidos)
+  - Otro mensaje (mensaje que contiene otro mensaje)
+
+::: {.notes}
+- Archivos `.msg` de texto que definen/describen los "campos" de un mensaje de ROS2.
+- Se componen de: campos y constantes
+- Campos:
+  - Consiste en un tipo y un nombre separados por un espacio
+  - Los nombres tienen que ser en minúscula, caracteres alfanuméricos con guión bajo para separar palabras
+  - Tienen que empezar con alfanumérico y no pueden terminar en guión bajo o tener doble guión bajo
+
+- Constante: campos con valores por defecto
+  - nunca pueden cambiar de valor
+  - el nombre es todo mayúscula
+  - la asignación del valor se hace con el signo '='
+
+<!--
+```
+int32 X=123
+int32 Y=-123
+string FOO="foo"
+string EXAMPLE='bar'
+```
+-->
+
+<!--
+- Se pueden definir valores por defecto. No aplica para arreglos de string o tipos complejos:
+```
+tipocampo campo1 valorpordefecto
+```
+```
+uint8 x 42
+int16 y -2000
+string full_name "John Doe"
+int32[] samples [-200, -100, 0, 100, 200]
+```
+-->
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### Archivos `.msg`
+
+#### Tipos *built-in* (algunos)
+
+| Nombre    | C++            | Python           |
+|-----------|----------------|------------------|
+| bool      | bool           | builtins.bool    |
+| char      | char           | builtins.int     |
+| float32   | float          | builtins.float   |
+| float64   | double         | builtins.float   |
+| int8 (*)  | int8_t         | builtins.int     |
+| uint8 (*) | uint8_t        | builtins.int     |
+| string    | std::string    | builtins.str     |
+
+::: {.aside}
+(*) También existe la versión para 16, 32 y 64 bits
+:::
+
+::: {.aside}
+[Mensajes std_msgs](https://docs.ros2.org/latest/api/std_msgs/index-msg.html){target="_blank"}
+:::
+
+::: {.notes}
+- Los tipos de campo pueden ser:
+    - "built-in" (ya predefinidos) (bool, char, float32 o 64, int, uint, string) -> std_msgs Message Documentation https://docs.ros2.org/latest/api/std_msgs/index-msg.html
+    - nombres de mensajes definidos (mensaje que contiene otro mensaje)
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### Archivos `.msg`
+
+#### Mensajes anidados
+
+::: {.columns}
+::: {.column width="45%"}
+
+[`geometry_msgs/msg/Point`](https://docs.ros2.org/latest/api/geometry_msgs/msg/Point.html){target="_blank"}
+
+<br>
+
+```{.default filename="geometry_msgs/msg/Point.msg" code-line-numbers="false"}
+# This contains the position of a point in 
+# free space
+
+float64 x
+float64 y
+float64 z
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+[`geometry_msgs/msg/Pose`](https://docs.ros2.org/latest/api/geometry_msgs/msg/Pose.html){target="_blank"}
+
+<br>
+
+```{.default filename="geometry_msgs/msg/Pose.msg" code-line-numbers="false"}
+# A representation of pose in free space,
+# composed of position and orientation.
+
+Point position
+Quaternion orientation
+```
+
+:::
+:::
+
+::: {.aside}
+[ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html){target="_blank"}
+:::
+
+
+
+## ROS 2 *Graph* 
+
+- El grafo de nodos es un "mapa" de todas los nodos y las lineas que los conectan
+- Representación visual
+- la información fluye a traves de lineas específicas ("topics") de un nodo a otro. 
+- Está diseñado para que los nodos no necesiten saber de donde viene la información
+
+
+## ROS 2 *Graph*
+
+![](https://docs.ros.org/en/jazzy/_images/Topic-MultiplePublisherandMultipleSubscriber.gif)

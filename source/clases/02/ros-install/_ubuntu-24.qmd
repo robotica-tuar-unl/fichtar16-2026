@@ -1,0 +1,57 @@
+::: {.callout-warning title="Actualizar el sistema"}
+```{.sh code-line-numbers="false"}
+sudo apt update
+sudo apt upgrade -y
+```
+:::
+
+
+---------
+
+#### 1️⃣ Habilitar los repositorios e instalar [`ros-apt-source`](https://github.com/ros-infrastructure/ros-apt-source/)
+
+- Habilitar el [respositorio *Universe* de Ubuntu](https://help.ubuntu.com/community/Repositories/Ubuntu)
+```{.sh code-line-numbers="false"}
+sudo apt install software-properties-common curl -y
+```
+```{.sh code-line-numbers="false"}
+sudo add-apt-repository universe
+```
+
+- Instalar `ros-apt-source`
+```{.sh code-line-numbers="false"}
+export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F'"' '{print $4}')
+```
+```{.sh code-line-numbers="false"}
+curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+```
+```{.sh code-line-numbers="false"}
+sudo dpkg -i /tmp/ros2-apt-source.deb
+```
+
+---------
+
+#### 2️⃣ Instalar las herramientas de desarrollo
+
+- Actualizar repositorios apt y asegurar que los paquetes se encuentren actualizados
+```{.sh code-line-numbers="false"}
+sudo apt update && sudo apt upgrade -y
+```
+- Instalar las herramientas de desarrollo
+```{.sh code-line-numbers="false"}
+sudo apt install ros-dev-tools
+```
+
+---------
+
+#### 3️⃣ Instalar ROS 2
+- Instalación *Desktop*: ROS, RViz, demos, etc.
+```{.bash code-line-numbers="false"}
+sudo apt install ros-jazzy-desktop -y
+```
+
+---------
+
+::: {.callout}
+##### Traducido de [docs.ros.org](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html){target="_blank"}
+:::

@@ -1,0 +1,68 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+	"name": "TUAR - ROS2 Jazzy",
+	"image": "registry.gitlab.com/acapovilla/ros-docker-images/ros2/jazzy-noble-desktop-full:latest",
+	// Workspace setup
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/catkin_ws,type=bind,consistency=cached",
+    "workspaceFolder": "/workspaces/catkin_ws",
+    "containerUser": "ubuntu",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"installOhMyZsh": true,
+			"installOhMyZshConfig": true,
+			"nonFreePackages": true,
+			"username": "ubuntu",
+			"userUid": "automatic",
+			"userGid": "automatic",
+			"upgradePackages": false
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "sudo apt update && rosdep update",
+	
+	"onCreateCommand": "echo 'source /opt/ros/$ROS_DISTRO/setup.bash' >> /home/ubuntu/.bashrc",
+
+	// Configure tool-specific properties.
+	"customizations": {
+        "vscode": {
+            "extensions": [
+				"ms-vscode.cpptools",
+				"ms-iot.vscode-ros",
+				"twxs.cmake",
+				"mutantdino.resourcemonitor",
+				"donjayamanne.python-environment-manager",
+				"KevinRose.vsc-python-indent",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"ms-python.vscode-pylance",
+				"ms-vscode.cmake-tools"
+			]
+        }
+    },
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "ubuntu",
+
+	"containerEnv": {
+        // Display configuration
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+
+    "mounts": [
+        // X-Server
+        "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly=false"
+    ],
+
+    "runArgs": [
+        "--device=/dev/dri:/dev/dri",
+        "--privileged"
+        // "--volume=/dev:/dev"
+        // "--net=host"
+    ]  
+}

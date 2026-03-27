@@ -1,0 +1,206 @@
+## Nombres y `namespace` {.smaller}
+
+> Nombres jerárquicos que identifican todos los elementos de *ROS*
+
+<br>
+
+#### Permiten
+
+- Organizar sistemas complejos
+- Evitar conflictos de nombres
+- Encapsulamiento (aislar componentes)
+- Reutilización de código
+
+
+::: {.aside}
+[ROS Wiki](https://wiki.ros.org/Names){target="_blank"}
+:::
+
+
+::: {.notes}
+- Organización jerárquica: Permiten estructurar sistemas grandes en módulos -> Evitan conflictos de nombres
+- Cada nodo trabaja dentro de su namespace. Puede acceder a: Su propio namespace / Namespaces superiores
+- Evita usar recursos incorrectos por accidente
+- Reutilización de código -> Los nodos no necesitan saber dónde están ubicados
+:::
+
+## Nombres y `namespace` {.smaller}
+
+> Similar a una estructura de carpetas
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+[**Tipos**]{.underline}
+
+- #### Global
+  - Inician con `/`
+  - Se consideran resueltos
+  - No dependen del *namespace*
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+```{.default code-line-numbers="false"}
+/
+├── sim1/
+│   └── robot/              ⬇️ denominación global
+│       ├── cmd_vel         /sim1/robot/cmd_vel
+│       └── odometry        /sim1/robot/odometry
+└── sim2/
+    └── robot/
+        ├── cmd_vel         /sim2/robot/cmd_vel
+        └── odometry        /sim2/robot/odometry
+
+Base:       robot
+
+Privado:    ~/cmd_vel 
+            ~/odometry
+```
+:::
+::::
+
+::: {.notes}
+Global -> empiezan con “/” y se consideran resueltos
+:::
+
+
+
+## Nombres y `namespace` {.smaller}
+
+> Similar a una estructura de carpetas
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+[**Tipos**]{.underline}
+
+- #### Global
+- #### Relativo
+  - No inician con `/`
+  - Se resuelve dentro del *namespace* del nodo
+
+<!-- Ejemplo: el nodo `robot/controller` y el topic `cmd_vel` -->
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+```{.default code-line-numbers="false"}
+/
+├── sim1/
+│   └── robot/
+│       ├── cmd_vel         /sim1/robot/cmd_vel
+│       └── odometry        /sim1/robot/odometry
+└── sim2/
+    └── robot/
+        ├── cmd_vel         /sim2/robot/cmd_vel
+        └── odometry        /sim2/robot/odometry
+
+Base:       robot
+
+Privado:    ~/cmd_vel 
+            ~/odometry
+```
+:::
+::::
+
+::: {.notes}
+- Relativo -> no empiezan con “/” y deben ser resueltos de forma relativa al namespace del nodo
+:::
+
+## Nombres y `namespace` {.smaller}
+
+> Similar a una estructura de carpetas
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+[**Tipos**]{.underline}
+
+- #### Global
+- #### Relativo
+- #### Base
+  - Sin `/` ni `~`
+  - Más utilizado
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+```{.default code-line-numbers="false"}
+/
+├── sim1/
+│   └── robot/
+│       ├── cmd_vel         /sim1/robot/cmd_vel
+│       └── odometry        /sim1/robot/odometry
+└── sim2/
+    └── robot/
+        ├── cmd_vel         /sim2/robot/cmd_vel
+        └── odometry        /sim2/robot/odometry
+
+Base:       robot
+
+Privado:    ~/cmd_vel 
+            ~/odometry
+```
+:::
+::::
+
+::: {.notes}
+- Base -> Es un subtipo de relativo
+- No llevan namespaces y son los más utilizados
+:::
+
+
+## Nombres y `namespace` {.smaller}
+
+> Similar a una estructura de carpetas
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+[**Tipos**]{.underline}
+
+- #### Global
+- #### Relativo
+- #### Base
+- #### Privado
+  - Inician con `~`
+  - Utiliza el nombre del nodo como *namespace*
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+```{.default code-line-numbers="false"}
+/
+├── sim1/
+│   └── robot/
+│       ├── cmd_vel         /sim1/robot/cmd_vel
+│       └── odometry        /sim1/robot/odometry
+└── sim2/
+    └── robot/
+        ├── cmd_vel         /sim2/robot/cmd_vel
+        └── odometry        /sim2/robot/odometry
+
+Base:       robot
+
+Privado:    ~/cmd_vel 
+            ~/odometry
+```
+:::
+::::
+
+::: {.notes}
+- Privado -> empiezan on “~” y convierten el nodo en un “namespace” 
+:::

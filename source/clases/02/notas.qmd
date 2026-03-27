@@ -1,0 +1,150 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Revisión clase 1}
+\begin{itemize}
+    % \item Temario y organización de la materia.
+    % \item Concepto de robótica. Algo de historia. Aplicaciones \textbf{actuales} de la robótica (\textit{Estado del Arte} sin entrar en profundidad). \textit{Hibachi} de ejemplo.
+    % \item Clasificación de los robots haciendo hincapié en el método de locomoción. \textbf{Robótica móvil} y \textbf{Robots con ruedas}.
+    % \item Desafíos a resolver de la robótica móvil:
+    % \begin{itemize}
+    %     \item Entorno
+    %     \item Sistema de locomoción
+    %     \item Sensores
+    %     \item Aplicación
+    % \end{itemize}
+    \item Repositorio de la materia
+    \item Horario de clases y consultas
+    %\item Lenguaje a utilizar y herramientas de trabajo (VSCode, Python, Docker, de ser necesario)
+\end{itemize} 
+
+\section{Robot Operating System (2)}
+\begin{itemize}
+    \item Definición y propósito. Ventajas y problemas que resuelve. Motivación principal: \textit{No reinventar la rueda} % https://www.ros.org/blog/ecosystem/
+    \begin{itemize}
+        \item Plataforma estándar: re-utilización de software. % Quiere decir que el software desarrollado por alguien en algún punto del mundo puede re-utilizarlo alguien en otro (siempre y cuando se respeten ciertas condiciones)
+        Comunidad global (que prueba el software).
+        \item Utilizado en educación, investigación e industria. Documentación
+        \item Es distribuido: los programas pueden ejecutarse en distintas computadoras y comunicarse a través de la red.
+        \item Multi-lenguaje: \textit{}{C++} y \textit{Python} (además de \textit{Java} y \textit{MATLAB})
+        \item Free y open-source (tanto ROS como la mayoría de paquetes)
+        \item Facilita el desarrollo proveyendo de herramientas para la ejecución, inspección, debugging, visualización, graficación, revisión (playback)
+    \end{itemize}
+    \item Estructura básica: Programas individuales (\textbf{Nodos}) que se comunican a través  (\textbf{Topics}) de estructuras definidas (\textbf{Mensajes}).
+\end{itemize}
+
+\section{Nodos, Topics, Mensajes}
+\begin{itemize}
+    \item \textbf{Nodos}: Programas ejecutables de propósito único (no es 100\% estricto). Se compilan, ejecutan y gestionan de forma individual. Organizados en paquetes.
+    \item \textbf{Topics}: Medio de comunicación entre nodos. Los nodos pueden publicar o subscribirse: generalmente en un esquema \textit{1-pub} y \textit{n-subs}.
+    \item \textbf{Mensajes}: Estructura de datos que define el \textit{tipo} de topic. Se compone de tipos estándares o puede ser compuesto por otros tipos anidados. Se define en archivos con extensión \texttt{.msg}.
+\end{itemize}
+
+\section{Contexto}
+\begin{itemize}
+    \item \textbf{Contexto}: Estructura jerárquica de nombres utilizada en ROS para proveer encapsulamiento y así poder gestionar de una forma más sencilla grandes sistemas. % Existen 4 tipos de nombres: base, relativo, global y privado. La resolución se realiza de forma relativa al namespace del nodo.
+        \begin{itemize}
+            \item Global: Empiezan con \textbf{/} y se consideran resueltos % Similar a un path absoluto
+            \item Relativo: No empiezan con \textbf{/} y deben ser resueltos (relativos al nodo) 
+            \item Base: Subtipo de relativo. No llevan \textit{namespace} %se utilizan para inicializar el nombre del nodo
+            \item Privado: Empiezan con \textbf{$\sim$} y convierten al nodo en \textit{namespace}
+        \end{itemize}
+\end{itemize}
+
+\section{Laboratorio}
+\subsection{Instalación y configuración de ROS2}
+Actualizar sistema:
+\begin{verbatim}
+    sudo apt update
+    sudo apt updgrade
+\end{verbatim}
+Configuración del entorno: <!-- “Obtener” los comandos -->
+\begin{verbatim}
+    source /opt/ros/jazzy/setup.bash    
+\end{verbatim}
+Variables de entorno: \texttt{ROS\_DOMAIN\_ID} <!-- Chequear variables de entorno -->
+\begin{verbatim}
+    printenv | grep -i ROS
+\end{verbatim}
+Autocompletado. Obtener ayuda desde la terminal:
+\begin{verbatim}
+    ros2 --help
+\end{verbatim}
+
+\subsubsection*{Instalación y configuración de VSCode + extensiones, Docker y/o GUI}
+
+\subsection{Instalación paquetes de demostración}
+\begin{verbatim}
+    sudo apt install ros-jazzy-demo-nodes-cpp
+    sudo apt install ros-jazzy-demo-nodes-py
+\end{verbatim}
+Ver paquetes instalados:
+\begin{verbatim}
+    ros2 pkg executables
+\end{verbatim}
+
+\subsection{Nodos}
+Ejecutar nodos:
+\begin{verbatim}
+    ros2 run <nombre_paquete> <nombre_ejecutable>
+    ros2 run demo_nodes_cpp talker
+\end{verbatim}
+Para detener el nodo: \texttt{Ctrl + C}
+Listar los nodos:
+\begin{verbatim}
+    ros2 node list
+\end{verbatim}
+Obtener información del nodo:
+\begin{verbatim}
+    ros2 node info <nombre_nodo>
+\end{verbatim}
+
+\subsection{Topics}
+Listar los topics: <!-- Análisis de topics: -->
+\begin{verbatim}
+    ros2 topic list    
+\end{verbatim}
+Obtener información:
+\begin{verbatim}
+    ros2 topic info <nombre_topic>
+    ros2 topic type <nombre_topic>
+    ros2 topic hz <nombre_topic>
+\end{verbatim}
+Ver los datos que pasan por el topic:
+\begin{verbatim}
+    ros2 topic echo <nombre_topic>
+\end{verbatim}
+
+\subsection{Mensajes}
+Obtener información:
+\begin{verbatim}
+    ros2 interface show <nombre_tipo_mensaje>
+    ros2 interface show std_msgs/msg/String
+\end{verbatim}
+Publicar:
+\begin{verbatim}
+    ros2 topic pub <nombre_topic> <nombre_tipo_mensaje> ‘<mensaje_YAML>’
+    ros2 topic pub /chatter std_msgs/msg/String '{data: Mensaje de prueba}'
+\end{verbatim}
+
+\subsection*{Herramientas de visualización *}
+
+<!-- \subsection*{Parámetros y remapping *} -->
+
+Documentación ROS: [`docs.ros.org/en/jazzy`](https://docs.ros.org/en/jazzy/)

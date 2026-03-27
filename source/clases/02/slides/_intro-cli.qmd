@@ -1,0 +1,260 @@
+## Intro línea de comandos
+
+> **Ubuntu**: 3 elementos principales
+
+- **Kernel**: [*Linux*](https://en.wikipedia.org/wiki/Linux_kernel)
+- **Entorno de escritorio**: [*GNOME*](https://en.wikipedia.org/wiki/GNOME)
+- **Gestor de paquetes**: [*Advanced Package Tool*](https://en.wikipedia.org/wiki/APT_(software))
+
+::: {.notes}
+ROS está pensado para instalarse por lo general con *Ubuntu*
+Incluye
+- *kernel Linux*
+- entorno de escritorio *GNOME*
+- gestor de paquete *aptitude* (`apt`)
+:::
+
+## Intro línea de comandos
+
+> **Terminal**: ejecución de programas mediante comandos
+
+#### [Ejemplos:]{.underline}
+
+- Navegar por el árbol de directorios
+- Crear, leer, editar y organizar archivos
+- Ejecutar otros programas
+- Gestionar recursos del sistema
+
+::: {.aside}
+[Terminal](https://en.wikipedia.org/wiki/Terminal_emulator) / [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)  ) / [Shell](https://en.wikipedia.org/wiki/Shell_(computing)) / [CLI](https://en.wikipedia.org/wiki/Command-line_interface): Por lo general se utilizan para mencionar lo mismo, pero tienen distintos significados
+:::
+
+::: {.notes}
+- Dentro de todos los programas interesa el emulador de terminal
+- Permite la manipulación directa del sistema mediante comandos:
+    - navegar por el árbol de directorios
+    - leer y organizar archivos
+    - ejecutar scripts o programas
+    - gestionar recursos del sistema como la red, etc.
+:::
+
+
+## Intro línea de comandos {visibility="hidden"}
+
+> **Terminal** / **Bash** / **Shell** / **CLI**
+
+#### En *Ubuntu* la terminal por defecto es [*gnome-terminal*](https://help.gnome.org/users/gnome-terminal/stable) configurado con el intérprete [*bash*](https://en.wikipedia.org/wiki/Bash_(Unix_shell))
+
+::: {.notes}
+Terminal / Bash / Shell / CLI: Por lo general se utilizan para mencionar lo mismo, pero tienen distintos significados
+:::
+
+
+## Intro línea de comandos
+
+> **Comandos**: instrucciones que se interpretan y ejecutan programas ^[la mayoría de las veces pero no siempre]
+
+#### Estructura
+
+::: {.callout}
+`$   <comando> --<opcion1> -<opcion2> <argumento>`
+:::
+
+<br>
+
+::: {.fragment}
+Opción estándar `--help` muestra la ayuda 
+:::
+
+::: {.notes}
+- Los comandos son intrucciones que se pueden interpretar que por lo general ejecutan programas
+:::
+
+
+## Intro línea de comandos
+
+> Controles más comunes
+
+- `Enter`: ejecutar el comando 
+- `Ctrl-C`: cerrar programas en ejecución
+- `Shift + Ctrl-C`: copiar contenido seleccionador
+- `Shift + Ctrl-V`: pegar del portapapeles
+- `Tab`: autocompletar
+
+::: {.notes}
+- `Ctrl+C` por lo general se utiliza para cerrar programas ejecutandose en la terminal
+- `Ctrl+Shift+C` Copiar / `Ctrl+Shift+V` Pegar
+- La tecla `Tab` se puede utilizar para autocompletar (no siempre): nombre comando, carpeta, archivo o incluso opciones y valores
+    - Una vez -> Autocompleta en caso que solo exista una opción (o parcialmente si hay coincidencia entre opciones)
+    - Dos veces -> Muestra las opciones
+:::
+
+## Intro línea de comandos
+
+> Controles más comunes
+
+Bash almacena todo los comandos ejecutados en un historial ^[se puede consultar con el comando `history`]
+
+- `Flecha ⬆️` o `Flecha ⬇️`: navegar por el historial
+
+<br>
+
+:::: {.fragment}
+
+::: {.callout-warning appearance="simple"}
+No hay `Ctrl+Z` o *Deshacer* al ejecutar comandos. Si se sobreescribe o eliminan archivos no se puede deshacer
+:::
+
+::::
+
+::: {.notes}
+- Bash graba todo los comandos ejecutados en un historial (comando completo)
+- Si quisiera volver a ejecutar una comando anterior solo hace falta desplazarse arriba en el historial (por lo general con las flechas alcanza)
+- Para ver el historial se puede utilizar el comando `history`
+:::
+
+## Intro línea de comandos {.smaller}
+
+> [Prompt]{.underline} ^[ Indica que la línea de comandos está lista para aceptar comandos ([Wikipedia](https://en.wikipedia.org/wiki/Command-line_interface#Command_prompt){target=_blank})  ] | **`user@hostname:~$`**
+
+::: {layout-ncol=2}
+
+[![](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line/win-terminals-cd.png)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line){target=_blank}
+
+[![](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line/mac-terminals-ls.png)](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line){target=_blank}
+
+Fuente: [Mozilla Developer Network](https://developer.mozilla.org/){target=_blank}
+
+:::
+
+::: {.notes}
+- Una vez que uno abre una Terminal o GNU Bash se encuentra con el *prompt*
+- La mayoría de distros muestran un prompt con '$' si se está logueado como usuario normal y '#' como superusuario (o *root*)
+:::
+
+## Intro línea de comandos {.smaller}
+
+#### Algunos comandos
+
+
+::: {.list-table header-rows=0 aligns="c,l,l"}
+* - `pwd`
+  - Mostrar el PATH actual
+  - `pwd`
+* - `ls`
+  - Listar los elementos en la ubicación actual
+  - `ls -la`
+* - `cd`
+  - Cambiar de carpeta
+  - `cd Documentos`
+* - `cat`
+  - Mostrar el contenido de un archivo
+  - `cat archivo.txt`
+* - `touch`
+  - Crear un archivo (si no existe)
+  - `touch nuevo.txt`
+* - `mkdir`
+  - Crear una carpeta
+  - `mkdir nueva_carpeta`
+* - `cp`
+  - Copiar un archivo o carpeta
+  - `cp origen.txt copia.txt`
+* - `mv`
+  - Mover (o renombrar) un archivo o carpeta
+  - `mv archivo.txt carpeta/`
+* - `rm`
+  - Eliminar un archivo
+  - `rm archivo.txt`
+* - `rmdir`
+  - Eliminar una carpeta
+  - `rmdir carpeta_vacia`
+* - `clear`
+  - Limpiar la consola
+  - `clear`
+:::
+
+## Intro línea de comandos {.smaller}
+
+> **Path**: ruta de archivo, nombre de ruta
+
+
+#### Manipulación del `PATH`
+
+
+::: {.list-table header-rows=0 tbl-colwidths="[20,50,30]"}
+* - `/`
+  - Directorio raíz en un sistema Linux
+  - `ls /dev/tty*`
+* - `.`
+  - Directorio actual
+  - `mkdir ./workspace`
+* - `..`
+  - Directorio padre
+  - `cd ../../media`
+* - `~`
+  - Directorio home del usuario
+  - `cd ~/Documents`
+* - *Mayúsculas/minúsculas*
+  - Linux distingue entre mayúsculas y minúsculas
+  - `cd ~/Documents` <br> ≠ <br> `cd ~/documents`
+:::
+
+## Intro línea de comandos {.smaller}
+
+> Variables de entorno
+
+#### Configuración del sistema en que un programa se ejecuta
+
+::: {.list-table header-rows=0 tbl-colwidths="[20,45,35]"}
+* - `env`
+  - Listar todas las variables de entorno
+  - `env`
+* - `$`
+  - Acceder a la variable
+  - `echo $<nombre_var>`
+* - `export`
+  - Crear una variable nueva
+  - `export <nombre>=<valor>`
+* - `~/.bashrc`
+  - Archivo de configuración para comandos de usuario
+:::
+
+
+## Intro línea de comandos {.smaller}
+
+> Procesos
+
+- #### Los procesos son programas en ejecución
+
+- #### Tienen asignado un "Identificar de proceso" (`PID`)
+
+
+::: {.list-table header-rows=0 tbl-colwidths="[20,50,30]" aligns="c,l,l"}
+* - `ps`
+  - Listar los procesos
+  - `ps -e`
+* - `kill`
+  - Forzar el cierre un proceso
+  - `kill <PID>` <br> `kill -9 <PID>`
+:::
+
+
+<!-- MOSTRAR UNA SALIDA DE CONSOLA? -->
+
+
+## Intro línea de comandos {.smaller}
+
+> Gestionar los paquetes `apt`
+
+<br>
+
+::: {.list-table header-rows=0 tbl-colwidths="[50,50]" aligns="l,l"}
+* - Actualizar el índice de paquetes
+  - `apt update`
+* - Instalar paquetes
+  - `sudo apt install <paquete>`
+* - Instala nuevas vestiones de paquetes
+  - `sudo apt upgrade`
+* - Listar paquetes
+  - `apt list`
+:::

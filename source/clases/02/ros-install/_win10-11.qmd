@@ -1,0 +1,123 @@
+::: {.callout-important appearance="simple"}
+**Se necesitan todas las últimas actualizaciones de Windows instaladas**
+:::
+
+---------
+
+
+#### 1️⃣ Instalar WSL (*Windows Subsystem for Linux*)
+- Abrir una *Terminal* o *PowerShell* de Windows y ejecutar:
+
+```{.sh code-line-numbers="false"}
+wsl --install
+```
+
+<details>
+<summary>Ver salida</summary>
+
+    La operación solicitada requiere elevación.
+    Descargando: Subsistema de Windows para Linux 2.4.13
+    Instalando: Subsistema de Windows para Linux 2.4.13
+    Se ha instalado Subsistema de Windows para Linux 2.4.13.
+    Instalando componente opcional de Windows: VirtualMachinePlatform
+
+    Herramienta Administración y mantenimiento de imágenes de implementación
+    Versión: 10.0.26100.1150
+
+    Versión de imagen: 10.0.26100.3624
+
+    Habilitando características
+    [==========================100.0%==========================]
+    La operación se completó correctamente.
+    La operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.
+    La operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.
+
+</details>
+
+::: {.callout-tip appearance="simple"}
+Se recomienda reiniciar la PC después de esta instalación inicial para finalizar el setup
+:::
+
+---------
+
+#### 2️⃣ Instalar Ubuntu WSL
+- Para ver todas las distribuciones y versiones disponibles:
+```{.sh code-line-numbers="false"}
+wsl --list --online
+```
+
+<details>
+<summary>Ver salida</summary>
+
+    A continuación, se muestra una lista de las distribuciones válidas que se pueden instalar.
+    Instalar con "wsl.exe --install <Distro>".
+
+    NAME                            FRIENDLY NAME
+    AlmaLinux-8                     AlmaLinux OS 8
+    AlmaLinux-9                     AlmaLinux OS 9
+    AlmaLinux-Kitten-10             AlmaLinux OS Kitten 10
+    Debian                          Debian GNU/Linux
+    SUSE-Linux-Enterprise-15-SP5    SUSE Linux Enterprise 15 SP5
+    SUSE-Linux-Enterprise-15-SP6    SUSE Linux Enterprise 15 SP6
+    Ubuntu                          Ubuntu
+    Ubuntu-24.04                    Ubuntu 24.04 LTS
+    kali-linux                      Kali Linux Rolling
+    openSUSE-Tumbleweed             openSUSE Tumbleweed
+    openSUSE-Leap-15.6              openSUSE Leap 15.6
+    Ubuntu-18.04                    Ubuntu 18.04 LTS
+    Ubuntu-20.04                    Ubuntu 20.04 LTS
+    Ubuntu-22.04                    Ubuntu 22.04 LTS
+    OracleLinux_7_9                 Oracle Linux 7.9
+    OracleLinux_8_7                 Oracle Linux 8.7
+    OracleLinux_9_1                 Oracle Linux 9.1
+
+</details>
+
+- Para instalar **Ubuntu-24.04**:
+```{.sh code-line-numbers="false"}
+wsl --install -d Ubuntu-24.04
+```
+
+<details>
+<summary>Ver salida</summary>
+
+    Descargando: Ubuntu 24.04 LTS
+    Instalando: Ubuntu 24.04 LTS
+    Distribución instalada correctamente.
+
+</details>
+
+---------
+
+#### 3️⃣ Ejecutar y configurar Ubuntu
+```{.sh code-line-numbers="false"}
+wsl -d Ubuntu-24.04
+```
+
+<details>
+<summary>Ver salida</summary>
+
+    Provisioning the new WSL instance Ubuntu-24.04
+    This might take a while...
+    Create a default Unix user account: ubuntu
+    New password:
+    Retype new password:
+    passwd: password updated successfully
+    To run a command as administrator (user "root"), use "sudo <command>".
+    See "man sudo_root" for details.
+
+</details>
+
+---------
+
+::: {.callout-note appearance="simple"}
+Proceder con la creación de usuario y contraseña
+:::
+
+#### ↪️ Continuar con la guía de instalación para *Ubuntu 24.04*
+
+---------
+
+::: {.callout}
+##### Traducido de [documentation.ubuntu.com/wsl](https://documentation.ubuntu.com/wsl/latest/howto/install-ubuntu-wsl2/){target="_blank"}
+:::
