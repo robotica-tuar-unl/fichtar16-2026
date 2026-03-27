@@ -27,3 +27,4 @@ format:
   html:
     page-layout: full
     theme: litera
+    css: sh-highlight.css
