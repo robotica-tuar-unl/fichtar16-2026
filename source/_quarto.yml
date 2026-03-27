@@ -16,8 +16,8 @@ website:
     alignment: center
     border: true
     header: |
-      ## [Universidad Nacional del Litoral](https://www.unl.edu.ar/) (UNL) \
-      ### [Facultad de Ingeniería y Ciencias Hídricas](https://www.fich.unl.edu.ar/) (FICH) <br> \
+      <h2> [Universidad Nacional del Litoral](https://www.unl.edu.ar/) (UNL) <br> </h2>
+      <h3> [Facultad de Ingeniería y Ciencias Hídricas](https://www.fich.unl.edu.ar/) (FICH) </h3> <br> \
       **Tecnicatura Universitaria en Automatización y Robótica (TUAR)** <br> \
       ![](https://sinc.unl.edu.ar/wp-content/themes/sinci/img/sinc-logo.png)
 
