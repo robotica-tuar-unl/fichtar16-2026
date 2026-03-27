@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clase 02 - Laboratorio – Robótica 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../sh-highlight.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Robótica 2026
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="quarto-sidebar-header"><div class="sidebar-header-item">
+<h2>
+<a href="https://www.unl.edu.ar/">Universidad Nacional del Litoral</a> (UNL) <br>
+</h2>
+<h3>
+<a href="https://www.fich.unl.edu.ar/">Facultad de Ingeniería y Ciencias Hídricas</a> (FICH)
+</h3>
+<p><br><br>
+<strong>Tecnicatura Universitaria en Automatización y Robótica (TUAR)</strong> <br><br>
+<img src="https://sinc.unl.edu.ar/wp-content/themes/sinci/img/sinc-logo.png" class="img-fluid"></p>
+</div></div>
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Robótica 2026</a> 
+    </div>
+      </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#instalación-de-ros2" id="toc-instalación-de-ros2" class="nav-link active" data-scroll-target="#instalación-de-ros2"><span class="header-section-number">1</span> Instalación de ROS2</a>
+  <ul class="collapse">
+  <li><a href="#configuración-del-entorno" id="toc-configuración-del-entorno" class="nav-link" data-scroll-target="#configuración-del-entorno"><span class="header-section-number">1.1</span> Configuración del entorno</a></li>
+  </ul></li>
+  <li><a href="#emisor-y-receptor" id="toc-emisor-y-receptor" class="nav-link" data-scroll-target="#emisor-y-receptor"><span class="header-section-number">2</span> Emisor y receptor</a>
+  <ul class="collapse">
+  <li><a href="#instalación-de-paquetes-de-demostración" id="toc-instalación-de-paquetes-de-demostración" class="nav-link" data-scroll-target="#instalación-de-paquetes-de-demostración"><span class="header-section-number">2.1</span> Instalación de paquetes de demostración</a></li>
+  <li><a href="#nodos-talker-y-listener" id="toc-nodos-talker-y-listener" class="nav-link" data-scroll-target="#nodos-talker-y-listener"><span class="header-section-number">2.2</span> Nodos <code>talker</code> y <code>listener</code></a></li>
+  <li><a href="#topics" id="toc-topics" class="nav-link" data-scroll-target="#topics"><span class="header-section-number">2.3</span> <em>Topics</em> <!-- `/chatter` --></a></li>
+  <li><a href="#interfaces-mensajes" id="toc-interfaces-mensajes" class="nav-link" data-scroll-target="#interfaces-mensajes"><span class="header-section-number">2.4</span> Interfaces: Mensajes</a></li>
+  <li><a href="#herramientas-de-visualización" id="toc-herramientas-de-visualización" class="nav-link" data-scroll-target="#herramientas-de-visualización"><span class="header-section-number">2.5</span> Herramientas de visualización</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clase 02 - Laboratorio</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="instalación-de-ros2" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Instalación de ROS2</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Windows 10 / 11 (WSL)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Ubuntu 24.04</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Docker</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="callout callout-style-simple callout-important">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Se necesitan todas las últimas actualizaciones de Windows instaladas</strong></p>
+</div>
+</div>
+</div>
+<hr>
+<section id="instalar-wsl-windows-subsystem-for-linux" class="level4">
+<h4 data-anchor-id="instalar-wsl-windows-subsystem-for-linux">1️⃣ Instalar WSL (<em>Windows Subsystem for Linux</em>)</h4>
+<ul>
+<li>Abrir una <em>Terminal</em> o <em>PowerShell</em> de Windows y ejecutar:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<details>
+<summary>
+Ver salida
+</summary>
+<pre><code>La operación solicitada requiere elevación.
+Descargando: Subsistema de Windows para Linux 2.4.13
+Instalando: Subsistema de Windows para Linux 2.4.13
+Se ha instalado Subsistema de Windows para Linux 2.4.13.
+Instalando componente opcional de Windows: VirtualMachinePlatform
+
+Herramienta Administración y mantenimiento de imágenes de implementación
+Versión: 10.0.26100.1150
+
+Versión de imagen: 10.0.26100.3624
+
+Habilitando características
+[==========================100.0%==========================]
+La operación se completó correctamente.
+La operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.
+La operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.</code></pre>
+</details>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Se recomienda reiniciar la PC después de esta instalación inicial para finalizar el setup</p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="instalar-ubuntu-wsl" class="level4">
+<h4 data-anchor-id="instalar-ubuntu-wsl">2️⃣ Instalar Ubuntu WSL</h4>
+<ul>
+<li>Para ver todas las distribuciones y versiones disponibles:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--list</span> <span class="at">--online</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<details>
+<summary>
+Ver salida
+</summary>
+<pre><code>A continuación, se muestra una lista de las distribuciones válidas que se pueden instalar.
+Instalar con "wsl.exe --install &lt;Distro&gt;".
+
+NAME                            FRIENDLY NAME
+AlmaLinux-8                     AlmaLinux OS 8
+AlmaLinux-9                     AlmaLinux OS 9
+AlmaLinux-Kitten-10             AlmaLinux OS Kitten 10
+Debian                          Debian GNU/Linux
+SUSE-Linux-Enterprise-15-SP5    SUSE Linux Enterprise 15 SP5
+SUSE-Linux-Enterprise-15-SP6    SUSE Linux Enterprise 15 SP6
+Ubuntu                          Ubuntu
+Ubuntu-24.04                    Ubuntu 24.04 LTS
+kali-linux                      Kali Linux Rolling
+openSUSE-Tumbleweed             openSUSE Tumbleweed
+openSUSE-Leap-15.6              openSUSE Leap 15.6
+Ubuntu-18.04                    Ubuntu 18.04 LTS
+Ubuntu-20.04                    Ubuntu 20.04 LTS
+Ubuntu-22.04                    Ubuntu 22.04 LTS
+OracleLinux_7_9                 Oracle Linux 7.9
+OracleLinux_8_7                 Oracle Linux 8.7
+OracleLinux_9_1                 Oracle Linux 9.1</code></pre>
+</details>
+<ul>
+<li>Para instalar <strong>Ubuntu-24.04</strong>:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">--install</span> <span class="at">-d</span> Ubuntu-24.04</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<details>
+<summary>
+Ver salida
+</summary>
+<pre><code>Descargando: Ubuntu 24.04 LTS
+Instalando: Ubuntu 24.04 LTS
+Distribución instalada correctamente.</code></pre>
+</details>
+<hr>
+</section>
+<section id="ejecutar-y-configurar-ubuntu" class="level4">
+<h4 data-anchor-id="ejecutar-y-configurar-ubuntu">3️⃣ Ejecutar y configurar Ubuntu</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wsl</span> <span class="at">-d</span> Ubuntu-24.04</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<details>
+<summary>
+Ver salida
+</summary>
+<pre><code>Provisioning the new WSL instance Ubuntu-24.04
+This might take a while...
+Create a default Unix user account: ubuntu
+New password:
+Retype new password:
+passwd: password updated successfully
+To run a command as administrator (user "root"), use "sudo &lt;command&gt;".
+See "man sudo_root" for details.</code></pre>
+</details>
+<hr>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Proceder con la creación de usuario y contraseña</p>
+</div>
+</div>
+</div>
+</section>
+<section id="continuar-con-la-guía-de-instalación-para-ubuntu-24.04" class="level4">
+<h4 data-anchor-id="continuar-con-la-guía-de-instalación-para-ubuntu-24.04">↪️ Continuar con la guía de instalación para <em>Ubuntu 24.04</em></h4>
+<hr>
+<div class="callout callout-style-simple callout-none no-icon callout-empty-content callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">None</span>Traducido de <a href="https://documentation.ubuntu.com/wsl/latest/howto/install-ubuntu-wsl2/" target="_blank">documentation.ubuntu.com/wsl</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="callout callout-style-default callout-warning callout-titled" title="Actualizar el sistema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Actualizar el sistema
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<hr>
+<section id="habilitar-los-repositorios-e-instalar-ros-apt-source" class="level4">
+<h4 data-anchor-id="habilitar-los-repositorios-e-instalar-ros-apt-source">1️⃣ Habilitar los repositorios e instalar <a href="https://github.com/ros-infrastructure/ros-apt-source/"><code>ros-apt-source</code></a></h4>
+<ul>
+<li>Habilitar el <a href="https://help.ubuntu.com/community/Repositories/Ubuntu">respositorio <em>Universe</em> de Ubuntu</a></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install software-properties-common curl <span class="at">-y</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository universe</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Instalar <code>ros-apt-source</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">ROS_APT_SOURCE_VERSION</span><span class="op">=</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-s</span> https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-F</span> <span class="st">"tag_name"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-F</span><span class="st">'"'</span> <span class="st">'{print $4}'</span><span class="va">)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span> /tmp/ros2-apt-source.deb <span class="st">"https://github.com/ros-infrastructure/ros-apt-source/releases/download/</span><span class="va">${ROS_APT_SOURCE_VERSION}</span><span class="st">/ros2-apt-source_</span><span class="va">${ROS_APT_SOURCE_VERSION}</span><span class="st">.</span><span class="va">$(</span><span class="bu">.</span> /etc/os-release <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="va">${UBUNTU_CODENAME</span><span class="op">:-</span><span class="va">${VERSION_CODENAME}})</span><span class="st">_all.deb"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dpkg <span class="at">-i</span> /tmp/ros2-apt-source.deb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="instalar-las-herramientas-de-desarrollo" class="level4">
+<h4 data-anchor-id="instalar-las-herramientas-de-desarrollo">2️⃣ Instalar las herramientas de desarrollo</h4>
+<ul>
+<li>Actualizar repositorios apt y asegurar que los paquetes se encuentren actualizados</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt upgrade <span class="at">-y</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Instalar las herramientas de desarrollo</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install ros-dev-tools</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="instalar-ros-2" class="level4">
+<h4 data-anchor-id="instalar-ros-2">3️⃣ Instalar ROS 2</h4>
+<ul>
+<li>Instalación <em>Desktop</em>: ROS, RViz, demos, etc.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install ros-jazzy-desktop <span class="at">-y</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<div class="callout callout-style-simple callout-none no-icon callout-empty-content callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">None</span>Traducido de <a href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html" target="_blank">docs.ros.org</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<section id="instalar-docker" class="level4">
+<h4 data-anchor-id="instalar-docker">1️⃣ Instalar Docker</h4>
+<ul>
+<li>Instalar y configurar Docker según el sistema operativo, utilizando los siguientes pasos</li>
+</ul>
+</section>
+<section id="windows" class="level4">
+<h4 data-anchor-id="windows"><strong>Windows</strong></h4>
+<ol type="1">
+<li>Instalar <a href="https://www.docker.com/products/docker-desktop" target="_blank">Docker Desktop</a> 2.0 (o superior)</li>
+<li>Si se utiliza <em>WSL 2</em> en Windows, asegurarse de que <a href="https://aka.ms/vscode-remote/containers/docker-wsl2" target="_blank"><em>WSL 2 back-end</em></a> está habilitado: Click derecho en el ícono de Docker y seleccionar <strong>Configuración</strong> (o <em>Settings</em>). Seleccionar <strong>Utilizar motor basado en WSL 2</strong> (o <em>Use the WSL 2 based engine</em>) y verificar que la distribución está habilitada en <strong>Recursos &gt; Integración WSL</strong> (o <em>Resources &gt; WSL Integration</em>).</li>
+<li>Si no se utiliza <em>WSL 2 back-end</em>, click derecho en el ícono de Docker, seleccionar <strong>Configuración</strong> (o <em>Settings</em>) y actualizar <strong>Recursos &gt; Compartir archivos</strong> (o <em>Resources &gt; File Sharing</em>) con cualquier ubicación donde se almacene el código fuente. Ver <a href="https://code.visualstudio.com/docs/devcontainers/tips-and-tricks" target="_blank">tips and tricks</a> para solucionar problemas.</li>
+</ol>
+</section>
+<section id="linux" class="level4">
+<h4 data-anchor-id="linux"><strong>Linux</strong></h4>
+<ol type="1">
+<li>Seguir las <a href="https://docs.docker.com/install/#supported-platforms" target="_blank">instrucciones oficiales de instalación para Docker CE/EE</a> según la distribución. Si está utilizando <em>Docker Compose</em>, seguir las instrucciones de <a href="https://docs.docker.com/compose/install" target="_blank">Docker Compose</a> también.</li>
+<li>Agregar el usuario al grupo <code>docker</code> utilizando una terminal y ejecutando:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> usermod <span class="at">-aG</span> docker <span class="va">$USER</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>Cerrar sesión y volver a loguearse para aplicar los cambios</li>
+</ol>
+</section>
+<section id="instalar-vs-code-y-las-extensiones-devcontainer" class="level4">
+<h4 data-anchor-id="instalar-vs-code-y-las-extensiones-devcontainer">2️⃣ Instalar <em>VS Code</em> y las extensiones <code>devcontainer</code></h4>
+<ol type="1">
+<li>Instalar <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
+<li>Instalar la extensión <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank"><em>Dev Containers</em></a>. Si planea trabajar con otras extensiones remotas en <em>VS Code</em>, quizás prefiera instalar el pack de extensiones <a href="https://aka.ms/vscode-remote/download/extension" target="_blank"><em>Remote Development</em></a></li>
+</ol>
+<div class="callout callout-style-simple callout-none no-icon callout-empty-content callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">None</span>Traducido de <a href="https://code.visualstudio.com/docs/devcontainers/containers" target="_blank">code.visualstudio.com/docs</a>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</section>
+<section id="crear-devcontainer.json" class="level4">
+<h4 data-anchor-id="crear-devcontainer.json">3️⃣ Crear <code>devcontainer.json</code></h4>
+<ul>
+<li>Dentro del <em>workspace</em> crear la carpeta <code>.devcontainer</code> y dentro el archivo <code>devcontainer.json</code> con el siguiente contenido</li>
+</ul>
+<details>
+<summary>
+Ver contenido del archivo
+</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="er">//</span> <span class="er">For</span> <span class="er">format</span> <span class="er">details,</span> <span class="er">see</span> <span class="er">https://aka.ms/devcontainer.json.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"TUAR - ROS2 Jazzy"</span><span class="fu">,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"image"</span><span class="fu">:</span> <span class="st">"registry.gitlab.com/acapovilla/ros-docker-images/ros2/jazzy-noble-desktop-full:latest"</span><span class="fu">,</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Workspace</span> <span class="er">setup</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"workspaceMount"</span><span class="fu">:</span> <span class="st">"source=${localWorkspaceFolder},target=/workspaces/catkin_ws,type=bind,consistency=cached"</span><span class="fu">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"workspaceFolder"</span><span class="fu">:</span> <span class="st">"/workspaces/catkin_ws"</span><span class="fu">,</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"containerUser"</span><span class="fu">:</span> <span class="st">"ubuntu"</span><span class="fu">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Features</span> <span class="er">to</span> <span class="er">add</span> <span class="er">to</span> <span class="er">the</span> <span class="er">dev</span> <span class="er">container.</span> <span class="er">More</span> <span class="er">info</span><span class="fu">:</span> <span class="er">https://containers.dev/features.</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"features"</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"ghcr.io/devcontainers/features/common-utils:2"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"installZsh"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"installOhMyZsh"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"installOhMyZshConfig"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"nonFreePackages"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"username"</span><span class="fu">:</span> <span class="st">"ubuntu"</span><span class="fu">,</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"userUid"</span><span class="fu">:</span> <span class="st">"automatic"</span><span class="fu">,</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"userGid"</span><span class="fu">:</span> <span class="st">"automatic"</span><span class="fu">,</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"upgradePackages"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Use</span> <span class="er">'forwardPorts'</span> <span class="er">to</span> <span class="er">make</span> <span class="er">a</span> <span class="er">list</span> <span class="er">of</span> <span class="er">ports</span> <span class="er">inside</span> <span class="er">the</span> <span class="er">container</span> <span class="er">available</span> <span class="er">locally.</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="dt">"forwardPorts"</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Use</span> <span class="er">'postCreateCommand'</span> <span class="er">to</span> <span class="er">run</span> <span class="er">commands</span> <span class="er">after</span> <span class="er">the</span> <span class="er">container</span> <span class="er">is</span> <span class="er">created.</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"postCreateCommand"</span><span class="fu">:</span> <span class="st">"sudo apt update &amp;&amp; rosdep update"</span><span class="fu">,</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"onCreateCommand"</span><span class="fu">:</span> <span class="st">"echo 'source /opt/ros/$ROS_DISTRO/setup.bash' &gt;&gt; /home/ubuntu/.bashrc"</span><span class="fu">,</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Configure</span> <span class="er">tool-specific</span> <span class="er">properties.</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"customizations"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"vscode"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"extensions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ms-vscode.cpptools"</span><span class="ot">,</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ms-iot.vscode-ros"</span><span class="ot">,</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>                <span class="st">"twxs.cmake"</span><span class="ot">,</span></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>                <span class="st">"mutantdino.resourcemonitor"</span><span class="ot">,</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"donjayamanne.python-environment-manager"</span><span class="ot">,</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">"KevinRose.vsc-python-indent"</span><span class="ot">,</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>                <span class="st">"VisualStudioExptTeam.vscodeintellicode"</span><span class="ot">,</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ms-python.vscode-pylance"</span><span class="ot">,</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"ms-vscode.cmake-tools"</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Uncomment</span> <span class="er">to</span> <span class="er">connect</span> <span class="er">as</span> <span class="er">root</span> <span class="er">instead.</span> <span class="er">More</span> <span class="er">info</span><span class="fu">:</span> <span class="er">https://aka.ms/dev-containers-non-root.</span></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"remoteUser"</span><span class="er">:</span> <span class="st">"ubuntu"</span><span class="fu">,</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"containerEnv"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>        <span class="er">//</span> <span class="er">Display</span> <span class="er">configuration</span></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"DISPLAY"</span><span class="fu">:</span> <span class="st">"${localEnv:DISPLAY}"</span></span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"mounts"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>        <span class="er">//</span> <span class="er">X-Server</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly=false"</span></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"runArgs"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>        <span class="st">"--device=/dev/dri:/dev/dri"</span><span class="ot">,</span></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>        <span class="st">"--privileged"</span></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>        <span class="er">//</span> <span class="st">"--volume=/dev:/dev"</span></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>        <span class="er">//</span> <span class="st">"--net=host"</span></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span>  </span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</section>
+<section id="reabrir-la-carpeta-en-contenedor" class="level4">
+<h4 data-anchor-id="reabrir-la-carpeta-en-contenedor">4️⃣ Reabrir la carpeta en contenedor</h4>
+<ul>
+<li><code>Ctrl+Shift+P</code> o <code>F1</code> ➡️ <em>Reopen in container</em></li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+<section id="configuración-del-entorno" class="level2" data-number="1.1">
+<h2 data-number="1.1" data-anchor-id="configuración-del-entorno"><span class="header-section-number">1.1</span> Configuración del entorno</h2>
+<section id="se-logra-ejecutando-los-archivos-de-configuración-cada-vez-que-se-abre-una-nueva-consola" class="level4">
+<h4 data-anchor-id="se-logra-ejecutando-los-archivos-de-configuración-cada-vez-que-se-abre-una-nueva-consola">Se logra ejecutando los archivos de configuración cada vez que se abre una nueva consola:</h4>
+<ul>
+<li>Configurar el entorno:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /opt/ros/jazzy/setup.bash</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Se debe configurar el entorno siempre que se abra una nueva terminal</p>
+</div>
+</div>
+</div>
+<ul>
+<li>Para realizar este paso automáticamente puede agregarlo a su archivo <code>~/.bashrc</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"source /opt/ros/jazzy/setup.bash"</span> <span class="op">&gt;&gt;</span> ~/.bashrc</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Verificar la variable de entorno: <code>ROS_DOMAIN_ID</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printenv</span> <span class="kw">|</span> <span class="fu">grep</span> ROS</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Salida esperada:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ROS_VERSION=2</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ROS_PYTHON_VERSION=3</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ROS_DISTRO=jazzy</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<!-- ROS_DOMAIN_ID y ROS_AUTOMATIC_DISCOVERY_RANGE https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html -->
+<ul>
+<li>Obtener ayuda desde la terminal:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> <span class="at">--help</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+</section>
+<section id="emisor-y-receptor" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Emisor y receptor</h1>
+<section id="instalación-de-paquetes-de-demostración" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="instalación-de-paquetes-de-demostración"><span class="header-section-number">2.1</span> Instalación de paquetes de demostración</h2>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Recuerda actualizar el índice de paquetes con <code>sudo apt update</code></p>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>Para instalar el paquete <code>demo-nodes-py</code> ejecutar:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install ros-jazzy-demo-nodes-py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Para ver los paquetes instalados</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> pkg executables</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Para ver los ejecutables de un paquete</li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 pkg executables &lt;nombre_paquete&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> pkg executables demo_nodes_py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="nodos-talker-y-listener" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="nodos-talker-y-listener"><span class="header-section-number">2.2</span> Nodos <code>talker</code> y <code>listener</code></h2>
+<section id="comando-para-ejecutar-nodos" class="level4">
+<h4 data-anchor-id="comando-para-ejecutar-nodos">Comando para ejecutar nodos</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;</code></pre>
+</blockquote>
+<hr>
+<p>Para ejecutar el nodo <code>talker</code> del paquete <code>demo_nodes_py</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> run demo_nodes_py talker</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>y en otra terminal para ejecutar el nodo <code>listener</code></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> run demo_nodes_py listener</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Recuerda configurar el entorno correctamente en ambas terminales</p>
+</div>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Para detener el nodo: <code>Ctrl+C</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="listar-los-nodos" class="level4">
+<h4 data-anchor-id="listar-los-nodos">Listar los nodos</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> node list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="obtener-información-del-nodo" class="level4">
+<h4 data-anchor-id="obtener-información-del-nodo">Obtener información del nodo</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 node info &lt;nombre_nodo&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> node info /talker</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="topics" class="level2" data-number="2.3">
+<h2 data-number="2.3" data-anchor-id="topics"><span class="header-section-number">2.3</span> <em>Topics</em> <!-- `/chatter` --></h2>
+<section id="listar-los-topics" class="level4">
+<h4 data-anchor-id="listar-los-topics">Listar los <em>topics</em></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Puedes añadir la opción <code>-t</code> para ver el tipo de <em>topic</em></p>
+</div>
+</div>
+</div>
+</section>
+<section id="obtener-información-del-topic" class="level4">
+<h4 data-anchor-id="obtener-información-del-topic">Obtener información del <em>topic</em></h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic info &lt;nombre_topic&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic info /chatter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Puedes añadir la opción <code>-v</code> para ver toda la información</p>
+</div>
+</div>
+</div>
+</section>
+<section id="obtener-información-del-tipo-de-topic" class="level4">
+<h4 data-anchor-id="obtener-información-del-tipo-de-topic">Obtener información del tipo de <em>topic</em></h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic type &lt;nombre_topic&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic type /chatter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ver-los-mensajes-que-pasan-por-un-topic" class="level4">
+<h4 data-anchor-id="ver-los-mensajes-que-pasan-por-un-topic">Ver los mensajes que pasan por un <em>topic</em></h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic echo &lt;nombre_topic&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic echo /chatter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="medir-la-frecuencia-con-la-que-se-publican-mensajes" class="level4">
+<h4 data-anchor-id="medir-la-frecuencia-con-la-que-se-publican-mensajes">Medir la frecuencia con la que se publican mensajes</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic hz &lt;nombre_topic&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic hz /chatter</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="listar-los-topics-según-el-tipo-de-mensaje" class="level4">
+<h4 data-anchor-id="listar-los-topics-según-el-tipo-de-mensaje">Listar los <em>topics</em> según el tipo de mensaje</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic find &lt;tipo_de_topic&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic find std_msgs/msg/String</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="interfaces-mensajes" class="level2" data-number="2.4">
+<h2 data-number="2.4" data-anchor-id="interfaces-mensajes"><span class="header-section-number">2.4</span> Interfaces: Mensajes</h2>
+<section id="obtener-información-de-la-interfaz-de-mensaje" class="level4">
+<h4 data-anchor-id="obtener-información-de-la-interfaz-de-mensaje">Obtener información de la interfaz de mensaje</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 interface show &lt;tipo_de_mensaje&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> interface show std_msgs/msg/String</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="publicar-mensajes-en-un-topic" class="level4">
+<h4 data-anchor-id="publicar-mensajes-en-un-topic">Publicar mensajes en un <em>topic</em></h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 topic pub &lt;nombre_del_topic&gt;
+      &lt;nombre_del_tipo_de_mensaje&gt; '&lt;contenido&gt;'</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> topic pub /chatter std_msgs/msg/String <span class="st">"{data: Mensaje de prueba}"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-tip no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Puedes añadir la opción <code>--once</code> para publicar una sola vez</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="herramientas-de-visualización" class="level2" data-number="2.5">
+<h2 data-number="2.5" data-anchor-id="herramientas-de-visualización"><span class="header-section-number">2.5</span> Herramientas de visualización</h2>
+<section id="ver-el-grafo-de-nodos-y-topics" class="level4">
+<h4 data-anchor-id="ver-el-grafo-de-nodos-y-topics">Ver el grafo de nodos y <em>topics</em></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> run rqt_graph rqt_graph</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="visualizar-los-topics-y-mensajes" class="level4">
+<h4 data-anchor-id="visualizar-los-topics-y-mensajes">Visualizar los <em>topics</em> y mensajes</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> run rqt_topic rqt_topic</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>En caso de no encontrar los paquetes, instalar <code>ros-jazzy-rqt-graph</code> y <code>ros-jazzy-rqt-topic</code></p>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
