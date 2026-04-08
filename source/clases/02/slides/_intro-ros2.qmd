@@ -1,0 +1,170 @@
+## Robot Operating System (2) {.smaller}
+
+:::: {.columns}
+::: {.column width="60%"}
+
+> Es un conjunto de librerías de software y herramientas que ayudan a la creación de aplicaciones robóticas (<abbr title="Software Development Kit">*SDK*</abbr>)
+
+> Proporciona los componentes básicos necesarios para alcanzar los objetivos más rápidamente
+
+
+:::
+
+::: {.column width="40%"}
+
+![](https://ros.org/imgs/JazzyNoBG.png){fig-align="center"}
+
+<center>`www.ros.org`</center>
+
+:::
+
+::: aside
+Más información: [www.ros.org/blog/ecosystem](https://www.ros.org/blog/ecosystem/){target="_blank"}
+:::
+::::
+
+
+::: {.notes}
+- ROS2 no como un sistema operativo tradicional como Windows o macOS, sino como un "traductor y kit de herramientas universal" para robots
+- Colección de herramientas y bibliotecas de software que te ayudan a crear aplicaciones para robots sin tener que reinventar la rueda
+:::
+
+## Robot Operating System (2) {.smaller}
+
+#### Problemas que resuelve
+
+> El problema de [*La torre de babel*](https://en.wikipedia.org/wiki/Tower_of_Babel){target="_blank"}
+
+- Problema de comunicación entre distintos elementos (sensores, actuadores, algoritmos, etc.)
+- ROS2 proporciona una forma estándar para que se comuniquen entre sí.
+
+::: {.notes}
+Ejemplo:
+
+- una cámara (fabricada por la empresa A), un motor (de la empresa B) y un algoritmo (el código nuestro)
+- todos hablan "lenguajes" diferentes -> ROS 2 actúa como nexo de unión
+- proporcionando una forma estándar para que estas partes se comuniquen entre sí.
+:::
+
+## Robot Operating System (2) {.smaller}
+
+#### Problemas que resuelve
+
+> El problema de ["*Reinventar la rueda*"](https://en.wikipedia.org/wiki/Reinventing_the_wheel){target="_blank"}
+
+- ROS2 proporciona *paquetes* para tareas comunes <!-- como calcular el giro de una rueda o mapear un ambiente a partir de los datos de un sensor laser -->
+- Permite focalizar el desarrollo en los objetivos específicos del proyecto
+
+
+::: {.notes}
+- No debería ser necesario escribir código propio para calcular el giro de una rueda o el mapeo de una habitación por parte de un escáner láser
+- ROS 2 proporciona "paquetes" (código preescrito) para estas tareas comunes
+:::
+
+## Robot Operating System (2) {.smaller}
+
+#### Problemas que resuelve
+
+> El problema del "*caos del hardware*"
+
+- ROS2 abstrae el hardware generando capas
+- Las aplicaciones de alto nivel están separadas de las de bajo nivel
+
+
+::: {.notes}
+- Ejemplo: se desarrolla el código para un robot de 2 ruedas, y luego se quiere cambiar a un robot de 4 ruedas
+- ROS 2 abstrae el hardware, lo que significa que tu código de alto nivel, el "cerebro", permanece prácticamente igual aunque cambie el "cuerpo"
+:::
+
+## Robot Operating System (2) {.smaller}
+
+> **Otras características (no menores)**:
+
+- Plataforma estándar y comunidad global
+- Utilizado en educación, investigación e industria
+- Multi-dominio y multi-plataforma
+- Gratuito y open-source
+
+::: {.notes}
+- Plataforma estándar: Quiere decir que el software desarrollado por alguien en algún punto del mundo puede re-utilizarlo/adaptarlo/mejorarlo alguien en otro (siempre y cuando se respeten ciertas condiciones)
+    - Permitió la formación de una comunidad global (que prueba los paquetes) y a su vez que sea utilizado en educación, investigación e industria -> Genera un ecosistema
+- Multi-dominio: Robótica móvil, robótica "estática" / Terrestre, aereo, acuático
+- Multi-plataforma: Linux, Windows, macOS / x86 - ARM
+
+- Distribuido: los programas pueden ejecutarse en distintas computadoras y comunicarse a través de la red
+- Multi-lenguaje: C++ y Python (existen librerías para Java o MATLAB)
+- Facilita el desarrollo proveyendo de herramientas para la ejecución, inspección, debugging, visualización, graficación, revisiones (playback)
+:::
+
+## Robot Operating System (2) {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Aplicaciones en el mundo real
+
+#### Robótica Móvil Autónoma (<abbr title="Autonomous Mobile Robots">AMR</abbr>)
+
+- [*AWS Robotics*](https://github.com/aws-robotics){target="_blank"}
+- [*Locus Robotics*](https://locusrobotics.com/){target="_blank"} ([GitHub](https://github.com/locusrobotics){target="_blank"})
+- [*DHL Supply Chain*](https://www.dhl.com/ar-es/home/supply-chain/about-us.html){target="_blank"} & [*makro*](https://www.makro.es/){target="_blank"} ^[[Nota en *AutomatedWarehouseonline*](https://www.automatedwarehouseonline.com/dhl-supply-chain-completes-1-billion-picks-locus-robotics/){target="_blank"}]
+
+:::
+::: {.column}
+
+[![](https://raw.githubusercontent.com/aws-robotics/aws-robomaker-small-house-world/ros1/docs/images/gzweb_aws_house.png)](https://github.com/aws-robotics/aws-robomaker-small-house-world){target="_blank"}
+
+[![](https://raw.githubusercontent.com/aws-robotics/aws-robomaker-small-warehouse-world/ros1/docs/images/gzweb_aws_warehouse.png)](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world){target="_blank"}
+
+:::
+:::
+
+::: {.aside}
+Fuente: [`aws-robotics`](https://github.com/aws-robotics){target="_blank"}
+:::
+
+## Robot Operating System (2) {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Aplicaciones en el mundo real
+
+#### Drones y tractores en agricultura
+
+- [*AgXeed*](https://www.agxeed.com/){target="_blank"} & [*NOBLEO TECHNOLOGY*](https://nobleo-technology.nl/){target="_blank"} ^[[Presentación en *ROSCon 2025*](https://vimeo.com/1136158260){target="_blank"}]
+- [`ros-agriculture`](https://github.com/ros-agriculture){target="_blank"}
+- [*farm-ng*](https://farm-ng.com/){target="_blank"} ([GitHub](https://github.com/farm-ng){target="_blank"})
+
+:::
+::: {.column}
+
+[![Fuente: *farm-ng* (<a href="https://store.farm-ng.com/products/la-maquina-amiga" target="_blank">farm-ng.com</a>)](https://user-images.githubusercontent.com/53625197/187559379-b7b8fcf3-5fe7-4e14-aa47-fa0022f3801b.JPG "Amiga Development Kit"){fig-align="center" fig-env="figure*"} ](https://amiga.farm-ng.com/docs/getting-started){target=_blank}
+
+
+:::
+:::
+
+
+## Robot Operating System (2) {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Aplicaciones en el mundo real
+
+#### Exploración del espacio
+
+- [*spaceROS*](https://space.ros.org/){target="_blank"}
+- [*NASA* *astrobee*](https://www.nasa.gov/astrobee/){target="_blank"} ([GitHub](https://github.com/nasa/astrobee){target="_blank"})
+- [*NASA* *VIPER*](https://science.nasa.gov/mission/viper/){target="_blank"} ^[[Nota en *MIT Technology Review en español*](https://technologyreview.es/article/la-nasa-se-suma-la-moda-del-software-de-codigo-abierto/){target="_blank"}] ^[[Presentación en el simposio *Planetary Science Technology 2024*](https://ntrs.nasa.gov/api/citations/20240013292/downloads/PESTO-VIPER-T_Fong.pdf){target="_blank"}]
+
+<!-- Más aplicaciones varias: Embedded Linux Conference 2022 https://static.sched.com/hosted_files/ossna2022/2a/Evolving%20ROS%202%20For%20Safety%20Critical%20Ssytems.pdf -->
+
+:::
+::: {.column}
+
+[![Fuente: *NASA Astrobee* (<a href="https://github.com/nasa/astrobee" target="_blank">github.com/nasa/astrobee</a>)](https://raw.githubusercontent.com/nasa/astrobee/master/doc/images/astrobee.png "Astrobee"){fig-align="center" fig-env="figure*" width="80%"} ](https://github.com/nasa/astrobee){target=_blank}
+
+:::
+:::

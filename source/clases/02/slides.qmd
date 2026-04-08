@@ -1,0 +1,50 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+output-file: index.html
+---
+
+# Robot Operating System (2) {visibility="hidden"}
+
+{{< include slides/_intro-ros2.qmd >}}
+
+
+
+# ROS 2 *Graph* {visibility="hidden"}
+
+{{< include slides/_ros2-graph.qmd >}}
+
+
+
+# Graph Resource Names {visibility="hidden"}
+
+{{< include slides/_names.qmd >}}
+
+
+
+# Intro línea de comandos {visibility="hidden"}
+
+{{< include slides/_intro-cli.qmd >}}
+
+
+
+## [Laboratorio](lab.qmd) {.center}
+
+- Instalación de ROS2
+- Emisor / Receptor 
+- Comandos para análisis de nodos, *topics* y mensajes

@@ -1,0 +1,262 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Instalación de ROS2
+
+::: {.panel-tabset}
+
+### Windows 10 / 11 (WSL)
+
+{{< include ros-install/_win10-11.qmd >}}
+
+### Ubuntu 24.04
+
+{{< include ros-install/_ubuntu-24.qmd >}}
+
+### Docker
+
+{{< include ros-install/_docker.qmd >}}
+
+:::
+
+## Configuración del entorno
+
+#### Se logra ejecutando los archivos de configuración cada vez que se abre una nueva consola:
+
+- Configurar el entorno:
+```{.bash }
+source /opt/ros/jazzy/setup.bash
+```
+
+::: {.callout-warning appearance="simple"}
+Se debe configurar el entorno siempre que se abra una nueva terminal
+:::
+
+- Para realizar este paso automáticamente puede agregarlo a su archivo `~/.bashrc`
+```{.bash }
+echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+```
+
+- Verificar la variable de entorno: `ROS_DOMAIN_ID`
+```{.bash }
+printenv | grep ROS
+```
+
+Salida esperada:
+```{.default}
+ROS_VERSION=2
+ROS_PYTHON_VERSION=3
+ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
+ROS_DISTRO=jazzy
+```
+
+<!-- ROS_DOMAIN_ID y ROS_AUTOMATIC_DISCOVERY_RANGE https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html -->
+
+- Obtener ayuda desde la terminal:
+```{.bash}
+ros2 --help
+```
+
+# Emisor y receptor
+
+## Instalación de paquetes de demostración
+
+::: {.callout-note appearance="simple"}
+Recuerda actualizar el índice de paquetes con `sudo apt update`
+:::
+
+---------
+
+- Para instalar el paquete `demo-nodes-py` ejecutar:
+```{.bash }
+sudo apt install ros-jazzy-demo-nodes-py
+```
+
+- Para ver los paquetes instalados
+```{.bash }
+ros2 pkg executables
+```
+
+- Para ver los ejecutables de un paquete
+
+>       $ ros2 pkg executables <nombre_paquete>
+
+---------
+
+```{.bash }
+ros2 pkg executables demo_nodes_py
+```
+
+
+## Nodos `talker` y `listener` 
+
+#### Comando para ejecutar nodos
+   
+>       $ ros2 run <nombre_paquete> <nombre_ejecutable>
+
+---------
+
+Para ejecutar el nodo `talker` del paquete `demo_nodes_py`
+
+```{.bash }
+ros2 run demo_nodes_py talker
+```
+y en otra terminal para ejecutar el nodo `listener`
+```{.bash }
+ros2 run demo_nodes_py listener
+```
+
+::: {.callout-note appearance="simple"}
+Recuerda configurar el entorno correctamente en ambas terminales
+:::
+
+---------
+
+::: {.callout-tip appearance="simple"}
+Para detener el nodo: `Ctrl+C`
+:::
+
+
+#### Listar los nodos
+
+```{.bash }
+ros2 node list
+```
+
+#### Obtener información del nodo
+
+>       $ ros2 node info <nombre_nodo>
+
+---------
+
+```{.bash }
+ros2 node info /talker
+```
+
+## *Topics* <!-- `/chatter` -->
+
+
+#### Listar los *topics*
+
+```{.bash }
+ros2 topic list
+```
+
+::: {.callout-tip appearance="minimal"}
+Puedes añadir la opción `-t` para ver el tipo de *topic*
+:::
+
+#### Obtener información del *topic*
+
+>       $ ros2 topic info <nombre_topic>
+
+---------
+
+```{.bash }
+ros2 topic info /chatter
+```
+
+::: {.callout-tip appearance="minimal"}
+Puedes añadir la opción `-v` para ver toda la información
+:::
+
+#### Obtener información del tipo de *topic*
+
+>       $ ros2 topic type <nombre_topic>
+
+---------
+
+```{.bash }
+ros2 topic type /chatter
+```
+
+#### Ver los mensajes que pasan por un *topic*
+
+>       $ ros2 topic echo <nombre_topic>
+
+---------
+
+```{.bash }
+ros2 topic echo /chatter
+```
+
+#### Medir la frecuencia con la que se publican mensajes
+
+>       $ ros2 topic hz <nombre_topic>
+
+---------
+
+```{.bash }
+ros2 topic hz /chatter
+```
+
+#### Listar los *topics* según el tipo de mensaje 
+
+>       $ ros2 topic find <tipo_de_topic>
+
+---------
+
+```{.bash }
+ros2 topic find std_msgs/msg/String
+```
+
+## Interfaces: Mensajes
+
+#### Obtener información de la interfaz de mensaje
+
+>       $ ros2 interface show <tipo_de_mensaje>
+
+---------
+
+```{.bash }
+ros2 interface show std_msgs/msg/String
+```
+
+#### Publicar mensajes en un *topic*
+
+>       $ ros2 topic pub <nombre_del_topic>
+>           <nombre_del_tipo_de_mensaje> '<contenido>'
+
+---------
+
+```{.bash }
+ros2 topic pub /chatter std_msgs/msg/String "{data: Mensaje de prueba}"
+```
+
+::: {.callout-tip appearance="minimal"}
+Puedes añadir la opción `--once` para publicar una sola vez
+:::
+
+## Herramientas de visualización 
+
+#### Ver el grafo de nodos y *topics*
+
+```{.bash }
+ros2 run rqt_graph rqt_graph
+```
+
+#### Visualizar los *topics* y mensajes 
+
+```{.bash }
+ros2 run rqt_topic rqt_topic
+```
+
+::: {.callout-tip appearance="simple"}
+En caso de no encontrar los paquetes, instalar `ros-jazzy-rqt-graph` y `ros-jazzy-rqt-topic`
+:::

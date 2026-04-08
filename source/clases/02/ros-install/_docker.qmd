@@ -1,0 +1,45 @@
+#### 1️⃣ Instalar Docker
+
+- Instalar y configurar Docker según el sistema operativo, utilizando los siguientes pasos  
+
+#### **Windows**
+
+1. Instalar [Docker Desktop](https://www.docker.com/products/docker-desktop){target="_blank"} 2.0 (o superior)
+2. Si se utiliza *WSL 2* en Windows, asegurarse de que [*WSL 2 back-end*](https://aka.ms/vscode-remote/containers/docker-wsl2){target="_blank"} está habilitado: Click derecho en el ícono de Docker y seleccionar **Configuración** (o *Settings*). Seleccionar **Utilizar motor basado en WSL 2** (o *Use the WSL 2 based engine*) y verificar que la distribución está habilitada en **Recursos > Integración WSL** (o *Resources > WSL Integration*).
+3. Si no se utiliza *WSL 2 back-end*, click derecho en el ícono de Docker, seleccionar **Configuración** (o *Settings*) y actualizar **Recursos > Compartir archivos** (o *Resources > File Sharing*) con cualquier ubicación donde se almacene el código fuente. Ver [tips and tricks](https://code.visualstudio.com/docs/devcontainers/tips-and-tricks){target="_blank"} para solucionar problemas.
+
+#### **Linux**
+
+1. Seguir las [instrucciones oficiales de instalación para Docker CE/EE](https://docs.docker.com/install/#supported-platforms){target="_blank"} según la distribución. Si está utilizando *Docker Compose*, seguir las instrucciones de [Docker Compose](https://docs.docker.com/compose/install){target="_blank"} también.
+2. Agregar el usuario al grupo `docker` utilizando una terminal y ejecutando: 
+```{.sh code-line-numbers="false"}
+sudo usermod -aG docker $USER
+```
+3. Cerrar sesión y volver a loguearse para aplicar los cambios
+
+
+#### 2️⃣ Instalar *VS Code* y las extensiones `devcontainer`
+
+1. Instalar [Visual Studio Code](https://code.visualstudio.com/){target="_blank"}
+2. Instalar la extensión [*Dev Containers*](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers){target="_blank"}. Si planea trabajar con otras extensiones remotas en *VS Code*, quizás prefiera instalar el pack de extensiones [*Remote Development*](https://aka.ms/vscode-remote/download/extension){target="_blank"}
+
+::: {.callout}
+##### Traducido de [code.visualstudio.com/docs](https://code.visualstudio.com/docs/devcontainers/containers){target="_blank"}
+:::
+
+#### 3️⃣ Crear `devcontainer.json`
+
+- Dentro del *workspace* crear la carpeta `.devcontainer` y dentro el archivo `devcontainer.json` con el siguiente contenido
+
+<details>
+<summary>Ver contenido del archivo</summary>
+
+```json
+{{< include ros-install/_devcontainer.json >}}
+```
+
+</details>
+
+#### 4️⃣ Reabrir la carpeta en contenedor
+
+- `Ctrl+Shift+P` o `F1` ➡️ *Reopen in container* 
