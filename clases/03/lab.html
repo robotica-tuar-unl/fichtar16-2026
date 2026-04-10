@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Robótica 2026</title>
+<title>Clase 03 - Laboratorio – Robótica 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,25 +23,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="sh-highlight.css">
+<link rel="stylesheet" href="../../sh-highlight.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -107,24 +142,41 @@ ul.task-list li input[type="checkbox"] {
 </div></div>
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Robótica 2026</a> 
+      <a href="../../">Robótica 2026</a> 
     </div>
       </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#servicios" id="toc-servicios" class="nav-link active" data-scroll-target="#servicios"><span class="header-section-number">1</span> Servicios</a>
+  <ul class="collapse">
+  <li><a href="#preparar-el-escenario" id="toc-preparar-el-escenario" class="nav-link" data-scroll-target="#preparar-el-escenario"><span class="header-section-number">1.1</span> Preparar el escenario</a></li>
+  <li><a href="#interacción-con-servicios" id="toc-interacción-con-servicios" class="nav-link" data-scroll-target="#interacción-con-servicios"><span class="header-section-number">1.2</span> Interacción con servicios</a></li>
+  </ul></li>
+  <li><a href="#parámetros" id="toc-parámetros" class="nav-link" data-scroll-target="#parámetros"><span class="header-section-number">2</span> Parámetros</a>
+  <ul class="collapse">
+  <li><a href="#preparar-el-escenario-1" id="toc-preparar-el-escenario-1" class="nav-link" data-scroll-target="#preparar-el-escenario-1"><span class="header-section-number">2.1</span> Preparar el escenario</a></li>
+  <li><a href="#interacción-con-parámetros" id="toc-interacción-con-parámetros" class="nav-link" data-scroll-target="#interacción-con-parámetros"><span class="header-section-number">2.2</span> Interacción con parámetros</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Robótica 2026</h1>
+<h1 class="title">Clase 03 - Laboratorio</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -136,213 +188,211 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<hr>
-<section id="intro" class="level1">
-<h1>Intro</h1>
+<!-- AGREGAR REQUISITO DE TERMINAR EL LABORATORIO 1 -->
+<!-- AGREGAR SECCIÓN DE OBJETIVOS -->
+<section id="servicios" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Servicios</h1>
 <ul>
-<li><strong>Carreras en FICH</strong>: Tecnicatura universitaria en automatización y robótica</li>
-<li><strong>Extensión</strong>: Anual</li>
-<li><strong>Carga Horaria</strong>: 120hs</li>
-<li><strong>Sitio</strong>: <a href="https://robotica-tuar-unl.github.io/fichtar16-2026/">Robótica 2026</a></li>
-<li><strong>Docente</strong>:
-<ul>
-<li><em>Capovilla, Agustín</em> (<a href="mailto:acapovilla@sinc.unl.edu.ar"><code>acapovilla@sinc.unl.edu.ar</code></a>)</li>
-</ul></li>
+<li>Configurar el entorno:</li>
 </ul>
-</section>
-<section id="clases" class="level1">
-<h1>Clases</h1>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /opt/ros/jazzy/setup.bash</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Se debe configurar el entorno siempre que se abra una nueva terminal</p>
+</div>
+</div>
+</div>
+<section id="preparar-el-escenario" class="level2" data-number="1.1">
+<h2 data-number="1.1" data-anchor-id="preparar-el-escenario"><span class="header-section-number">1.1</span> Preparar el escenario</h2>
+<section id="ejecutar-el-nodo-de-demostración-add_two_ints_server-del-paquete-demo_nodes_py" class="level4">
+<h4 data-anchor-id="ejecutar-el-nodo-de-demostración-add_two_ints_server-del-paquete-demo_nodes_py">Ejecutar el nodo de demostración <code>add_two_ints_server</code> del paquete <code>demo_nodes_py</code></h4>
+<div class="callout callout-style-default callout-tip callout-titled" title="Para ejecutar">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Nota
+<span class="screen-reader-only">Tip</span>Para ejecutar
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado</p>
+<pre><code>    $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;</code></pre>
 </div>
 </div>
-<table class="table-striped table-hover caption-top table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 52%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Semana</th>
-<th>Fecha</th>
-<th>Tema</th>
-<th style="text-align: center;"><span title="Slides">Slides</span></th>
-<th style="text-align: center;"><span title="Notas">Notas</span></th>
-<th style="text-align: center;"><span title="Teórico">T.</span></th>
-<th style="text-align: center;"><span title="Laboratorio">Lab.</span></th>
-<th style="text-align: center;"><span title="Taller de resolución">T.R.</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td>17/03</td>
-<td>Introducción a la Robótica. Organización de la materia. Herramientas de trabajo.</td>
-<td style="text-align: center;"><a href="./clases/01/index.html" aria-label="Clase 1 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/01/notas.pdf" aria-label="Clase 1 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td>24/03</td>
-<td><strong>Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia</strong></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td>31/03</td>
-<td>ROS2: Definición y propósito. Conceptos básicos (nodos, <em>topics</em>, mensajes, contexto). Instalación y ejemplos básicos.</td>
-<td style="text-align: center;"><a href="./clases/02/index.html" aria-label="Clase 2 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/02/notas.pdf" aria-label="Clase 2 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/02/lab.html" aria-label="Clase 2 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td>07/04</td>
-<td>ROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.</td>
-<td style="text-align: center;"><a href="./clases/03/index.html" aria-label="Clase 3 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/03/notas.pdf" aria-label="Clase 3 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/03/lab.html" aria-label="Clase 3 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td>14/04</td>
-<td>Revisión conceptos clase anterior. Programación de nodos, compilación y ejecución.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td>21/04</td>
-<td>Programación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td>28/04</td>
-<td>Parámetros en nodos. <code>roslaunch</code>, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td>05/05</td>
-<td>ROS2 <em>R.E.P.</em>. Traslación y rotación 2D. Transformaciones homogéneas. <code>tf2</code></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">9</td>
-<td>12/05</td>
-<td><em>U.R.D.F.</em>: Representación de geometría de un robot. Uso de <em>XACRO</em>, <code>robot_state_publisher</code> y <code>tf2</code>.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">10</td>
-<td>19/05</td>
-<td>Gazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete <code>ros2_control</code> y <code>gz_ros2_contol</code>. <em>Hardware interface</em> y controladores.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">11</td>
-<td>26/05</td>
-<td>Cinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">12</td>
-<td>02/06</td>
-<td>Odometría: Cálculo de posición en base al modelo cinemático directo.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">13</td>
-<td>09/06</td>
-<td>Percepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">14</td>
-<td>16/06</td>
-<td>Simulación de sensores en Gazebo</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">15</td>
-<td>23/06</td>
-<td>Presentación entregable 1</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
+<hr>
+<!-- ```{.bash code-line-numbers="false"}
+    $ ros2 run demo_nodes_py add_two_ints_server
+``` -->
+</section>
+</section>
+<section id="interacción-con-servicios" class="level2" data-number="1.2">
+<h2 data-number="1.2" data-anchor-id="interacción-con-servicios"><span class="header-section-number">1.2</span> Interacción con servicios</h2>
+<section id="listar-todos-los-servicios" class="level4">
+<h4 data-anchor-id="listar-todos-los-servicios">Listar todos los servicios</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para también ver el tipo de servicio, añadir la opción <code>--show-types</code> o <code>-t</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service list <span class="at">-t</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Por cada nodo se pueden observar 6 servicios con la palabra <code>parameters</code> en el nombre. Estos servicios son los por defecto para la manipulación de parámetros.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="obtener-información-acerca-de-un-servicio" class="level4">
+<h4 data-anchor-id="obtener-información-acerca-de-un-servicio">Obtener información acerca de un servicio</h4>
+<ul>
+<li>Para obtener el tipo de un servicio:</li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 service type &lt;nombre_servicio&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service type /add_two_ints</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Para obtener la <u>definición</u> del tipo de servicio:</li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 interface show &lt;nombre_tipo_servicio&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> interface show example_interfaces/srv/AddTwoInts</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Para obtener información del servicio en sí (clientes, servidor, etc):</li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 service info &lt;nombre_nodo&gt;</code></pre>
+</blockquote>
+</section>
+<section id="invocar-un-servicio" class="level4">
+<h4 data-anchor-id="invocar-un-servicio">Invocar un servicio</h4>
+<ul>
+<li>Para enviar un requerimiento manual a un servidor</li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 service call &lt;nombre_servicio&gt; 
+      &lt;nombre_tipo_servicio&gt; &lt;argumentos&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service call /add_two_ints example_interfaces/srv/AddTwoInts <span class="st">"{a: 7, b: 12}"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="buscar-un-servicio-por-tipo" class="level4">
+<h4 data-anchor-id="buscar-un-servicio-por-tipo">Buscar un servicio por tipo</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 service find &lt;nombre_tipo_servicio&gt;</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service find example_interfaces/srv/AddTwoInts</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<!--
+ros2 service echo
+
+https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html#ros2-service-echo
+-->
+</section>
+</section>
+</section>
+<section id="parámetros" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Parámetros</h1>
+<section id="preparar-el-escenario-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="preparar-el-escenario-1"><span class="header-section-number">2.1</span> Preparar el escenario</h2>
+<section id="ejecutar-nodo-demostración-set_parameters_callback-del-paquete-demo_nodes_py" class="level4">
+<h4 data-anchor-id="ejecutar-nodo-demostración-set_parameters_callback-del-paquete-demo_nodes_py">Ejecutar nodo demostración <code>set_parameters_callback</code> del paquete <code>demo_nodes_py</code></h4>
+<hr>
+<!-- ```{.bash code-line-numbers="false"}
+    $ ros2 run demo_nodes_py add_two_ints_server
+``` -->
+</section>
+</section>
+<section id="interacción-con-parámetros" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="interacción-con-parámetros"><span class="header-section-number">2.2</span> Interacción con parámetros</h2>
+<section id="listar-todos-los-parámetros-de-todos-los-nodos" class="level4">
+<h4 data-anchor-id="listar-todos-los-parámetros-de-todos-los-nodos">Listar todos los parámetros de todos los nodos</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Por cada nodo existen parámetros por defecto como por ejemplo <code>use_sim_time</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="obtener-información-acerca-de-un-parámetro" class="level4">
+<h4 data-anchor-id="obtener-información-acerca-de-un-parámetro">Obtener información acerca de un parámetro</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 param describe &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;</code></pre>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param describe /set_parameters_callback param1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="obtener-el-tipo-y-valor-actual-de-un-parámetro" class="level4">
+<h4 data-anchor-id="obtener-el-tipo-y-valor-actual-de-un-parámetro">Obtener el tipo y valor actual de un parámetro</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 param get &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;</code></pre>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param get /set_parameters_callback param1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="establecer-el-valor-de-un-parámetro" class="level4">
+<h4 data-anchor-id="establecer-el-valor-de-un-parámetro">Establecer el valor de un parámetro</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 param set &lt;nombre_nodo&gt; &lt;nombre_parametro&gt; &lt;valor&gt;</code></pre>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param set /set_parameters_callback param1 1.0</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="obtener-el-valor-actual-de-todos-los-parámetros-de-un-nodo" class="level4">
+<h4 data-anchor-id="obtener-el-valor-actual-de-todos-los-parámetros-de-un-nodo">Obtener el valor actual de todos los parámetros de un nodo</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 param dump &lt;nombre_nodo&gt;</code></pre>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param dump /set_parameters_callback</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Puedes utilizar este comando para “descargar” todos los valores a un archivo con el operador <code>&gt;</code></p>
+<p><u>Por ejemplo</u>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param dump /set_parameters_callback <span class="op">&gt;</span> archivo_parametros.yaml</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-un-archivo-de-parámetros-durante-la-ejecución" class="level4">
+<h4 data-anchor-id="cargar-un-archivo-de-parámetros-durante-la-ejecución">Cargar un archivo de parámetros durante la ejecución</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 param load &lt;nombre_nodo&gt; &lt;nombre_archivo&gt;</code></pre>
+</blockquote>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Los parámetros de solo lectura pueden modificarse solo en el inicio del nodo</p>
+</div>
+</div>
+</div>
+</section>
+<section id="cargar-un-archivo-de-parámetros-al-momento-de-ejecutar-nodos" class="level4">
+<h4 data-anchor-id="cargar-un-archivo-de-parámetros-al-momento-de-ejecutar-nodos">Cargar un archivo de parámetros al momento de ejecutar nodos</h4>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt; --ros-args 
+      --params-file &lt;nombre_archivo&gt;</code></pre>
+</blockquote>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

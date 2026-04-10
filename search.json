@@ -1,80 +1,178 @@
 [
   {
-    "objectID": "clases/01/index.html#organización-de-la-materia-1",
-    "href": "clases/01/index.html#organización-de-la-materia-1",
+    "objectID": "clases/03/index.html#resumen-clase-02-1",
+    "href": "clases/03/index.html#resumen-clase-02-1",
     "title": "Robótica",
-    "section": "Organización de la materia",
-    "text": "Organización de la materia\n\nDocente: Tec. Agustín Capovilla\nCursado: Martes de 15:00 a 17:00 (T/P) 1\nComunicación: vía email (o por Classroom)\nRepositorio: robotica-tuar-unl.github.io/fichtar16-2026\n\nclases de consulta a coordinar"
+    "section": "Resumen Clase 02",
+    "text": "Resumen Clase 02\nROS 2 Graph\n\nNodos\nTopics\nMensajes\n\n\nAlgunos comandos más usados (run, node list, node info, topic list, topic info, topic echo, rqt_graph)"
   },
   {
-    "objectID": "clases/01/index.html#evaluaciones",
-    "href": "clases/01/index.html#evaluaciones",
+    "objectID": "clases/03/index.html#resumen-clase-02-2",
+    "href": "clases/03/index.html#resumen-clase-02-2",
     "title": "Robótica",
-    "section": "Evaluaciones",
-    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\n\n\n\n\n\n\nCon sus respectivas instancias de recuperación"
+    "section": "Resumen Clase 02",
+    "text": "Resumen Clase 02\nNombres y namespace\n\n\nTipos\n\nGlobal\nRelativo\nBase\nPrivado\n\n\n\n/\n├── sim1/\n│   └── robot/\n│       ├── cmd_vel         /sim1/robot/cmd_vel\n│       └── odometry        /sim1/robot/odometry\n└── sim2/\n    └── robot/\n        ├── cmd_vel         /sim2/robot/cmd_vel\n        └── odometry        /sim2/robot/odometry\n\nBase:       robot\n\nPrivado:    ~/cmd_vel \n            ~/odometry"
   },
   {
-    "objectID": "clases/01/index.html#evaluaciones-1",
-    "href": "clases/01/index.html#evaluaciones-1",
+    "objectID": "clases/03/index.html#ros-2-graph-1",
+    "href": "clases/03/index.html#ros-2-graph-1",
     "title": "Robótica",
-    "section": "Evaluaciones",
-    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\nCodiciones de aprobación\n\nPara regularizar\n\nAprobación de al menos 2\n\nPara promocionar\n\nAprobación de todos los trabajos con mínimo de 60% + promedio mínimo de 70%"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\n\n3 modos de comunicación\n\n\nTopics (Clase 02)\nServicios    ⬅️\nAcciones    ⬅️"
   },
   {
-    "objectID": "clases/01/index.html#programa-1",
-    "href": "clases/01/index.html#programa-1",
+    "objectID": "clases/03/index.html#ros-2-graph-2",
+    "href": "clases/03/index.html#ros-2-graph-2",
     "title": "Robótica",
-    "section": "Programa",
-    "text": "Programa\n\n4 bloques principales"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nServicios\n\n\n\nIntercambio de datos bidireccional entre nodos bajo demanda\n\n\nAnalogía: búsqueda en la web\n\nN clientes: ingresan los términos de búsqueda\n1 servidor: responde con los mejores resultados\n\n\n\n\n\n\n\n\n\n\n\nOtro método de comunicación para nodos pero bidireccional\nBasados en un modelo de “llamada-respuesta” (call-and-response)\nNo son continuos, solo proveen información cuando son invocados"
   },
   {
-    "objectID": "clases/01/index.html#programa-2",
-    "href": "clases/01/index.html#programa-2",
+    "objectID": "clases/03/index.html#ros-2-graph-3",
+    "href": "clases/03/index.html#ros-2-graph-3",
     "title": "Robótica",
-    "section": "Programa",
-    "text": "Programa\n\n4 bloques principales\n\nBloque 0\n\nRobot Operating System (ROS 2)"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nServicios\nCliente / Servidor\n\nUn servicio está formado por dos partes: el cliente de servicio y el servidor de servicio\nSolo puede existir 1 servidor por cada servicio\nPueden existir una cantidad N de clientes utilizando servicio\n\nAtómicos\n\nNunca deben ser usados para procesos largos\n\nIdentificación de servicio\n\nLos servicios se identifican por nombre (misma convención que topics)\n\n\n\nUn servicio se refiere a la llamada a un procedimiento remoto\nUn nodo puede realizar una llamada a un procedimiento remoto a otro nodo que realiza una acción/computo y devuelve un resultado\nUn servicio está formado por dos partes: El servidor de servicio y el cliente de servicio\nEl servidor es el que acepta el requerimiento, realiza alguna acción/computo al respecto y devuelve un resultado\nEl cliente del servicio es el que solicita al servidor para que realice una acción/computo\nSolo puede existir un servidor por cada nombre de servicio\nPueden existir una cantidad N de clientes utilizando el mismo nombre de servicio\nSe espera que un servicio devuelva el resultado rapidamente, dado que el nodo está esperando el resultado -&gt; Nunca deben ser usados para procesos largos"
   },
   {
-    "objectID": "clases/01/index.html#programa-3",
-    "href": "clases/01/index.html#programa-3",
+    "objectID": "clases/03/index.html#ros-2-graph-4",
+    "href": "clases/03/index.html#ros-2-graph-4",
     "title": "Robótica",
-    "section": "Programa",
-    "text": "Programa\n\n4 bloques principales\n\nBloque 1\n\nCinemática\nSimulación y control"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nServicios\nDefiniciones de servicio\n\n\n\nDefinidos en archivos .srv utilizando IDL\n2 partes separadas por “---”\n\nUn mensaje de requerimiento\nUn mensaje de respuesta\n\n\n\n\n\n\n\n\nCualquiera dos .msg concatenados es una descripción de servicio válida\n\n\n\n\n\n\n\nservicio.srv\n\ntipodecampo1 requerimiento\n---\ntipodecampo2 respuesta\n\n\n\n\n\nLos servicios se identifican por nombre y utilizan la misma convención de nombres (pero en otro namespace)\nDefinidos en archivos .srv\nEsta estructura se refleja en la definición de mensaje de servicio\n\n\n\n\nDocumentación: ROS Service Interface"
   },
   {
-    "objectID": "clases/01/index.html#programa-4",
-    "href": "clases/01/index.html#programa-4",
+    "objectID": "clases/03/index.html#ros-2-graph-5",
+    "href": "clases/03/index.html#ros-2-graph-5",
     "title": "Robótica",
-    "section": "Programa",
-    "text": "Programa\n\n4 bloques principales\n\nBloque 2\n\nPercepción\nLocalización y mapeo"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nServicios\nEjemplo\n\n\n\nEl cliente es que el que crea el mensaje inicial\n\nContiene a y b\nEspera por el resultado\n\nEl servidor recibe un mensaje con 2 enteros, los suma y devuelva el resultado sum\n\n\n\n\nAddTwoInts.srv\n\nuint32 a\nuint32 b\n---\nuint32 sum\n\n\n\n\n\nEl cliente es que el que crea el mensaje inicial, que contiene a y b, y espera por el resultado que devuelve el servidor\nEl servidor será la entidad que reciba un mensaje de 2 enteros juntos, a y b, los sume y devuelva el resultado, sum\n\n\n\nDocumentación: ROS Tutorial / ROS Concept"
   },
   {
-    "objectID": "clases/01/index.html#programa-5",
-    "href": "clases/01/index.html#programa-5",
+    "objectID": "clases/03/index.html#ros-2-graph-6",
+    "href": "clases/03/index.html#ros-2-graph-6",
     "title": "Robótica",
-    "section": "Programa",
-    "text": "Programa\n\n4 bloques principales\n\nBloque 3\n\nPlaneamiento\nNavegación"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nAcciones\n\n\n\nIntercambio bidireccional bajo demanda con ejecución prolongada y feedback continuo\n\n\nAnalogía: encomienda con seguimiento\n\nN clientes: solicitan y siguen un pedido\n1 servidor: muestra la ubicación y realiza la entrega\n\n\n\n\n\n\n\n\n\n\n\nOtro método de comunicación para nodos bidireccional pero de larga duración\nFeedback y posibilidad de cancelar\nNo son continuos, solo proveen información cuando son invocados"
   },
   {
-    "objectID": "clases/01/index.html#herramientas-de-trabajo",
-    "href": "clases/01/index.html#herramientas-de-trabajo",
+    "objectID": "clases/03/index.html#ros-2-graph-7",
+    "href": "clases/03/index.html#ros-2-graph-7",
     "title": "Robótica",
-    "section": "Herramientas de trabajo",
-    "text": "Herramientas de trabajo\n\nFramework de robótica: ROS2\nSimulador: Gazebo\nLenguaje de programación: C++ / Python\nIDE: VSCode (potencial en sus extensiones)\nAdicionales:\n\nContenedores: Docker\nControl de versiones: Git (+ GitHub o GitLab)\nEscritura: Latex, Markdown\nDiagramas: Draw.io"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nAcciones\nTopics + Servicios\n\nUna acción está formada por dos partes: el cliente de acción y el servidor de acción\nSolo puede existir un servidor por cada acción\nPueden existir una cantidad N de clientes utilizando la misma acción\n\nProcesos de larga duración\n\nMecanismos para obtener retroalimentación (feedback) y cancelar la operación\n\nIdentificación de acciones\n\nLas acciones se identifican por nombre (misma convención que topics)\n\n\n\nUna accion se refiere a una llamada de procedimiento remoto de larga ejecución con retroalimentación y la habilidad de cancelar el objetivo\nEjemplo: la máquina de estado de alto nivel de un robot le dice al subsistema de navegación que se dirija a un punto -&gt; esto le tomará segundos/minutos -&gt; a lo largo del trayecto, el subsistema de navegación puede proveer feedback de que tan lejos está y la maquina de estado tiene la opción de cancelar o adelantar el trayecto al punto\nUna acción está formada por dos partes: el cliente de acción y el servidor de acción\nEl servidor es el que acepta el requerimiento, lleva a cabo la acción, da feedback y devuelve un resultado\nEl cliente de la acción es el que solicita al servidor para que realice la tarea, recibe el feedback y puede cancelar antes de tiempo\nSolo puede existir un servidor por cada nombre de servicio\nPueden existir una cantidad N de clientes utilizando el mismo nombre de servicio\nSe espera que la ejecución sea larga -&gt; existen mecanismos para iniciar y monitorear la conexión"
   },
   {
-    "objectID": "clases/01/index.html#bibliografía-recursos-oficiales",
-    "href": "clases/01/index.html#bibliografía-recursos-oficiales",
+    "objectID": "clases/03/index.html#ros-2-graph-8",
+    "href": "clases/03/index.html#ros-2-graph-8",
     "title": "Robótica",
-    "section": "Bibliografía Recursos Oficiales",
-    "text": "Bibliografía Recursos Oficiales\n\nROS 2 Documentation, Tutorials\nGazebo\nrospy, ros_control, Nav2\nentre otros… *\n\n\n\n(*) se complementarán según el tema"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nAcciones\nDefiniciones de acciones\n\n\n\nDefinidos en archivos .action utilizando IDL\n3 partes separadas por “---”\n\nUn mensaje de requerimiento\nUn mensaje de respuesta\nUn mensaje de retroalimentación (feedback)\n\n\n\n\n\n\n\n\nCualquiera tres .msg concatenados es una descripción de acción válida\n\n\n\n\n\n\n\naccion.action\n\ntipodecampo1 requerimiento\n---\ntipodecampo2 respuesta\n---\ntipodecampo3 retroalimentacion\n\n\n\n\n\nLas acciones se identifican por nombre y utilizan la misma convención de nombres (pero en otro namespace)\nDefinidos en archivos .action\nEsta estructura se refleja en la definición de mensaje de servicio\n\n\n\nPuede haber una cantidad arbitraria de campos (o 0) de request, una cantidad arbitraria (o 0) de respuesta, una antidad arbitraria (o 0) de feedback\nEl &lt;request_type&gt;, &lt;response_type&gt;, y &lt;feedback_type&gt; siguen todas las mismas reglas de &lt;type&gt; para un mensaje\nEl &lt;request_fieldname&gt;, &lt;response_fieldname&gt;, y &lt;feedback_fieldname&gt; sigue todas las mismas reglas que el &lt;fieldname&gt; para un mensaje\n\n\n\nDocumentación: ROS Action Interface"
   },
   {
-    "objectID": "clases/01/index.html#material-adicional-recomendado",
-    "href": "clases/01/index.html#material-adicional-recomendado",
+    "objectID": "clases/03/index.html#ros-2-graph-9",
+    "href": "clases/03/index.html#ros-2-graph-9",
     "title": "Robótica",
-    "section": "Material adicional recomendado",
-    "text": "Material adicional recomendado\n\nArticulated Robotics\nThe Construct\nETH Zürich - Programming for Robotic (2021)\nAutomatic Addison\n\nBibliografía (muy) complementaria\n\nSpringer Handbook of Robotics\nRobotic Systems (draft), Kris Hauser"
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nAcciones\nEjemplo\n\n\n\nCalcular la secuencia de Fibonacci\n\n\nEl cliente envía el mensaje incial\n\nContiene la cantidad a calcular\n\nEl servidor comienza a calcular los valores\n\nEnvía los valores a medida que los calcula\nAl final devuelve toda la secuencia\n\n\n\n\n\nFibonacci.action\n\nint32 order\n---\nint32[] sequence\n---\nint32[] sequence\n\n\n\n\n\nEl cliente es que el que crea el mensaje inicial, que contiene a y b, y espera por el resultado que devuelve el servidor\nEl servidor será la entidad que reciba un mensaje de 2 enteros juntos, a y b, los sume y devuelva el resultado, sum\n\n\n\nDocumentación: ROS Tutorial / ROS Concept"
+  },
+  {
+    "objectID": "clases/03/index.html#ros-2-graph-10",
+    "href": "clases/03/index.html#ros-2-graph-10",
+    "title": "Robótica",
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nParámetros\n\nValores de configuración del nodo, que pueden variar al inicio (o durante su ejecución) sin cambiar el código\n\nDefiniciones de parámetros\n\n\n\nCada uno consiste en:\n\nUna key (nombre)\nUn valor\nUn tipo (opcionalmente estático)\nUn descriptor \n\n\n\nTipos de parámetros:\n\n  - `bool`\n  - `int64`\n  - `float64`\n  - `string`\n  - `byte[]`\n  - `bool[]`\n  - `int64[]`\n  - `float64[]`\n  - `string[]`\n\n\n\nSe utilizan para configurar nodos al inicio (o durante su ejecución) sin cambiar el código\nSe identifican por nombre del nodo, namespace del nodo, nombre del parámetro y namespace del parámetro (misma convención que topics)\nCada parámetro consiste en una key (nombre), un valor y una descripción\nLa key es una string\nel valor puede ser bool, int64, float64, string, byte[], bool[], int64[], float64[] or string[]\nEl descriptor por defecto está vacío pero puede contener descripción, rango de valores, información del tipo y restricciones adicionales\nCada parámetro tiene un tipo pre-definido -&gt; intentar cambiarlo falla en runtime, para preever errores comunes (poner un valor de bool en un int)\nEsto se puede cambiar en el descriptor del parámetro con la variable dynamic_typing en True"
+  },
+  {
+    "objectID": "clases/03/index.html#ros-2-graph-11",
+    "href": "clases/03/index.html#ros-2-graph-11",
+    "title": "Robótica",
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nParámetros\n\nEl nodo debe declarar todos los parámetros que aceptará (opcional)\n\n\nIdentificación de parámetros\n\nSe identifican por: (misma convención que topics)\n\nnombre del nodo ➡️ namespace del nodo ➡️ nombre del parámetro ➡️ namespace del parámetro\n\nEstán atados al nodo: cuando este termina su ejecución se pierde su valor\n\n\n\nPor defecto, un nodo necesita declarar todos los parámetros que aceptará durante su tiempo de vida\nEl tipo y el nombre deben estar bien definidos al tiempo de inicio del nodo -&gt; reduce los errores de configuración posteriores\nEsto se puede cambiar con el argumento allow_undeclared_parameters en True -&gt; permite setear parámetros no declarados\nLos parámetros están asociados a nodos individuales\nEl tiempo de vida está atado al tiempo de vida del nodo -&gt; cuando este termina su ejecución se pierden (excepto que se implemente un método de recarga al inicio)"
+  },
+  {
+    "objectID": "clases/03/index.html#ros-2-graph-12",
+    "href": "clases/03/index.html#ros-2-graph-12",
+    "title": "Robótica",
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nParámetros\n\nLas operaciones con los parámetros utilizan servicios creados por defecto por ROS2\n\n\nPara facilitar la llamadas a estos servicios se creó el comando ros2 param\n\n\n\nEl valor inicial se puede setear mediante linea de comando o a través de archivos de configuración (YAML)\n\n\n\nLas operaciones con los parámetros utilizan servicios creados por defecto cuando se inicia el nodo\nPara evitar realizar llamadas a estos servicios de forma manual se creó el comando ros2 param para facilitar la interacción con los parámetros de los nodos\nEl valor inicial se puede setear mediante linea de comando o a través de archivos de configuración YAML\nLos nodos pueden reaccionar ante cambios de los parámetros en 3 momentos distintos:\n\nAntes de setear los parámetros (pero sin modificar la lista ni los valores) -&gt; ej: un parámetro2 se necesita cambiar cuando cambia parametro1\nAl setear los parámetros: permite inspeccionar los valores y rechazar ciertos cambios\nLuego de setear los parámetros (comportamiento luego de que los cambios fueron aceptados satisfactoriamente)\n\n\n\n\n\n\nDocumentación: ROS Tutorial / ROS Concept"
+  },
+  {
+    "objectID": "clases/03/index.html#ros-2-graph-13",
+    "href": "clases/03/index.html#ros-2-graph-13",
+    "title": "Robótica",
+    "section": "ROS 2 Graph",
+    "text": "ROS 2 Graph\nResumen\n\n\n\n\n\n\n\n\n\nFeature\nTipo\nInteracción\nMejor caso de uso\n\n\n\n\nTopic\nContinuo\n1 dirección\nDatos de sensor, video de una cámara\n\n\nServicio\nLlamada/Respuesta\n2 direcciones (Rápido)\nInterruptor, obtener el estado\n\n\nAccción\nObjetivo/Feedback/Resultado\n2 direcciones (Largo)\nNavegación, mover un robot\n\n\nParámetro\nConfiguración\nLocal al nodo\nCambiar límite de velocidad, puerto de un sensor"
+  },
+  {
+    "objectID": "clases/03/index.html#laboratorio-1",
+    "href": "clases/03/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\n\nInvocar y analizar servicios\nComandos para setear y obtener parámetros"
+  },
+  {
+    "objectID": "clases/02/lab.html",
+    "href": "clases/02/lab.html",
+    "title": "Clase 02 - Laboratorio",
+    "section": "",
+    "text": "Windows 10 / 11 (WSL)Ubuntu 24.04Docker\n\n\n\n\n\n\n\n\nSe necesitan todas las últimas actualizaciones de Windows instaladas\n\n\n\n\n\n\n\nAbrir una Terminal o PowerShell de Windows y ejecutar:\n\nwsl --install\n\n\nVer salida\n\nLa operación solicitada requiere elevación.\nDescargando: Subsistema de Windows para Linux 2.4.13\nInstalando: Subsistema de Windows para Linux 2.4.13\nSe ha instalado Subsistema de Windows para Linux 2.4.13.\nInstalando componente opcional de Windows: VirtualMachinePlatform\n\nHerramienta Administración y mantenimiento de imágenes de implementación\nVersión: 10.0.26100.1150\n\nVersión de imagen: 10.0.26100.3624\n\nHabilitando características\n[==========================100.0%==========================]\nLa operación se completó correctamente.\nLa operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.\nLa operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.\n\n\n\n\n\n\n\nSe recomienda reiniciar la PC después de esta instalación inicial para finalizar el setup\n\n\n\n\n\n\n\n\nPara ver todas las distribuciones y versiones disponibles:\n\nwsl --list --online\n\n\nVer salida\n\nA continuación, se muestra una lista de las distribuciones válidas que se pueden instalar.\nInstalar con \"wsl.exe --install &lt;Distro&gt;\".\n\nNAME                            FRIENDLY NAME\nAlmaLinux-8                     AlmaLinux OS 8\nAlmaLinux-9                     AlmaLinux OS 9\nAlmaLinux-Kitten-10             AlmaLinux OS Kitten 10\nDebian                          Debian GNU/Linux\nSUSE-Linux-Enterprise-15-SP5    SUSE Linux Enterprise 15 SP5\nSUSE-Linux-Enterprise-15-SP6    SUSE Linux Enterprise 15 SP6\nUbuntu                          Ubuntu\nUbuntu-24.04                    Ubuntu 24.04 LTS\nkali-linux                      Kali Linux Rolling\nopenSUSE-Tumbleweed             openSUSE Tumbleweed\nopenSUSE-Leap-15.6              openSUSE Leap 15.6\nUbuntu-18.04                    Ubuntu 18.04 LTS\nUbuntu-20.04                    Ubuntu 20.04 LTS\nUbuntu-22.04                    Ubuntu 22.04 LTS\nOracleLinux_7_9                 Oracle Linux 7.9\nOracleLinux_8_7                 Oracle Linux 8.7\nOracleLinux_9_1                 Oracle Linux 9.1\n\n\nPara instalar Ubuntu-24.04:\n\nwsl --install -d Ubuntu-24.04\n\n\nVer salida\n\nDescargando: Ubuntu 24.04 LTS\nInstalando: Ubuntu 24.04 LTS\nDistribución instalada correctamente.\n\n\n\n\n\nwsl -d Ubuntu-24.04\n\n\nVer salida\n\nProvisioning the new WSL instance Ubuntu-24.04\nThis might take a while...\nCreate a default Unix user account: ubuntu\nNew password:\nRetype new password:\npasswd: password updated successfully\nTo run a command as administrator (user \"root\"), use \"sudo &lt;command&gt;\".\nSee \"man sudo_root\" for details.\n\n\n\n\n\n\n\n\nProceder con la creación de usuario y contraseña\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoneTraducido de documentation.ubuntu.com/wsl\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdvertenciaActualizar el sistema\n\n\n\nsudo apt update\nsudo apt upgrade -y\n\n\n\n\n\n\nHabilitar el respositorio Universe de Ubuntu\n\nsudo apt install software-properties-common curl -y\nsudo add-apt-repository universe\n\nInstalar ros-apt-source\n\nexport ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F'\"' '{print $4}')\ncurl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"\nsudo dpkg -i /tmp/ros2-apt-source.deb\n\n\n\n\n\nActualizar repositorios apt y asegurar que los paquetes se encuentren actualizados\n\nsudo apt update && sudo apt upgrade -y\n\nInstalar las herramientas de desarrollo\n\nsudo apt install ros-dev-tools\n\n\n\n\n\nInstalación Desktop: ROS, RViz, demos, etc.\n\nsudo apt install ros-jazzy-desktop -y\n\n\n\n\n\n\n\nNoneTraducido de docs.ros.org\n\n\n\n\n\n\n\n\n\n\n\n\nInstalar y configurar Docker según el sistema operativo, utilizando los siguientes pasos\n\n\n\n\n\nInstalar Docker Desktop 2.0 (o superior)\nSi se utiliza WSL 2 en Windows, asegurarse de que WSL 2 back-end está habilitado: Click derecho en el ícono de Docker y seleccionar Configuración (o Settings). Seleccionar Utilizar motor basado en WSL 2 (o Use the WSL 2 based engine) y verificar que la distribución está habilitada en Recursos &gt; Integración WSL (o Resources &gt; WSL Integration).\nSi no se utiliza WSL 2 back-end, click derecho en el ícono de Docker, seleccionar Configuración (o Settings) y actualizar Recursos &gt; Compartir archivos (o Resources &gt; File Sharing) con cualquier ubicación donde se almacene el código fuente. Ver tips and tricks para solucionar problemas.\n\n\n\n\n\nSeguir las instrucciones oficiales de instalación para Docker CE/EE según la distribución. Si está utilizando Docker Compose, seguir las instrucciones de Docker Compose también.\nAgregar el usuario al grupo docker utilizando una terminal y ejecutando:\n\nsudo usermod -aG docker $USER\n\nCerrar sesión y volver a loguearse para aplicar los cambios\n\n\n\n\n\nInstalar Visual Studio Code\nInstalar la extensión Dev Containers. Si planea trabajar con otras extensiones remotas en VS Code, quizás prefiera instalar el pack de extensiones Remote Development\n\n\n\n\n\n\n\nNoneTraducido de code.visualstudio.com/docs\n\n\n\n\n\n\n\n\n\n\nDentro del workspace crear la carpeta .devcontainer y dentro el archivo devcontainer.json con el siguiente contenido\n\n\n\nVer contenido del archivo\n\n// For format details, see https://aka.ms/devcontainer.json.\n{\n    \"name\": \"TUAR - ROS2 Jazzy\",\n    \"image\": \"registry.gitlab.com/acapovilla/ros-docker-images/ros2/jazzy-noble-desktop-full:latest\",\n    // Workspace setup\n    \"workspaceMount\": \"source=${localWorkspaceFolder},target=/workspaces/catkin_ws,type=bind,consistency=cached\",\n    \"workspaceFolder\": \"/workspaces/catkin_ws\",\n    \"containerUser\": \"ubuntu\",\n\n    // Features to add to the dev container. More info: https://containers.dev/features.\n    \"features\": {\n        \"ghcr.io/devcontainers/features/common-utils:2\": {\n            \"installZsh\": true,\n            \"installOhMyZsh\": true,\n            \"installOhMyZshConfig\": true,\n            \"nonFreePackages\": true,\n            \"username\": \"ubuntu\",\n            \"userUid\": \"automatic\",\n            \"userGid\": \"automatic\",\n            \"upgradePackages\": false\n        }\n    },\n\n    // Use 'forwardPorts' to make a list of ports inside the container available locally.\n    // \"forwardPorts\": [],\n\n    // Use 'postCreateCommand' to run commands after the container is created.\n    \"postCreateCommand\": \"sudo apt update && rosdep update\",\n    \n    \"onCreateCommand\": \"echo 'source /opt/ros/$ROS_DISTRO/setup.bash' &gt;&gt; /home/ubuntu/.bashrc\",\n\n    // Configure tool-specific properties.\n    \"customizations\": {\n        \"vscode\": {\n            \"extensions\": [\n                \"ms-vscode.cpptools\",\n                \"ms-iot.vscode-ros\",\n                \"twxs.cmake\",\n                \"mutantdino.resourcemonitor\",\n                \"donjayamanne.python-environment-manager\",\n                \"KevinRose.vsc-python-indent\",\n                \"VisualStudioExptTeam.vscodeintellicode\",\n                \"ms-python.vscode-pylance\",\n                \"ms-vscode.cmake-tools\"\n            ]\n        }\n    },\n\n    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n    \"remoteUser\": \"ubuntu\",\n\n    \"containerEnv\": {\n        // Display configuration\n        \"DISPLAY\": \"${localEnv:DISPLAY}\"\n    },\n\n    \"mounts\": [\n        // X-Server\n        \"type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly=false\"\n    ],\n\n    \"runArgs\": [\n        \"--device=/dev/dri:/dev/dri\",\n        \"--privileged\"\n        // \"--volume=/dev:/dev\"\n        // \"--net=host\"\n    ]  \n}\n\n\n\n\n\n\nCtrl+Shift+P o F1 ➡️ Reopen in container\n\n\n\n\n\n\n\n\n\n\nConfigurar el entorno:\n\nsource /opt/ros/jazzy/setup.bash\n\n\n\n\n\n\nSe debe configurar el entorno siempre que se abra una nueva terminal\n\n\n\n\nPara realizar este paso automáticamente puede agregarlo a su archivo ~/.bashrc\n\necho \"source /opt/ros/jazzy/setup.bash\" &gt;&gt; ~/.bashrc\n\nVerificar la variable de entorno: ROS_DOMAIN_ID\n\nprintenv | grep ROS\nSalida esperada:\nROS_VERSION=2\nROS_PYTHON_VERSION=3\nROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET\nROS_DISTRO=jazzy\n\n\nObtener ayuda desde la terminal:\n\nros2 --help"
+  },
+  {
+    "objectID": "clases/02/lab.html#configuración-del-entorno",
+    "href": "clases/02/lab.html#configuración-del-entorno",
+    "title": "Clase 02 - Laboratorio",
+    "section": "",
+    "text": "Configurar el entorno:\n\nsource /opt/ros/jazzy/setup.bash\n\n\n\n\n\n\nSe debe configurar el entorno siempre que se abra una nueva terminal\n\n\n\n\nPara realizar este paso automáticamente puede agregarlo a su archivo ~/.bashrc\n\necho \"source /opt/ros/jazzy/setup.bash\" &gt;&gt; ~/.bashrc\n\nVerificar la variable de entorno: ROS_DOMAIN_ID\n\nprintenv | grep ROS\nSalida esperada:\nROS_VERSION=2\nROS_PYTHON_VERSION=3\nROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET\nROS_DISTRO=jazzy\n\n\nObtener ayuda desde la terminal:\n\nros2 --help"
+  },
+  {
+    "objectID": "clases/02/lab.html#instalación-de-paquetes-de-demostración",
+    "href": "clases/02/lab.html#instalación-de-paquetes-de-demostración",
+    "title": "Clase 02 - Laboratorio",
+    "section": "2.1 Instalación de paquetes de demostración",
+    "text": "2.1 Instalación de paquetes de demostración\n\n\n\n\n\n\nRecuerda actualizar el índice de paquetes con sudo apt update\n\n\n\n\n\nPara instalar el paquete demo-nodes-py ejecutar:\n\nsudo apt install ros-jazzy-demo-nodes-py\n\nPara ver los paquetes instalados\n\nros2 pkg executables\n\nPara ver los ejecutables de un paquete\n\n\n  $ ros2 pkg executables &lt;nombre_paquete&gt;\n\n\nros2 pkg executables demo_nodes_py"
+  },
+  {
+    "objectID": "clases/02/lab.html#nodos-talker-y-listener",
+    "href": "clases/02/lab.html#nodos-talker-y-listener",
+    "title": "Clase 02 - Laboratorio",
+    "section": "2.2 Nodos talker y listener",
+    "text": "2.2 Nodos talker y listener\n\nComando para ejecutar nodos\n\n  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;\n\n\nPara ejecutar el nodo talker del paquete demo_nodes_py\nros2 run demo_nodes_py talker\ny en otra terminal para ejecutar el nodo listener\nros2 run demo_nodes_py listener\n\n\n\n\n\n\nRecuerda configurar el entorno correctamente en ambas terminales\n\n\n\n\n\n\n\n\n\n\nPara detener el nodo: Ctrl+C\n\n\n\n\n\nListar los nodos\nros2 node list\n\n\nObtener información del nodo\n\n  $ ros2 node info &lt;nombre_nodo&gt;\n\n\nros2 node info /talker"
+  },
+  {
+    "objectID": "clases/02/lab.html#topics",
+    "href": "clases/02/lab.html#topics",
+    "title": "Clase 02 - Laboratorio",
+    "section": "2.3 Topics ",
+    "text": "2.3 Topics \n\nListar los topics\nros2 topic list\n\n\n\n\n\n\nPuedes añadir la opción -t para ver el tipo de topic\n\n\n\n\n\nObtener información del topic\n\n  $ ros2 topic info &lt;nombre_topic&gt;\n\n\nros2 topic info /chatter\n\n\n\n\n\n\nPuedes añadir la opción -v para ver toda la información\n\n\n\n\n\nObtener información del tipo de topic\n\n  $ ros2 topic type &lt;nombre_topic&gt;\n\n\nros2 topic type /chatter\n\n\nVer los mensajes que pasan por un topic\n\n  $ ros2 topic echo &lt;nombre_topic&gt;\n\n\nros2 topic echo /chatter\n\n\nMedir la frecuencia con la que se publican mensajes\n\n  $ ros2 topic hz &lt;nombre_topic&gt;\n\n\nros2 topic hz /chatter\n\n\nListar los topics según el tipo de mensaje\n\n  $ ros2 topic find &lt;tipo_de_topic&gt;\n\n\nros2 topic find std_msgs/msg/String"
+  },
+  {
+    "objectID": "clases/02/lab.html#interfaces-mensajes",
+    "href": "clases/02/lab.html#interfaces-mensajes",
+    "title": "Clase 02 - Laboratorio",
+    "section": "2.4 Interfaces: Mensajes",
+    "text": "2.4 Interfaces: Mensajes\n\nObtener información de la interfaz de mensaje\n\n  $ ros2 interface show &lt;tipo_de_mensaje&gt;\n\n\nros2 interface show std_msgs/msg/String\n\n\nPublicar mensajes en un topic\n\n  $ ros2 topic pub &lt;nombre_del_topic&gt;\n      &lt;nombre_del_tipo_de_mensaje&gt; '&lt;contenido&gt;'\n\n\nros2 topic pub /chatter std_msgs/msg/String \"{data: Mensaje de prueba}\"\n\n\n\n\n\n\nPuedes añadir la opción --once para publicar una sola vez"
+  },
+  {
+    "objectID": "clases/02/lab.html#herramientas-de-visualización",
+    "href": "clases/02/lab.html#herramientas-de-visualización",
+    "title": "Clase 02 - Laboratorio",
+    "section": "2.5 Herramientas de visualización",
+    "text": "2.5 Herramientas de visualización\n\nVer el grafo de nodos y topics\nros2 run rqt_graph rqt_graph\n\n\nVisualizar los topics y mensajes\nros2 run rqt_topic rqt_topic\n\n\n\n\n\n\nEn caso de no encontrar los paquetes, instalar ros-jazzy-rqt-graph y ros-jazzy-rqt-topic"
+  },
+  {
+    "objectID": "clases/index.html",
+    "href": "clases/index.html",
+    "title": "Clases",
+    "section": "",
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nPaquetes y librerías. rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Robótica 2026",
+    "section": "",
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nPaquetes y librerías. rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
   },
   {
     "objectID": "clases/02/index.html#robot-operating-system-2-1",
@@ -336,73 +434,122 @@
     "text": "Intro línea de comandos\n\nGestionar los paquetes apt\n\n\n\n\n\n\n\n\n\nActualizar el índice de paquetes\napt update\n\n\nInstalar paquetes\nsudo apt install &lt;paquete&gt;\n\n\nInstala nuevas vestiones de paquetes\nsudo apt upgrade\n\n\nListar paquetes\napt list"
   },
   {
-    "objectID": "clases/02/index.html#laboratorio",
-    "href": "clases/02/index.html#laboratorio",
+    "objectID": "clases/02/index.html#laboratorio-1",
+    "href": "clases/02/index.html#laboratorio-1",
     "title": "Robótica",
     "section": "Laboratorio",
     "text": "Laboratorio\n\nInstalación de ROS2\nEmisor / Receptor\nComandos para análisis de nodos, topics y mensajes"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Robótica 2026",
+    "objectID": "clases/01/index.html#organización-de-la-materia-1",
+    "href": "clases/01/index.html#organización-de-la-materia-1",
+    "title": "Robótica",
+    "section": "Organización de la materia",
+    "text": "Organización de la materia\n\nDocente: Tec. Agustín Capovilla\nCursado: Martes de 15:00 a 17:00 (T/P) 1\nComunicación: vía email (o por Classroom)\nRepositorio: robotica-tuar-unl.github.io/fichtar16-2026\n\nclases de consulta a coordinar"
+  },
+  {
+    "objectID": "clases/01/index.html#evaluaciones",
+    "href": "clases/01/index.html#evaluaciones",
+    "title": "Robótica",
+    "section": "Evaluaciones",
+    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\n\n\n\n\n\n\nCon sus respectivas instancias de recuperación"
+  },
+  {
+    "objectID": "clases/01/index.html#evaluaciones-1",
+    "href": "clases/01/index.html#evaluaciones-1",
+    "title": "Robótica",
+    "section": "Evaluaciones",
+    "text": "Evaluaciones\n\n3 trabajos prácticos integradores\n\nCodiciones de aprobación\n\nPara regularizar\n\nAprobación de al menos 2\n\nPara promocionar\n\nAprobación de todos los trabajos con mínimo de 60% + promedio mínimo de 70%"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-1",
+    "href": "clases/01/index.html#programa-1",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-2",
+    "href": "clases/01/index.html#programa-2",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 0\n\nRobot Operating System (ROS 2)"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-3",
+    "href": "clases/01/index.html#programa-3",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 1\n\nCinemática\nSimulación y control"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-4",
+    "href": "clases/01/index.html#programa-4",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 2\n\nPercepción\nLocalización y mapeo"
+  },
+  {
+    "objectID": "clases/01/index.html#programa-5",
+    "href": "clases/01/index.html#programa-5",
+    "title": "Robótica",
+    "section": "Programa",
+    "text": "Programa\n\n4 bloques principales\n\nBloque 3\n\nPlaneamiento\nNavegación"
+  },
+  {
+    "objectID": "clases/01/index.html#herramientas-de-trabajo",
+    "href": "clases/01/index.html#herramientas-de-trabajo",
+    "title": "Robótica",
+    "section": "Herramientas de trabajo",
+    "text": "Herramientas de trabajo\n\nFramework de robótica: ROS2\nSimulador: Gazebo\nLenguaje de programación: C++ / Python\nIDE: VSCode (potencial en sus extensiones)\nAdicionales:\n\nContenedores: Docker\nControl de versiones: Git (+ GitHub o GitLab)\nEscritura: Latex, Markdown\nDiagramas: Draw.io"
+  },
+  {
+    "objectID": "clases/01/index.html#bibliografía-recursos-oficiales",
+    "href": "clases/01/index.html#bibliografía-recursos-oficiales",
+    "title": "Robótica",
+    "section": "Bibliografía Recursos Oficiales",
+    "text": "Bibliografía Recursos Oficiales\n\nROS 2 Documentation, Tutorials\nGazebo\nrospy, ros_control, Nav2\nentre otros… *\n\n\n\n(*) se complementarán según el tema"
+  },
+  {
+    "objectID": "clases/01/index.html#material-adicional-recomendado",
+    "href": "clases/01/index.html#material-adicional-recomendado",
+    "title": "Robótica",
+    "section": "Material adicional recomendado",
+    "text": "Material adicional recomendado\n\nArticulated Robotics\nThe Construct\nETH Zürich - Programming for Robotic (2021)\nAutomatic Addison\n\nBibliografía (muy) complementaria\n\nSpringer Handbook of Robotics\nRobotic Systems (draft), Kris Hauser"
+  },
+  {
+    "objectID": "clases/03/lab.html",
+    "href": "clases/03/lab.html",
+    "title": "Clase 03 - Laboratorio",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n\n\n\n\n\n\n\n5\n14/04\nPaquetes y librerías. rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+    "text": "Configurar el entorno:\n\nsource /opt/ros/jazzy/setup.bash\n\n\n\n\n\n\nSe debe configurar el entorno siempre que se abra una nueva terminal\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipPara ejecutar\n\n\n\n    $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;\n\n\n\n\n\n\n\n\n\n\nros2 service list\nPara también ver el tipo de servicio, añadir la opción --show-types o -t:\nros2 service list -t\n\n\n\n\n\n\nPor cada nodo se pueden observar 6 servicios con la palabra parameters en el nombre. Estos servicios son los por defecto para la manipulación de parámetros.\n\n\n\n\n\n\n\nPara obtener el tipo de un servicio:\n\n\n  $ ros2 service type &lt;nombre_servicio&gt;\n\n\nros2 service type /add_two_ints\n\nPara obtener la definición del tipo de servicio:\n\n\n  $ ros2 interface show &lt;nombre_tipo_servicio&gt;\n\n\nros2 interface show example_interfaces/srv/AddTwoInts\n\nPara obtener información del servicio en sí (clientes, servidor, etc):\n\n\n  $ ros2 service info &lt;nombre_nodo&gt;\n\n\n\n\n\nPara enviar un requerimiento manual a un servidor\n\n\n  $ ros2 service call &lt;nombre_servicio&gt; \n      &lt;nombre_tipo_servicio&gt; &lt;argumentos&gt;\n\n\nros2 service call /add_two_ints example_interfaces/srv/AddTwoInts \"{a: 7, b: 12}\"\n\n\n\n\n  $ ros2 service find &lt;nombre_tipo_servicio&gt;\n\n\nros2 service find example_interfaces/srv/AddTwoInts"
   },
   {
-    "objectID": "clases/index.html",
-    "href": "clases/index.html",
-    "title": "Clases",
+    "objectID": "clases/03/lab.html#preparar-el-escenario",
+    "href": "clases/03/lab.html#preparar-el-escenario",
+    "title": "Clase 03 - Laboratorio",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n\n\n\n\n\n\n\n5\n14/04\nPaquetes y librerías. rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n\n\n\n\n\n\n\n6\n21/04\nProgramación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación.\n\n\n\n\n\n\n\n7\n28/04\nParámetros en nodos. roslaunch, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.\n\n\n\n\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+    "text": "TipPara ejecutar\n\n\n\n    $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;"
   },
   {
-    "objectID": "clases/02/lab.html",
-    "href": "clases/02/lab.html",
-    "title": "Clase 02 - Laboratorio",
+    "objectID": "clases/03/lab.html#interacción-con-servicios",
+    "href": "clases/03/lab.html#interacción-con-servicios",
+    "title": "Clase 03 - Laboratorio",
     "section": "",
-    "text": "Windows 10 / 11 (WSL)Ubuntu 24.04Docker\n\n\n\n\n\n\n\n\nSe necesitan todas las últimas actualizaciones de Windows instaladas\n\n\n\n\n\n\n\nAbrir una Terminal o PowerShell de Windows y ejecutar:\n\nwsl --install\n\n\nVer salida\n\nLa operación solicitada requiere elevación.\nDescargando: Subsistema de Windows para Linux 2.4.13\nInstalando: Subsistema de Windows para Linux 2.4.13\nSe ha instalado Subsistema de Windows para Linux 2.4.13.\nInstalando componente opcional de Windows: VirtualMachinePlatform\n\nHerramienta Administración y mantenimiento de imágenes de implementación\nVersión: 10.0.26100.1150\n\nVersión de imagen: 10.0.26100.3624\n\nHabilitando características\n[==========================100.0%==========================]\nLa operación se completó correctamente.\nLa operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.\nLa operación solicitada se realizó correctamente. Los cambios se aplicarán una vez que se reinicie el sistema.\n\n\n\n\n\n\n\nSe recomienda reiniciar la PC después de esta instalación inicial para finalizar el setup\n\n\n\n\n\n\n\n\nPara ver todas las distribuciones y versiones disponibles:\n\nwsl --list --online\n\n\nVer salida\n\nA continuación, se muestra una lista de las distribuciones válidas que se pueden instalar.\nInstalar con \"wsl.exe --install &lt;Distro&gt;\".\n\nNAME                            FRIENDLY NAME\nAlmaLinux-8                     AlmaLinux OS 8\nAlmaLinux-9                     AlmaLinux OS 9\nAlmaLinux-Kitten-10             AlmaLinux OS Kitten 10\nDebian                          Debian GNU/Linux\nSUSE-Linux-Enterprise-15-SP5    SUSE Linux Enterprise 15 SP5\nSUSE-Linux-Enterprise-15-SP6    SUSE Linux Enterprise 15 SP6\nUbuntu                          Ubuntu\nUbuntu-24.04                    Ubuntu 24.04 LTS\nkali-linux                      Kali Linux Rolling\nopenSUSE-Tumbleweed             openSUSE Tumbleweed\nopenSUSE-Leap-15.6              openSUSE Leap 15.6\nUbuntu-18.04                    Ubuntu 18.04 LTS\nUbuntu-20.04                    Ubuntu 20.04 LTS\nUbuntu-22.04                    Ubuntu 22.04 LTS\nOracleLinux_7_9                 Oracle Linux 7.9\nOracleLinux_8_7                 Oracle Linux 8.7\nOracleLinux_9_1                 Oracle Linux 9.1\n\n\nPara instalar Ubuntu-24.04:\n\nwsl --install -d Ubuntu-24.04\n\n\nVer salida\n\nDescargando: Ubuntu 24.04 LTS\nInstalando: Ubuntu 24.04 LTS\nDistribución instalada correctamente.\n\n\n\n\n\nwsl -d Ubuntu-24.04\n\n\nVer salida\n\nProvisioning the new WSL instance Ubuntu-24.04\nThis might take a while...\nCreate a default Unix user account: ubuntu\nNew password:\nRetype new password:\npasswd: password updated successfully\nTo run a command as administrator (user \"root\"), use \"sudo &lt;command&gt;\".\nSee \"man sudo_root\" for details.\n\n\n\n\n\n\n\n\nProceder con la creación de usuario y contraseña\n\n\n\n\n\n\n\n\n\n\n\n\n\nNoneTraducido de documentation.ubuntu.com/wsl\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdvertenciaActualizar el sistema\n\n\n\nsudo apt update\nsudo apt upgrade -y\n\n\n\n\n\n\nHabilitar el respositorio Universe de Ubuntu\n\nsudo apt install software-properties-common curl -y\nsudo add-apt-repository universe\n\nInstalar ros-apt-source\n\nexport ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F'\"' '{print $4}')\ncurl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"\nsudo dpkg -i /tmp/ros2-apt-source.deb\n\n\n\n\n\nActualizar repositorios apt y asegurar que los paquetes se encuentren actualizados\n\nsudo apt update && sudo apt upgrade -y\n\nInstalar las herramientas de desarrollo\n\nsudo apt install ros-dev-tools\n\n\n\n\n\nInstalación Desktop: ROS, RViz, demos, etc.\n\nsudo apt install ros-jazzy-desktop -y\n\n\n\n\n\n\n\nNoneTraducido de docs.ros.org\n\n\n\n\n\n\n\n\n\n\n\n\nInstalar y configurar Docker según el sistema operativo, utilizando los siguientes pasos\n\n\n\n\n\nInstalar Docker Desktop 2.0 (o superior)\nSi se utiliza WSL 2 en Windows, asegurarse de que WSL 2 back-end está habilitado: Click derecho en el ícono de Docker y seleccionar Configuración (o Settings). Seleccionar Utilizar motor basado en WSL 2 (o Use the WSL 2 based engine) y verificar que la distribución está habilitada en Recursos &gt; Integración WSL (o Resources &gt; WSL Integration).\nSi no se utiliza WSL 2 back-end, click derecho en el ícono de Docker, seleccionar Configuración (o Settings) y actualizar Recursos &gt; Compartir archivos (o Resources &gt; File Sharing) con cualquier ubicación donde se almacene el código fuente. Ver tips and tricks para solucionar problemas.\n\n\n\n\n\nSeguir las instrucciones oficiales de instalación para Docker CE/EE según la distribución. Si está utilizando Docker Compose, seguir las instrucciones de Docker Compose también.\nAgregar el usuario al grupo docker utilizando una terminal y ejecutando:\n\nsudo usermod -aG docker $USER\n\nCerrar sesión y volver a loguearse para aplicar los cambios\n\n\n\n\n\nInstalar Visual Studio Code\nInstalar la extensión Dev Containers. Si planea trabajar con otras extensiones remotas en VS Code, quizás prefiera instalar el pack de extensiones Remote Development\n\n\n\n\n\n\n\nNoneTraducido de code.visualstudio.com/docs\n\n\n\n\n\n\n\n\n\n\nDentro del workspace crear la carpeta .devcontainer y dentro el archivo devcontainer.json con el siguiente contenido\n\n\n\nVer contenido del archivo\n\n// For format details, see https://aka.ms/devcontainer.json.\n{\n    \"name\": \"TUAR - ROS2 Jazzy\",\n    \"image\": \"registry.gitlab.com/acapovilla/ros-docker-images/ros2/jazzy-noble-desktop-full:latest\",\n    // Workspace setup\n    \"workspaceMount\": \"source=${localWorkspaceFolder},target=/workspaces/catkin_ws,type=bind,consistency=cached\",\n    \"workspaceFolder\": \"/workspaces/catkin_ws\",\n    \"containerUser\": \"ubuntu\",\n\n    // Features to add to the dev container. More info: https://containers.dev/features.\n    \"features\": {\n        \"ghcr.io/devcontainers/features/common-utils:2\": {\n            \"installZsh\": true,\n            \"installOhMyZsh\": true,\n            \"installOhMyZshConfig\": true,\n            \"nonFreePackages\": true,\n            \"username\": \"ubuntu\",\n            \"userUid\": \"automatic\",\n            \"userGid\": \"automatic\",\n            \"upgradePackages\": false\n        }\n    },\n\n    // Use 'forwardPorts' to make a list of ports inside the container available locally.\n    // \"forwardPorts\": [],\n\n    // Use 'postCreateCommand' to run commands after the container is created.\n    \"postCreateCommand\": \"sudo apt update && rosdep update\",\n    \n    \"onCreateCommand\": \"echo 'source /opt/ros/$ROS_DISTRO/setup.bash' &gt;&gt; /home/ubuntu/.bashrc\",\n\n    // Configure tool-specific properties.\n    \"customizations\": {\n        \"vscode\": {\n            \"extensions\": [\n                \"ms-vscode.cpptools\",\n                \"ms-iot.vscode-ros\",\n                \"twxs.cmake\",\n                \"mutantdino.resourcemonitor\",\n                \"donjayamanne.python-environment-manager\",\n                \"KevinRose.vsc-python-indent\",\n                \"VisualStudioExptTeam.vscodeintellicode\",\n                \"ms-python.vscode-pylance\",\n                \"ms-vscode.cmake-tools\"\n            ]\n        }\n    },\n\n    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n    \"remoteUser\": \"ubuntu\",\n\n    \"containerEnv\": {\n        // Display configuration\n        \"DISPLAY\": \"${localEnv:DISPLAY}\"\n    },\n\n    \"mounts\": [\n        // X-Server\n        \"type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,readonly=false\"\n    ],\n\n    \"runArgs\": [\n        \"--device=/dev/dri:/dev/dri\",\n        \"--privileged\"\n        // \"--volume=/dev:/dev\"\n        // \"--net=host\"\n    ]  \n}\n\n\n\n\n\n\nCtrl+Shift+P o F1 ➡️ Reopen in container\n\n\n\n\n\n\n\n\n\n\nConfigurar el entorno:\n\nsource /opt/ros/jazzy/setup.bash\n\n\n\n\n\n\nSe debe configurar el entorno siempre que se abra una nueva terminal\n\n\n\n\nPara realizar este paso automáticamente puede agregarlo a su archivo ~/.bashrc\n\necho \"source /opt/ros/jazzy/setup.bash\" &gt;&gt; ~/.bashrc\n\nVerificar la variable de entorno: ROS_DOMAIN_ID\n\nprintenv | grep ROS\nSalida esperada:\nROS_VERSION=2\nROS_PYTHON_VERSION=3\nROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET\nROS_DISTRO=jazzy\n\n\nObtener ayuda desde la terminal:\n\nros2 --help"
+    "text": "ros2 service list\nPara también ver el tipo de servicio, añadir la opción --show-types o -t:\nros2 service list -t\n\n\n\n\n\n\nPor cada nodo se pueden observar 6 servicios con la palabra parameters en el nombre. Estos servicios son los por defecto para la manipulación de parámetros.\n\n\n\n\n\n\n\nPara obtener el tipo de un servicio:\n\n\n  $ ros2 service type &lt;nombre_servicio&gt;\n\n\nros2 service type /add_two_ints\n\nPara obtener la definición del tipo de servicio:\n\n\n  $ ros2 interface show &lt;nombre_tipo_servicio&gt;\n\n\nros2 interface show example_interfaces/srv/AddTwoInts\n\nPara obtener información del servicio en sí (clientes, servidor, etc):\n\n\n  $ ros2 service info &lt;nombre_nodo&gt;\n\n\n\n\n\nPara enviar un requerimiento manual a un servidor\n\n\n  $ ros2 service call &lt;nombre_servicio&gt; \n      &lt;nombre_tipo_servicio&gt; &lt;argumentos&gt;\n\n\nros2 service call /add_two_ints example_interfaces/srv/AddTwoInts \"{a: 7, b: 12}\"\n\n\n\n\n  $ ros2 service find &lt;nombre_tipo_servicio&gt;\n\n\nros2 service find example_interfaces/srv/AddTwoInts"
   },
   {
-    "objectID": "clases/02/lab.html#configuración-del-entorno",
-    "href": "clases/02/lab.html#configuración-del-entorno",
-    "title": "Clase 02 - Laboratorio",
-    "section": "",
-    "text": "Configurar el entorno:\n\nsource /opt/ros/jazzy/setup.bash\n\n\n\n\n\n\nSe debe configurar el entorno siempre que se abra una nueva terminal\n\n\n\n\nPara realizar este paso automáticamente puede agregarlo a su archivo ~/.bashrc\n\necho \"source /opt/ros/jazzy/setup.bash\" &gt;&gt; ~/.bashrc\n\nVerificar la variable de entorno: ROS_DOMAIN_ID\n\nprintenv | grep ROS\nSalida esperada:\nROS_VERSION=2\nROS_PYTHON_VERSION=3\nROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET\nROS_DISTRO=jazzy\n\n\nObtener ayuda desde la terminal:\n\nros2 --help"
+    "objectID": "clases/03/lab.html#preparar-el-escenario-1",
+    "href": "clases/03/lab.html#preparar-el-escenario-1",
+    "title": "Clase 03 - Laboratorio",
+    "section": "2.1 Preparar el escenario",
+    "text": "2.1 Preparar el escenario\n\nEjecutar nodo demostración set_parameters_callback del paquete demo_nodes_py"
   },
   {
-    "objectID": "clases/02/lab.html#instalación-de-paquetes-de-demostración",
-    "href": "clases/02/lab.html#instalación-de-paquetes-de-demostración",
-    "title": "Clase 02 - Laboratorio",
-    "section": "2.1 Instalación de paquetes de demostración",
-    "text": "2.1 Instalación de paquetes de demostración\n\n\n\n\n\n\nRecuerda actualizar el índice de paquetes con sudo apt update\n\n\n\n\n\nPara instalar el paquete demo-nodes-py ejecutar:\n\nsudo apt install ros-jazzy-demo-nodes-py\n\nPara ver los paquetes instalados\n\nros2 pkg executables\n\nPara ver los ejecutables de un paquete\n\n\n  $ ros2 pkg executables &lt;nombre_paquete&gt;\n\n\nros2 pkg executables demo_nodes_py"
-  },
-  {
-    "objectID": "clases/02/lab.html#nodos-talker-y-listener",
-    "href": "clases/02/lab.html#nodos-talker-y-listener",
-    "title": "Clase 02 - Laboratorio",
-    "section": "2.2 Nodos talker y listener",
-    "text": "2.2 Nodos talker y listener\n\nComando para ejecutar nodos\n\n  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;\n\n\nPara ejecutar el nodo talker del paquete demo_nodes_py\nros2 run demo_nodes_py talker\ny en otra terminal para ejecutar el nodo listener\nros2 run demo_nodes_py listener\n\n\n\n\n\n\nRecuerda configurar el entorno correctamente en ambas terminales\n\n\n\n\n\n\n\n\n\n\nPara detener el nodo: Ctrl+C\n\n\n\n\n\nListar los nodos\nros2 node list\n\n\nObtener información del nodo\n\n  $ ros2 node info &lt;nombre_nodo&gt;\n\n\nros2 node info /talker"
-  },
-  {
-    "objectID": "clases/02/lab.html#topics",
-    "href": "clases/02/lab.html#topics",
-    "title": "Clase 02 - Laboratorio",
-    "section": "2.3 Topics ",
-    "text": "2.3 Topics \n\nListar los topics\nros2 topic list\n\n\n\n\n\n\nPuedes añadir la opción -t para ver el tipo de topic\n\n\n\n\n\nObtener información del topic\n\n  $ ros2 topic info &lt;nombre_topic&gt;\n\n\nros2 topic info /chatter\n\n\n\n\n\n\nPuedes añadir la opción -v para ver toda la información\n\n\n\n\n\nObtener información del tipo de topic\n\n  $ ros2 topic type &lt;nombre_topic&gt;\n\n\nros2 topic type /chatter\n\n\nVer los mensajes que pasan por un topic\n\n  $ ros2 topic echo &lt;nombre_topic&gt;\n\n\nros2 topic echo /chatter\n\n\nMedir la frecuencia con la que se publican mensajes\n\n  $ ros2 topic hz &lt;nombre_topic&gt;\n\n\nros2 topic hz /chatter\n\n\nListar los topics según el tipo de mensaje\n\n  $ ros2 topic find &lt;tipo_de_topic&gt;\n\n\nros2 topic find std_msgs/msg/String"
-  },
-  {
-    "objectID": "clases/02/lab.html#interfaces-mensajes",
-    "href": "clases/02/lab.html#interfaces-mensajes",
-    "title": "Clase 02 - Laboratorio",
-    "section": "2.4 Interfaces: Mensajes",
-    "text": "2.4 Interfaces: Mensajes\n\nObtener información de la interfaz de mensaje\n\n  $ ros2 interface show &lt;tipo_de_mensaje&gt;\n\n\nros2 interface show std_msgs/msg/String\n\n\nPublicar mensajes en un topic\n\n  $ ros2 topic pub &lt;nombre_del_topic&gt;\n      &lt;nombre_del_tipo_de_mensaje&gt; '&lt;contenido&gt;'\n\n\nros2 topic pub /chatter std_msgs/msg/String \"{data: Mensaje de prueba}\"\n\n\n\n\n\n\nPuedes añadir la opción --once para publicar una sola vez"
-  },
-  {
-    "objectID": "clases/02/lab.html#herramientas-de-visualización",
-    "href": "clases/02/lab.html#herramientas-de-visualización",
-    "title": "Clase 02 - Laboratorio",
-    "section": "2.5 Herramientas de visualización",
-    "text": "2.5 Herramientas de visualización\n\nVer el grafo de nodos y topics\nros2 run rqt_graph rqt_graph\n\n\nVisualizar los topics y mensajes\nros2 run rqt_topic rqt_topic\n\n\n\n\n\n\nEn caso de no encontrar los paquetes, instalar ros-jazzy-rqt-graph y ros-jazzy-rqt-topic"
+    "objectID": "clases/03/lab.html#interacción-con-parámetros",
+    "href": "clases/03/lab.html#interacción-con-parámetros",
+    "title": "Clase 03 - Laboratorio",
+    "section": "2.2 Interacción con parámetros",
+    "text": "2.2 Interacción con parámetros\n\nListar todos los parámetros de todos los nodos\nros2 param list\n\n\n\n\n\n\nPor cada nodo existen parámetros por defecto como por ejemplo use_sim_time\n\n\n\n\n\nObtener información acerca de un parámetro\n\n  $ ros2 param describe &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;\n\nros2 param describe /set_parameters_callback param1\n\n\nObtener el tipo y valor actual de un parámetro\n\n  $ ros2 param get &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;\n\nros2 param get /set_parameters_callback param1\n\n\nEstablecer el valor de un parámetro\n\n  $ ros2 param set &lt;nombre_nodo&gt; &lt;nombre_parametro&gt; &lt;valor&gt;\n\nros2 param set /set_parameters_callback param1 1.0\n\n\nObtener el valor actual de todos los parámetros de un nodo\n\n  $ ros2 param dump &lt;nombre_nodo&gt;\n\nros2 param dump /set_parameters_callback\n\n\n\n\n\n\nPuedes utilizar este comando para “descargar” todos los valores a un archivo con el operador &gt;\nPor ejemplo:\nros2 param dump /set_parameters_callback &gt; archivo_parametros.yaml\n\n\n\n\n\nCargar un archivo de parámetros durante la ejecución\n\n  $ ros2 param load &lt;nombre_nodo&gt; &lt;nombre_archivo&gt;\n\n\n\n\n\n\n\nLos parámetros de solo lectura pueden modificarse solo en el inicio del nodo\n\n\n\n\n\nCargar un archivo de parámetros al momento de ejecutar nodos\n\n  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt; --ros-args \n      --params-file &lt;nombre_archivo&gt;"
   }
 ]
