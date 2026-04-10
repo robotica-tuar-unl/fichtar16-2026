@@ -1,0 +1,194 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Servicios
+
+- Configurar el entorno:
+```{.bash }
+source /opt/ros/jazzy/setup.bash
+```
+
+::: {.callout-warning appearance="simple"}
+Se debe configurar el entorno siempre que se abra una nueva terminal
+:::
+
+## Preparar el escenario
+
+#### Ejecutar el nodo de demostración `add_two_ints_server` del paquete `demo_nodes_py`
+
+::: {.callout-tip title="Para ejecutar"}
+        $ ros2 run <nombre_paquete> <nombre_ejecutable>
+:::
+
+---------
+
+<!-- ```{.bash code-line-numbers="false"}
+    $ ros2 run demo_nodes_py add_two_ints_server
+``` -->
+
+## Interacción con servicios
+
+
+#### Listar todos los servicios
+
+```{.bash code-line-numbers="false"}
+ros2 service list
+```
+
+Para también ver el tipo de servicio, añadir la opción `--show-types` o `-t`:
+
+```{.bash code-line-numbers="false"}
+ros2 service list -t
+```
+
+::: {.callout-note appearance="simple"}
+Por cada nodo se pueden observar 6 servicios con la palabra `parameters` en el nombre. Estos servicios son los por defecto para la manipulación de parámetros.
+:::
+
+
+#### Obtener información acerca de un servicio
+
+- Para obtener el tipo de un servicio:
+
+>       $ ros2 service type <nombre_servicio>
+
+---------
+
+```{.bash code-line-numbers="false"}
+ros2 service type /add_two_ints
+```
+
+- Para obtener la [definición]{.underline} del tipo de servicio:
+
+>       $ ros2 interface show <nombre_tipo_servicio>
+
+---------
+
+```{.bash code-line-numbers="false"}
+ros2 interface show example_interfaces/srv/AddTwoInts
+```
+
+
+- Para obtener información del servicio en sí (clientes, servidor, etc):
+
+>       $ ros2 service info <nombre_nodo>
+
+
+#### Invocar un servicio
+
+- Para enviar un requerimiento manual a un servidor
+
+>       $ ros2 service call <nombre_servicio> 
+>           <nombre_tipo_servicio> <argumentos>
+
+---------
+
+```{.bash code-line-numbers="false"}
+ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 7, b: 12}"
+```
+
+#### Buscar un servicio por tipo
+
+>       $ ros2 service find <nombre_tipo_servicio>
+
+---------
+
+```{.bash code-line-numbers="false"}
+ros2 service find example_interfaces/srv/AddTwoInts
+```
+
+# Parámetros
+
+## Preparar el escenario
+
+#### Ejecutar nodo demostración `set_parameters_callback` del paquete `demo_nodes_py`
+   
+---------
+
+<!-- ```{.bash code-line-numbers="false"}
+    $ ros2 run demo_nodes_py add_two_ints_server
+``` -->
+
+## Interacción con parámetros
+
+#### Listar todos los parámetros de todos los nodos
+
+```{.bash code-line-numbers="false"}
+ros2 param list
+```
+
+::: {.callout-note appearance="simple"}
+Por cada nodo existen parámetros por defecto como por ejemplo `use_sim_time`
+:::
+
+
+#### Obtener información acerca de un parámetro
+
+>       $ ros2 param describe <nombre_nodo> <nombre_parametro>
+
+```{.bash code-line-numbers="false"}
+ros2 param describe /set_parameters_callback param1
+```
+
+#### Obtener el tipo y valor actual de un parámetro
+
+>       $ ros2 param get <nombre_nodo> <nombre_parametro>
+
+```{.bash code-line-numbers="false"}
+ros2 param get /set_parameters_callback param1
+```
+
+#### Establecer el valor de un parámetro
+
+>       $ ros2 param set <nombre_nodo> <nombre_parametro> <valor>
+
+```{.bash code-line-numbers="false"}
+ros2 param set /set_parameters_callback param1 1.0
+```
+
+#### Obtener el valor actual de todos los parámetros de un nodo
+
+>       $ ros2 param dump <nombre_nodo>
+
+```{.bash code-line-numbers="false"}
+ros2 param dump /set_parameters_callback
+```
+
+::: {.callout-tip appearance="simple"}
+Puedes utilizar este comando para "descargar" todos los valores a un archivo con el operador `>`
+
+[Por ejemplo]{.underline}:
+```{.bash code-line-numbers="false"}
+ros2 param dump /set_parameters_callback > archivo_parametros.yaml
+```
+:::
+
+#### Cargar un archivo de parámetros durante la ejecución
+
+>       $ ros2 param load <nombre_nodo> <nombre_archivo>
+
+::: {.callout-note appearance="simple"}
+Los parámetros de solo lectura pueden modificarse solo en el inicio del nodo
+:::
+
+#### Cargar un archivo de parámetros al momento de ejecutar nodos
+
+>       $ ros2 run <nombre_paquete> <nombre_ejecutable> --ros-args 
+>           --params-file <nombre_archivo>
+

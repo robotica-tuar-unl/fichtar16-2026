@@ -1,0 +1,179 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Revisión clase 2}
+\begin{itemize}
+    \item \textbf{Nodos}, \textbf{Topics} y \textbf{Mensajes}
+    \item Comandos más utilizados
+\end{itemize}
+
+<!-- \section{Servicios, Acciones y Parámetros}
+
+\begin{itemize}
+    \item Modos de comunicación en ROS (además de \textbf{Topics}):
+    \begin{itemize}
+        \item \textbf{Servicios}: comunicación bidireccional bajo demanda
+        \item \textbf{Acciones}: comunicación bidireccional con ejecución prolongada
+        \item \textbf{Parámetros}: configuración de nodos
+    \end{itemize}
+\end{itemize} -->
+
+\section{Servicios}
+\begin{itemize}
+    \item Basados en un modelo de “llamada-respuesta” (\textit{call-and-response}) % comunicación \textit{cliente-servidor} bajo demanda (\textit{call-response})
+    \begin{itemize}
+        \item Intercambio bidireccional no continuo, solo proveen información cuando son invocados.
+        \item Solo existe un servidor pero pueden existir muchos clientes
+        \item Identificados por nombre (misma convención que \textit{topics})
+        \item \textbf{Atómicos}: deben ser rápidos (no usar para procesos largos)
+        % \item Son definidos en archivos \texttt{.srv}.
+    \end{itemize}
+    
+    \item \textbf{Definición}: archivos \texttt{.srv}
+    \begin{itemize}
+        \item Dos partes separadas por \texttt{---}:
+        \begin{itemize}
+            \item Requerimiento (\textit{request})
+            \item Respuesta (\textit{response})
+        \end{itemize}
+        \item Basados en tipos de mensajes (\texttt{.msg})
+    \end{itemize}
+\end{itemize}
+
+
+\section{Acciones}
+\begin{itemize}
+    \item Comunicación bidireccional para procesos de larga duración basado en topics y servicios.
+    \begin{itemize}
+        \item Similar a servicios, se agrega \textbf{feedback} y método para \textbf{cancelación}
+        \item Solo existe un servidor pero pueden existir muchos clientes
+        \item Identificadas por nombre (misma convención que \textit{topics})
+        \item Permiten monitorear el progreso
+    \end{itemize}
+    
+    \item \textbf{Definición}: archivos \texttt{.action}
+    \begin{itemize}
+        \item Tres partes separadas por \texttt{---}:
+        \begin{itemize}
+            \item Requerimiento/Objetivo (\textit{goal})
+            \item Resultado (\textit{result})
+            \item Retroalimentación/Estado (\textit{feedback})
+        \end{itemize}
+        \item Basados en tipos de mensajes (\texttt{.msg})
+    \end{itemize}
+\end{itemize}
+
+
+\section{Parámetros}
+\begin{itemize}
+    \item Valores de configuración de un nodo
+    \begin{itemize}
+        \item Se definen al inicio o durante ejecución
+        \item Evitan modificar el código
+        \item Asociados al nodo (se pierden al finalizar)
+    \end{itemize}
+    
+    \item \textbf{Estructura}:
+    \begin{itemize}
+        \item Nombre (\textit{key})
+        \item Valor
+        \item Tipo (opcionalmente dinámico)
+        \item Descriptor (opcional)
+    \end{itemize}
+    
+    \item \textbf{Tipos soportados}:
+    \begin{itemize}
+        \item \texttt{bool}, \texttt{int64}, \texttt{float64}, \texttt{string}
+        \item Arreglos de los anteriores
+    \end{itemize}
+    
+    \item \textbf{Identificación}:
+    \begin{itemize}
+        \item Misma convención que \textit{topics} (nombre + namespace)
+        \item El nodo puede declarar los parámetros que acepta
+    \end{itemize}
+\end{itemize}
+
+\pagebreak
+
+\section{Laboratorio}
+\subsubsection*{Instalación paquetes de demostración (clase anterior)}
+\begin{verbatim}
+    sudo apt install ros-jazzy-demo-nodes-py
+\end{verbatim}
+
+\subsection{Nodos}
+Obtener información de servicios y acciones disponibles para cada nodo:
+\begin{verbatim}
+    ros2 node info <nombre_nodo>
+\end{verbatim}
+
+\subsection{Servicios}
+Listar los Servicios: % Análisis de Servicios:
+\begin{verbatim}
+    ros2 service list    
+\end{verbatim}
+Obtener información:
+\begin{verbatim}
+    ros2 service type <nombre_servicio>
+    ros2 service show <nombre_tipo_servicio>
+\end{verbatim}
+Invocar un servicio:
+\begin{verbatim}
+    ros2 service call <nombre_servicio> <nombre_tipo_servicio> <argumentos>
+\end{verbatim}
+
+<!-- \subsection{Acciones}
+Listar las acciones: % Análisis de Acciones:
+\begin{verbatim}
+    ros2 action list    
+\end{verbatim}
+Obtener información:
+\begin{verbatim}
+    ros2 action info 
+    ros2 interface show <nombre_accion>
+\end{verbatim}
+Invocar una acción:
+\begin{verbatim}
+     ros2 action send_goal <nombre_accion> <tipo_accion> <valor> [--feedback]
+\end{verbatim} -->
+
+\subsection{Parámetros}
+Listar los parámetros:
+\begin{verbatim}
+    ros2 param list    
+\end{verbatim}
+Obtener y establecer el valor de un parámetro:
+\begin{verbatim}
+    ros2 param get <nombre_nodo> <nombre_parametro>
+    ros2 param set <nombre_nodo> <nombre_parametro> <valor>
+\end{verbatim}
+Obtener el valor de los parámetros de un nodo:
+\begin{verbatim}
+     ros2 param dump <nombre_nodo>
+\end{verbatim}
+Cargar un archivo de parámetros:
+\begin{verbatim}
+    ros2 param load <nombre_nodo> <archivo>
+\end{verbatim}
+Pasar un archivo de parámetros al momento de ejecutar nodos:
+\begin{verbatim}
+    ros2 run <nombre_paquete> <nombre_ejecutable> --ros-args --params-file <archivo>
+\end{verbatim}
+

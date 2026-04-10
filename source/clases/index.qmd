@@ -9,7 +9,7 @@ El siguiente cronograma puede sufrir modificaciones o ser actualizado con el cor
 |1  | 17/03 | Introducción a la Robótica. Organización de la materia. Herramientas de trabajo. | [🖥️](/clases/01/slides.qmd "Slides"){aria-label="Clase 1 slides"} | [📝](/clases/01/notas.qmd "Notas"){aria-label="Clase 1 notas"} | |
 |2  | 24/03 | **Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia** | |
 |3  | 31/03 | ROS2: Definición y propósito. Conceptos básicos (nodos, *topics*, mensajes, contexto). Instalación y ejemplos básicos. | [🖥️](/clases/02/slides.qmd "Slides"){aria-label="Clase 2 slides"} | [📝](/clases/02/notas.qmd "Notas"){aria-label="Clase 2 notas"} | | [🧪](/clases/02/lab.html "Lab"){aria-label="Clase 2 lab"} | |
-|4  | 07/04 | ROS2: Componentes adicionales (contexto, parámetros, servicios). Paquete y librerías. Ejercicios de aplicación. | |
+|4  | 07/04 | ROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación. | [🖥️](/clases/03/slides.qmd "Slides"){aria-label="Clase 3 slides"} | [📝](/clases/03/notas.qmd "Notas"){aria-label="Clase 3 notas"} | | [🧪](/clases/03/lab.html "Lab"){aria-label="Clase 3 lab"} | |
 |5  | 14/04 | Revisión conceptos clase anterior. Programación de nodos, compilación y ejecución. | |
 |6  | 21/04 | Programación Orientada a Objetos aplicada en ROS2. Ejemplos de aplicación. | |
 |7  | 28/04 | Parámetros en nodos. `roslaunch`, uso en proyectos de ROS2. Logging. Práctica integradora unidad 1.  | |

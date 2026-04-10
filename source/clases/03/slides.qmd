@@ -1,0 +1,536 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+output-file: index.html
+---
+
+# Resumen Clase 02 {visibility="hidden"}
+
+## Resumen [Clase 02](../02/slides.qmd) {.smaller}
+
+### [ROS 2 *Graph*]{.underline}
+ 
+- ### `Nodos`
+- ### `Topics`
+- ### `Mensajes`
+
+
+::: {.notes}
+Algunos comandos más usados (run, node list, node info, topic list, topic info, topic echo, rqt_graph)
+:::
+
+## Resumen [Clase 02](../02/slides.qmd) {.smaller}
+
+### [Nombres y `namespace`]{.underline}
+ 
+:::: {.columns}
+::: {.column width="50%"}
+
+[**Tipos**]{.underline}
+
+- #### Global
+- #### Relativo
+- #### Base
+- #### Privado
+:::
+
+::: {.column width="50%"}
+
+<br>
+
+```{.default code-line-numbers="false"}
+/
+├── sim1/
+│   └── robot/
+│       ├── cmd_vel         /sim1/robot/cmd_vel
+│       └── odometry        /sim1/robot/odometry
+└── sim2/
+    └── robot/
+        ├── cmd_vel         /sim2/robot/cmd_vel
+        └── odometry        /sim2/robot/odometry
+
+Base:       robot
+
+Privado:    ~/cmd_vel 
+            ~/odometry
+```
+:::
+::::
+
+## ROS 2 *Graph* 
+
+> 3 modos de comunicación
+
+1. *Topics* ([Clase 02](../02/slides.qmd))
+2. *Servicios* &nbsp;&nbsp; ⬅️ 
+3. *Acciones* &nbsp;&nbsp; ⬅️
+
+
+# Servicios {visibility="hidden"}
+
+## ROS 2 *Graph* {.smaller}
+
+### `Servicios`
+
+:::: {.columns}
+::: {.column width="45%"}
+
+> Intercambio de datos bidireccional entre nodos bajo demanda
+
+- [Analogía]{.underline}: **búsqueda en la web**
+  - **N** *clientes*: ingresan los términos de búsqueda
+  - **1** *servidor*: responde con los mejores resultados
+
+:::
+::: {.column width="55%"}
+
+![](https://docs.ros.org/en/jazzy/_images/Service-MultipleServiceClient.gif){fig-align="center"}
+
+:::
+::::
+
+
+::: {.notes}
+- Otro método de comunicación para nodos pero bidireccional
+- Basados en un modelo de “llamada-respuesta” (call-and-response)
+- No son continuos, solo proveen información cuando son invocados
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Servicios`
+
+#### [Cliente / Servidor]{.underline}
+
+- Un servicio está formado por dos partes: el cliente de servicio y el servidor de servicio
+- Solo puede existir **1** servidor por cada servicio
+- Pueden existir una cantidad **N** de clientes utilizando servicio
+
+#### [Atómicos]{.underline}
+
+- Nunca deben ser usados para procesos largos
+
+#### [Identificación de servicio]{.underline}
+
+- Los servicios se identifican por nombre (misma convención que *topics*)
+
+::: {.notes}
+- Un servicio se refiere a la llamada a un procedimiento remoto
+- Un nodo puede realizar una llamada a un procedimiento remoto a otro nodo que realiza una acción/computo y devuelve un resultado
+
+- Un servicio está formado por dos partes: El servidor de servicio y el cliente de servicio
+- El servidor es el que acepta el requerimiento, realiza alguna acción/computo al respecto y devuelve un resultado
+- El cliente del servicio es el que solicita al servidor para que realice una acción/computo
+
+- Solo puede existir un servidor por cada nombre de servicio 
+- Pueden existir una cantidad N de clientes utilizando el mismo nombre de servicio
+
+- Se espera que un servicio devuelva el resultado rapidamente, dado que el nodo está esperando el resultado -> Nunca deben ser usados para procesos largos 
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Servicios`
+
+#### [Definiciones de servicio]{.underline}
+
+:::: {.columns}
+::: {.column width="60%"}
+
+- Definidos en archivos `.srv` utilizando `IDL`
+- 2 partes separadas por "`---`"
+  - Un mensaje de requerimiento
+  - Un mensaje de respuesta
+
+::: {.callout-note appearance="simple"}
+Cualquiera dos `.msg` concatenados es una descripción de servicio válida
+:::
+
+<!-- ::: {.callout-warning appearance="simple"}
+No se pueden embeber un servicio adentro de otro servicio
+::: -->
+
+:::
+::: {.column width="40%"}
+
+```{.default filename="servicio.srv" code-line-numbers="false"}
+tipodecampo1 requerimiento
+---
+tipodecampo2 respuesta
+```
+
+:::
+::::
+
+::: {.aside}
+Documentación: [ROS Service Interface](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html#services)
+:::
+
+::: {.notes}
+- Los servicios se identifican por nombre y utilizan la misma convención de nombres (pero en otro *namespace*)
+- Definidos en archivos `.srv`
+- Esta estructura se refleja en la definición de mensaje de servicio
+
+<!-- ```
+uint32 request
+---
+uint32 response
+``` -->
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Servicios`
+
+#### [Ejemplo]{.underline}
+
+:::: {.columns}
+::: {.column width="60%"}
+
+- El cliente es que el que crea el mensaje inicial
+  - Contiene `a` y `b`
+  - Espera por el resultado
+
+- El servidor recibe un mensaje con `2` enteros, los suma y devuelva el resultado `sum`
+
+:::
+::: {.column width="40%"}
+
+```{.default filename="AddTwoInts.srv" code-line-numbers="false"}
+uint32 a
+uint32 b
+---
+uint32 sum
+```
+
+:::
+::::
+
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Services.html){target="_blank"}
+:::
+
+::: {.notes}
+- El cliente es que el que crea el mensaje inicial, que contiene `a` y `b`, y espera por el resultado que devuelve el servidor
+- El servidor será la entidad que reciba un mensaje de 2 enteros juntos, `a` y `b`, los sume y devuelva el resultado, `sum`
+:::
+
+# Acciones {visibility="hidden"}
+
+## ROS 2 *Graph* {.smaller}
+
+### `Acciones`
+
+:::: {.columns}
+::: {.column width="45%"}
+
+> Intercambio bidireccional bajo demanda con ejecución prolongada y *feedback* continuo
+
+- [Analogía]{.underline}: **encomienda con seguimiento**
+  - **N** *clientes*: solicitan y siguen un pedido
+  - **1** *servidor*: muestra la ubicación y realiza la entrega 
+
+:::
+::: {.column width="55%"}
+
+![](https://docs.ros.org/en/jazzy/_images/Action-SingleActionClient.gif){fig-align="center"}
+
+:::
+::::
+
+
+::: {.notes}
+- Otro método de comunicación para nodos bidireccional pero de larga duración
+- Feedback y posibilidad de cancelar
+- No son continuos, solo proveen información cuando son invocados
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### `Acciones`
+
+#### [*Topics* + Servicios]{.underline}
+
+- Una acción está formada por dos partes: el cliente de acción y el servidor de acción
+- Solo puede existir un servidor por cada acción
+- Pueden existir una cantidad N de clientes utilizando la misma acción
+
+#### [Procesos de larga duración]{.underline}
+
+- Mecanismos para obtener retroalimentación (*feedback*) y cancelar la operación
+
+#### [Identificación de acciones]{.underline}
+
+- Las acciones se identifican por nombre (misma convención que *topics*)
+
+::: {.notes}
+- Una accion se refiere a una llamada de procedimiento remoto de larga ejecución con retroalimentación y la habilidad de cancelar el objetivo
+- Ejemplo: la máquina de estado de alto nivel de un robot le dice al subsistema de navegación que se dirija a un punto -> esto le tomará segundos/minutos -> a lo largo del trayecto, el subsistema de navegación puede proveer feedback de que tan lejos está y la maquina de estado tiene la opción de cancelar o adelantar el trayecto al punto
+
+- Una acción está formada por dos partes: el cliente de acción y el servidor de acción
+- El servidor es el que acepta el requerimiento, lleva a cabo la acción, da feedback y devuelve un resultado
+- El cliente de la acción es el que solicita al servidor para que realice la tarea, recibe el feedback y puede cancelar antes de tiempo
+
+- Solo puede existir un servidor por cada nombre de servicio
+- Pueden existir una cantidad N de clientes utilizando el mismo nombre de servicio
+
+- Se espera que la ejecución sea larga -> existen mecanismos para iniciar y monitorear la conexión
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Acciones`
+
+#### [Definiciones de acciones]{.underline}
+
+:::: {.columns}
+::: {.column width="60%"}
+
+- Definidos en archivos `.action` utilizando `IDL`
+- 3 partes separadas por "`---`"
+  - Un mensaje de requerimiento
+  - Un mensaje de respuesta
+  - Un mensaje de retroalimentación (*feedback*)
+
+::: {.callout-note appearance="simple"}
+Cualquiera tres `.msg` concatenados es una descripción de acción válida
+:::
+
+<!-- ::: {.callout-warning appearance="simple"}
+No se pueden embeber un servicio adentro de otro servicio
+::: -->
+
+:::
+::: {.column width="40%"}
+
+```{.default filename="accion.action" code-line-numbers="false"}
+tipodecampo1 requerimiento
+---
+tipodecampo2 respuesta
+---
+tipodecampo3 retroalimentacion
+```
+
+:::
+::::
+
+
+::: {.aside}
+Documentación: [ROS Action Interface](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Interfaces.html#actions)
+:::
+
+
+::: {.notes}
+- Las acciones se identifican por nombre y utilizan la misma convención de nombres (pero en otro *namespace*)
+- Definidos en archivos `.action`
+- Esta estructura se refleja en la definición de mensaje de servicio
+
+<!-- ```
+int32 request
+---
+int32 response
+---
+int32 feedback
+``` -->
+
+- Puede haber una cantidad arbitraria de campos (o 0) de *request*, una cantidad arbitraria (o 0) de *respuesta*, una antidad arbitraria (o 0) de *feedback*
+
+- El `<request_type>`, `<response_type>`, y `<feedback_type>` siguen todas las mismas reglas de `<type>` para un mensaje
+- El `<request_fieldname>`, `<response_fieldname>`, y `<feedback_fieldname>` sigue todas las mismas reglas que el `<fieldname>` para un mensaje
+
+:::
+
+
+## ROS 2 *Graph* {.smaller}
+
+### `Acciones`
+
+#### [Ejemplo]{.underline}
+
+:::: {.columns}
+::: {.column width="60%"}
+
+> Calcular la secuencia de Fibonacci
+
+- El cliente envía el mensaje incial 
+  - Contiene la cantidad a calcular
+
+- El servidor comienza a calcular los valores
+  - Envía los valores a medida que los calcula
+  - Al final devuelve toda la secuencia
+
+:::
+::: {.column width="40%"}
+
+```{.default filename="Fibonacci.action" code-line-numbers="false"}
+int32 order
+---
+int32[] sequence
+---
+int32[] sequence
+```
+
+:::
+::::
+
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Actions/Understanding-ROS2-Actions.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Actions.html){target="_blank"}
+:::
+
+::: {.notes}
+- El cliente es que el que crea el mensaje inicial, que contiene `a` y `b`, y espera por el resultado que devuelve el servidor
+- El servidor será la entidad que reciba un mensaje de 2 enteros juntos, `a` y `b`, los sume y devuelva el resultado, `sum`
+:::
+
+
+# Parámetros {visibility="hidden"}
+
+## ROS 2 *Graph* {.smaller}
+
+### `Parámetros`
+
+> Valores de configuración del nodo, que pueden variar al inicio (o durante su ejecución) sin cambiar el código
+
+#### [Definiciones de parámetros]{.underline}
+
+:::: {.columns}
+::: {.column width="55%"}
+
+
+- Cada uno consiste en:
+  - Una *key* (nombre)
+  - Un valor
+  - Un tipo (opcionalmente estático) 
+  - Un descriptor <!-- descripción, rango de valores, información del tipo y restricciones adicionales, etc -->
+
+:::
+::: {.column width="45%"}
+
+```{.markdown code-line-numbers="false"}
+Tipos de parámetros:
+
+  - `bool`
+  - `int64`
+  - `float64`
+  - `string`
+  - `byte[]`
+  - `bool[]`
+  - `int64[]`
+  - `float64[]`
+  - `string[]`
+```
+
+:::
+::::
+
+
+
+::: {.notes}
+- Se utilizan para configurar nodos al inicio (o durante su ejecución) sin cambiar el código
+
+
+- Se identifican por nombre del nodo, *namespace* del nodo, nombre del parámetro y *namespace* del parámetro (misma convención que *topics*)
+- Cada parámetro consiste en una *key* (nombre), un valor y una descripción
+- La *key* es una `string`
+- el valor puede ser `bool`, `int64`, `float64`, `string`, `byte[]`, `bool[]`, `int64[]`, `float64[]` or `string[]`
+- El descriptor por defecto está vacío pero puede contener descripción, rango de valores, información del tipo y restricciones adicionales
+
+
+- Cada parámetro tiene un tipo pre-definido -> intentar cambiarlo falla en *runtime*, para preever errores comunes (poner un valor de `bool` en un `int`)
+- Esto se puede cambiar en el descriptor del parámetro con la variable `dynamic_typing` en `True`
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Parámetros`
+
+> El nodo debe declarar todos los parámetros que aceptará (opcional)
+
+<br>
+
+#### [Identificación de parámetros]{.underline}
+
+- Se identifican por: (misma convención que *topics*)
+  - nombre del nodo ➡️ *namespace* del nodo ➡️ nombre del parámetro ➡️ *namespace* del parámetro 
+
+- Están atados al nodo: cuando este termina su ejecución se pierde su valor
+
+::: {.notes}
+- Por defecto, un nodo necesita declarar todos los parámetros que aceptará durante su tiempo de vida
+- El tipo y el nombre deben estar bien definidos al tiempo de inicio del nodo -> reduce los errores de configuración posteriores
+- Esto se puede cambiar con el argumento `allow_undeclared_parameters` en `True` -> permite setear parámetros no declarados
+
+- Los parámetros están asociados a nodos individuales
+- El tiempo de vida está atado al tiempo de vida del nodo -> cuando este termina su ejecución se pierden (excepto que se implemente un método de recarga al inicio)
+:::
+
+## ROS 2 *Graph* {.smaller}
+
+### `Parámetros`
+
+> Las operaciones con los parámetros utilizan servicios creados por defecto por ROS2
+
+- Para facilitar la llamadas a estos servicios se creó el comando `ros2 param`
+
+<br>
+
+- El valor inicial se puede setear mediante linea de comando o a través de archivos de configuración (*YAML*)
+
+::: {.notes}
+- Las operaciones con los parámetros utilizan servicios creados por defecto cuando se inicia el nodo
+- Para evitar realizar llamadas a estos servicios de forma manual se creó el comando `ros2 param` para facilitar la interacción con los parámetros de los nodos
+
+- El valor inicial se puede setear mediante linea de comando o a través de archivos de configuración *YAML*
+ 
+- Los nodos pueden reaccionar ante cambios de los parámetros en 3 momentos distintos:
+  - Antes de setear los parámetros (pero sin modificar la lista ni los valores) -> ej: un parámetro2 se necesita cambiar cuando cambia parametro1
+  - Al setear los parámetros: permite inspeccionar los valores y rechazar ciertos cambios
+  - Luego de setear los parámetros (comportamiento luego de que los cambios fueron aceptados satisfactoriamente)
+
+:::
+
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters/Understanding-ROS2-Parameters.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Parameters.html){target="_blank"}
+:::
+
+
+# Resumen {visibility="hidden"}
+
+## ROS 2 *Graph* {.smaller}
+
+### [Resumen]{.underline}
+
+| Feature   | Tipo                          | Interacción             | Mejor caso de uso                                 |
+|-----------|-------------------------------|-------------------------|---------------------------------------------------|
+| *Topic*   | Continuo                      | 1 dirección             | Datos de sensor, video de una cámara              |
+| Servicio  | Llamada/Respuesta             | 2 direcciones (Rápido)  | Interruptor, obtener el estado                    |
+| Accción   | Objetivo/*Feedback*/Resultado | 2 direcciones (Largo)   | Navegación, mover un robot                        |
+| Parámetro | Configuración                 | Local al nodo           | Cambiar límite de velocidad, puerto de un sensor  |
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+- Invocar y analizar servicios
+- Comandos para setear y obtener parámetros
+
