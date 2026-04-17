@@ -1,0 +1,264 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+
+\section{Entorno, Espacio de trabajo y Paquetes de ROS}
+
+\subsection{Entorno de ROS}
+Dos niveles
+\begin{itemize}
+    \item \textit{underlay}: Paquetes de ROS2 instalados (\texttt{/opt/ros/jazzy/*}). Contiene las dependencias del \textit{overlay}.
+    \item \textit{overlay}: Entorno de desarrollo donde se programan los nuevos paquetes (\texttt{ros\_ws/*}). Sobre-escribe paquetes del \textit{underlay}.
+\end{itemize}
+
+\subsection{Espacio de trabajo}
+Estructura de carpetas que contiene paquetes
+\begin{itemize}
+    \item \texttt{src}: Donde se encuentra el código fuente (crear y editar paquetes)
+    \item \texttt{build}: Archivos intermedios de compilación
+    \item \texttt{install}: Los paquetes o \textit{targets} instalados
+    \item \texttt{log}: Información de debug
+\end{itemize}
+
+\subsection{Paquete}
+Contenedor o marco del código. Contiene (o puede contener) código fuente, archivos launch, archivos de configuración, definición de mensajes, datos, documentación, etc. La estructura permite instalar el propio código y compartirlo de forma rápida.<br>
+Archivos mínimos para paquetes \textbf{Python} <!-- para cada paquete por separado -->
+\begin{itemize}
+    \item \texttt{package.xml}: información acerca del paquete
+    \item \texttt{setup.py}: instrucciones para instalar el paquete
+    \item \texttt{setup.cfg}: usado por ROS para encontrar los ejecutables (en el caso de que existan)
+    \item \texttt{/<nombre\_paquete>}: Carpeta con el mismo nombre del paquete junto con el archivo \texttt{\_\_init\_\_.py} utilizado por las herramientas de ROS2
+\end{itemize}
+
+\subsection{Uso de nombres}
+\begin{itemize}
+    \item de paquete: en estructura de archivos, \texttt{package.xml}, \texttt{setup.cfg}, \texttt{setup.py}, linea de comando
+    \item de archivo: en estructura de archivos y \texttt{setup.py}
+    \item de ejecutable: \texttt{setup.py} y linea de comando
+    \item de nodo: código y linea de comando
+\end{itemize}
+
+\pagebreak
+
+\section{\texttt{rclpy}: ROS Client Library para Python}
+Librería que permite el acceso a los elementos de ROS desde la sintaxis de Python utilizando tipos y patrones nativos. Componentes principales de la librería: Inicialización y \textit{spinning}. Gestión de nodos, Topics, Servicios. Subscriber/Publisher. Parámetros y Logging (así como servicios, acciones y elementos de sincronización)
+
+Documentación completa en: \url{docs.ros2.org/latest/api/rclpy/index.html}
+
+\subsection{Partes básicas de un programa}
+\begin{itemize}
+    \item Inicialización: \texttt{rclpy.init(..)} Debe ser llamado antes de cualquier otra función de ROS. Define el contexto.
+    \item Creación de 1 o más nodos: \texttt{rclpy.create\_node(..)} El nodo es el punto de acceso al sistema de ROS (topics, servicios, parámetros, etc). % En el caso de utilizar clases (POO) sería a través de una instancia de ‘node’.
+    \item Procesamiento de tareas (\textit{spinnign}): \texttt{rclpy.spin(..)} Procesar los callbacks y demás rutinas
+    \item Apagado: \texttt{rclpy.shutdown()}
+\end{itemize}
+
+\subsection{Manejo de nodos}
+\begin{itemize}
+    \item Crear un publisher:  \texttt{node.create\_publisher(..)} Tipo de mensaje, nombre del topic
+    \item Crear un subscriptor:  \texttt{node.create\_subscription(..)} Tipo de mensaje, nombre del topic, callback
+    \item Timer:  \texttt{node.create\_timer(..)} Período, callback. Para realizar tareas en un período deseado.
+    \item Loggear: \texttt{node.get\_logger()} Mensajes en consola
+\end{itemize}
+
+
+\section{Callbacks}
+Porción de código que es pasada como argumento, a otra parte de código, que se espera sea ejecutado (\textit{call back}) en un momento conveniente. 
+
+
+\section*{Dependencias, ejecutable y compilación}*
+
+\pagebreak
+
+\section{Laboratorio}
+\subsection{Creación del paquete}
+
+\subsubsection*{Creación del workspace}
+\begin{verbatim}
+    mkdir -p ros_ws/src
+    cd ros_ws
+    colcon build
+\end{verbatim}
+
+\subsubsection*{Creación del paquete en Python}
+\begin{verbatim}
+    cd src
+    ros2 pkg create --build-type ament_python <nombre_paquete>
+\end{verbatim}
+
+\subsubsection*{package.xml}
+Completar descripción, licencia, y maintainer.
+
+\begin{verbatim}
+<?xml version="1.0"?>
+<?xml-model
+    href="http://download.ros.org/schema/package_format3.xsd"
+    schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
+    <name>nombre_paquete</name>
+    <version>1.0.0</version>
+    <description>descripción</description>
+    <maintainer email="user@todo.todo">user</maintainer>
+    <license>LICENCIA</license>
+
+    <exec_depend>rclpy</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
+
+    <export>
+        <build_type>ament_python</build_type>
+    </export>
+</package>
+\end{verbatim}
+
+\subsubsection*{setup.py}
+\begin{verbatim}
+from setuptools import setup
+
+package_name = 'nombre_paquete'
+
+setup(
+    name=package_name,
+    version='1.0.0',
+    packages=find_packages(exclude=['test']),
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='user',
+    maintainer_email='user@todo.todo',
+    description='descripción',
+    license='LICENCIA',
+    tests_require=['pytest'],
+    entry_points={
+        'console_scripts': [
+            'nombre_ejecutable = nombre_paquete.nombre_archivo_fuente:main'
+        ],
+    },
+)
+\end{verbatim}
+
+\subsubsection*{setup.cfg}
+\begin{verbatim}
+[develop]
+script_dir=$base/lib/nombre_paquete
+[install]
+install_scripts=$base/lib/nombre_paquete
+\end{verbatim}
+
+\subsection{Programación nodo publisher}
+\begin{verbatim}
+import rclpy
+# Importar el tipo de mensaje String
+from std_msgs.msg import String
+
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+
+    # 2. Creación de nodo
+    nodo = rclpy.create_node('publicador')   # Nombre del nodo
+
+    # 2.1 Creación de publisher: Tipo=String, Nombre='chat', Queue=10
+    pub = nodo.create_publisher(String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    msg = String()    # Crear un mensaje de tipo String (std_msgs/msg/String)
+    i = 0
+
+     # 2.3 Programación de la función de callback que será llamada por el timer
+    def timer_callback():
+        nonlocal i
+        # Rellenar el contenido del campo 'data' del mensaje
+        msg.data = f'Mensaje de prueba {i}'
+        # Publicar el mensaje
+        pub.publish(msg)
+        
+        # Escribir en la terminal a modo de debug
+        nodo.get_logger().info(f'Publicando: "{msg.data}"')
+        i += 1
+
+    # Cada medio segundo publicar un mensaje
+    timer_period = 0.5  # seconds
+    # 2.4 Creación del timer
+    timer = node.create_timer(timer_period, timer_callback)
+
+    # 3. Procesamiento de mensajes y callback
+    rclpy.spin(nodo)
+
+    # 4. Finalización
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+\end{verbatim}
+
+\subsection{Compilar y ejecutar}
+Volver a la carpeta \texttt{ros\_ws}
+
+\subsubsection*{Instalar dependencias}
+\begin{verbatim}
+    rosdep install -i --from-path src --rosdistro jazzy -y
+\end{verbatim}
+
+\subsubsection*{Compilar}
+\begin{verbatim}
+    colcon build --packages-select <nombre_paquete> --symlink-install
+\end{verbatim}
+
+\subsubsection*{Source y ejecutar}
+\begin{verbatim}
+    source install/setup.bash
+    ros2 run <nombre_paquete> <nombre_ejecutable>
+\end{verbatim}
+
+\subsection{Programación nodo subscriber}
+\begin{verbatim}
+import rclpy
+# Importar el tipo de mensaje String
+from std_msgs.msg import String
+
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+
+    # 2. Creación de nodo
+    nodo = rclpy.create_node('suscriptor')
+
+    # 2.1 Programación de función de callback
+    def sub_callback(msg):
+        # Mostrar el mensaje en consola
+        nodo.get_logger().info(f'Recibí: "{msg.data}"')
+
+    # 2.2 Creación de suscriptor
+    sub = nodo.create_subscription(String, 'chat', sub_callback, 10)
+
+    # 3. Procesamiento de mensajes y callback
+    rclpy.spin(nodo)
+
+    # 4. Finalización
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+\end{verbatim}
+\textbf{Será necesario incluir el nuevo ejecutable en \texttt{setup.py}}

@@ -1,0 +1,174 @@
+## `rclpy`: Función de *callback*
+
+> Función que se genera y se envía para que sea ejecutada al ocurrir un evento
+
+<br>
+
+#### [Permite al programa]{.underline}:
+- No detenerse a esperar el evento
+- Ejecutar la acción solo cuando es necesario
+- Continuar la ejecución de otras tareas
+
+::: {.notes}
+Acción que se ejecuta automáticamente al ocurrir un evento
+Porción de código que es pasada como argumento, a otra parte de código, que se espera sea ejecutado (call-back) en un momento conveniente. 
+:::
+
+
+## Analogía "compra online" {.smaller}
+
+:::: {.columns}
+::: {.column width="10%"}
+:::
+
+::: {.column width="80%"}
+```{mermaid}
+sequenceDiagram
+    participant Cliente
+    participant Tienda Online
+    participant Repartidor
+
+    Cliente->>Tienda Online: Hace un pedido ✉️
+	Note left of Cliente: Continua con su día
+    Tienda Online->>Repartidor: Despacha el paquete 📦
+    Repartidor-->>Cliente: ✉️ Notificación de entrega
+```
+:::
+
+::: {.column width="10%"}
+:::
+::::
+
+
+## Analogía "compra online" {.smaller}
+
+:::: {.columns}
+::: {.column width="22.5%"}
+:::
+
+::: {.column width="55%"}
+```{mermaid}
+sequenceDiagram
+    participant Cliente
+    participant Tienda Online
+    participant Repartidor
+
+    Cliente->>Tienda Online: Hace un pedido ✉️
+	Note left of Cliente: Continua con su día
+    Tienda Online->>Repartidor: Despacha el paquete 📦
+    Repartidor-->>Cliente: ✉️ Notificación de entrega
+```
+:::
+
+::: {.column width="22.5%"}
+:::
+::::
+
+<table>
+  <tbody>
+    <tr>
+      <td style="text-align:center;">Cliente</td>
+      <td>➡️</td>
+      <td>Nodo que genera el *callback*</td>
+    </tr>
+    <tr>
+      <td style="text-align:center;">Pedido en la tienda</td>
+      <td>➡️</td>
+      <td>Suscripción al topic `/entrega`</td>
+    </tr>
+    <tr>
+      <td style="text-align:center;" colspan="3">El nodo sigue ejecutando tareas</td>
+    </tr>
+    <tr>
+      <td style="text-align:center;">Tienda despacha el paquete</td>
+      <td>➡️</td>
+      <td>Publica al topic `/entrega` un mensaje</td>
+    </tr>
+    <tr>
+      <td style="text-align:center;">Notificación de entrega</td>
+      <td>➡️</td>
+      <td>Se activa la función *callback*</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Función *callback* {.smaller}
+
+> Función estándar que puede (o no) recibir argumentos y puede (o no) retornar valores
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+<br>
+
+```python {filename="ejemplo_callback.py" code-line-numbers="false"}
+
+    def funcion_callback(msg: String):
+      print("Mensaje: " + msg)
+
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+- Diferencia entre
+  - Ejecutar la función: `funcion_callback('prueba')`
+  - Objeto/entidad función: `funcion_callback`
+
+
+## Función *callback* {.smaller}
+
+> Otra función es la que recibe el *callback*
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+<br>
+
+```python {filename="funcion_principal.py" code-line-numbers="false" code-line-numbers="5"}
+
+    def proceso_principal(callback: Function):
+        # Procesamiento de tareas / cálculo / etc
+        # ..
+        callback(resultado)
+
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+<br>
+
+- Luego se pasa el *callback* como argumento en la llamada
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {filename="Ejecución con callback" code-line-numbers="false"}
+
+    proceso_principal(funcion_callback)
+
+
+```
+
+:::
+::: {.column width="10%"}
+
+:::
+:::

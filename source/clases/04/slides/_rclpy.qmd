@@ -1,0 +1,154 @@
+## `rclpy`: ROS Client Library (Python)
+
+> Acceso a los componentes de ROS
+
+::: {.incremental}
+- Inicialización y ejecución de callbacks
+- Gestión de nodos
+- Topics, servicios, acciones, etc.
+- Parámetros, logs, etc
+:::
+
+::: {.fragment}
+
+::: {.columns}
+::: {.column width="60%"}
+```{.python code-line-numbers="true"}
+import rclpy
+```
+:::
+:::
+
+:::
+
+::: {.aside}
+[Bibliotecas cliente](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Client-Libraries.html){target="_blank"} --
+[Documentación `rclpy`](https://docs.ros2.org/latest/api/rclpy/index.html){target="_blank"}
+:::
+
+::: {.notes}
+- Acceso a los elementos de ROS desde la sintaxis de Python utilizando tipos nativos y patrones como listas
+
+- Componentes principales de la librería:
+    - Inicialización y “spinning”.
+    - Nodos, Topics, servicios, etc
+    - Subscriber/Publisher.
+    - Parámetros
+    (así como servicios, acciones y elementos de sincronización)
+:::
+
+## `rclpy`: ROS Client Library (Python)
+
+> Partes básicas del código
+
+
+## `rclpy`: ROS Client Library (Python)
+
+> Partes básicas del código
+
+1. Inicialización
+
+        rclpy.init(..)
+
+- Debe ser llamado antes que cualquier otra función de ROS
+- Define el contexto (nombres y `namespace`)
+
+
+::: {.notes}
+- Inicialización
+- Debe ser llamado antes de cualquier otra función de ROS
+- Define el contexto.
+:::
+
+## `rclpy`: ROS Client Library (Python)
+
+> Partes básicas del código
+
+1. Inicialización
+
+        rclpy.init(..)
+
+2. Creación de 1 o más nodos
+
+        rclpy.create_node(..)
+
+- Punto de acceso a la red de ROS (topics, parámetros, servicios, etc.)
+
+::: {.notes}
+Creación del nodo: es el punto de acceso al sistema de ROS (topics, servicios, parámetros, etc)
+:::
+
+## `rclpy`: ROS Client Library (Python)
+
+> Partes básicas del código
+
+1. Inicialización
+
+        rclpy.init(..)
+
+2. Creación de 1 o más nodos
+
+        rclpy.create_node(..)
+
+3. Procesamiento de callbacks (`spinning`)
+
+        rclpy.spin(..)
+
+- Se procesan las tareas programadas del nodo
+
+::: {.notes}
+- “Spinning”: Procesar las tareas del nodo
+- Ejecutando código normal, llegaría hasta el final y terminaría
+- `.spin(..)` permite continuar la ejecución como si fuese un bucle hasta suceda un evento de interés (ej: llega un mensaje al suscriptor)
+- Otro evento puede ser que se quiere cerrar el nodo, en ese momento termina la ejecución y pasa a .. (siguiente slide)
+:::
+
+
+## `rclpy`: ROS Client Library (Python)
+
+> Partes básicas del código
+
+1. Inicialización
+
+        rclpy.init(..)
+
+2. Creación de 1 o más nodos
+
+        rclpy.create_node(..)
+
+3. Procesamiento de callbacks (`spinning`)
+
+        rclpy.spin(..)
+
+4. Apagado / finalización (`shutdown`)
+
+        rclpy.shutdown()
+
+::: {.notes}
+Finalización
+- Esta función le indica al sistema ROS 2 que ha finalizado su ejecución
+- Cierra todas las conexiones de red e informa a los demás nodos 
+- `return 0` La forma estándar de indicar que el programa ha finalizado correctamente
+:::
+
+## `rclpy`: ROS Client Library (Python)
+
+
+> Una vez creado el nodo:
+> ```py {code-line-numbers="false" style="width: 60%;"}
+> node = rclpy.create_node(..)
+> ```
+
+::: {.incremental}
+- Crear un *publisher*: `node.create_publisher(..)`
+- Crear un *suscriber*: `node.create_subscription(..)`
+- Crear un *timer*: `node.create_timer(..)`
+- Enviar mensajes de log: `node.get_logger(..)`
+:::
+
+::: {.notes}
+- Crear un publisher: Tipo de mensaje, nombre del topic
+- Crear un subscriptor: Tipo de mensaje, nombre del topic, callback 
+- Timer: Tareas repetitivas a una frecuencia deseada. Período, callback
+- Loggear:  Mensajes en consola
+:::

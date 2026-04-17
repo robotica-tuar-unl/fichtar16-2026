@@ -1,0 +1,111 @@
+## Robotics Enhancement Proposal {.smaller}
+
+> [REP]{.underline}: Documentos de estandarización y diseño para robótica *Open Source* ([OSRA](https://osralliance.org/){target="_blank"})
+
+<br>
+
+- Siguen un proceso revisión, aprobación y publicación 
+- Se identifican con un *ID* único:
+  - [REP001](https://reps.openrobotics.org/rep-0001-2025/){target="_blank"} define el proceso y lineamientos para crear *REPs*
+  - [REP002](https://reps.openrobotics.org/rep-0002/){target="_blank"} define el alcance de los *REPs*
+  - [REP004](https://reps.openrobotics.org/rep-0004-2025/){target="_blank"} define el formato de publicación
+  - y 70 más..
+
+
+::: {.aside}
+Más información en [reps.openrobotics.org](https://reps.openrobotics.org/){target="_blank"}
+:::
+
+::: {.notes}
+- Definen buenas prácticas, convenciones y decisiones de arquitectura 
+- Documento que provee información para cualquiera que interactúe con uno o más proyectos de la Open Source Robotics Alliance (OSRA)
+- Tanto para usuarios y para desarrolladores
+- Provee información acerca del ¿qué?, ¿cómo? y (lo más importante) ¿por qué? de cada *enhancement*
+- Se identifican por número
+:::
+
+
+## Entorno y espacios de trabajo
+
+#### Dos niveles:
+
+- `overlay`     &nbsp; ➡️ &nbsp; _Nuestros_ paquetes
+- `underlay`    &nbsp; ➡️ &nbsp; Paquetes instalados
+
+
+<br>
+
+::: {.list-table header-rows=0 aligns="c"}
+
+- - Workspace de desarrollo<br>
+[`source install/local_setup.bash`]{style="font-size: 70%;"} 
+
+- - Paquete de ROS instalados<br>
+[`source /opt/ros/jazzy/setup.bash`]{style="font-size: 70%;"}
+
+:::
+
+::: {.notes}
+- ROS2 se basa en combiar espacios de trabajo (*workspaces*) usando el entorno de la terminal
+- *Workspace*: es la ubicación en el sistema donde se desarrolla con ROS2
+- El *workspace* núcleo se denomina *underlay*  (subyacente) y el local se denomina *overlay* (superposición)
+- Es común que existan múltiples *workspace* activos al mismo tiempo
+- Este esquema facilita el desarrollo ante diferentes versiones de ROS o diferentes conjuntos de paquetes
+- Permite instalar distintas distribuciones de ROS en la misma PC y cambiar rapidamente entre ellas
+- Para lograr esto se aprovisionan (*sourcing*) archivos de *setup* cada vez que se abre una terminal 
+
+- Al hacer *source* del *overlay*, trae las dependencias del *underlay*, pero sobre-escribe paquetes de igual nombre.
+:::
+
+
+## *Workspace* {.smaller}
+
+> [*Workspace*]{.underline}: Estructura de carpetas que contiene a los paquetes
+
+<!-- ```{.bash code-line-numbers="false"}
+mkdir -p ros2_tutorial_workspace/src
+``` -->
+
+::: {.columns}
+::: {.column width="60%"}
+
+- `src`: Paquetes y su código fuente
+- `build`: Archivos de compilación
+- `install`: Paquetes "instalados"
+- `log`: Información de log
+
+:::
+::: {.column width="40%"}
+
+#### Estructura
+
+> ```
+> 📂 ros_ws
+> ├── 📁 src
+> ├── 📁 build      ⚠️
+> ├── 📁 install    ⚠️
+> └── 📁 log        ⚠️
+> ```
+
+:::
+:::
+
+<br>
+
+::: {.callout-note appearance="simple"}
+Es común nombrar la carpeta raíz con un "`_ws`" al final
+:::
+
+::: {.aside}
+Definido en [REP128](https://reps.openrobotics.org/rep-0128/){target="_blank"}  "*Naming Conventions for Catkin Based Workspaces*"
+:::
+
+::: {.notes}
+- Antes de programar la primera linea de código se necesita un "lugar" donde escribir -> *Workspace*
+- Por lo general se nombra con *ros2_ws*
+- Al "construir" el *workspace* se crean 4 carpetas específicas
+    - `src`: código fuente (Python o C++). Único lugar donde se modifican archivos
+    - `build`: Donde se realiza la compilación o traducción a ejecutables
+    - `install`: Una vez construidos, los ejecutables se mueven acá
+    - `log`: Información acerca de fallos
+:::

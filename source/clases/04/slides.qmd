@@ -1,0 +1,129 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+output-file: index.html
+---
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- *REP* + Entorno + *Workspace* &nbsp; ⬅️
+- Paquetes de ROS
+- Uso de nombres
+- Programación de nodo (`rclpy`)
+- Funciones *callback*
+- Dependencias y compilación
+
+# Entorno y espacios de trabajo {visibility="hidden"}
+
+{{< include slides/_workspaces.qmd >}}
+
+
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- Entorno + *Workspace*
+- Paquetes de ROS &nbsp; ⬅️
+- Uso de nombres
+- Programación de nodo (`rclpy`)
+- Funciones *callback*
+- Dependencias y compilación
+
+# Paquetes de ROS {visibility="hidden"}
+
+{{< include slides/_ros_pkgs.qmd >}}
+
+
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- Entorno + *Workspace*
+- Paquetes de ROS
+- Uso de nombres &nbsp; ⬅️
+- Programación de nodo (`rclpy`)
+- Funciones *callback*
+- Dependencias y compilación
+
+# *Namming* {visibility="hidden"}
+
+{{< include slides/_namming.qmd >}}
+
+
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- Entorno + *Workspace*
+- Paquetes de ROS
+- Uso de nombres
+- Programación de nodo (`rclpy`) &nbsp; ⬅️
+- Funciones *callback*
+- Dependencias y compilación
+
+# ROS Client Library {visibility="hidden"}
+
+{{< include slides/_rclpy.qmd >}}
+
+
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- Entorno + *Workspace*
+- Paquetes de ROS
+- Uso de nombres
+- Programación de nodo (`rclpy`)
+- Funciones *callback* &nbsp; ⬅️
+- Dependencias y compilación
+
+# Callbacks {visibility="hidden"}
+
+{{< include slides/_callbacks.qmd >}}
+
+
+
+# {visibility="hidden"}
+##
+### [Orden del día]{.underline}
+
+- Entorno + *Workspace*
+- Paquetes de ROS
+- Uso de nombres
+- Programación de nodo (`rclpy`)
+- Funciones *callback*
+- Dependencias y compilación &nbsp; ⬅️
+
+# Dependencias, ejecutables y compilación {visibility="hidden"}
+
+{{< include slides/_ending.qmd >}}
+
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+- Creación de paquetes
+- Programación y compilación de nodos

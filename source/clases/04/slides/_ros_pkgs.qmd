@@ -1,0 +1,345 @@
+## Paquetes de ROS
+
+> Unidad organizativa del código de *ROS2*
+
+- Elemento base y más importante
+- Permite instalar código propio y compartirlo
+- Al liberar el paquete, permite a otros compilarlo y utilizarlo de forma fácil
+
+
+::: {.aside}
+Glosario: [*package*](https://docs.ros.org/en/jazzy/Glossary.html#term-package){target="_blank"}
+:::
+
+
+::: {.notes}
+- Es el elemento más básico en la infraestructura de ROS, es importante saber crearlos de forma correcta y consistente
+- Todo lo que ofrece ROS gira en torno al uso efectivo de paquetes
+- Paquete: una unidad organizativa (contenedor o marco del código) para el código de ROS2
+- En caso de querer instalar o compartir código con otros se necesitará organizarlo en paquetes
+- Utilizando paquetes se puede liberar el trabajo, permitiendo a otros compilarlo y utilizarlo de forma fácil
+:::
+
+## Paquetes de ROS
+
+> Unidad organizativa del código de *ROS2*
+
+- #### [Dos tipos]{.underline}
+
+::: {.list-table aligns="c,c"}
+
+- - `ament_python`
+  - `ament_cmake`
+
+- - *Python*
+  - *C++*
+
+- - *CMake*
+  - *setuptools*
+
+- - Alto nivel
+  - Bajo nivel
+
+- - Prototipado rápido
+  - Confiabilidad y tiempo real
+:::
+
+
+::: {.notes}
+- ROS2 utiliza `ament` como sistema de compilación y `colcon` como herramienta de compilación
+- Dos tipos principales: `ament_python` vs `ament_cmake`
+- *Python*
+  - La herramienta de compilación *setuptools* (estándar)
+  - Para módulos de alto nivel, scripts y tareas que no necesiten mucha velocidad de cálculo
+- *C++* 
+  - *CMake* (estandar de la industria)
+  - Para código de alto rendimiento, drivers y cosas que necesitan ser compiladas
+
+- Los de *C++* pueden contener *Python*
+:::
+
+
+
+## Paquetes de ROS {.smaller}
+
+
+### Contiene
+
+:::: {.columns}
+::: {.column style="width: 55%;"}
+
+- Código fuente
+- Archivos de configuración
+- Archivos “*launch*”
+- Definición de mensajes, servicios, etc.
+- Metadatos e información
+- Documentación y tests
+
+<br>
+
+::: {.callout-note appearance="simple"}
+Se pueden crear manualmente o utilizando el comando<br> `ros2 pkg create ..`
+:::
+
+:::
+::: {.column width="45%"}
+
+#### Estructura para un paquete *Python*
+
+> ```
+> 📂 src
+> └── 📂 paquete_ejemplo
+>     ├── 📁 paquete_ejemplo
+>     │   ├── 📄 __init__.py
+>     │   ├── 📄 nodo_ejemplo.py    ⬅️ Código
+>     │   └── ...
+>     ├── 📁 resource
+>     │   └── 📄 paquete_ejemplo
+>     ├── 📁 launch
+>     ├── 📁 config
+>     ├── 📄 package.xml
+>     ├── 📄 setup.cfg
+>     └── 📄 setup.py
+> ```
+
+:::
+::::
+
+
+## Paquetes de ROS {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 55%;"}
+
+#### [Múltiples paquetes]{.underline}
+
+- Cada uno en su propia carpeta
+- Sin distinción del tipo de compilación y lenguaje
+
+<br>
+
+::: {.callout-warning appearance="simple" style="width: 90%;"}
+#### No se pueden contener paquetes dentro de un paquete
+::: 
+
+:::
+::: {.column .r-stretch width="45%"}
+
+> ```
+> 📂 src
+> ├── 📂 paquete_cpp_1
+> │   ├── 📄 CMakeLists.txt
+> │   ├── 📁 include
+> │   │   └── 📁 paquete_cpp_1
+> │   ├── 📄 package.xml
+> │   └── 📁 src
+> │
+> ├── 📂 paquete_python_1
+> │   ├── 📄 package.xml
+> │   ├── 📁 resource
+> │   │   └── 📄 paquete_python_1
+> │   ├── 📄 setup.cfg
+> │   ├── 📄 setup.py
+> │   └── 📁 paquete_python_1
+> │
+> ├── 📂 ...
+> │
+> └── 📂 paquete_cpp_N
+>     ├── 📄 CMakeLists.txt
+>     ├── 📁 include
+>     │   └── 📁 paquete_cpp_N
+>     ├── 📄 package.xml
+>     └── 📁 src
+> ```
+
+
+:::
+::::
+
+::: {.notes}
+- Un *workspace* puede contener tantos paquetes como desee, cada uno en su propia carpeta
+- Puede tener paquetes de diferentes tipos de compilación (CMake, Python, etc.)
+- No se permiten paquetes anidados
+- Lo ideal es tener una carpeta `src` dentro del *wrokspace* y crear tus paquetes allí
+:::
+
+
+## Paquetes de ROS {.smaller}
+
+> Estructura mínima para un paquete de ROS2 en **Python** (*ament_python*)
+
+- 📦 `package.xml`: Contiene *meta-información* del paquete (independiente del tipo)
+- 🏷️ `resource/<nombre_paquete>`: Archivo de marcación para el paquete 
+- ⚙️ `setup.cfg`: Necesario cuando hay ejecutables (para que `ros2 run` los encuentre)
+- 🛠️ `setup.py`: Instrucciones para instalar el paquete
+- 📁 `<nombre_paquete>`: Carpeta principal del paquete que contiene el código 
+  - 📄 `__init__.py`
+
+<!--
+::: {.aside}
+[Documentación](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html){target="_blank"}
+:::
+-->
+
+::: {.notes}
+- Cada tipo de paquete tiene su mínima estructura requerida
+- Archivos mínimos para cada paquete de Python
+    - `package.xml`: información acerca del paquete (cual?)
+    - `setup.py` -> instrucciones para instalar el paquete
+    - `setup.cfg` -> Para que el comando run encuentra los ejecutables en el caso de que existan
+    - `/<nombre_paquete>` -> Carpeta con el mismo nombre del paquete junto con el archivo `__init__.py` utilizado por las herramientas de ROS2
+:::
+
+
+## Paquetes de ROS {.smaller}
+
+::: {.columns}
+::: {.column width="40%"}
+
+### 📄 package.xml
+
+- Propiedades e información del paquete en formato `XML`
+- Necesario:
+  - `<name>`
+  - `<description>`
+  - `<version>`
+  - `<maintainer>`
+  - `<license>`
+- #### [Más importante]{.underline}: dependencias
+
+:::
+::: {.column width="60%"}
+
+```{.xml code-line-numbers="|1-4|6,21|7,9|8|10-14|16|18-20"}
+<?xml version="1.0"?>
+<?xml-model
+    href="http://download.ros.org/schema/package_format3.xsd"
+    schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
+    <name>nombre_paquete</name>
+    <version>0.0.0</version>
+    <description>Descripción del paquete</description>
+    <maintainer email="user@todo.todo">user</maintainer>
+    <license>Licencia</license>
+
+    <url type="website">https://github.com/...</url>
+    <author email="user@todo.todo">user</author>
+
+    <depend>nombre_paquete_dependencia</depend>
+
+    <export>
+        <build_type>ament_python</build_type>
+    </export>
+</package>
+```
+
+:::
+:::
+
+
+::: {.aside}
+Definición completa: [REP149](https://reps.openrobotics.org/rep-0149/){target="_blank"}
+:::
+
+
+
+::: {.notes}
+- Nexo en común: todos los paquetes de ROS tienen este archivo
+- Propiedades e información del paquete: Nombre, versión, descripción y lo más importante, las dependencias
+- Dependencias: otros paquetes (por lo general de ROS) que el código necesita para funcionar
+- Será necesario completar: descripción, licencia y el "*mainteiner*"
+- Otros datos: autores, URL (repositorio), 
+
+
+Breve descripción de los archivos con codificación eXtensible Markup Language:
+- Lenguaje de marcado -> una forma de organizar la información utilizando etiquetas (para definir elementos) y atributos (para información adicional), de forma jerárquica.
+- Es flexible y puede personalizarse -> Útil para intercambiar información
+- Fácil de entender para humanos
+:::
+
+
+## Paquetes de ROS {.smaller}
+
+::: {.columns}
+::: {.column width="40%"}
+
+### 📄 setup.py
+
+- Repite: nombre, descripción, versión, "*maintainer*", y licencia
+- Debe coincidir la información con el `package.xml`
+- Definición de ejecutables para el comando `ros2 run`
+
+:::
+::: {.column width="60%"}
+
+```{.python code-line-numbers="|3|6-9,21-24|11-17|26-30"}
+from setuptools import setup
+
+package_name = 'nombre_paquete'
+
+setup(
+  name=package_name,
+  version='0.0.0',
+  # Packages to export
+  packages=[package_name],
+  # Files we want to install, specifically launch files
+  data_files=[
+      # Install marker file in the package index
+      ('share/ament_index/resource_index/packages',
+          ['resource/' + package_name]),
+      # Include our package.xml file
+      ('share/' + package_name, ['package.xml']),
+    ],
+  # This is important as well
+  install_requires=['setuptools'],
+  zip_safe=True,
+  maintainer='TODO',
+  maintainer_email='TODO',
+  description='TODO: Package description',
+  license='TODO: License declaration',
+  tests_require=['pytest'],
+  entry_points={
+      'console_scripts': [
+              'nombre_nodo = nombre_paquete.nombre_nodo:main'
+      ],
+    },
+)
+```
+
+:::
+:::
+
+::: {.aside}
+Definición más completa: [docs.ros.org](https://docs.ros.org/en/jazzy/How-To-Guides/Developing-a-ROS-2-Package.html#python-packages)
+:::
+
+::: {.notes}
+- Repite nombre, version, descripción, maintainer y licencia (es necesario que sean iguales en los dos archivos)
+- 
+:::
+
+## Paquetes de ROS {.smaller}
+
+::: {.columns}
+::: {.column width="40%"}
+
+### 📄 setup.cfg
+
+- Si el paquete posee un ejecutable `ros2 run` lo puede encontrar
+
+:::
+::: {.column width="60%"}
+
+<br>
+
+```{.toml}
+[develop]
+script_dir=$base/lib/<nombre_paquete>
+
+[install]
+install_scripts=$base/lib/<nombre_paquete>
+```
+
+:::
+:::

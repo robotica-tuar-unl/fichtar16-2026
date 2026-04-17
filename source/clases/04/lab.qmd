@@ -1,0 +1,402 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Creación de paquetes
+
+## Paso inicial: creación del *workspace*
+
+- Crear una carpeta que será el `workspace` (por ejemplo *robotica_ws*) y dentro, crear la carpeta `src`
+
+::: {.aside}
+::: {.callout-tip appearance="simple" title="Realizar este paso solo por cada proyecto individual"}
+:::
+:::
+
+```default {filename="Estructura de carpetas"}
+📂 .
+├── 📂 robotica_ws
+│   └── 📁 src
+```
+
+
+
+
+## Creación de un paquete de ROS2
+
+::: {.callout-warning appearance="simple" title="Dentro de la carpeta `src`"}
+:::
+
+#### Crear un paquete de *Python*
+
+>       $ ros2 pkg create --build-type ament_python <nombre_paquete>
+
+---------
+
+```bash {code-line-numbers="false"}
+ros2 pkg create --build-type ament_python clase_04
+```
+
+
+Esto generará la estructura de carpetas correspondientes para un paquete de python:
+
+```default {filename="Estructura de carpetas"}
+📂 robotica_ws
+└── 📂 src
+    └── 📂 clase_04
+        ├── 📂 clase_04
+        │   └── 📄 __init__.py
+        ├── 📦 package.xml
+        ├── 📂 resource
+        │   └── 🏷️ clase_04
+        ├── ⚙️ setup.cfg
+        ├── 🛠️ setup.py
+        └── 📂 test
+            ├── 📄 test_copyright.py
+            ├── 📄 test_flake8.py
+            └── 📄 test_pep257.py
+
+```
+
+#### Completar la información adicional
+
+Completar la información de los archivos `package.xml` y `setup.py`
+
+## Compilar el *workspace*
+
+::: {.callout-caution appearance="minimal"}
+#### 🚨 Siempre ejecutar este comando dentro de `workspace` 🚨
+:::
+
+```bash {code-line-numbers="false"}
+colcon build
+```
+
+
+Se generarán las carpetas adicionales en el `workspace`:
+
+```default {filename="Estructura de carpetas"}
+📂 .
+├── 📂 robotica_ws
+│   ├── 📁 src
+│   ├── 📁 build      ⬅️
+│   ├── 📁 install    ⬅️
+│   └── 📁 log        ⬅️
+
+```
+::: {.callout-tip appearance="simple" title="Para compilar un solo paquete agregar la opción"}
+`--packages-select <nombre_paquete>`
+:::
+
+
+<!-- ::: {.callout-tip appearance="simple"}
+Para evitar compilar cada vez que se editan archivos puedes utilizar la opción `--symlink-install`
+::: -->
+
+
+# Programación de nodos
+
+- #### Importar la librería `rclpy`
+
+```python
+import rclpy
+```
+
+- #### Importar el tipo de mensaje `std_msgs/msg/String` ya pre-definido
+
+::: {.aside}
+::: {.callout-tip appearance="simple"}
+#### Ambos `import` representan las dependencias del nodo
+:::
+:::
+
+```python
+from std_msgs.msg import String
+```
+
+- #### Inicializar la librería `rclpy`
+
+```python
+rclpy.init(args=args)
+```
+
+- #### Crear un nodo
+
+>       rclpy.create_node('<nombre_nodo>')
+
+------
+
+```python
+nodo = rclpy.create_node('publicador')
+```
+
+- #### Crear un publicador
+
+>       <nodo>.create_publisher( 
+>           <tipo_mensaje>, '<nombre_topic>', <tamaño_queue>
+>       )
+
+------
+
+```python
+pub = nodo.create_publisher(String, 'chat', 10)
+```
+
+Declara que el nodo publica mensajes de tipo `std_msgs/msg/String` sobre un *topic* llamado `chat`, y que el tamaño de la cola es 10.
+
+
+- #### Crear un suscriptor
+
+>       <nodo>.create_subscription( 
+>           <tipo_mensaje>, '<nombre_topic>', <funcion_callback>, <tamaño_queue>
+>       )
+
+------
+
+```python
+sub = nodo.create_subscription(String, 'chat', sub_callback, 10)
+```
+
+- #### Crear un *timer*
+
+>       <nodo>.create_timer(<periodo_en_seg>, <funcion_callback>)
+
+------
+
+```python
+timer = nodo.create_timer(1, timer_callback)
+```
+
+- #### Continuar ejecución de ROS
+
+>       rclpy.spin(<nodo>)
+
+------
+
+```python
+rclpy.spin(nodo)
+```
+
+- #### Finalizar la ejecución
+
+```python
+rclpy.shutdown()
+```
+
+
+
+## Programación de *publisher*
+
+El objetivo es crear un nodo que pase información en la forma de un mensaje de tipo `String` a través de un topic, replicando el nodo de demostración `talker` utilizado en el [Lab 02](../02/lab.qmd){target="_blank"}. 
+
+
+::: {.callout-note appearance="simple" title="Crear el archivo en la ubicación correspondiente"}
+`<workspace>/src/<nombre_paquete>/<nombre_paquete>/`
+:::
+
+```{.python code-fold="true" code-line-numbers="true" filename="nodo_publicador.py"}
+import rclpy
+
+# Importar el tipo de mensaje String
+from std_msgs.msg import String
+
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+
+    # 2. Creación de nodo
+    # nodo = ...
+
+    # 2.1 Creación de publisher
+    # pub = ...
+
+    # 2.2 Creación de mensaje
+    msg = String()
+
+    # 2.3 Programación de función de callback
+    def timer_callback():
+        # Completar el campo 'data' del mensaje 
+        msg.data = 'Mensaje de prueba'
+
+        # Publicar el mensaje
+        pub.publish(msg)
+
+    # 2.4 Creación del timer
+    # ...
+
+    # 3. Procesamiento de mensajes y callback
+    rclpy.spin(nodo)
+
+    # 4. Finalización 
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+---------
+
+### Actualizar las dependencias
+
+- Para añadir dependencias a un paquete, modificar el archivo `package.xml`
+
+```xml {code-line-numbers="false" filename="package.xml"}
+<package format="3">
+    ...
+    <exec_depend>rclpy</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
+    ...
+</package>
+```
+
+::: {.aside .smaller}
+Declara que el paquete necesita `rclpy` y `std_msgs` cuando el código es ejecutado
+:::
+
+
+#### Instalar las dependencias
+
+```bash {code-line-numbers="false"}
+rosdep install -i --from-path src --rosdistro jazzy -y
+```
+
+::: {.callout-warning appearance="simple" title="Ejecutar este comando dentro de la carpeta raíz del `workspace`"}
+
+:::
+
+
+### Agregar el ejecutable
+
+Para añadir un ejecutable en un paquete de Python, modificar el archivo `setup.py`
+
+>     entry_points={
+>       'console_scripts': [
+>           '<nombre_ejecutable> = <nombre_paquete>.<nombre_archivo>:main',
+>       ],
+>     },
+
+
+```python {code-line-numbers="false" filename="setup.py"}
+# ..
+setup(
+    # ..
+    entry_points={
+            'console_scripts': [
+                    'publicar = clase_04.nodo_publicador:main',
+            ],
+    },
+)
+```
+
+
+---------
+
+### Compilar el paquete y ejecutar
+
+#### Utilizar el comando `colcon build` para compilar el paquete
+
+::: {.callout-tip appearance="simple" title="Puedes utilizar el comando `ros2 pkg list` y `ros2 pkg executables` del [Lab 02](../02/lab.qmd#instalación-de-paquetes-de-demostración){target='_blank'} para verificar si el paquete se instaló correctamente"}
+:::
+
+::: {.callout-note appearance="simple" title="En caso de tener que limpiar el workspace se puede utilizar el comando"}
+```bash {code-line-numbers="false"}
+rm -rf build/ install/ log/
+```
+:::
+
+#### Ejecutar el nodo creado
+
+- Se recomienda abrir una nueva terminal distinta distinta de la utilizada para compilar
+
+::: {.callout-note appearance="simple" title="Recuerda configurar el entorno local desde el `workspace`"}
+```bash {code-line-numbers="false"}
+source install/setup.bash
+```
+:::
+
+::: {.callout-tip appearance="simple" title="Para ejecutar"}
+        $ ros2 run <nombre_paquete> <nombre_ejecutable>
+:::
+
+### Verificar del funcionamiento
+
+Para comprobar el correcto funcionamiento utilizar los comandos vistos en el [Lab 02](../02/lab.qmd#nodos-talker-y-listener){target="_blank"}
+
+- #### Comprobar que el nodo se encuentre en ejecución
+
+Puedes utilizar los comandos de `ros2 node list` y `ros2 node info`
+
+- #### Comprobar que se encuentra publicando los mensajes
+
+Puedes utilizar los comandos de `ros2 topic list`, `ros2 topic info` y `ros2 topic echo`
+
+---------
+
+
+
+## Programación de *suscriber*
+
+El código del *suscriber* es casi idéntico al del *publisher*, excepto por la creación de un suscriptor en vez de un publicador, y que no requiere un *timer*. [Recuerda que para que dos nodos se comuniquen, deben coincidir en el mismo *topic*]{.underline}. 
+
+::: {.aside}
+::: {.callout-note appearance="simple" title="Puede optar por crear un nuevo paquete o un nuevo archivo"}
+:::
+:::
+
+```python {code-fold="true" code-line-numbers="true" filename="nodo_suscriptor.py"}
+import rclpy
+
+# Importar el tipo de mensaje String
+from std_msgs.msg import String     # <1>
+
+def main(args=None):
+    # 1. Inicialización
+    # ...
+
+    # 2. Creación de nodo
+    # nodo = ...
+
+    # 2.1 Programación de función de callback
+    def sub_callback(msg):
+        # Mostrar el mensaje en consola
+        nodo.get_logger().info('Recibí: "%s"' % msg.data)   # <2>
+
+    # 2.2 Creación de suscriptor
+    # ...
+
+    # 3. Procesamiento de mensajes y callback
+    rclpy.spin(nodo)
+
+    # 4. Finalización 
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+1. Este código tiene las mismas dependencias que el *publisher*, por lo tanto no hace falta añadirlas nuevamente
+2. El *callback* solo imprime el mensaje recibido por consola
+
+- #### Añadir el ejecutable en el archivo `setup.py`
+
+- #### Compilar y ejecutar el nodo
+
+- #### Verificar el funcionamiento de ambos nodos

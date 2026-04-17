@@ -1,0 +1,294 @@
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="60%"}
+
+Nombres para:
+
+- Paquete
+- Archivo (de código)
+- Ejecutable (`ros2 run`)
+- Nodo (*contexto* y `namespace`)
+
+:::
+::: {.column width="60%"}
+
+:::
+:::
+
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- ### Paquete
+- Archivo
+- Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.default code-line-numbers="false" code-line-numbers="2,3,8" filename="Workspace"}
+📂 src
+  📁 nombre_paquete
+      📁 nombre_paquete
+          📄 __init__.py
+		  📄 codigo.py
+          ...					
+  	📁 resource
+  	    📄 nombre_paquete
+  	📄 package.xml
+  	📄 setup.cfg
+  	📄 setup.py
+```
+
+:::
+:::
+
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- Paquete
+- ### Archivo
+- Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.default code-line-numbers="false" code-line-numbers="5" filename="Workspace"}
+📂 src
+  📁 nombre_paquete
+      📁 nombre_paquete
+          📄 __init__.py
+		  📄 codigo.py
+          ...					
+  	📁 resource
+  	    📄 nombre_paquete
+  	📄 package.xml
+  	📄 setup.cfg
+  	📄 setup.py
+```
+
+:::
+:::
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- ### Paquete
+- Archivo
+- Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.xml code-line-numbers="false" code-line-numbers="2" filename="package.xml"}
+<package format="3">
+    <name>{nombre_paquete}</name>
+    <version>{version}</version>
+    <description>
+		{descripcion}
+		...
+	</description>
+	...
+</package>
+```
+
+:::
+:::
+
+
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- ### Paquete
+- Archivo
+- Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.toml code-line-numbers="false" code-line-numbers="2" filename="setup.cfg"}
+[develop]
+script_dir=$base/lib/{nombre_paquete}
+[install]
+install_scripts=$base/lib/{nombre_paquete}
+```
+
+:::
+:::
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- ### Paquete
+- Archivo
+- Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.python code-line-numbers="false" code-line-numbers="4,8,11,12" filename="setup.py" style="font-size:80%"}
+from setuptools import setup
+
+setup(
+  name={nombre_paquete},
+  version={version},
+  description={descripción},
+  # ...
+  packages=[{nombre_paquete}],
+  data_files=[
+    ('share/ament_index/resource_index/packages',
+      ['resource/' + {nombre_paquete}]),
+    ('share/{nombre_paquete}', ['package.xml']),
+  ],
+  # ...
+  entry_points={
+    'console_scripts': [
+      '{nombre_ejecutable} = \
+        {nombre_paquete}.{nombre_archivo}:main'
+    ],
+  },
+)
+```
+
+:::
+:::
+
+
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- ### Paquete
+- ### Archivo
+- ### Ejecutable
+- Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.python code-line-numbers="false" code-line-numbers="16-18" filename="setup.py" style="font-size:80%"}
+from setuptools import setup
+
+setup(
+  name={nombre_paquete},
+  version={version},
+  description={descripción},
+  # ...
+  packages=[{nombre_paquete}],
+  data_files=[
+    ('share/ament_index/resource_index/packages',
+      ['resource/' + {nombre_paquete}]),
+    ('share/{nombre_paquete}', ['package.xml']),
+  ],
+  # ...
+  entry_points={
+    'console_scripts': [
+      '{nombre_ejecutable} = \
+        {nombre_paquete}.{nombre_archivo}:main'
+    ],
+  },
+)
+```
+
+:::
+:::
+
+## Uso de nombres
+
+::: {.columns}
+::: {.column width="40%"}
+
+Nombres para:
+
+- Paquete
+- Archivo
+- Ejecutable
+- ### Nodo
+
+:::
+::: {.column width="60%"}
+
+```{.python code-line-numbers="false" code-line-numbers="6" filename="codigo.py" style="font-size:80%"}
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  node = rclpy.create_node({nombre_nodo})
+
+  # 3. Procesamiento de callback
+  rclpy.spin(node)
+
+  # 4. Finalización
+  rclpy.shutdown()
+
+if __name__ == '__main__':
+  main()
+```
+
+:::
+:::
+
+##  [REP144](https://reps.openrobotics.org/rep-0144/){target="_blank"} -  Nombramiento de paquetes {.smaller}
+
+> Reglas para nombrar paquetes
+
+<br>
+
+- Solo contienen caracteres alfanuméricos en minúscula
+- Solo se puede utilizar de separador el guión bajo "`_`"
+- No puede iniciar con "`_`" o contener doble guión "`__`"
+- Al menos 2 caracteres de longitud (se recomiendan muchos más)
+
+
+::: {.aside}
+Más información en [reps.openrobotics.org](https://reps.openrobotics.org/rep-0144/){target="_blank"}
+:::
+
+::: {.notes}
+- Propone reglas para nombrar paquetes de ROS de forma apropiada (algunas son obligatorias, otras son recomendaciones)
+- El nombre de paquete se utiliza como namespace
+
+- Obligatoriamente:
+  - Solo consiste en caracteres alfanumericos en minúscula (hay OS que no distinguen mayúscula y minúscula)
+  - Separador '_' (no puede iniciar ni tener varios seguidos) -> los nombres deben ser soportados por todos los lenguajes 
+  - Al menos 2 caracteres de longitud (se recomienda que sea mucho más largo)
+
+- Reglas más generales:
+  - Deben ser lo más específicos posible (para entender lo que hacen rapidamente)
+  - Evitar nombres genéricos
+  - Evitar utilizar "ros" en el nombre (para paquetes que no son base)
+  - Evitar utilizar nombres ya ocupados (ver el index de ROS)
+:::

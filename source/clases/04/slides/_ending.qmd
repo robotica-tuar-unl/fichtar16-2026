@@ -1,0 +1,134 @@
+## Dependencias (`package.xml`) {.smaller}
+
+> Tipos de dependencias:
+
+- `<build_depend>`: compilación
+- `<exec_depend>`: ejecución (**Más común para _Python_**)
+- `<depend>`: compilación y ejecución
+- `<test_depend>`: solo para pruebas
+
+<br>
+
+#### Pueden resolverse utilizando el comando `rosdep`
+
+```bash {code-line-numbers="false" style="width: 25em;"}
+    $ rosdep install -i --from-path src --rosdistro jazzy -r -y
+```
+
+<!-- ::: {.callout-important appearance="simple"}
+Siempre ejecutar desde el *workspace* (**NO** dentro de `src` o cualquier paquete)
+::: -->
+
+::: {.aside}
+Más información [*rosdep*](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Rosdep.html#how-does-rosdep-work){target="_blank"}
+:::
+
+
+## Dependencias (`package.xml`) {.smaller}
+
+#### El código fuente de un nodo ..
+
+<br>
+
+::: {.columns}
+::: {.column width="20%"}
+:::
+::: {.column width="60%"}
+
+```python {filename="nodo.py" code-line-numbers="true"}
+import rclpy
+from std_msgs.msg import String
+
+# ..
+```
+
+:::
+::: {.column width="20%"}
+:::
+:::
+
+<br>
+
+#### .. se refleja en las dependencias [del paquete]{.underline}:
+
+<br>
+
+
+::: {.columns}
+::: {.column width="20%"}
+:::
+::: {.column width="60%"}
+
+```xml {filename="package.xml" code-line-numbers="false"}
+<!-- ... -->
+	<exec_depend>rclpy</exec_depend>
+	<exec_depend>std_msgs</exec_depend>
+<!-- ... -->
+```
+
+:::
+::: {.column width="20%"}
+:::
+:::
+
+## Ejectuables (`setup.py`) {.smaller}
+
+
+> Añadir ejecutable para utilizar `ros2 run`
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+<br>
+
+```python {code-line-numbers="false" filename="setup.py"}
+
+    # ...
+    entry_points={
+      'console_scripts': [
+        '{nombre_ejecutable} = {nombre_paquete}.{nombre_archivo}:main',
+      ],
+    },
+    # ...
+
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+::: {.callout-note appearance="simple" title="[Recordemos]{.underline}"}
+`ros2 run {nombre_paquete} {nombre_ejecutable}`
+:::
+
+
+## Compilación del paquete {.smaller}
+
+<br>
+
+> #### Herramienta de compilación: `colcon`
+
+	    
+```bash {code-line-numbers="false" style="width: 28em;"}
+    $ colcon build [--packages-select <nombre_paquete>]
+```
+
+<br>
+
+::: {.callout-warning appearance="simple" style="width: 28em;"}
+#### Ejecutar en la raíz del *workspace*
+:::
+
+<br>
+
+> #### *Source* del entorno local (*overlay*):
+
+```bash {code-line-numbers="false" style="width: 28em;"}
+    $ source install/setup.bash
+```
