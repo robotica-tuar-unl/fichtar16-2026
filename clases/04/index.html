@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a8da12e74b29c2e7b17644f84b91567b.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.30">
+
+  <title>Robótica 2026 – Clase 04</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-167d412ded6319ea1d856e6d74754899.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Robótica</h1>
+  <p class="subtitle">Clase 04</p>
+
+<div class="quarto-title-authors">
+</div>
+
+  <p class="date">Semana 5 - 04/14/2026</p>
+</section>
+<section>
+
+<section id="section-1" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día"><u>Orden del día</u></h3>
+<ul>
+<li><em>REP</em> + Entorno + <em>Workspace</em> &nbsp; ⬅️</li>
+<li>Paquetes de ROS</li>
+<li>Uso de nombres</li>
+<li>Programación de nodo (<code>rclpy</code>)</li>
+<li>Funciones <em>callback</em></li>
+<li>Dependencias y compilación</li>
+</ul>
+</section></section>
+<section>
+
+<section id="robotics-enhancement-proposal" class="slide level2 smaller">
+<h2>Robotics Enhancement Proposal</h2>
+<blockquote>
+<p><u>REP</u>: Documentos de estandarización y diseño para robótica <em>Open Source</em> (<a href="https://osralliance.org/" target="_blank">OSRA</a>)</p>
+</blockquote>
+<p><br></p>
+<ul>
+<li>Siguen un proceso revisión, aprobación y publicación</li>
+<li>Se identifican con un <em>ID</em> único:
+<ul>
+<li><a href="https://reps.openrobotics.org/rep-0001-2025/" target="_blank">REP001</a> define el proceso y lineamientos para crear <em>REPs</em></li>
+<li><a href="https://reps.openrobotics.org/rep-0002/" target="_blank">REP002</a> define el alcance de los <em>REPs</em></li>
+<li><a href="https://reps.openrobotics.org/rep-0004-2025/" target="_blank">REP004</a> define el formato de publicación</li>
+<li>y 70 más..</li>
+</ul></li>
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Definen buenas prácticas, convenciones y decisiones de arquitectura</li>
+<li>Documento que provee información para cualquiera que interactúe con uno o más proyectos de la Open Source Robotics Alliance (OSRA)</li>
+<li>Tanto para usuarios y para desarrolladores</li>
+<li>Provee información acerca del ¿qué?, ¿cómo? y (lo más importante) ¿por qué? de cada <em>enhancement</em></li>
+<li>Se identifican por número</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Más información en <a href="https://reps.openrobotics.org/" target="_blank">reps.openrobotics.org</a></p>
+</div></aside></section>
+<section id="entorno-y-espacios-de-trabajo-1" class="slide level2">
+<h2>Entorno y espacios de trabajo</h2>
+<h4 id="dos-niveles">Dos niveles:</h4>
+<ul>
+<li><code>overlay</code> &nbsp; ➡️ &nbsp; <em>Nuestros</em> paquetes</li>
+<li><code>underlay</code> &nbsp; ➡️ &nbsp; Paquetes instalados</li>
+</ul>
+<p><br></p>
+<table class="caption-top">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Workspace de desarrollo<br> <span style="font-size: 70%;"><code>source install/local_setup.bash</code></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Paquete de ROS instalados<br> <span style="font-size: 70%;"><code>source /opt/ros/jazzy/setup.bash</code></span></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<ul>
+<li><p>ROS2 se basa en combiar espacios de trabajo (<em>workspaces</em>) usando el entorno de la terminal</p></li>
+<li><p><em>Workspace</em>: es la ubicación en el sistema donde se desarrolla con ROS2</p></li>
+<li><p>El <em>workspace</em> núcleo se denomina <em>underlay</em> (subyacente) y el local se denomina <em>overlay</em> (superposición)</p></li>
+<li><p>Es común que existan múltiples <em>workspace</em> activos al mismo tiempo</p></li>
+<li><p>Este esquema facilita el desarrollo ante diferentes versiones de ROS o diferentes conjuntos de paquetes</p></li>
+<li><p>Permite instalar distintas distribuciones de ROS en la misma PC y cambiar rapidamente entre ellas</p></li>
+<li><p>Para lograr esto se aprovisionan (<em>sourcing</em>) archivos de <em>setup</em> cada vez que se abre una terminal</p></li>
+<li><p>Al hacer <em>source</em> del <em>overlay</em>, trae las dependencias del <em>underlay</em>, pero sobre-escribe paquetes de igual nombre.</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="workspace" class="slide level2 smaller">
+<h2><em>Workspace</em></h2>
+<blockquote>
+<p><u><em>Workspace</em></u>: Estructura de carpetas que contiene a los paquetes</p>
+</blockquote>
+<!-- ```{.bash code-line-numbers="false"}
+mkdir -p ros2_tutorial_workspace/src
+``` -->
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li><code>src</code>: Paquetes y su código fuente</li>
+<li><code>build</code>: Archivos de compilación</li>
+<li><code>install</code>: Paquetes “instalados”</li>
+<li><code>log</code>: Información de log</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<h4 id="estructura">Estructura</h4>
+<blockquote>
+<pre><code>📂 ros_ws
+├── 📁 src
+├── 📁 build      ⚠️
+├── 📁 install    ⚠️
+└── 📁 log        ⚠️</code></pre>
+</blockquote>
+</div></div>
+<p><br></p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Es común nombrar la carpeta raíz con un “<code>_ws</code>” al final</p>
+</div>
+</div>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Antes de programar la primera linea de código se necesita un “lugar” donde escribir -&gt; <em>Workspace</em></li>
+<li>Por lo general se nombra con <em>ros2_ws</em></li>
+<li>Al “construir” el <em>workspace</em> se crean 4 carpetas específicas
+<ul>
+<li><code>src</code>: código fuente (Python o C++). Único lugar donde se modifican archivos</li>
+<li><code>build</code>: Donde se realiza la compilación o traducción a ejecutables</li>
+<li><code>install</code>: Una vez construidos, los ejecutables se mueven acá</li>
+<li><code>log</code>: Información acerca de fallos</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Definido en <a href="https://reps.openrobotics.org/rep-0128/" target="_blank">REP128</a> “<em>Naming Conventions for Catkin Based Workspaces</em>”</p>
+</div></aside></section></section>
+<section>
+
+<section id="section-3" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día-1"><u>Orden del día</u></h3>
+<ul>
+<li>Entorno + <em>Workspace</em></li>
+<li>Paquetes de ROS &nbsp; ⬅️</li>
+<li>Uso de nombres</li>
+<li>Programación de nodo (<code>rclpy</code>)</li>
+<li>Funciones <em>callback</em></li>
+<li>Dependencias y compilación</li>
+</ul>
+</section></section>
+<section>
+
+<section id="paquetes-de-ros-1" class="slide level2">
+<h2>Paquetes de ROS</h2>
+<blockquote>
+<p>Unidad organizativa del código de <em>ROS2</em></p>
+</blockquote>
+<ul>
+<li>Elemento base y más importante</li>
+<li>Permite instalar código propio y compartirlo</li>
+<li>Al liberar el paquete, permite a otros compilarlo y utilizarlo de forma fácil</li>
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Es el elemento más básico en la infraestructura de ROS, es importante saber crearlos de forma correcta y consistente</li>
+<li>Todo lo que ofrece ROS gira en torno al uso efectivo de paquetes</li>
+<li>Paquete: una unidad organizativa (contenedor o marco del código) para el código de ROS2</li>
+<li>En caso de querer instalar o compartir código con otros se necesitará organizarlo en paquetes</li>
+<li>Utilizando paquetes se puede liberar el trabajo, permitiendo a otros compilarlo y utilizarlo de forma fácil</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Glosario: <a href="https://docs.ros.org/en/jazzy/Glossary.html#term-package" target="_blank"><em>package</em></a></p>
+</div></aside></section>
+<section id="paquetes-de-ros-2" class="slide level2">
+<h2>Paquetes de ROS</h2>
+<blockquote>
+<p>Unidad organizativa del código de <em>ROS2</em></p>
+</blockquote>
+<ul>
+<li><h4 id="dos-tipos"><u>Dos tipos</u></h4></li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><code>ament_python</code></th>
+<th style="text-align: center;"><code>ament_cmake</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em>Python</em></td>
+<td style="text-align: center;"><em>C++</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><em>CMake</em></td>
+<td style="text-align: center;"><em>setuptools</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Alto nivel</td>
+<td style="text-align: center;">Bajo nivel</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Prototipado rápido</td>
+<td style="text-align: center;">Confiabilidad y tiempo real</td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+<ul>
+<li>ROS2 utiliza <code>ament</code> como sistema de compilación y <code>colcon</code> como herramienta de compilación</li>
+<li>Dos tipos principales: <code>ament_python</code> vs <code>ament_cmake</code></li>
+<li><em>Python</em>
+<ul>
+<li>La herramienta de compilación <em>setuptools</em> (estándar)</li>
+<li>Para módulos de alto nivel, scripts y tareas que no necesiten mucha velocidad de cálculo</li>
+</ul></li>
+<li><em>C++</em>
+<ul>
+<li><em>CMake</em> (estandar de la industria)</li>
+<li>Para código de alto rendimiento, drivers y cosas que necesitan ser compiladas</li>
+</ul></li>
+<li>Los de <em>C++</em> pueden contener <em>Python</em></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="paquetes-de-ros-3" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<h3 id="contiene">Contiene</h3>
+<div class="columns">
+<div class="column" style="width: 55%;">
+<ul>
+<li>Código fuente</li>
+<li>Archivos de configuración</li>
+<li>Archivos “<em>launch</em>”</li>
+<li>Definición de mensajes, servicios, etc.</li>
+<li>Metadatos e información</li>
+<li>Documentación y tests</li>
+</ul>
+<p><br></p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Se pueden crear manualmente o utilizando el comando<br> <code>ros2 pkg create ..</code></p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<h4 id="estructura-para-un-paquete-python">Estructura para un paquete <em>Python</em></h4>
+<blockquote>
+<pre><code>📂 src
+└── 📂 paquete_ejemplo
+    ├── 📁 paquete_ejemplo
+    │   ├── 📄 __init__.py
+    │   ├── 📄 nodo_ejemplo.py    ⬅️ Código
+    │   └── ...
+    ├── 📁 resource
+    │   └── 📄 paquete_ejemplo
+    ├── 📁 launch
+    ├── 📁 config
+    ├── 📄 package.xml
+    ├── 📄 setup.cfg
+    └── 📄 setup.py</code></pre>
+</blockquote>
+</div></div>
+</section>
+<section id="paquetes-de-ros-4" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<div class="columns">
+<div class="column" style="width: 55%;">
+<h4 id="múltiples-paquetes"><u>Múltiples paquetes</u></h4>
+<ul>
+<li>Cada uno en su propia carpeta</li>
+<li>Sin distinción del tipo de compilación y lenguaje</li>
+</ul>
+<p><br></p>
+<div style="width: 90%;">
+<div class="callout callout-warning callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>No se pueden contener paquetes dentro de un paquete</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column r-stretch" style="width:45%;">
+<blockquote>
+<pre><code>📂 src
+├── 📂 paquete_cpp_1
+│   ├── 📄 CMakeLists.txt
+│   ├── 📁 include
+│   │   └── 📁 paquete_cpp_1
+│   ├── 📄 package.xml
+│   └── 📁 src
+│
+├── 📂 paquete_python_1
+│   ├── 📄 package.xml
+│   ├── 📁 resource
+│   │   └── 📄 paquete_python_1
+│   ├── 📄 setup.cfg
+│   ├── 📄 setup.py
+│   └── 📁 paquete_python_1
+│
+├── 📂 ...
+│
+└── 📂 paquete_cpp_N
+    ├── 📄 CMakeLists.txt
+    ├── 📁 include
+    │   └── 📁 paquete_cpp_N
+    ├── 📄 package.xml
+    └── 📁 src</code></pre>
+</blockquote>
+</div></div>
+<aside class="notes">
+<ul>
+<li>Un <em>workspace</em> puede contener tantos paquetes como desee, cada uno en su propia carpeta</li>
+<li>Puede tener paquetes de diferentes tipos de compilación (CMake, Python, etc.)</li>
+<li>No se permiten paquetes anidados</li>
+<li>Lo ideal es tener una carpeta <code>src</code> dentro del <em>wrokspace</em> y crear tus paquetes allí</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="paquetes-de-ros-5" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<blockquote>
+<p>Estructura mínima para un paquete de ROS2 en <strong>Python</strong> (<em>ament_python</em>)</p>
+</blockquote>
+<ul>
+<li>📦 <code>package.xml</code>: Contiene <em>meta-información</em> del paquete (independiente del tipo)</li>
+<li>🏷️ <code>resource/&lt;nombre_paquete&gt;</code>: Archivo de marcación para el paquete</li>
+<li>⚙️ <code>setup.cfg</code>: Necesario cuando hay ejecutables (para que <code>ros2 run</code> los encuentre)</li>
+<li>🛠️ <code>setup.py</code>: Instrucciones para instalar el paquete</li>
+<li>📁 <code>&lt;nombre_paquete&gt;</code>: Carpeta principal del paquete que contiene el código
+<ul>
+<li>📄 <code>__init__.py</code></li>
+</ul></li>
+</ul>
+<!--
+::: {.aside}
+[Documentación](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html){target="_blank"}
+:::
+-->
+<aside class="notes">
+<ul>
+<li>Cada tipo de paquete tiene su mínima estructura requerida</li>
+<li>Archivos mínimos para cada paquete de Python
+<ul>
+<li><code>package.xml</code>: información acerca del paquete (cual?)</li>
+<li><code>setup.py</code> -&gt; instrucciones para instalar el paquete</li>
+<li><code>setup.cfg</code> -&gt; Para que el comando run encuentra los ejecutables en el caso de que existan</li>
+<li><code>/&lt;nombre_paquete&gt;</code> -&gt; Carpeta con el mismo nombre del paquete junto con el archivo <code>__init__.py</code> utilizado por las herramientas de ROS2</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="paquetes-de-ros-6" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<h3 id="package.xml">📄 package.xml</h3>
+<ul>
+<li>Propiedades e información del paquete en formato <code>XML</code></li>
+<li>Necesario:
+<ul>
+<li><code>&lt;name&gt;</code></li>
+<li><code>&lt;description&gt;</code></li>
+<li><code>&lt;version&gt;</code></li>
+<li><code>&lt;maintainer&gt;</code></li>
+<li><code>&lt;license&gt;</code></li>
+</ul></li>
+<li><h4 id="más-importante-dependencias"><u>Más importante</u>: dependencias</h4></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="sourceCode" id="cb4" data-code-line-numbers="|1-4|6,21|7,9|8|10-14|16|18-20"><pre class="sourceCode numberSource xml number-lines"><code class="sourceCode xml"><span id="cb4-1"><a></a><span class="fu">&lt;?xml</span> <span class="ot">version=</span><span class="st">"1.0"</span><span class="fu">?&gt;</span></span>
+<span id="cb4-2"><a></a><span class="fu">&lt;?xml-model</span></span>
+<span id="cb4-3"><a></a>    href="http://download.ros.org/schema/package_format3.xsd"</span>
+<span id="cb4-4"><a></a>    schematypens="http://www.w3.org/2001/XMLSchema"<span class="fu">?&gt;</span></span>
+<span id="cb4-5"><a></a></span>
+<span id="cb4-6"><a></a>&lt;<span class="kw">package</span> <span class="ot">format=</span><span class="st">"3"</span>&gt;</span>
+<span id="cb4-7"><a></a>    &lt;<span class="kw">name</span>&gt;nombre_paquete&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb4-8"><a></a>    &lt;<span class="kw">version</span>&gt;0.0.0&lt;/<span class="kw">version</span>&gt;</span>
+<span id="cb4-9"><a></a>    &lt;<span class="kw">description</span>&gt;Descripción del paquete&lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb4-10"><a></a>    &lt;<span class="kw">maintainer</span> <span class="ot">email=</span><span class="st">"user@todo.todo"</span>&gt;user&lt;/<span class="kw">maintainer</span>&gt;</span>
+<span id="cb4-11"><a></a>    &lt;<span class="kw">license</span>&gt;Licencia&lt;/<span class="kw">license</span>&gt;</span>
+<span id="cb4-12"><a></a></span>
+<span id="cb4-13"><a></a>    &lt;<span class="kw">url</span> <span class="ot">type=</span><span class="st">"website"</span>&gt;https://github.com/...&lt;/<span class="kw">url</span>&gt;</span>
+<span id="cb4-14"><a></a>    &lt;<span class="kw">author</span> <span class="ot">email=</span><span class="st">"user@todo.todo"</span>&gt;user&lt;/<span class="kw">author</span>&gt;</span>
+<span id="cb4-15"><a></a></span>
+<span id="cb4-16"><a></a>    &lt;<span class="kw">depend</span>&gt;nombre_paquete_dependencia&lt;/<span class="kw">depend</span>&gt;</span>
+<span id="cb4-17"><a></a></span>
+<span id="cb4-18"><a></a>    &lt;<span class="kw">export</span>&gt;</span>
+<span id="cb4-19"><a></a>        &lt;<span class="kw">build_type</span>&gt;ament_python&lt;/<span class="kw">build_type</span>&gt;</span>
+<span id="cb4-20"><a></a>    &lt;/<span class="kw">export</span>&gt;</span>
+<span id="cb4-21"><a></a>&lt;/<span class="kw">package</span>&gt;</span></code></pre></div>
+</div></div>
+
+<aside class="notes">
+<ul>
+<li>Nexo en común: todos los paquetes de ROS tienen este archivo</li>
+<li>Propiedades e información del paquete: Nombre, versión, descripción y lo más importante, las dependencias</li>
+<li>Dependencias: otros paquetes (por lo general de ROS) que el código necesita para funcionar</li>
+<li>Será necesario completar: descripción, licencia y el “<em>mainteiner</em>”</li>
+<li>Otros datos: autores, URL (repositorio),</li>
+</ul>
+<p>Breve descripción de los archivos con codificación eXtensible Markup Language: - Lenguaje de marcado -&gt; una forma de organizar la información utilizando etiquetas (para definir elementos) y atributos (para información adicional), de forma jerárquica. - Es flexible y puede personalizarse -&gt; Útil para intercambiar información - Fácil de entender para humanos</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Definición completa: <a href="https://reps.openrobotics.org/rep-0149/" target="_blank">REP149</a></p>
+</div></aside></section>
+<section id="paquetes-de-ros-7" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<h3 id="setup.py">📄 setup.py</h3>
+<ul>
+<li>Repite: nombre, descripción, versión, “<em>maintainer</em>”, y licencia</li>
+<li>Debe coincidir la información con el <code>package.xml</code></li>
+<li>Definición de ejecutables para el comando <code>ros2 run</code></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="sourceCode" id="cb5" data-code-line-numbers="|3|6-9,21-24|11-17|26-30"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">from</span> setuptools <span class="im">import</span> setup</span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a>package_name <span class="op">=</span> <span class="st">'nombre_paquete'</span></span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a>setup(</span>
+<span id="cb5-6"><a></a>  name<span class="op">=</span>package_name,</span>
+<span id="cb5-7"><a></a>  version<span class="op">=</span><span class="st">'0.0.0'</span>,</span>
+<span id="cb5-8"><a></a>  <span class="co"># Packages to export</span></span>
+<span id="cb5-9"><a></a>  packages<span class="op">=</span>[package_name],</span>
+<span id="cb5-10"><a></a>  <span class="co"># Files we want to install, specifically launch files</span></span>
+<span id="cb5-11"><a></a>  data_files<span class="op">=</span>[</span>
+<span id="cb5-12"><a></a>      <span class="co"># Install marker file in the package index</span></span>
+<span id="cb5-13"><a></a>      (<span class="st">'share/ament_index/resource_index/packages'</span>,</span>
+<span id="cb5-14"><a></a>          [<span class="st">'resource/'</span> <span class="op">+</span> package_name]),</span>
+<span id="cb5-15"><a></a>      <span class="co"># Include our package.xml file</span></span>
+<span id="cb5-16"><a></a>      (<span class="st">'share/'</span> <span class="op">+</span> package_name, [<span class="st">'package.xml'</span>]),</span>
+<span id="cb5-17"><a></a>    ],</span>
+<span id="cb5-18"><a></a>  <span class="co"># This is important as well</span></span>
+<span id="cb5-19"><a></a>  install_requires<span class="op">=</span>[<span class="st">'setuptools'</span>],</span>
+<span id="cb5-20"><a></a>  zip_safe<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-21"><a></a>  maintainer<span class="op">=</span><span class="st">'TODO'</span>,</span>
+<span id="cb5-22"><a></a>  maintainer_email<span class="op">=</span><span class="st">'TODO'</span>,</span>
+<span id="cb5-23"><a></a>  description<span class="op">=</span><span class="st">'TODO: Package description'</span>,</span>
+<span id="cb5-24"><a></a>  license<span class="op">=</span><span class="st">'TODO: License declaration'</span>,</span>
+<span id="cb5-25"><a></a>  tests_require<span class="op">=</span>[<span class="st">'pytest'</span>],</span>
+<span id="cb5-26"><a></a>  entry_points<span class="op">=</span>{</span>
+<span id="cb5-27"><a></a>      <span class="st">'console_scripts'</span>: [</span>
+<span id="cb5-28"><a></a>              <span class="st">'nombre_nodo = nombre_paquete.nombre_nodo:main'</span></span>
+<span id="cb5-29"><a></a>      ],</span>
+<span id="cb5-30"><a></a>    },</span>
+<span id="cb5-31"><a></a>)</span></code></pre></div>
+</div></div>
+
+<aside class="notes">
+<ul>
+<li>Repite nombre, version, descripción, maintainer y licencia (es necesario que sean iguales en los dos archivos)</li>
+<li></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Definición más completa: <a href="https://docs.ros.org/en/jazzy/How-To-Guides/Developing-a-ROS-2-Package.html#python-packages">docs.ros.org</a></p>
+</div></aside></section>
+<section id="paquetes-de-ros-8" class="slide level2 smaller">
+<h2>Paquetes de ROS</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<h3 id="setup.cfg">📄 setup.cfg</h3>
+<ul>
+<li>Si el paquete posee un ejecutable <code>ros2 run</code> lo puede encontrar</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><br></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource toml number-lines"><code class="sourceCode toml"><span id="cb6-1"><a></a><span class="kw">[develop]</span></span>
+<span id="cb6-2"><a></a><span class="dt">script_dir</span><span class="op">=</span><span class="er">$</span><span class="dt">base</span><span class="er">/</span><span class="dt">lib</span><span class="er">/&lt;</span><span class="dt">nombre_paquete</span><span class="er">&gt;</span></span>
+<span id="cb6-3"><a></a></span>
+<span id="cb6-4"><a></a><span class="kw">[install]</span></span>
+<span id="cb6-5"><a></a><span class="dt">install_scripts</span><span class="op">=</span><span class="er">$</span><span class="dt">base</span><span class="er">/</span><span class="dt">lib</span><span class="er">/&lt;</span><span class="dt">nombre_paquete</span><span class="er">&gt;</span></span></code></pre></div>
+</div></div>
+</section></section>
+<section>
+
+<section id="section-5" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día-2"><u>Orden del día</u></h3>
+<ul>
+<li>Entorno + <em>Workspace</em></li>
+<li>Paquetes de ROS</li>
+<li>Uso de nombres &nbsp; ⬅️</li>
+<li>Programación de nodo (<code>rclpy</code>)</li>
+<li>Funciones <em>callback</em></li>
+<li>Dependencias y compilación</li>
+</ul>
+</section></section>
+<section>
+
+<section id="uso-de-nombres" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>Nombres para:</p>
+<ul>
+<li>Paquete</li>
+<li>Archivo (de código)</li>
+<li>Ejecutable (<code>ros2 run</code>)</li>
+<li>Nodo (<em>contexto</em> y <code>namespace</code>)</li>
+</ul>
+</div><div class="column" style="width:60%;">
+
+</div></div>
+</section>
+<section id="uso-de-nombres-1" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li><h3 id="paquete">Paquete</h3></li>
+<li>Archivo</li>
+<li>Ejecutable</li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Workspace</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-code-line-numbers="2,3,8" data-filename="Workspace"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>📂 src</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>  📁 nombre_paquete</span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>      📁 nombre_paquete</span>
+<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>          📄 __init__.py</span>
+<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>          📄 codigo.py</span>
+<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>          ...                   </span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>    📁 resource</span>
+<span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>        📄 nombre_paquete</span>
+<span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a>    📄 package.xml</span>
+<span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.cfg</span>
+<span id="cb7-11"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.py</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-2" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li>Paquete</li>
+<li><h3 id="archivo">Archivo</h3></li>
+<li>Ejecutable</li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Workspace</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-code-line-numbers="5" data-filename="Workspace"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>📂 src</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  📁 nombre_paquete</span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>      📁 nombre_paquete</span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>          📄 __init__.py</span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>          📄 codigo.py</span>
+<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>          ...                   </span>
+<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>    📁 resource</span>
+<span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a>        📄 nombre_paquete</span>
+<span id="cb8-9"><a aria-hidden="true" tabindex="-1"></a>    📄 package.xml</span>
+<span id="cb8-10"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.cfg</span>
+<span id="cb8-11"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.py</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-3" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li><h3 id="paquete-1">Paquete</h3></li>
+<li>Archivo</li>
+<li>Ejecutable</li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>package.xml</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-code-line-numbers="2" data-filename="package.xml"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">package</span> <span class="ot">format=</span><span class="st">"3"</span>&gt;</span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span>&gt;{nombre_paquete}&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">version</span>&gt;{version}&lt;/<span class="kw">version</span>&gt;</span>
+<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">description</span>&gt;</span>
+<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>        {descripcion}</span>
+<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb9-8"><a aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb9-9"><a aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">package</span>&gt;</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-4" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li><h3 id="paquete-2">Paquete</h3></li>
+<li>Archivo</li>
+<li>Ejecutable</li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup.cfg</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" data-code-line-numbers="2" data-filename="setup.cfg"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">[develop]</span></span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a><span class="dt">script_dir</span><span class="op">=</span><span class="er">$</span><span class="dt">base</span><span class="er">/</span><span class="dt">lib</span><span class="er">/{</span><span class="dt">nombre_paquete</span><span class="er">}</span></span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a><span class="kw">[install]</span></span>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a><span class="dt">install_scripts</span><span class="op">=</span><span class="er">$</span><span class="dt">base</span><span class="er">/</span><span class="dt">lib</span><span class="er">/{</span><span class="dt">nombre_paquete</span><span class="er">}</span></span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-5" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li><h3 id="paquete-3">Paquete</h3></li>
+<li>Archivo</li>
+<li>Ejecutable</li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb11" data-code-line-numbers="4,8,11,12" data-filename="setup.py" style="font-size:80%"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> setuptools <span class="im">import</span> setup</span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>setup(</span>
+<span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a>  name<span class="op">=</span>{nombre_paquete},</span>
+<span id="cb11-5"><a aria-hidden="true" tabindex="-1"></a>  version<span class="op">=</span>{version},</span>
+<span id="cb11-6"><a aria-hidden="true" tabindex="-1"></a>  description<span class="op">=</span>{descripción},</span>
+<span id="cb11-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb11-8"><a aria-hidden="true" tabindex="-1"></a>  packages<span class="op">=</span>[{nombre_paquete}],</span>
+<span id="cb11-9"><a aria-hidden="true" tabindex="-1"></a>  data_files<span class="op">=</span>[</span>
+<span id="cb11-10"><a aria-hidden="true" tabindex="-1"></a>    (<span class="st">'share/ament_index/resource_index/packages'</span>,</span>
+<span id="cb11-11"><a aria-hidden="true" tabindex="-1"></a>      [<span class="st">'resource/'</span> <span class="op">+</span> {nombre_paquete}]),</span>
+<span id="cb11-12"><a aria-hidden="true" tabindex="-1"></a>    (<span class="st">'share/</span><span class="sc">{nombre_paquete}</span><span class="st">'</span>, [<span class="st">'package.xml'</span>]),</span>
+<span id="cb11-13"><a aria-hidden="true" tabindex="-1"></a>  ],</span>
+<span id="cb11-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb11-15"><a aria-hidden="true" tabindex="-1"></a>  entry_points<span class="op">=</span>{</span>
+<span id="cb11-16"><a aria-hidden="true" tabindex="-1"></a>    <span class="st">'console_scripts'</span>: [</span>
+<span id="cb11-17"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">'</span><span class="sc">{nombre_ejecutable}</span><span class="st"> = </span><span class="op">\</span></span>
+<span id="cb11-18"><a aria-hidden="true" tabindex="-1"></a><span class="st">        </span><span class="sc">{nombre_paquete}</span><span class="st">.</span><span class="sc">{nombre_archivo}</span><span class="st">:main'</span></span>
+<span id="cb11-19"><a aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb11-20"><a aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb11-21"><a aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-6" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li><h3 id="paquete-4">Paquete</h3></li>
+<li><h3 id="archivo-1">Archivo</h3></li>
+<li><h3 id="ejecutable">Ejecutable</h3></li>
+<li>Nodo</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb12" data-code-line-numbers="16-18" data-filename="setup.py" style="font-size:80%"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> setuptools <span class="im">import</span> setup</span>
+<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>setup(</span>
+<span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a>  name<span class="op">=</span>{nombre_paquete},</span>
+<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a>  version<span class="op">=</span>{version},</span>
+<span id="cb12-6"><a aria-hidden="true" tabindex="-1"></a>  description<span class="op">=</span>{descripción},</span>
+<span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb12-8"><a aria-hidden="true" tabindex="-1"></a>  packages<span class="op">=</span>[{nombre_paquete}],</span>
+<span id="cb12-9"><a aria-hidden="true" tabindex="-1"></a>  data_files<span class="op">=</span>[</span>
+<span id="cb12-10"><a aria-hidden="true" tabindex="-1"></a>    (<span class="st">'share/ament_index/resource_index/packages'</span>,</span>
+<span id="cb12-11"><a aria-hidden="true" tabindex="-1"></a>      [<span class="st">'resource/'</span> <span class="op">+</span> {nombre_paquete}]),</span>
+<span id="cb12-12"><a aria-hidden="true" tabindex="-1"></a>    (<span class="st">'share/</span><span class="sc">{nombre_paquete}</span><span class="st">'</span>, [<span class="st">'package.xml'</span>]),</span>
+<span id="cb12-13"><a aria-hidden="true" tabindex="-1"></a>  ],</span>
+<span id="cb12-14"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># ...</span></span>
+<span id="cb12-15"><a aria-hidden="true" tabindex="-1"></a>  entry_points<span class="op">=</span>{</span>
+<span id="cb12-16"><a aria-hidden="true" tabindex="-1"></a>    <span class="st">'console_scripts'</span>: [</span>
+<span id="cb12-17"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">'</span><span class="sc">{nombre_ejecutable}</span><span class="st"> = </span><span class="op">\</span></span>
+<span id="cb12-18"><a aria-hidden="true" tabindex="-1"></a><span class="st">        </span><span class="sc">{nombre_paquete}</span><span class="st">.</span><span class="sc">{nombre_archivo}</span><span class="st">:main'</span></span>
+<span id="cb12-19"><a aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb12-20"><a aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb12-21"><a aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="uso-de-nombres-7" class="slide level2">
+<h2>Uso de nombres</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Nombres para:</p>
+<ul>
+<li>Paquete</li>
+<li>Archivo</li>
+<li>Ejecutable</li>
+<li><h3 id="nodo">Nodo</h3></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>codigo.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb13" data-code-line-numbers="6" data-filename="codigo.py" style="font-size:80%"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main(args<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1. Inicialización</span></span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>  rclpy.init(args<span class="op">=</span>args)</span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2. Creación de nodo</span></span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>  node <span class="op">=</span> rclpy.create_node({nombre_nodo})</span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Procesamiento de callback</span></span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>  rclpy.spin(node)</span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a aria-hidden="true" tabindex="-1"></a>  <span class="co"># 4. Finalización</span></span>
+<span id="cb13-12"><a aria-hidden="true" tabindex="-1"></a>  rclpy.shutdown()</span>
+<span id="cb13-13"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb13-15"><a aria-hidden="true" tabindex="-1"></a>  main()</span></code></pre></div>
+</div>
+</div></div>
+</section>
+<section id="rep144---nombramiento-de-paquetes" class="slide level2 smaller">
+<h2><a href="https://reps.openrobotics.org/rep-0144/" target="_blank">REP144</a> - Nombramiento de paquetes</h2>
+<blockquote>
+<p>Reglas para nombrar paquetes</p>
+</blockquote>
+<p><br></p>
+<ul>
+<li>Solo contienen caracteres alfanuméricos en minúscula</li>
+<li>Solo se puede utilizar de separador el guión bajo “<code>_</code>”</li>
+<li>No puede iniciar con “<code>_</code>” o contener doble guión “<code>__</code>”</li>
+<li>Al menos 2 caracteres de longitud (se recomiendan muchos más)</li>
+</ul>
+
+<aside class="notes">
+<ul>
+<li><p>Propone reglas para nombrar paquetes de ROS de forma apropiada (algunas son obligatorias, otras son recomendaciones)</p></li>
+<li><p>El nombre de paquete se utiliza como namespace</p></li>
+<li><p>Obligatoriamente:</p>
+<ul>
+<li>Solo consiste en caracteres alfanumericos en minúscula (hay OS que no distinguen mayúscula y minúscula)</li>
+<li>Separador ’_’ (no puede iniciar ni tener varios seguidos) -&gt; los nombres deben ser soportados por todos los lenguajes</li>
+<li>Al menos 2 caracteres de longitud (se recomienda que sea mucho más largo)</li>
+</ul></li>
+<li><p>Reglas más generales:</p>
+<ul>
+<li>Deben ser lo más específicos posible (para entender lo que hacen rapidamente)</li>
+<li>Evitar nombres genéricos</li>
+<li>Evitar utilizar “ros” en el nombre (para paquetes que no son base)</li>
+<li>Evitar utilizar nombres ya ocupados (ver el index de ROS)</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>Más información en <a href="https://reps.openrobotics.org/rep-0144/" target="_blank">reps.openrobotics.org</a></p>
+</div></aside></section></section>
+<section>
+
+<section id="section-7" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día-3"><u>Orden del día</u></h3>
+<ul>
+<li>Entorno + <em>Workspace</em></li>
+<li>Paquetes de ROS</li>
+<li>Uso de nombres</li>
+<li>Programación de nodo (<code>rclpy</code>) &nbsp; ⬅️</li>
+<li>Funciones <em>callback</em></li>
+<li>Dependencias y compilación</li>
+</ul>
+</section></section>
+<section>
+
+<section id="rclpy-ros-client-library-python" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Acceso a los componentes de ROS</p>
+</blockquote>
+<ul>
+<li class="fragment">Inicialización y ejecución de callbacks</li>
+<li class="fragment">Gestión de nodos</li>
+<li class="fragment">Topics, servicios, acciones, etc.</li>
+<li class="fragment">Parámetros, logs, etc</li>
+</ul>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="im">import</span> rclpy</span></code></pre></div>
+</div></div>
+</div>
+
+<aside class="notes">
+<ul>
+<li><p>Acceso a los elementos de ROS desde la sintaxis de Python utilizando tipos nativos y patrones como listas</p></li>
+<li><p>Componentes principales de la librería:</p>
+<ul>
+<li>Inicialización y “spinning”.</li>
+<li>Nodos, Topics, servicios, etc</li>
+<li>Subscriber/Publisher.</li>
+<li>Parámetros (así como servicios, acciones y elementos de sincronización)</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p><a href="https://docs.ros.org/en/jazzy/Concepts/Basic/About-Client-Libraries.html" target="_blank">Bibliotecas cliente</a> – <a href="https://docs.ros2.org/latest/api/rclpy/index.html" target="_blank">Documentación <code>rclpy</code></a></p>
+</div></aside></section>
+<section id="rclpy-ros-client-library-python-1" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Partes básicas del código</p>
+</blockquote>
+</section>
+<section id="rclpy-ros-client-library-python-2" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Partes básicas del código</p>
+</blockquote>
+<ol type="1">
+<li><p>Inicialización</p>
+<pre><code> rclpy.init(..)</code></pre></li>
+</ol>
+<ul>
+<li>Debe ser llamado antes que cualquier otra función de ROS</li>
+<li>Define el contexto (nombres y <code>namespace</code>)</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Inicialización</li>
+<li>Debe ser llamado antes de cualquier otra función de ROS</li>
+<li>Define el contexto.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rclpy-ros-client-library-python-3" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Partes básicas del código</p>
+</blockquote>
+<ol type="1">
+<li><p>Inicialización</p>
+<pre><code> rclpy.init(..)</code></pre></li>
+<li><p>Creación de 1 o más nodos</p>
+<pre><code> rclpy.create_node(..)</code></pre></li>
+</ol>
+<ul>
+<li>Punto de acceso a la red de ROS (topics, parámetros, servicios, etc.)</li>
+</ul>
+<aside class="notes">
+<p>Creación del nodo: es el punto de acceso al sistema de ROS (topics, servicios, parámetros, etc)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rclpy-ros-client-library-python-4" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Partes básicas del código</p>
+</blockquote>
+<ol type="1">
+<li><p>Inicialización</p>
+<pre><code> rclpy.init(..)</code></pre></li>
+<li><p>Creación de 1 o más nodos</p>
+<pre><code> rclpy.create_node(..)</code></pre></li>
+<li><p>Procesamiento de callbacks (<code>spinning</code>)</p>
+<pre><code> rclpy.spin(..)</code></pre></li>
+</ol>
+<ul>
+<li>Se procesan las tareas programadas del nodo</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>“Spinning”: Procesar las tareas del nodo</li>
+<li>Ejecutando código normal, llegaría hasta el final y terminaría</li>
+<li><code>.spin(..)</code> permite continuar la ejecución como si fuese un bucle hasta suceda un evento de interés (ej: llega un mensaje al suscriptor)</li>
+<li>Otro evento puede ser que se quiere cerrar el nodo, en ese momento termina la ejecución y pasa a .. (siguiente slide)</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rclpy-ros-client-library-python-5" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Partes básicas del código</p>
+</blockquote>
+<ol type="1">
+<li><p>Inicialización</p>
+<pre><code> rclpy.init(..)</code></pre></li>
+<li><p>Creación de 1 o más nodos</p>
+<pre><code> rclpy.create_node(..)</code></pre></li>
+<li><p>Procesamiento de callbacks (<code>spinning</code>)</p>
+<pre><code> rclpy.spin(..)</code></pre></li>
+<li><p>Apagado / finalización (<code>shutdown</code>)</p>
+<pre><code> rclpy.shutdown()</code></pre></li>
+</ol>
+<aside class="notes">
+<p>Finalización - Esta función le indica al sistema ROS 2 que ha finalizado su ejecución - Cierra todas las conexiones de red e informa a los demás nodos - <code>return 0</code> La forma estándar de indicar que el programa ha finalizado correctamente</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rclpy-ros-client-library-python-6" class="slide level2">
+<h2><code>rclpy</code>: ROS Client Library (Python)</h2>
+<blockquote>
+<p>Una vez creado el nodo:</p>
+<div class="sourceCode" id="cb25" style="width: 60%;"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a>node <span class="op">=</span> rclpy.create_node(..)</span></code></pre></div>
+</blockquote>
+<ul>
+<li class="fragment">Crear un <em>publisher</em>: <code>node.create_publisher(..)</code></li>
+<li class="fragment">Crear un <em>suscriber</em>: <code>node.create_subscription(..)</code></li>
+<li class="fragment">Crear un <em>timer</em>: <code>node.create_timer(..)</code></li>
+<li class="fragment">Enviar mensajes de log: <code>node.get_logger(..)</code></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Crear un publisher: Tipo de mensaje, nombre del topic</li>
+<li>Crear un subscriptor: Tipo de mensaje, nombre del topic, callback</li>
+<li>Timer: Tareas repetitivas a una frecuencia deseada. Período, callback</li>
+<li>Loggear: Mensajes en consola</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+
+<section id="section-9" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día-4"><u>Orden del día</u></h3>
+<ul>
+<li>Entorno + <em>Workspace</em></li>
+<li>Paquetes de ROS</li>
+<li>Uso de nombres</li>
+<li>Programación de nodo (<code>rclpy</code>)</li>
+<li>Funciones <em>callback</em> &nbsp; ⬅️</li>
+<li>Dependencias y compilación</li>
+</ul>
+</section></section>
+<section>
+
+<section id="rclpy-función-de-callback" class="slide level2">
+<h2><code>rclpy</code>: Función de <em>callback</em></h2>
+<blockquote>
+<p>Función que se genera y se envía para que sea ejecutada al ocurrir un evento</p>
+</blockquote>
+<p><br></p>
+<h4 id="permite-al-programa"><u>Permite al programa</u>:</h4>
+<ul>
+<li>No detenerse a esperar el evento</li>
+<li>Ejecutar la acción solo cuando es necesario</li>
+<li>Continuar la ejecución de otras tareas</li>
+</ul>
+<aside class="notes">
+<p>Acción que se ejecuta automáticamente al ocurrir un evento Porción de código que es pasada como argumento, a otra parte de código, que se espera sea ejecutado (call-back) en un momento conveniente.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="analogía-compra-online" class="slide level2 smaller">
+<h2>Analogía “compra online”</h2>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    participant Cliente
+    participant Tienda Online
+    participant Repartidor
+
+    Cliente-&gt;&gt;Tienda Online: Hace un pedido ✉️
+    Note left of Cliente: Continua con su día
+    Tienda Online-&gt;&gt;Repartidor: Despacha el paquete 📦
+    Repartidor--&gt;&gt;Cliente: ✉️ Notificación de entrega
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div></div>
+</section>
+<section id="analogía-compra-online-1" class="slide level2 smaller">
+<h2>Analogía “compra online”</h2>
+<div class="columns">
+<div class="column" style="width:22.5%;">
+
+</div><div class="column" style="width:55%;">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+    participant Cliente
+    participant Tienda Online
+    participant Repartidor
+
+    Cliente-&gt;&gt;Tienda Online: Hace un pedido ✉️
+    Note left of Cliente: Continua con su día
+    Tienda Online-&gt;&gt;Repartidor: Despacha el paquete 📦
+    Repartidor--&gt;&gt;Cliente: ✉️ Notificación de entrega
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:22.5%;">
+
+</div></div>
+<table>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Cliente
+</td>
+<td>
+➡️
+</td>
+<td>
+Nodo que genera el <em>callback</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Pedido en la tienda
+</td>
+<td>
+➡️
+</td>
+<td>
+Suscripción al topic <code>/entrega</code>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;" colspan="3">
+El nodo sigue ejecutando tareas
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Tienda despacha el paquete
+</td>
+<td>
+➡️
+</td>
+<td>
+Publica al topic <code>/entrega</code> un mensaje
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Notificación de entrega
+</td>
+<td>
+➡️
+</td>
+<td>
+Se activa la función <em>callback</em>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="función-callback" class="slide level2 smaller">
+<h2>Función <em>callback</em></h2>
+<blockquote>
+<p>Función estándar que puede (o no) recibir argumentos y puede (o no) retornar valores</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<p><br></p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ejemplo_callback.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb26" data-filename="ejemplo_callback.py"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> funcion_callback(msg: String):</span>
+<span id="cb26-3"><a aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="st">"Mensaje: "</span> <span class="op">+</span> msg)</span>
+<span id="cb26-4"><a aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div></div>
+<p><br></p>
+<ul>
+<li>Diferencia entre
+<ul>
+<li>Ejecutar la función: <code>funcion_callback('prueba')</code></li>
+<li>Objeto/entidad función: <code>funcion_callback</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="función-callback-1" class="slide level2 smaller">
+<h2>Función <em>callback</em></h2>
+<blockquote>
+<p>Otra función es la que recibe el <em>callback</em></p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<p><br></p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>funcion_principal.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb27" data-filename="funcion_principal.py" data-code-line-numbers="5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> proceso_principal(callback: Function):</span>
+<span id="cb27-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="co"># Procesamiento de tareas / cálculo / etc</span></span>
+<span id="cb27-4"><a aria-hidden="true" tabindex="-1"></a>        <span class="co"># ..</span></span>
+<span id="cb27-5"><a aria-hidden="true" tabindex="-1"></a>        callback(resultado)</span>
+<span id="cb27-6"><a aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div></div>
+<p><br></p>
+<ul>
+<li>Luego se pasa el <em>callback</em> como argumento en la llamada</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Ejecución con callback</strong></pre>
+</div>
+<div class="sourceCode" id="cb28" data-filename="Ejecución con callback"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-2"><a aria-hidden="true" tabindex="-1"></a>    proceso_principal(funcion_callback)</span>
+<span id="cb28-3"><a aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</section></section>
+<section>
+
+<section id="section-11" class="slide level2">
+<h2></h2>
+<h3 id="orden-del-día-5"><u>Orden del día</u></h3>
+<ul>
+<li>Entorno + <em>Workspace</em></li>
+<li>Paquetes de ROS</li>
+<li>Uso de nombres</li>
+<li>Programación de nodo (<code>rclpy</code>)</li>
+<li>Funciones <em>callback</em></li>
+<li>Dependencias y compilación &nbsp; ⬅️</li>
+</ul>
+</section></section>
+<section>
+
+<section id="dependencias-package.xml" class="slide level2 smaller">
+<h2>Dependencias (<code>package.xml</code>)</h2>
+<blockquote>
+<p>Tipos de dependencias:</p>
+</blockquote>
+<ul>
+<li><code>&lt;build_depend&gt;</code>: compilación</li>
+<li><code>&lt;exec_depend&gt;</code>: ejecución (<strong>Más común para <em>Python</em></strong>)</li>
+<li><code>&lt;depend&gt;</code>: compilación y ejecución</li>
+<li><code>&lt;test_depend&gt;</code>: solo para pruebas</li>
+</ul>
+<p><br></p>
+<h4 id="pueden-resolverse-utilizando-el-comando-rosdep">Pueden resolverse utilizando el comando <code>rosdep</code></h4>
+<div class="sourceCode" id="cb29" style="width: 25em;"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a aria-hidden="true" tabindex="-1"></a>    <span class="ex">$</span> rosdep install <span class="at">-i</span> <span class="at">--from-path</span> src <span class="at">--rosdistro</span> jazzy <span class="at">-r</span> <span class="at">-y</span></span></code></pre></div>
+<!-- ::: {.callout-important appearance="simple"}
+Siempre ejecutar desde el *workspace* (**NO** dentro de `src` o cualquier paquete)
+::: -->
+
+<aside><div>
+<p>Más información <a href="https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Rosdep.html#how-does-rosdep-work" target="_blank"><em>rosdep</em></a></p>
+</div></aside></section>
+<section id="dependencias-package.xml-1" class="slide level2 smaller">
+<h2>Dependencias (<code>package.xml</code>)</h2>
+<h4 id="el-código-fuente-de-un-nodo-..">El código fuente de un nodo ..</h4>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>nodo.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb30" data-filename="nodo.py"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="im">import</span> rclpy</span>
+<span id="cb30-2"><a></a><span class="im">from</span> std_msgs.msg <span class="im">import</span> String</span>
+<span id="cb30-3"><a></a></span>
+<span id="cb30-4"><a></a><span class="co"># ..</span></span></code></pre></div>
+</div>
+</div><div class="column" style="width:20%;">
+
+</div></div>
+<p><br></p>
+<h4 id="se-refleja-en-las-dependencias-del-paquete">.. se refleja en las dependencias <u>del paquete</u>:</h4>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>package.xml</strong></pre>
+</div>
+<div class="sourceCode" id="cb31" data-filename="package.xml"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ... --&gt;</span></span>
+<span id="cb31-2"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">exec_depend</span>&gt;rclpy&lt;/<span class="kw">exec_depend</span>&gt;</span>
+<span id="cb31-3"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">exec_depend</span>&gt;std_msgs&lt;/<span class="kw">exec_depend</span>&gt;</span>
+<span id="cb31-4"><a aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ... --&gt;</span></span></code></pre></div>
+</div>
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="ejectuables-setup.py" class="slide level2 smaller">
+<h2>Ejectuables (<code>setup.py</code>)</h2>
+<blockquote>
+<p>Añadir ejecutable para utilizar <code>ros2 run</code></p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:10%;">
+
+</div><div class="column" style="width:80%;">
+<p><br></p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb32" data-filename="setup.py"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb32-3"><a aria-hidden="true" tabindex="-1"></a>    entry_points<span class="op">=</span>{</span>
+<span id="cb32-4"><a aria-hidden="true" tabindex="-1"></a>      <span class="st">'console_scripts'</span>: [</span>
+<span id="cb32-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="st">'</span><span class="sc">{nombre_ejecutable}</span><span class="st"> = </span><span class="sc">{nombre_paquete}</span><span class="st">.</span><span class="sc">{nombre_archivo}</span><span class="st">:main'</span>,</span>
+<span id="cb32-6"><a aria-hidden="true" tabindex="-1"></a>      ],</span>
+<span id="cb32-7"><a aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb32-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb32-9"><a aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div></div>
+<p><br></p>
+<div title="[Recordemos]{.underline}">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><u>Recordemos</u></strong></p>
+</div>
+<div class="callout-content">
+<p><code>ros2 run {nombre_paquete} {nombre_ejecutable}</code></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="compilación-del-paquete" class="slide level2 smaller">
+<h2>Compilación del paquete</h2>
+<p><br></p>
+<blockquote>
+<h4 id="herramienta-de-compilación-colcon">Herramienta de compilación: <code>colcon</code></h4>
+</blockquote>
+<div class="sourceCode" id="cb33" style="width: 28em;"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a>    <span class="ex">$</span> colcon build [--packages-select <span class="op">&lt;</span>nombre_paquete<span class="op">&gt;</span>]</span></code></pre></div>
+<p><br></p>
+<div style="width: 28em;">
+<div class="callout callout-warning callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ejecutar en la raíz del <em>workspace</em></strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+<blockquote>
+<h4 id="source-del-entorno-local-overlay"><em>Source</em> del entorno local (<em>overlay</em>):</h4>
+</blockquote>
+<div class="sourceCode" id="cb34" style="width: 28em;"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>    <span class="ex">$</span> source install/setup.bash</span></code></pre></div>
+</section></section>
+<section>
+
+<section id="laboratorio-1" class="slide level2 center">
+<h2><a href="../../clases/04/lab.html">Laboratorio</a></h2>
+<ul>
+<li>Creación de paquetes</li>
+<li>Programación y compilación de nodos</li>
+</ul>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="../../">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
