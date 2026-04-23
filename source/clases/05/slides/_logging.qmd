@@ -1,0 +1,173 @@
+
+## Sistema de *logging* {.smaller}
+
+> Entregar de registro a varios destinos
+
+::: {.columns}
+::: {.column width="50%"}
+
+- La consola
+- El archivo de *log* (almacenamiento)
+- El topic `/rosout`
+
+
+::: {.callout-note appearance="simple"}
+Pueden activarse y desactivarse individualmente
+:::
+
+:::
+:::
+
+::: {.aside}
+Más información: [ROS2 Concept](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Logging.html){target="_blank"}
+:::
+
+::: {.notes}
+- Por qué hacemos *logging*: Mostrar mensajes de eventos o estados de diferentes formas
+- Por lo general es información para el usuario
+- También información para trazabilidad de errores o problemas de ejecución
+- El subsistema de registro en ROS 2 tiene como objetivo entregar a una varios destinos
+  - Consola (si hay alguna ligada)
+  - Archivo en el disco (si hay espacio)
+  - Topic `/rosout`
+
+:::
+
+## Sistema de *logging* {.smaller}
+
+> Escala de gravedad (*severity level*)
+
+::: {.list-table header-rows="0" aligns="c"}
+
+- - Orden ascendente
+  - Referencia
+
+- []{style="background: #082F49; color: #BAE6FD;"}
+  - **DEBUG**
+  - Detallan todo el proceso de ejecución 
+
+- []{style="background: #022C22; color: #A7F3D0;"}
+  - **INFO**
+  - Muestran eventos y estados, ejecución según lo previsto
+
+- []{style="background: #422006; color: #FDE68A;"}
+  - **WARN**
+  - Actividad inesperada / resultados no deseados
+
+- []{style="background: #450A0A; color: #FCA5A5;"}
+  - **ERROR**
+  - Problemas importantes impiden el correcto funcionamiento
+
+- []{style="background: #2E1065; color: #D8B4FE;"}
+  - **FATAL**
+  - El sistema va a cerrarse para protegerse de posibles daños
+
+:::
+
+
+::: {.aside}
+Más información: [ROS2 Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Using-Rqt-Console/Using-Rqt-Console.html#logger-levels){target="_blank"}
+:::
+
+::: {.notes}
+- fatales indican que el sistema se va a cerrar para protegerse de posibles daños.
+- de error indican problemas importantes que, si bien no necesariamente dañarán el sistema, impiden su correcto funcionamiento.
+- de advertencia indican actividad inesperada o resultados no deseados que podrían representar un problema más profundo, pero que no afectan directamente la funcionalidad.
+- informativos muestran actualizaciones de eventos y estado que sirven como verificación visual de que el sistema se está ejecutando según lo previsto.
+- de depuración detallan todo el proceso de ejecución del sistema paso a paso.
+:::
+
+
+## Sistema de *logging* {.smaller}
+
+> Escala de gravedad (*severity level*)
+
+::: {.columns}
+::: {.column width="50%"}
+
+- El *logger* solo procesará mensajes con gravedad igual o superior al nivel configurado
+  - [Ejemplo]{.underline}: si el nivel es `WARN` solo se verán mensajes `WARN`, `ERROR` y `FATAL`
+
+
+:::
+::: {.column width="15%"}
+
+:::
+::: {.column width="35%"}
+
+{{< include slides/_severity_table.qmd >}}
+
+:::
+:::
+
+
+## Sistema de *logging* {.smaller}
+
+> Escala de gravedad (*severity level*)
+
+::: {.columns}
+::: {.column width="50%"}
+
+- El valor se puede establecer por cada nodo
+
+```bash {code-line-numbers="false" code-line-numbers="2"}
+ros2 run <nombre_paquete> <nombre_ejecutable> \
+      --ros-args --log-level <nivel_severidad>
+```
+
+<br>
+
+::: {.callout-note appearance="simple"}
+El valor por defecto es `INFO` (solo se ocultan los mensajes `DEBUG`)
+:::
+
+
+
+:::
+::: {.column width="15%"}
+
+:::
+::: {.column width="35%"}
+
+{{< include slides/_severity_table.qmd >}}
+
+:::
+:::
+
+
+::: {.notes}
+Cada nodo está asociado a un nivel de severidad por lo que se pueden filtrar mensajes con severidad inferior
+:::
+
+
+## Mensajes de log en `rclpy` {.smaller}
+
+> Obtener el logger desde la clase nodo:
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+    self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>')
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+#### Opciones de comportamiento:
+
+- `once` (*bool*): Loggear solo la primera vez
+- `skip_first` (*bool*): No loggear la primera vez, si las siguientes
+- `throttle_duration_sec` (*float*): Intervalo entre mensajes
+
+
+::: {.callout-note appearance="simple" style="width: 60%;"}
+Se pueden combinar independientemente
+:::

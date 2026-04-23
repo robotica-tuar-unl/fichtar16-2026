@@ -1,0 +1,628 @@
+## Programación Orientada a Objetos 
+
+> Existen 3 formas de escribir código de ROS
+
+<br>
+
+1. Código *in-line* (utilizado en la clase anterior)
+2. Funciones locales
+3. Paradigma Orientado a Objetos &emsp;&emsp;⬅️
+
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="|10"}
+import rclpy
+
+from std_msgs.msg import String
+
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  nodo = rclpy.create_node('publicador')
+
+  # 2.1 Lógica del programa
+  ...
+
+  # 3. Procesamiento de mensajes y callback
+  rclpy.spin(nodo)
+
+  # 4. Finalización 
+  rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="|2,10"}
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  nodo = Publicador()
+
+  # 2.1 La lógica se encuentra en la clase
+
+
+  # 3. Procesamiento de mensajes y callback
+  rclpy.spin(nodo)
+
+  # 4. Finalización 
+  rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+:::
+::::
+
+
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="12"}
+import rclpy
+
+from std_msgs.msg import String
+
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  nodo = rclpy.create_node('publicador')
+
+  # 2.1 Lógica del programa
+  ...
+
+  # 3. Procesamiento de mensajes y callback
+  rclpy.spin(nodo)
+
+  # 4. Finalización 
+  rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="12"}
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  nodo = Publicador()
+
+  # 2.1 La lógica se encuentra en la clase
+  
+
+  # 3. Procesamiento de mensajes y callback
+  rclpy.spin(nodo)
+
+  # 4. Finalización 
+  rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+:::
+::::
+
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers=""}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers=""}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="22"}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="1|2-3"}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="6"}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="6-7"}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="10-11"}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="9-10"}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="19"}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="13-14"}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+## Código publisher {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="9,12-16"}
+def main(args=None):
+  ...
+  ...
+  # 2.1 Lógica del programa
+  # Creación de publisher
+  pub = nodo.create_publisher(String, 'chat', 10)
+
+  # 2.2 Programación de función de callback
+  def timer_callback():
+    # Creación de mensaje
+    msg = String()
+    # Completar el campo 'data' del mensaje 
+    msg.data = 'Mensaje de prueba'
+
+    # Publicar el mensaje
+    pub.publish(msg)
+
+  # 2.3 Creación del timer
+  timer = nodo.create_timer(1, timer_callback)
+  ...
+
+
+
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="17-22"}
+class Publicador(Node):
+  def __init__(self):
+    super().__init__('publicador')
+    
+    # 2.1 Creación de publisher
+    self.pub = self.create_publisher(
+                      String, 'chat', 10)
+
+    # 2.2 Creación de mensaje
+    self.msg = String()
+    
+    # 2.4 Creación del timer
+    self.timer = self.create_timer(
+                        1, self.timer_callback)
+  
+  # 2.3 Programación de función de callback
+  def timer_callback(self):
+    # Completar el campo 'data' del mensaje 
+    self.msg.data = f'Mensaje de prueba'
+
+    # Publicar el mensaje
+    self.pub.publish(self.msg)
+
+```
+
+:::
+::::
+
+
+
+
+## Código suscriber {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="11-12"}
+def main(args=None):
+  ...
+  # 2.1 Lógica del programa
+  # Programación de función de callback
+  def sub_callback(msg):
+    # Mostrar el mensaje en consola
+    nodo.get_logger()
+          .info(f'Recibí: "{msg.data}"')
+
+  # 2.2 Creación de suscriptor
+  sub = nodo.create_subscription(
+              String, 'chat', sub_callback, 10)
+  ...
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="6-7"}
+class Suscriptor(Node):
+  def __init__(self):
+    super().__init__('suscriptor')
+    
+    # 2.2 Creación de suscriptor
+    self.sub = self.create_subscription(
+        String, 'chat', self.sub_callback, 10)
+      
+  # 2.1 Programación de función de callback
+  def sub_callback(self, msg):
+    # Mostrar el mensaje en consola
+    self.get_logger()
+          .info(f'Recibí: "{msg.data}"')
+
+```
+
+:::
+::::
+
+## Código suscriber {.smaller}
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+> Inline
+
+```{.python code-line-numbers="5-8"}
+def main(args=None):
+  ...
+  # 2.1 Lógica del programa
+  # Programación de función de callback
+  def sub_callback(msg):
+    # Mostrar el mensaje en consola
+    nodo.get_logger()
+          .info(f'Recibí: "{msg.data}"')
+
+  # 2.2 Creación de suscriptor
+  sub = nodo.create_subscription(
+              String, 'chat', sub_callback, 10)
+  ...
+```
+:::
+
+::: {.column width="50%"}
+> Orientado a objetos
+
+```{.python code-line-numbers="10-13"}
+class Suscriptor(Node):
+  def __init__(self):
+    super().__init__('suscriptor')
+    
+    # 2.2 Creación de suscriptor
+    self.sub = self.create_subscription(
+        String, 'chat', self.sub_callback, 10)
+      
+  # 2.1 Programación de función de callback
+  def sub_callback(self, msg):
+    # Mostrar el mensaje en consola
+    self.get_logger()
+          .info(f'Recibí: "{msg.data}"')
+
+```
+
+:::
+::::

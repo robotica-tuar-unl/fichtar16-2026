@@ -1,0 +1,60 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+output-file: index.html
+---
+
+
+## Resumen [Clase 04](../04/slides.qmd){target="_blank"}
+
+- *R.E.P.*'s + Entorno + *Workspace*
+- Paquetes de ROS
+- Uso de nombres
+- Programación de nodo (`rclpy`)
+- Funciones *callback*
+- Dependencias y compilación
+
+# Programación Orientada a Objetos {visibility="hidden"}
+
+{{< include slides/_poo.qmd >}}
+
+
+
+
+# Parámetros {visibility="hidden"}
+
+{{< include slides/_params.qmd >}}
+
+
+
+
+# Logging {visibility="hidden"}
+
+{{< include slides/_logging.qmd >}}
+
+
+
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+- Código *publisher* y *suscriber* en POO 
+- Uso de parámetros
+

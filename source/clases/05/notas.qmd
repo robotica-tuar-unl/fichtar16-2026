@@ -1,0 +1,192 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+
+\section{Revisión clase 4}
+\begin{itemize}
+    \item \textit{R.E.P.}'s, entorno y \textit{Workspace}
+    \item Paquetes de ROS
+    \item Uso de nombres: 
+    \begin{itemize}
+        \item de paquete: estructura de archivos, \texttt{package.xml}, \texttt{setup.cfg}, \texttt{setup.py}, linea de comando
+        \item de archivo: estructura de archivos y \texttt{setup.py}
+        \item de ejecutable: \texttt{setup.py} y linea de comando
+        \item de nodo: código y linea de comando
+    \end{itemize}
+    \item Programación de nodo (\texttt{rclpy})
+    \item Funciones \textit{callback}
+    \item Dependencias y compilación
+\end{itemize}
+
+\section{Programación Orientada a Objetos}
+\begin{itemize}
+    \item Tres formas de escribir código en  ROS
+        \begin{itemize}
+            \item Código \texttt{in-line}: Todo contenido en la función \texttt{main}. (Ejemplo \textit{publisher})
+            \item Funciones locales: Las funciones se separan del \texttt{main}. Es necesario "compartir" datos a través de variables \textit{globales}.
+            \item Orientado a objetos: Utilizando clases. Código más ordenado y legible.
+        \end{itemize}
+    \item Creación de una clase a partir de \texttt{rclpy.node.Node}
+    \item Constructor y atributos
+    \item Uso de métodos de la clase como \textit{callbacks}
+\end{itemize}
+
+\section{\texttt{rclpy}: Parámetros}
+Valores de configuración que pueden ser modificados por el usuario sin necesidad de recompilar el paquete. En los nodos se accede a esta utilidad a través de \texttt{rclpy}
+\begin{itemize}
+    \item Antes de hacer uso de un parámetro siempre es necesario declararlo
+    \item El tipo se infiere a partir del valor por defecto
+    \item \textit{Callback} de modificación de parámetros (\texttt{ParameterEventHandler(..)})
+    \item Modificar y leer parámetro desde consola. Parámetros como argumentos de ejecución.
+\end{itemize}
+
+
+\section{\texttt{Logging}}
+
+
+\newpage
+
+\section{Laboratorio}
+\subsection{Modificación del código de nodos}
+\begin{verbatim}
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class Publicador(Node):
+    def __init__(self):
+        super().__init__('publicador')  # Nombre del nodo
+        # 2.1 Creación de publisher
+        self.pub = self.create_publisher(String, 'topic', 10)
+        # 2.2 Creación de mensaje
+        self.msg = String()
+
+        # Cada medio segundo publicar un mensaje
+        timer_period = 0.5
+        # 2.4 Creación del timer
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+
+    # 2.3 Programación de función de callback
+    def timer_callback(self):
+        # Rellenar el contenido del campo 'data' del mensaje               	
+        msg.data = 'Mensaje de prueba %d' % self.i
+        # Publicar el mensaje
+        self.pub.publish(msg)
+        
+        # Escribir en la terminal a modo de debug
+        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.i += 1
+
+def main(args=None):
+  # 1. Inicialización
+  rclpy.init(args=args)
+
+  # 2. Creación de nodo
+  node = Publicador()
+
+  # 3. Procesamiento de callback
+  rclpy.spin(node)
+
+  # Destruir el nodo
+  node.destroy_node()
+  # 4. Finalización
+  rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+\end{verbatim}
+\textbf{$^{++}$ Realizar la modificación del nodo subscriber}
+
+
+
+\subsection{Parámetros en \texttt{rclpy}}
+\subsubsection*{Declarar parámetros}
+\begin{verbatim}
+    self.declare_parameter(<nombre>)
+    self.declare_parameter(<nombre>,<valor>,[<descriptor>])
+\end{verbatim}
+
+\subsubsection*{Obtener el valor de un parámetro}
+\begin{verbatim}
+    param = self.get_parameter(<nombre>)
+    val = param.value
+\end{verbatim}
+
+\subsubsection*{Establecer el valor de un parámetro}
+\begin{verbatim}
+    # Crear parámetro
+    param = rclpy.parameter.Parameter(<nombre>, <tipo>, <valor>)
+    # Establecer el valor
+    self.set_parameters([param])
+\end{verbatim}
+
+\subsection{Gestión de parámetros por consola}
+\subsubsection*{Establecer el valor de un parámetro}
+\begin{verbatim}
+    ros2 param set <nombre_nodo> <nombre_parametro> <valor>
+\end{verbatim}
+
+\subsubsection*{Establecer parámetros a través de un archivo de configuración}
+\begin{verbatim}
+   ros2 param load <nombre_nodo> <nombre_archivo>
+\end{verbatim}
+
+\subsubsection*{Establecer parámetros al momento de ejecutar un nodo}
+\begin{verbatim}
+    ros2 run <nombre_paquete> <nombre_ejecutable>
+        --ros-args -p <nombre_parametro>:=<valor>
+\end{verbatim}
+
+\subsubsection*{Ídem anterior pero a partir de un archivo de configuración}
+\begin{verbatim}
+    ros2 run <nombre_paquete> <nombre_ejecutable>
+        --ros-args --params-file <nombre_archivo>
+\end{verbatim}
+
+
+\subsection{\textit{Logging}}
+\subsubsection*{Generar un mensaje de \textit{log}}
+\begin{verbatim}
+    self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>')
+\end{verbatim}
+
+\subsubsection*{Generar un mensaje de \textit{log} por única vez}
+\begin{verbatim}
+    self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>',
+        once=True)
+\end{verbatim}
+
+\subsubsection*{Período mínimo entre mensajes de \textit{log}}
+\begin{verbatim}
+    self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>',
+        throttle_duration_sec=<period>)
+\end{verbatim}
+
+\subsubsection*{Ignorar la primera vez y enviar los mensajes siguientes}
+\begin{verbatim}
+    self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>',
+        skip_first=True)
+\end{verbatim}
+
+\subsubsection*{Cambiar el nivel de severidad al momento de ejecutar un nodo}
+\begin{verbatim}
+    ros2 run <nombre_paquete> <nombre_ejecutable>
+        --ros-args --log-level {DEBUG|INFO|WARN|ERROR|FATAL}
+\end{verbatim}

@@ -1,0 +1,15 @@
+::: {.list-table header-rows="0" aligns="c"}
+
+- - Orden ascendente
+
+- - []{style="background: #082F49; color: #BAE6FD;"} **DEBUG**
+
+- - []{style="background: #022C22; color: #A7F3D0;"} **INFO**
+
+- - []{style="background: #422006; color: #FDE68A;"} **WARN**
+
+- - []{style="background: #450A0A; color: #FCA5A5;"} **ERROR**
+
+- - []{style="background: #2E1065; color: #D8B4FE;"} **FATAL**
+
+:::

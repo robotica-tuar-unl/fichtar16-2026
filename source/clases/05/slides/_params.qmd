@@ -1,0 +1,164 @@
+## Parámetros ([Clase 03](../03/slides.qmd#ros-2-graph-10)) {.smaller}
+
+> Permiten configurar nodos sin tener que volver a "contruir" el código
+
+- Se crean y destruyen con el nodo
+
+> Consisten en
+
+::: {.columns}
+::: {.column width="55%"}
+- Una *key* (nombre)
+- Un valor
+- Un tipo
+- Un descriptor (opcional)
+
+:::
+::: {.column width="45%"}
+
+```{.markdown code-line-numbers="false" style="width: 80%;"}
+Tipos de parámetros:
+
+  - `bool`
+  - `int64`
+  - `float64`
+  - `string`
+  - `byte[]`
+  - `bool[]`
+  - `int64[]`
+  - `float64[]`
+  - `string[]`
+```
+
+:::
+:::
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html){target="_blank"} / [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Parameters.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- Aprender como programar dichos parámetros dentro de los nodos
+:::
+
+## `rclpy`: Parámetros {.smaller}
+
+> Se declaran todos al inicio antes de utilizarlos
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+    self.declare_parameter('<nombre>', <valor>)
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+En caso de incluir un *descriptor*:
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+    self.declare_parameter('<nombre>', <valor>, <descriptor>)
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+> Para obtener el valor
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+    valor = self.get_parameter('<nombre>').value
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+<br>
+
+
+::: {.callout-caution title="El tipo es inferido a través del valor ➡️ `10` no es lo mismo que `10.0`" style="width: 75%;"}
+:::
+
+
+## `rclpy`: Parámetros {.smaller}
+
+> Es posible crear un *callback* para cuando se modifica algún parámetro
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+from rclpy.parameter_event_handler import ParameterEventHandler
+
+```
+
+```python {code-line-numbers="false"}
+    # Dentro del constructor de la clase
+    def __init__(self):
+        super().__init__('<nombre_nodo>')
+
+        self.handler = ParameterEventHandler(self)
+
+        self.callback_handle = self.handler.add_parameter_callback(
+            parameter_name = "<nombre_parametro>",
+            node_name = "<nombre_nodo>",
+            callback = self.<callback>,
+        )
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+- El *callback* recibe el parámetro modificado
+
+[]{.hidden} <!-- Evitar identación -->
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+        def callback(self, p: rclpy.parameter.Parameter) -> None:
+            # ..
+            return
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+::: {.aside}
+Documentación: [ROS Tutorial](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Monitoring-For-Parameter-Changes-Python.html){target="_blank"}
+:::

@@ -1,0 +1,257 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Programación Orientada a Objetos en Nodos
+
+
+- #### Importar la clase `Node`
+
+```python
+from rclpy.node import Node
+```
+
+------
+
+- #### Crear una subclase de `Node`
+
+>       class <nombre_clase>(Node):
+>           __init__(self):
+>               super().__init__(<nombre_nodo>)
+>               # ..
+
+::: {.callout-note appearance="simple"}
+Recordar las diferencias entre nombres de *archivo*, de *ejecutable* y de *nodo*
+:::
+
+
+------
+
+- #### *Publisher*, *suscriber* y *timers*
+
+Se crean de la mismas manera que el código *inline* ([Lab 04](../04/lab.qmd#programación-de-nodos){target="_blank"}), en vez de utilizar la instancia `<nodo>` se accederá a través del atributo `self`.
+
+>       self.create_publisher(<tipo_mensaje>, '<nombre_topic>', <tamaño_cola>)
+
+------
+
+>       self.create_timer(<periodo_en_seg>, <funcion_callback>)
+
+------
+
+>       self.create_subscription(<tipo_mensaje>, '<nombre_topic>', <funcion_callback>, <tamaño_cola>)
+
+------
+
+- #### Funciones de *callback*
+
+Las funciones de *callback* serán métodos de la clase
+
+> ```
+> class <nombre_clase>(Node):
+>     # ..
+>     # ..
+>     def timer_callback(self):
+>         # Publicar el mensaje
+>         self.pub.publish(self.msg)
+> ```
+
+
+- #### Función `main`
+
+Solo será utilizada para la inicialización (`init`), la creación del nodo (instanciando la clase), el `spin` y la finalización (`shutdown`)
+
+
+```{.python code-fold="true" code-line-numbers="true"}
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+
+    # 2. Creación de nodo
+    # nodo = ...
+
+    # 3. Procesamiento de mensajes y callback
+    rclpy.spin(nodo)
+
+    # 4. Finalización 
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+
+## Modificar el código del nodo *publisher*
+
+- #### Modificar el código del [Lab 04](../04/lab.qmd#programación-de-publisher){target="_blank"} aplicando paradigma orientado a objetos
+
+- #### Agregar un contador que se incremente cada vez que se envía un mensaje y se incluya dentro de este
+
+::: {.callout-tip title="Se recomienda crear un paquete nuevo"}
+*Si se crea un paquete nuevo recuerda:*
+
+- Completar las dependencias en `package.xml` e instalar mediante `rosdep`
+- Crear el o los ejecutables en `setup.py`
+- Compilar el paquete con `colcon`
+- configurar el entorno: `source install/setup.bash`
+:::
+
+## Verificar el funcionamiento
+
+::: {.callout-tip appearance="simple"}
+        $ ros2 run <nombre_paquete> <nombre_ejecutable>
+:::
+
+- #### Comprobar que el nodo se encuentre en ejecución
+
+Puedes utilizar los comandos de `ros2 node list` y `ros2 node info`
+
+- #### Comprobar que se encuentra publicando los mensajes
+
+Puedes utilizar los comandos de `ros2 topic list`, `ros2 topic info` y `ros2 topic echo`
+
+
+---------
+
+## Modificar el código del nodo *suscriber*
+
+- #### Modificar el código del [Lab 04](../04/lab.qmd#programación-de-suscriber){target="_blank"} aplicando paradigma orientado a objetos
+
+- #### Añadir un nuevo ejecutable en el archivo `setup.py`
+
+- #### Compilar y ejecutar el nodo
+
+- #### Verificar el funcionamiento de ambos nodos
+
+
+---------
+
+
+# Parámetros
+
+- #### Definir parámetros
+
+En el constructor del nodo a través del atributo `self`:
+
+>       self.declare_parameter('<nombre_parametro>', <valor_defecto>)
+
+::: {.callout-warning appearance="simple"}
+El tipo es inferido a través del valor por defecto (no es lo mismo `10` que `10.0`)
+:::
+
+---------
+
+- #### Obtener el valor
+
+>       valor = self.get_parameter('<nombre_parametro>').value
+
+---------
+
+- #### En caso de necesitar forzar el tipo
+
+>       parameter_value = self.get_parameter('<nombre_parametro>').get_parameter_value()
+>       valor = parameter_value.<string|int|double|bool>_value
+
+---------
+
+- #### Establecer el valor del parámetro al ejecutar el nodo
+
+>       $ ros2 run <nombre_paquete> <nombre_ejecutable> \
+>           --ros-args -p <nombre_parametro>:=<valor>
+
+::: {.callout-note appearance="simple"}
+Se pueden concatenar *N* cantidad de parámetros (siempre anteponiendo la opción `-p`)
+:::
+
+
+## Agregar parámetro al nodo *publisher*
+
+- #### Agregar un parámetro `period` de tipo decimal que permita modificar el período de envío de los mensajes
+
+- #### Verificar el funcionamiento del parámetro utilizando los valores de `2.0` (un mensaje cada 2 segundos) y `0.5` (dos mensajes por segundo)
+
+
+---------
+
+# Uso de *loggers*
+
+- #### Generar un mensaje de *log* 
+
+>       self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>')
+
+------
+
+
+```python
+self.get_logger().info('Mensaje de prueba con severidad INFO')
+```
+
+
+- #### Generar un mensaje de *log* por única vez
+
+>       self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>', once=True)
+
+------
+
+```python
+self.get_logger().warn('Advertencia una sola vez', once=True)
+```
+
+- #### Período mínimo entre mensajes de *logging*
+
+>       self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>', throttle_duration_sec=<period>)
+
+------
+
+```python
+self.get_logger().debug(f'Valor de la medicion {valor}', throttle_duration_sec=1)
+```
+
+- #### Ignorar la primera vez y enviar los mensajes siguientes
+
+>       self.get_logger().{debug,info,warning,error,fatal}('<mensaje_de_log>', skip_first=True)
+
+------
+
+```python
+self.get_logger().error(f'Mensaje de error (más de 1 vez)', skip_first=True)
+```
+
+## Agregar *logging* al nodo *publisher*
+
+- #### Agregar un mensaje con severidad `DEBUG` en el *publisher* que muestre el contenido del mensaje enviado
+
+- #### Verificar que los mensajes solo se muestran en caso de disminuir en nivel del *logger*
+
+
+::: {.callout-tip appearance="simple"}
+```
+        $ ros2 run <nombre_paquete> <nombre_ejecutable> \
+                --ros-args --log-level <nivel_severidad>
+```
+
+:::
+
+## Modificar *logging* en el nodo *suscriber*
+
+- #### Mostrar los mensajes recibidos en el *suscriber* a medida que llegan, estableciendo como máximo 1 mensaje por segundo
+
+- #### Verificar el funcionamiento ejecutando el nodo *publisher* estableciendo el `period` en `0.2` segundos 
