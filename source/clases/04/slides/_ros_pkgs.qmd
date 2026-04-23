@@ -34,8 +34,8 @@ Glosario: [*package*](https://docs.ros.org/en/jazzy/Glossary.html#term-package){
 - - *Python*
   - *C++*
 
-- - *CMake*
-  - *setuptools*
+- - *setuptools*
+  - *CMake*
 
 - - Alto nivel
   - Bajo nivel

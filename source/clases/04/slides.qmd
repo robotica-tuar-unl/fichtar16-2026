@@ -40,7 +40,7 @@ output-file: index.html
 ##
 ### [Orden del día]{.underline}
 
-- Entorno + *Workspace*
+- *REP* + Entorno + *Workspace*
 - Paquetes de ROS &nbsp; ⬅️
 - Uso de nombres
 - Programación de nodo (`rclpy`)
@@ -57,7 +57,7 @@ output-file: index.html
 ##
 ### [Orden del día]{.underline}
 
-- Entorno + *Workspace*
+- *REP* + Entorno + *Workspace*
 - Paquetes de ROS
 - Uso de nombres &nbsp; ⬅️
 - Programación de nodo (`rclpy`)
@@ -74,7 +74,7 @@ output-file: index.html
 ##
 ### [Orden del día]{.underline}
 
-- Entorno + *Workspace*
+- *REP* + Entorno + *Workspace*
 - Paquetes de ROS
 - Uso de nombres
 - Programación de nodo (`rclpy`) &nbsp; ⬅️
@@ -91,7 +91,7 @@ output-file: index.html
 ##
 ### [Orden del día]{.underline}
 
-- Entorno + *Workspace*
+- *REP* + Entorno + *Workspace*
 - Paquetes de ROS
 - Uso de nombres
 - Programación de nodo (`rclpy`)
@@ -108,7 +108,7 @@ output-file: index.html
 ##
 ### [Orden del día]{.underline}
 
-- Entorno + *Workspace*
+- *REP* + Entorno + *Workspace*
 - Paquetes de ROS
 - Uso de nombres
 - Programación de nodo (`rclpy`)

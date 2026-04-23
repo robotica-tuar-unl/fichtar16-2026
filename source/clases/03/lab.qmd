@@ -171,7 +171,7 @@ ros2 param dump /set_parameters_callback
 ```
 
 ::: {.callout-tip appearance="simple"}
-Puedes utilizar este comando para "descargar" todos los valores a un archivo con el operador `>`
+Puedes utilizar este comando para "descargar" todos los valores a un archivo utilizando el operador `>`
 
 [Por ejemplo]{.underline}:
 ```{.bash code-line-numbers="false"}
