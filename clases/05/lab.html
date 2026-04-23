@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clase 03 - Laboratorio – Robótica 2026</title>
+<title>Clase 05 - Laboratorio – Robótica 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -153,15 +153,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#servicios" id="toc-servicios" class="nav-link active" data-scroll-target="#servicios"><span class="header-section-number">1</span> Servicios</a>
+  <li><a href="#programación-orientada-a-objetos-en-nodos" id="toc-programación-orientada-a-objetos-en-nodos" class="nav-link active" data-scroll-target="#programación-orientada-a-objetos-en-nodos"><span class="header-section-number">1</span> Programación Orientada a Objetos en Nodos</a>
   <ul class="collapse">
-  <li><a href="#preparar-el-escenario" id="toc-preparar-el-escenario" class="nav-link" data-scroll-target="#preparar-el-escenario"><span class="header-section-number">1.1</span> Preparar el escenario</a></li>
-  <li><a href="#interacción-con-servicios" id="toc-interacción-con-servicios" class="nav-link" data-scroll-target="#interacción-con-servicios"><span class="header-section-number">1.2</span> Interacción con servicios</a></li>
+  <li><a href="#modificar-el-código-del-nodo-publisher" id="toc-modificar-el-código-del-nodo-publisher" class="nav-link" data-scroll-target="#modificar-el-código-del-nodo-publisher"><span class="header-section-number">1.1</span> Modificar el código del nodo <em>publisher</em></a></li>
+  <li><a href="#verificar-el-funcionamiento" id="toc-verificar-el-funcionamiento" class="nav-link" data-scroll-target="#verificar-el-funcionamiento"><span class="header-section-number">1.2</span> Verificar el funcionamiento</a></li>
+  <li><a href="#modificar-el-código-del-nodo-suscriber" id="toc-modificar-el-código-del-nodo-suscriber" class="nav-link" data-scroll-target="#modificar-el-código-del-nodo-suscriber"><span class="header-section-number">1.3</span> Modificar el código del nodo <em>suscriber</em></a></li>
   </ul></li>
   <li><a href="#parámetros" id="toc-parámetros" class="nav-link" data-scroll-target="#parámetros"><span class="header-section-number">2</span> Parámetros</a>
   <ul class="collapse">
-  <li><a href="#preparar-el-escenario-1" id="toc-preparar-el-escenario-1" class="nav-link" data-scroll-target="#preparar-el-escenario-1"><span class="header-section-number">2.1</span> Preparar el escenario</a></li>
-  <li><a href="#interacción-con-parámetros" id="toc-interacción-con-parámetros" class="nav-link" data-scroll-target="#interacción-con-parámetros"><span class="header-section-number">2.2</span> Interacción con parámetros</a></li>
+  <li><a href="#agregar-parámetro-al-nodo-publisher" id="toc-agregar-parámetro-al-nodo-publisher" class="nav-link" data-scroll-target="#agregar-parámetro-al-nodo-publisher"><span class="header-section-number">2.1</span> Agregar parámetro al nodo <em>publisher</em></a></li>
+  </ul></li>
+  <li><a href="#uso-de-loggers" id="toc-uso-de-loggers" class="nav-link" data-scroll-target="#uso-de-loggers"><span class="header-section-number">3</span> Uso de <em>loggers</em></a>
+  <ul class="collapse">
+  <li><a href="#agregar-logging-al-nodo-publisher" id="toc-agregar-logging-al-nodo-publisher" class="nav-link" data-scroll-target="#agregar-logging-al-nodo-publisher"><span class="header-section-number">3.1</span> Agregar <em>logging</em> al nodo <em>publisher</em></a></li>
+  <li><a href="#modificar-logging-en-el-nodo-suscriber" id="toc-modificar-logging-en-el-nodo-suscriber" class="nav-link" data-scroll-target="#modificar-logging-en-el-nodo-suscriber"><span class="header-section-number">3.2</span> Modificar <em>logging</em> en el nodo <em>suscriber</em></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -171,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase 03 - Laboratorio</h1>
+<h1 class="title">Clase 05 - Laboratorio</h1>
 </div>
 
 
@@ -188,189 +193,181 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- AGREGAR REQUISITO DE TERMINAR EL LABORATORIO 1 -->
-<!-- AGREGAR SECCIÓN DE OBJETIVOS -->
-<section id="servicios" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Servicios</h1>
+<section id="programación-orientada-a-objetos-en-nodos" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Programación Orientada a Objetos en Nodos</h1>
 <ul>
-<li>Configurar el entorno:</li>
+<li><h4 id="importar-la-clase-node">Importar la clase <code>Node</code></h4></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /opt/ros/jazzy/setup.bash</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-simple callout-warning">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rclpy.node <span class="im">import</span> Node</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<ul>
+<li><h4 id="crear-una-subclase-de-node">Crear una subclase de <code>Node</code></h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  class &lt;nombre_clase&gt;(Node):
+      __init__(self):
+          super().__init__(&lt;nombre_nodo&gt;)
+          # ..</code></pre>
+</blockquote>
+<div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Se debe configurar el entorno siempre que se abra una nueva terminal</p>
+<p>Recordar las diferencias entre nombres de <em>archivo</em>, de <em>ejecutable</em> y de <em>nodo</em></p>
 </div>
 </div>
 </div>
-<section id="preparar-el-escenario" class="level2" data-number="1.1">
-<h2 data-number="1.1" data-anchor-id="preparar-el-escenario"><span class="header-section-number">1.1</span> Preparar el escenario</h2>
-<section id="ejecutar-el-nodo-de-demostración-add_two_ints_server-del-paquete-demo_nodes_py" class="level4">
-<h4 data-anchor-id="ejecutar-el-nodo-de-demostración-add_two_ints_server-del-paquete-demo_nodes_py">Ejecutar el nodo de demostración <code>add_two_ints_server</code> del paquete <code>demo_nodes_py</code></h4>
-<div class="callout callout-style-default callout-tip callout-titled" title="Para ejecutar">
+<hr>
+<ul>
+<li><h4 id="publisher-suscriber-y-timers"><em>Publisher</em>, <em>suscriber</em> y <em>timers</em></h4></li>
+</ul>
+<p>Se crean de la mismas manera que el código <em>inline</em> (<a href="../../clases/04/lab.html#programación-de-nodos" target="_blank">Lab 04</a>), en vez de utilizar la instancia <code>&lt;nodo&gt;</code> se accederá a través del atributo <code>self</code>.</p>
+<blockquote class="blockquote">
+<pre><code>  self.create_publisher(&lt;tipo_mensaje&gt;, '&lt;nombre_topic&gt;', &lt;tamaño_cola&gt;)</code></pre>
+</blockquote>
+<hr>
+<blockquote class="blockquote">
+<pre><code>  self.create_timer(&lt;periodo_en_seg&gt;, &lt;funcion_callback&gt;)</code></pre>
+</blockquote>
+<hr>
+<blockquote class="blockquote">
+<pre><code>  self.create_subscription(&lt;tipo_mensaje&gt;, '&lt;nombre_topic&gt;', &lt;funcion_callback&gt;, &lt;tamaño_cola&gt;)</code></pre>
+</blockquote>
+<hr>
+<ul>
+<li><h4 id="funciones-de-callback">Funciones de <em>callback</em></h4></li>
+</ul>
+<p>Las funciones de <em>callback</em> serán métodos de la clase</p>
+<blockquote class="blockquote">
+<pre><code>class &lt;nombre_clase&gt;(Node):
+    # ..
+    # ..
+    def timer_callback(self):
+        # Publicar el mensaje
+        self.pub.publish(self.msg)</code></pre>
+</blockquote>
+<ul>
+<li><h4 id="función-main">Función <code>main</code></h4></li>
+</ul>
+<p>Solo será utilizada para la inicialización (<code>init</code>), la creación del nodo (instanciando la clase), el <code>spin</code> y la finalización (<code>shutdown</code>)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-code-fold="true"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> main(args<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="co"># 1. Inicialización</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>    rclpy.init(args<span class="op">=</span>args)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="co"># 2. Creación de nodo</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="co"># nodo = ...</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    <span class="co"># 3. Procesamiento de mensajes y callback</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    rclpy.spin(nodo)</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>    <span class="co"># 4. Finalización </span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>    rclpy.shutdown()</span>
+<span id="cb7-13"><a href="#cb7-13"></a></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb7-16"><a href="#cb7-16"></a>    main()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="modificar-el-código-del-nodo-publisher" class="level2" data-number="1.1">
+<h2 data-number="1.1" data-anchor-id="modificar-el-código-del-nodo-publisher"><span class="header-section-number">1.1</span> Modificar el código del nodo <em>publisher</em></h2>
+<ul>
+<li><h4 id="modificar-el-código-del-lab-04-aplicando-paradigma-orientado-a-objetos">Modificar el código del <a href="../../clases/04/lab.html#programación-de-publisher" target="_blank">Lab 04</a> aplicando paradigma orientado a objetos</h4></li>
+<li><h4 id="agregar-un-contador-que-se-incremente-cada-vez-que-se-envía-un-mensaje-y-se-incluya-dentro-de-este">Agregar un contador que se incremente cada vez que se envía un mensaje y se incluya dentro de este</h4></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Se recomienda crear un paquete nuevo">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Para ejecutar
+<span class="screen-reader-only">Tip</span>Se recomienda crear un paquete nuevo
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<pre><code>    $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;</code></pre>
-</div>
-</div>
-<hr>
-<!-- ```{.bash code-line-numbers="false"}
-    $ ros2 run demo_nodes_py add_two_ints_server
-``` -->
-</section>
-</section>
-<section id="interacción-con-servicios" class="level2" data-number="1.2">
-<h2 data-number="1.2" data-anchor-id="interacción-con-servicios"><span class="header-section-number">1.2</span> Interacción con servicios</h2>
-<section id="listar-todos-los-servicios" class="level4">
-<h4 data-anchor-id="listar-todos-los-servicios">Listar todos los servicios</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Para también ver el tipo de servicio, añadir la opción <code>--show-types</code> o <code>-t</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service list <span class="at">-t</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Por cada nodo se pueden observar 6 servicios con la palabra <code>parameters</code> en el nombre. Estos servicios son los por defecto para la manipulación de parámetros.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="obtener-información-acerca-de-un-servicio" class="level4">
-<h4 data-anchor-id="obtener-información-acerca-de-un-servicio">Obtener información acerca de un servicio</h4>
+<p><em>Si se crea un paquete nuevo recuerda:</em></p>
 <ul>
-<li>Para obtener el tipo de un servicio:</li>
+<li>Completar las dependencias en <code>package.xml</code> e instalar mediante <code>rosdep</code></li>
+<li>Crear el o los ejecutables en <code>setup.py</code></li>
+<li>Compilar el paquete con <code>colcon</code></li>
+<li>configurar el entorno: <code>source install/setup.bash</code></li>
 </ul>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 service type &lt;nombre_servicio&gt;</code></pre>
-</blockquote>
-<hr>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service type /add_two_ints</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Para obtener la <u>definición</u> del tipo de servicio:</li>
-</ul>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 interface show &lt;nombre_tipo_servicio&gt;</code></pre>
-</blockquote>
-<hr>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> interface show example_interfaces/srv/AddTwoInts</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Para obtener información del servicio en sí (clientes, servidor, etc):</li>
-</ul>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 service info &lt;nombre_nodo&gt;</code></pre>
-</blockquote>
-</section>
-<section id="invocar-un-servicio" class="level4">
-<h4 data-anchor-id="invocar-un-servicio">Invocar un servicio</h4>
-<ul>
-<li>Para enviar un requerimiento manual a un servidor</li>
-</ul>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 service call &lt;nombre_servicio&gt; 
-      &lt;nombre_tipo_servicio&gt; &lt;argumentos&gt;</code></pre>
-</blockquote>
-<hr>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service call /add_two_ints example_interfaces/srv/AddTwoInts <span class="st">"{a: 7, b: 12}"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="buscar-un-servicio-por-tipo" class="level4">
-<h4 data-anchor-id="buscar-un-servicio-por-tipo">Buscar un servicio por tipo</h4>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 service find &lt;nombre_tipo_servicio&gt;</code></pre>
-</blockquote>
-<hr>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> service find example_interfaces/srv/AddTwoInts</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<!--
-ros2 service echo
-
-https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Services/Understanding-ROS2-Services.html#ros2-service-echo
--->
-</section>
-</section>
-</section>
-<section id="parámetros" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Parámetros</h1>
-<section id="preparar-el-escenario-1" class="level2" data-number="2.1">
-<h2 data-number="2.1" data-anchor-id="preparar-el-escenario-1"><span class="header-section-number">2.1</span> Preparar el escenario</h2>
-<section id="ejecutar-nodo-demostración-set_parameters_callback-del-paquete-demo_nodes_py" class="level4">
-<h4 data-anchor-id="ejecutar-nodo-demostración-set_parameters_callback-del-paquete-demo_nodes_py">Ejecutar nodo demostración <code>set_parameters_callback</code> del paquete <code>demo_nodes_py</code></h4>
-<hr>
-<!-- ```{.bash code-line-numbers="false"}
-    $ ros2 run demo_nodes_py add_two_ints_server
-``` -->
-</section>
-</section>
-<section id="interacción-con-parámetros" class="level2" data-number="2.2">
-<h2 data-number="2.2" data-anchor-id="interacción-con-parámetros"><span class="header-section-number">2.2</span> Interacción con parámetros</h2>
-<section id="listar-todos-los-parámetros-de-todos-los-nodos" class="level4">
-<h4 data-anchor-id="listar-todos-los-parámetros-de-todos-los-nodos">Listar todos los parámetros de todos los nodos</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param list</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Por cada nodo existen parámetros por defecto como por ejemplo <code>use_sim_time</code></p>
-</div>
 </div>
 </div>
 </section>
-<section id="obtener-información-acerca-de-un-parámetro" class="level4">
-<h4 data-anchor-id="obtener-información-acerca-de-un-parámetro">Obtener información acerca de un parámetro</h4>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 param describe &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;</code></pre>
-</blockquote>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param describe /set_parameters_callback param1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="obtener-el-tipo-y-valor-actual-de-un-parámetro" class="level4">
-<h4 data-anchor-id="obtener-el-tipo-y-valor-actual-de-un-parámetro">Obtener el tipo y valor actual de un parámetro</h4>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 param get &lt;nombre_nodo&gt; &lt;nombre_parametro&gt;</code></pre>
-</blockquote>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param get /set_parameters_callback param1</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="establecer-el-valor-de-un-parámetro" class="level4">
-<h4 data-anchor-id="establecer-el-valor-de-un-parámetro">Establecer el valor de un parámetro</h4>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 param set &lt;nombre_nodo&gt; &lt;nombre_parametro&gt; &lt;valor&gt;</code></pre>
-</blockquote>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param set /set_parameters_callback param1 1.0</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="obtener-el-valor-actual-de-todos-los-parámetros-de-un-nodo" class="level4">
-<h4 data-anchor-id="obtener-el-valor-actual-de-todos-los-parámetros-de-un-nodo">Obtener el valor actual de todos los parámetros de un nodo</h4>
-<blockquote class="blockquote">
-<pre><code>  $ ros2 param dump &lt;nombre_nodo&gt;</code></pre>
-</blockquote>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param dump /set_parameters_callback</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="verificar-el-funcionamiento" class="level2" data-number="1.2">
+<h2 data-number="1.2" data-anchor-id="verificar-el-funcionamiento"><span class="header-section-number">1.2</span> Verificar el funcionamiento</h2>
 <div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Puedes utilizar este comando para “descargar” todos los valores a un archivo utilizando el operador <code>&gt;</code></p>
-<p><u>Por ejemplo</u>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ros2</span> param dump /set_parameters_callback <span class="op">&gt;</span> archivo_parametros.yaml</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>    $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt;</code></pre>
 </div>
 </div>
 </div>
+<ul>
+<li><h4 id="comprobar-que-el-nodo-se-encuentre-en-ejecución">Comprobar que el nodo se encuentre en ejecución</h4></li>
+</ul>
+<p>Puedes utilizar los comandos de <code>ros2 node list</code> y <code>ros2 node info</code></p>
+<ul>
+<li><h4 id="comprobar-que-se-encuentra-publicando-los-mensajes">Comprobar que se encuentra publicando los mensajes</h4></li>
+</ul>
+<p>Puedes utilizar los comandos de <code>ros2 topic list</code>, <code>ros2 topic info</code> y <code>ros2 topic echo</code></p>
+<hr>
 </section>
-<section id="cargar-un-archivo-de-parámetros-durante-la-ejecución" class="level4">
-<h4 data-anchor-id="cargar-un-archivo-de-parámetros-durante-la-ejecución">Cargar un archivo de parámetros durante la ejecución</h4>
+<section id="modificar-el-código-del-nodo-suscriber" class="level2" data-number="1.3">
+<h2 data-number="1.3" data-anchor-id="modificar-el-código-del-nodo-suscriber"><span class="header-section-number">1.3</span> Modificar el código del nodo <em>suscriber</em></h2>
+<ul>
+<li><h4 id="modificar-el-código-del-lab-04-aplicando-paradigma-orientado-a-objetos-1">Modificar el código del <a href="../../clases/04/lab.html#programación-de-suscriber" target="_blank">Lab 04</a> aplicando paradigma orientado a objetos</h4></li>
+<li><h4 id="añadir-un-nuevo-ejecutable-en-el-archivo-setup.py">Añadir un nuevo ejecutable en el archivo <code>setup.py</code></h4></li>
+<li><h4 id="compilar-y-ejecutar-el-nodo">Compilar y ejecutar el nodo</h4></li>
+<li><h4 id="verificar-el-funcionamiento-de-ambos-nodos">Verificar el funcionamiento de ambos nodos</h4></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="parámetros" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Parámetros</h1>
+<ul>
+<li><h4 id="definir-parámetros">Definir parámetros</h4></li>
+</ul>
+<p>En el constructor del nodo a través del atributo <code>self</code>:</p>
 <blockquote class="blockquote">
-<pre><code>  $ ros2 param load &lt;nombre_nodo&gt; &lt;nombre_archivo&gt;</code></pre>
+<pre><code>  self.declare_parameter('&lt;nombre_parametro&gt;', &lt;valor_defecto&gt;)</code></pre>
+</blockquote>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>El tipo es inferido a través del valor por defecto (no es lo mismo <code>10</code> que <code>10.0</code>)</p>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li><h4 id="obtener-el-valor">Obtener el valor</h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  valor = self.get_parameter('&lt;nombre_parametro&gt;').value</code></pre>
+</blockquote>
+<hr>
+<ul>
+<li><h4 id="en-caso-de-necesitar-forzar-el-tipo">En caso de necesitar forzar el tipo</h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  parameter_value = self.get_parameter('&lt;nombre_parametro&gt;').get_parameter_value()
+  valor = parameter_value.&lt;string|int|double|bool&gt;_value</code></pre>
+</blockquote>
+<hr>
+<ul>
+<li><h4 id="establecer-el-valor-del-parámetro-al-ejecutar-el-nodo">Establecer el valor del parámetro al ejecutar el nodo</h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt; \
+      --ros-args -p &lt;nombre_parametro&gt;:=&lt;valor&gt;</code></pre>
 </blockquote>
 <div class="callout callout-style-simple callout-note">
 <div class="callout-body d-flex">
@@ -378,20 +375,79 @@ https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Se
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Los parámetros de solo lectura pueden modificarse solo en el inicio del nodo</p>
+<p>Se pueden concatenar <em>N</em> cantidad de parámetros (siempre anteponiendo la opción <code>-p</code>)</p>
 </div>
 </div>
 </div>
+<section id="agregar-parámetro-al-nodo-publisher" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="agregar-parámetro-al-nodo-publisher"><span class="header-section-number">2.1</span> Agregar parámetro al nodo <em>publisher</em></h2>
+<ul>
+<li><h4 id="agregar-un-parámetro-period-de-tipo-decimal-que-permita-modificar-el-período-de-envío-de-los-mensajes">Agregar un parámetro <code>period</code> de tipo decimal que permita modificar el período de envío de los mensajes</h4></li>
+<li><h4 id="verificar-el-funcionamiento-del-parámetro-utilizando-los-valores-de-2.0-un-mensaje-cada-2-segundos-y-0.5-dos-mensajes-por-segundo">Verificar el funcionamiento del parámetro utilizando los valores de <code>2.0</code> (un mensaje cada 2 segundos) y <code>0.5</code> (dos mensajes por segundo)</h4></li>
+</ul>
+<hr>
 </section>
-<section id="cargar-un-archivo-de-parámetros-al-momento-de-ejecutar-nodos" class="level4">
-<h4 data-anchor-id="cargar-un-archivo-de-parámetros-al-momento-de-ejecutar-nodos">Cargar un archivo de parámetros al momento de ejecutar nodos</h4>
+</section>
+<section id="uso-de-loggers" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Uso de <em>loggers</em></h1>
+<ul>
+<li><h4 id="generar-un-mensaje-de-log">Generar un mensaje de <em>log</em></h4></li>
+</ul>
 <blockquote class="blockquote">
-<pre><code>  $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt; --ros-args 
-      --params-file &lt;nombre_archivo&gt;</code></pre>
+<pre><code>  self.get_logger().{debug,info,warning,error,fatal}('&lt;mensaje_de_log&gt;')</code></pre>
 </blockquote>
-
-
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.get_logger().info(<span class="st">'Mensaje de prueba con severidad INFO'</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><h4 id="generar-un-mensaje-de-log-por-única-vez">Generar un mensaje de <em>log</em> por única vez</h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  self.get_logger().{debug,info,warning,error,fatal}('&lt;mensaje_de_log&gt;', once=True)</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.get_logger().warn(<span class="st">'Advertencia una sola vez'</span>, once<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><h4 id="período-mínimo-entre-mensajes-de-logging">Período mínimo entre mensajes de <em>logging</em></h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  self.get_logger().{debug,info,warning,error,fatal}('&lt;mensaje_de_log&gt;', throttle_duration_sec=&lt;period&gt;)</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.get_logger().debug(<span class="ss">f'Valor de la medicion </span><span class="sc">{</span>valor<span class="sc">}</span><span class="ss">'</span>, throttle_duration_sec<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><h4 id="ignorar-la-primera-vez-y-enviar-los-mensajes-siguientes">Ignorar la primera vez y enviar los mensajes siguientes</h4></li>
+</ul>
+<blockquote class="blockquote">
+<pre><code>  self.get_logger().{debug,info,warning,error,fatal}('&lt;mensaje_de_log&gt;', skip_first=True)</code></pre>
+</blockquote>
+<hr>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.get_logger().error(<span class="ss">f'Mensaje de error (más de 1 vez)'</span>, skip_first<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="agregar-logging-al-nodo-publisher" class="level2" data-number="3.1">
+<h2 data-number="3.1" data-anchor-id="agregar-logging-al-nodo-publisher"><span class="header-section-number">3.1</span> Agregar <em>logging</em> al nodo <em>publisher</em></h2>
+<ul>
+<li><h4 id="agregar-un-mensaje-con-severidad-debug-en-el-publisher-que-muestre-el-contenido-del-mensaje-enviado">Agregar un mensaje con severidad <code>DEBUG</code> en el <em>publisher</em> que muestre el contenido del mensaje enviado</h4></li>
+<li><h4 id="verificar-que-los-mensajes-solo-se-muestran-en-caso-de-disminuir-en-nivel-del-logger">Verificar que los mensajes solo se muestran en caso de disminuir en nivel del <em>logger</em></h4></li>
+</ul>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<pre><code>        $ ros2 run &lt;nombre_paquete&gt; &lt;nombre_ejecutable&gt; \
+                --ros-args --log-level &lt;nivel_severidad&gt;</code></pre>
+</div>
+</div>
+</div>
 </section>
+<section id="modificar-logging-en-el-nodo-suscriber" class="level2" data-number="3.2">
+<h2 data-number="3.2" data-anchor-id="modificar-logging-en-el-nodo-suscriber"><span class="header-section-number">3.2</span> Modificar <em>logging</em> en el nodo <em>suscriber</em></h2>
+<ul>
+<li><h4 id="mostrar-los-mensajes-recibidos-en-el-suscriber-a-medida-que-llegan-estableciendo-como-máximo-1-mensaje-por-segundo">Mostrar los mensajes recibidos en el <em>suscriber</em> a medida que llegan, estableciendo como máximo 1 mensaje por segundo</h4></li>
+<li><h4 id="verificar-el-funcionamiento-ejecutando-el-nodo-publisher-estableciendo-el-period-en-0.2-segundos">Verificar el funcionamiento ejecutando el nodo <em>publisher</em> estableciendo el <code>period</code> en <code>0.2</code> segundos</h4></li>
+</ul>
+
+
 </section>
 </section>
 
@@ -730,25 +786,64 @@ https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Se
           }
         };
       }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
             }
-          });
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
         }
     const findCites = (el) => {
       const parentEl = el.parentElement;
