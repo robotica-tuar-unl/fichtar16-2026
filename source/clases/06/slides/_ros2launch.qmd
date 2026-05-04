@@ -1,0 +1,341 @@
+
+## `ros2launch` {.smaller}
+
+> Herramienta que ayuda a describir un sistema y automatiza la ejecución en un solo comando:
+
+```bash {code-line-numbers="false"}
+    $ ros2 launch <nombre_paquete> <nombre_archivo_launch>
+```
+
+<br>
+
+- #### Tareas más comunes:
+  * Crear nodos (y de forma sincronizada)
+  * Cargar argumentos y parámetros
+  * Ejecutar comandos
+  * Monitorear el estado
+  * Reutilizar archivos
+
+
+::: {.notes}
+- Un sistema ROS 2 puede estar compuesto de muchos nodos que se ejecutan en diversos procesos (e incluso en distintos dispositivos)
+- Si bien es posible ejecutar manualmente cada uno de estos nodos, se vuelve engorroso rapidamente
+
+- El sistema de ‘lanzamiento’ (launch) de ROS simplifica la ejecución de sistemas complejos
+- La configuración del sistema incluye:
+  - programas a ejecutar
+  - dónde ejecutarlos
+  - qué argumentos pasarles
+  - configuraciones de ROS que facilitan la reutilización de componentes en todo el sistema
+  
+- También se encarga de monitorear el estado de los procesos lanzados, e informar y/o reaccionar ante cambios
+:::
+
+## `ros2launch`: *launch files* {.smaller}
+
+- #### Formatos disponibles:
+  * XML: `nombre_archivo_launch.xml`
+  * YAML: `nombre_archivo_launch.yaml`
+  * Python: `nombre_archivo_launch.py` &emsp;&emsp;⬅️
+
+<br>
+
+:::: {.columns}
+::: {.column style="width: 50%;"}
+
+::: {.callout-note appearance="simple" title="Se ubican dentro de la carpeta `launch` dentro del paquete"}
+:::
+
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+#### Estructura para un paquete *Python*
+
+> ```
+> 📂 paquete_ejemplo
+> ├── 📂 launch                   ⬅️
+> │   ├── 📄 ejemplo_launch.py    ⬅️
+> │   └── ...
+> ├── 📄 package.xml
+> ├── 📁 paquete_ejemplo
+> ├── 📁 resource
+> ├── 📄 setup.cfg
+> ├── 📄 setup.py
+> └── 📁 test
+> ```
+
+:::
+::::
+
+
+::: {.aside}
+Más información: [ROS Concept](https://docs.ros.org/en/jazzy/Concepts/Basic/About-Launch.html){target="_blank"} / [How To Guides](https://docs.ros.org/en/jazzy/How-To-Guides/Launch-file-different-formats.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- Todo lo anterior se especifica en un *launch file*
+- Los archivos se ubican en la carpeta `launch` del paquete
+- El nombre debe finalizar en `launch.py`, `launch.xml` o `launch.yaml`
+- Pueden ser escritos en Python, XML (ROS 1) o YAML
+- Para mayor flexibilidad, se prefiere en *Python* porque así se tiene acceso a todas las funciones del lenguaje y las librerías (`ros2/launch` y `ros2/launch_ros`)
+- Un archivo escrito en Python puede ser más complejo y extenso que uno en XML o YAML
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> Se necesita adecuar el archivo `setup.py`:
+
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="|3,4,12-13"}
+from setuptools import setup
+
+import os
+from glob import glob
+
+package_name = 'nombre_paquete'
+
+setup(
+  # ..
+  data_files=[
+    # ..
+    # Incluir todos los archivos de la carpeta launch
+    (os.path.join('share', package_name, 'launch'), glob('launch/*'))
+  ],
+  # ..
+)
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+::: {.callout-note appearance="simple" title="Se recomienda agregar `ros2launch` como dependencia de ejecución:" style="width: 80%;"}
+
+      <exec_depend>ros2launch</exec_depend>
+:::
+
+
+::: {.notes}
+- Para que pueda funcionar `colcon` y utilizar los archivos *launch* hay que agregar la carpeta en `setup.py`
+- Agregar la dependencia de `ros2launch` en el `package.xml`
+
+<!-- ```python
+data_files=[
+    # Incluir los archivos 'launch' correctamente nombrados de la carpeta launch
+    (os.path.join('share', package_name, 'launch'), glob('launch/.*launch\.(py|xml|ya?ml)')),
+],
+``` -->
+:::
+
+
+## Archivos *launch* en *Python*
+
+#### Se debe implementar la función
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+        def generate_launch_description():
+            # ..
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+#### .. que devuelve un objeto de tipo
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+        launch.LaunchDescription()
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: 
+
+<br>
+
+#### .. utilizado por el comando
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```bash {code-line-numbers="false"}
+    $ ros2 launch <nombre_paquete> <nombre_archivo_launch>
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: 
+
+
+::: {.notes}
+- Función que genera la descripción del launch
+- Debe retornar un objeto de tipo `LaunchDescription()`
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> El objeto `LaunchDescription` se compone de una colección de "*acciones*"
+
+- #### [Algunos ejemplos]{.underline}:
+  - Ejecutar un nodo (`launch_ros.actions.Node`)
+  - Ejecutar un comando (`launch.actions.execute_process`)
+  - Agregar argumentos (`launch.actions.DeclareLaunchArgument`)
+  - Encadenar ejecución (ej.: `launch.event_handlers.OnExecutionComplete`)
+  - Utilizar variables de entorno (`launch.substitutions.EnvironmentVariable`)
+  - Condiciones (`launch.conditions.IfCondition`)
+  - Incluir otros archivos *launch* (`launch.actions.IncludeLaunchDescription`)
+
+::: {.aside}
+Más información: [Python API](https://docs.ros.org/en/jazzy/p/launch/launch.launch_description.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- Es la descripción de un sistema
+- La descripción se expresa como una colección (lista) de entidades que representan "intenciones" del sistema (acciones) (capturan las intenciones del usuario, arquitecto)
+:::
+
+## Archivos *launch* en *Python* {.smaller}
+
+> Dos formas de construir el `LaunchDescription`
+
+
+1. Directamente en el constructor
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+def generate_launch_description():
+    return LaunchDescription([
+        <accion1>(<argumentos_accion>),
+        <accion2>(<argumentos_accion>),
+        # ..
+    ])
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+2. Añadiendo al objeto con el método `add_action`
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+def generate_launch_description():
+    accion1 = <accion1>(<argumentos_accion>)
+    accion2 = <accion2>(<argumentos_accion>)
+
+    ld = LaunchDescription(<argumentos_launch>)
+    ld.add_action(accion1)
+    ld.add_action(accion2)
+    return ld
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+::: {.notes}
+- Puede que la 1 sirva para launch cortos y simples
+- La 2 es más “ordenada”
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> Dos librerías principales con elementos para `LaunchDescription`
+
+- #### `launch`: Librería independiente de ROS2 ([Docs](https://docs.ros.org/en/jazzy/p/launch/launch.html){target="_blank"})
+
+::: {.hide}
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+from launch import LaunchDescription
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+- #### `launch_ros`: Librería específica con acciones de ROS2 ([Docs](https://docs.ros.org/en/jazzy/p/launch_ros/launch_ros.html){target="_blank"})
+
+::: {.hide}
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```python {code-line-numbers="false"}
+from launch_ros.actions import Node
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+::: {.notes}
+La librería `launch_ros` son módulos específicos con clases de ROS
+:::

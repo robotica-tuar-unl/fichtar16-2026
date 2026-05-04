@@ -1,0 +1,544 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+filters:
+   - include-code-files
+---
+
+# Programación de archivos *launch*
+
+## Adecuación del paquete para albergar los archivos *launch*
+
+- #### Crear una carpeta `launch`
+
+```default {filename="Estructura de carpetas"}
+📂 src
+└── 📂 paquete_ejemplo
+    ├── 📂 launch                   ⬅️
+    │   └── ...
+    ├── 📄 package.xml
+    ├── 📁 paquete_ejemplo
+    ├── 📁 resource
+    ├── 📄 setup.cfg
+    ├── 📄 setup.py
+    └── 📁 test
+```
+
+- #### Modificar el archivo `setup.py`
+
+Modificar la configuración de `data_files` para instalar correctamente los archivos:
+
+```python {code-line-numbers="false" filename="setup.py"}
+from setuptools import setup
+
+import os
+from glob import glob
+
+package_name = 'nombre_paquete'
+
+setup(
+  name=package_name,
+  version='<version>',
+  description='<descripcion>',
+  # ..
+  data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+        # Instalar achivos 'launch.py' dentro de la carpeta 'launch'
+        (os.path.join('share', package_name, 'launch'),                 # <1>
+            glob(os.path.join('launch', '*launch.py'))),                # <1>
+  ],
+  # ..
+)
+```
+1. Código adicional
+
+::: {.callout-note appearance="simple" title="Se recomienda agregar `ros2launch` como dependencia de ejecución" collapse="true"}
+
+        <exec_depend>ros2launch</exec_depend>
+:::
+
+
+## Programación del *launch*
+
+- #### Importar `LaunchDescription` de la librería `launch`
+
+```python
+from launch import LaunchDescription
+```
+
+------
+
+- #### Definir la función `generate_launch_description` que devolverá el `LaunchDescription`
+
+```python
+def generate_launch_description():
+    # ..
+    return LaunchDescription([
+        # Contenido del launch
+        # ..
+    ])
+```
+
+------
+
+### *Actions*
+
+- #### Ejecutar un nodo
+
+```python
+from launch_ros.actions import Node
+```
+
+>       def generate_launch_description():
+>           node = Node(
+>               package = '<nombre_paquete>',
+>               executable = '<nombre_ejecutable>',
+>               name = '<nombre_nodo>',
+>               namespace = '<nombre_namespace>',
+>               parameters = [ # Pueden ser archivos
+>                   {'<nombre_parametro>': <valor>, .. }
+>               ],
+>               remappings = [
+>                   ('<nombre_topic>', '<nuevo_nombre>'),
+>               ],
+>               output = '<screen|log|both>',
+>               ros_arguments = ['..'],
+>               arguments = ['..'],
+>           )
+>
+>
+>           return LaunchDescription([
+>               node,
+>           ])
+::: {.aside}
+::: {.callout-note appearance="simple"}
+Los campos requeridos son los mismos que para el comando `ros2 run`: `package` y `executable`
+:::
+:::
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/actions_node.launch.py"}
+```
+</details>
+
+
+------
+
+- #### Ejecutar un comando
+
+```python
+from launch.actions import ExecuteProcess
+```
+
+>       def generate_launch_description():
+>           return LaunchDescription([
+>               ExecuteProcess(
+>                   cmd = [
+>                       '<comando>', # opciones / argumentos ..
+>                   ],
+>                   shell = <True|False>,
+>               ),
+>           ])
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/actions_cmd.launch.py"}
+```
+</details>
+
+------
+
+- #### Incluir otros archivos *launch*
+
+```python
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+```
+
+>       def generate_launch_description():
+>           return LaunchDescription([
+>               IncludeLaunchDescription(
+>                   PythonLaunchDescriptionSource([
+>                       '<ruta_al_archivo_de_python>'
+>                   ])
+>               ),
+>           ])
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/actions_include.launch.py"}
+```
+</details>
+
+
+------
+
+- #### Declarar argumentos
+
+```python
+from launch.actions import DeclareLaunchArgument
+```
+
+>       def generate_launch_description():
+>           return LaunchDescription([
+>               DeclareLaunchArgument(
+>                   '<nombre_argumento>',
+>                   default_value='<valor_por_defecto>',
+>                   description='<descripcion>'
+>               ),
+>           ])
+::: {.aside}
+::: {.callout-note appearance="simple"}
+La descripción es opcional
+:::
+:::
+
+::: {.callout-note appearance="simple" title="Los argumentos se agregan al final del comando" collapse="true"}
+
+```
+ros2 launch <nombre_paquete> <archivo_launch> <nombre_argumento>:=<valor> ..
+```
+:::
+
+::: {.callout-tip appearance="simple" title="Se pueden consultar utilizando la opción `--show-args`" collapse="true"}
+
+```
+ros2 launch <nombre_paquete> <archivo_launch> --show-args
+```
+:::
+
+------
+
+### *Substitutions*
+
+- #### Argumentos
+
+```python
+from launch.substitutions import LaunchConfiguration
+```
+
+>       LaunchConfiguration('<nombre_argumento>')
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_arg.launch.py"}
+```
+</details>
+
+------
+
+- #### Variable de entorno
+
+```python
+from launch.substitutions import EnvironmentVariable
+```
+
+>       EnvironmentVariable('<nombre_variable>')
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_env.launch.py"}
+```
+</details>
+
+------
+
+- #### "Salida" de un comando
+
+```python
+from launch.substitutions import Command
+```
+
+>       Command('<comando>')
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_cmd.launch.py"}
+```
+</details>
+
+
+------
+
+- #### Rutas de archivos
+
+```python
+from launch.substitutions import PathJoinSubstitution
+```
+
+>       PathJoinSubstitution(['<ubicacion>', .. , '<archivo>'])
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_path.launch.py"}
+```
+</details>
+
+------
+
+- #### Texto
+
+```python
+from launch.substitutions import TextSubstitution
+```
+
+>       TextSubstitution(<variable_str>)
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_text.launch.py"}
+```
+</details>
+
+------
+
+- #### Condición de igualdad
+
+```python
+from launch.substitutions import EqualsSubstitution
+```
+
+>       EqualsSubstitution(<argumento1>, <argumento2>)
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_equal.launch.py"}
+```
+</details>
+
+------
+
+- #### Expresión de *Python*
+
+```python
+from launch.substitutions import PythonExpression
+```
+
+>       PythonExpression('<expresion_evaluable_de_python>')
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/subs_py.launch.py"}
+```
+</details>
+
+------
+
+- #### Obtener la ubicación de un paquete de ROS
+
+```python
+from launch_ros.substitutions import FindPackageShare
+```
+
+>       FindPackageShare('<nombre_paquete>')
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/find_package_share.launch.py"}
+```
+</details>
+
+------
+
+### *Conditions*
+
+- #### Condición `Si <verdadero> Entonces`
+
+```python
+from launch.conditions import IfCondition
+```
+
+>       IfCondition(<condicion>)
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/cond_if.launch.py"}
+```
+</details>
+
+------
+
+
+```python
+from launch.conditions import LaunchConfigurationEquals
+```
+
+>       LaunchConfigurationEquals('<nombre_argumento>', <valor>)
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/cond_conf_equals.launch.py"}
+```
+</details>
+
+------
+
+- #### Condición `Si <falso> Entonces`
+
+```python
+from launch.conditions import UnlessCondition
+```
+
+>       UnlessCondition(<condicion_por_falso>)
+
+------
+
+
+```python
+from launch.conditions import LaunchConfigurationNotEquals
+```
+
+>       LaunchConfigurationNotEquals('<nombre_argumento>', <valor>)
+
+------
+
+### *Events*
+
+- #### Ejecutar una o varias acciones después de otra
+
+```python
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
+```
+
+>       def generate_launch_description():
+>           return LaunchDescription([
+>               RegisterEventHandler(event_handler=OnProcessExit(
+>                   target_action=<accion_objetivo>,
+>                   on_exit=[<acciones_ejecutar>, .. ],
+>               ))
+>           ])
+
+<details>
+<summary>Ver ejemplo</summary>
+```{.python include="_lab_examples/event_onexit.launch.py"}
+```
+</details>
+
+------
+
+# Sistema de Monitoreo de temperatura
+
+#### [Objetivos]{.underline}:
+
+* Crear un nodo publicador que envíe mediciones de temperatura
+* Crear un nodo suscriptor que escuche esas mediciones y emita una alarma si se supera un umbral de temperatura configurable
+* Crear archivos *launch* que permitan iniciar todo el sistema estableciendo los parámetros programados
+
+
+
+
+## Crear el nodo: `temperature_sensor`
+
+- El valor de temperatura es generado a partir de un valor base (`base_temperature`) con una variación aleatoria máxima (`max_variation`), configurable ambas mediante parámetros
+- Publica en el topic `\temperature` utilizando el tipo de mensaje [`sensor_msgs/msg/Temperature`](https://docs.ros2.org/latest/api/sensor_msgs/msg/Temperature.html){target="_blank"}
+
+::: {.aside}
+::: {.callout-tip appearance="minimal"}
+Puede utilizar el comando `ros2 interface show <tipo_mensaje>` para ver la composición
+:::
+:::
+
+- Enviar un mensaje de log que muestre la temperatura generada (con severidad `info` o `debug`)
+- Además agregar un parámetro de configuración de la frecuencia de publicación en Hz (`publish_rate`)
+
+
+::: {.list-table header-rows=1 aligns="l,c,l,c" tbl-colwidths="[20,15,45,20]"}
+
+- - Nombre
+  - Tipo
+  - Descripción
+  - Valor por defecto
+
+- - `base_temperature`
+  - `float`
+  - Temperatura inicial/base en $\degree C$
+  - $25.0$
+
+- - `max_variation`
+  - `float`
+  - Máxima variación aleatoria
+  - $5.0$
+
+- - `publish_rate`
+  - `int`
+  - Frecuencia de publicación en $Hz$
+  - $1$
+
+:::
+
+------
+
+Para generar la temperatura puedes utilizar la función `uniform` de la librería `random`:
+
+>           temperature = base_temperature + 
+>                   random.uniform(-max_variation, max_variation)
+
+- `base_temperature`: valor base
+- `max_variation`: cuánto puede subir o bajar como máximo en cada medición
+- `random.uniform(a, b)`: genera un número flotante aleatorio entre `a` y `b`.
+
+
+------
+
+::: {.callout-note appearance="simple" title="Opcional" collapse="true"}
+Uno de los campos del mensaje de tipo `Temperature` es el `header`, que contiene un `stamp` de tipo `Time` y un `frame_id`, puedes completar dichos campos *opcionalmente*
+
+Para obtener un `stamp` actual puedes utilizar el método `get_clock` de la clase `Node`:
+
+```.py
+msg.header.stamp = self.get_clock().now().to_msg()
+msg.header.frame_id = 'sensor1'
+```
+:::
+
+## Crear el nodo `temperature_monitor`
+
+- Suscribe al topic `\temperature` y por cada mensaje verifica si la temperatura supera un umbral crítico configurable mediante un parámetro `alarm_threshold`
+- Agregar un parámetro de configuración `temperature_unit` que definirá la unidad utilizada para el umbral y las alertas de temperatura
+
+::: {.callout-tip title="Conversión $\degree C$ a $\degree F$" appearance="simple"}
+$$
+T \, [\degree F]  = T \, [\degree C] \cdot 9/5 + 32
+$$
+:::
+
+- Si supera el umbral imprime un mensaje de alarma con severidad `warn` y si no publicar la temperatura recibida con severidad `info` o `debug`
+
+## Probar el sistema mediante `ros2 run`
+
+- Ejecutar ambos nodos desde consola comprobando el funcionamiento de los valores por defecto de los parámetros y el funcionamiento del sistema en su conjunto
+- Probar distintas ejecuciones variando los parámetros definidos y probar cambios de parámetros durante la ejecución, comprobando cuales tienen efecto inmediato y cuales requieren reinciar el nodo
+- Comprobar el funcionamiento de los mensajes de log según distintos niveles de severidad seteados para cada nodo
+
+
+## Crear el archivo `launch` para ambos nodos
+
+- Iniciar ambos nodos
+    - `temperature_sensor` con una temperatura base de 27°C y una variación máxima de 5°C, con una frecuencia de publicación de 2Hz.
+    - `temperature_monitor` con un umbral en 30°C
+- Declarar los argumentos necesarios para poder configurar los parámetros establecidos en ambos nodos
+- Ambos nodos deben enviar la salida por la consola con nivel de severidad `info`
+
+## Probar el sistema mediante `ros2 launch`
+
+- Ejecutar el archivo `launch`creado para verificar el funcionamiento de los parámetros por defecto
+- Probar distintas ejecuciones variando los parámetros definidos

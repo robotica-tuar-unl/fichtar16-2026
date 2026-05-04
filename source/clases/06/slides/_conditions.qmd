@@ -1,0 +1,100 @@
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Conditions*]{.underline}: Condición `Si <verdadero> entonces`
+
+```python {code-line-numbers="false"}
+    from launch.conditions import IfCondition
+
+```
+
+- Uso: `IfCondition(<condicion>)`
+
+- Ejemplo: Ejecutar un nodo u otro según el valor del parámetro `modo`
+
+```python {code-line-numbers="5-7,10-12"}
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument('modo', default_value = 'publicador'),
+        Node(package = 'demo_nodes_py', executable = 'talker',
+            condition = IfCondition(
+                EqualsSubstitution(LaunchConfiguration('modo'), 'publicador')
+            )
+        ),
+        Node(package = 'demo_nodes_py', executable = 'listener',
+            condition = IfCondition(
+                EqualsSubstitution(LaunchConfiguration('modo'), 'suscriptor')
+            )
+        )
+    ])
+
+```
+
+
+::: {.notes}
+- **Conditions**: Mecanismos para cambiar el comportamiento del *launch*
+- Agregar lógica en el procedimiento de ejecución de nodos
+- Encapsula una condición "Si .. entonces" al ejecutar el *launch*
+- La condición es una expresión de tipo *string* pero debería ser posible de evaluar de forma booleana (es "*true*" o "*false*")
+:::
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Conditions*]{.underline}: Condición `Si <verdadero> entonces`
+
+```python {code-line-numbers="false"}
+    from launch.conditions import LaunchConfigurationEquals
+
+```
+
+- Uso: `LaunchConfigurationEquals('<nombre_argumento>', <valor>)`
+
+- Ejemplo: Ejecutar un nodo si el valor del parámetro `ejecutar_listener` es `true`
+
+```python {code-line-numbers="6"}
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument('ejecutar_listener', default_value = 'true'),
+        Node(package = 'demo_nodes_py', executable = 'talker'),
+        Node(package = 'demo_nodes_py', executable = 'listener',
+            condition = LaunchConfigurationEquals('ejecutar_listener', 'true')
+        )
+    ])
+
+```
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Conditions*]{.underline}: Condición `Si <falso> entonces`
+
+```python {code-line-numbers="false"}
+    from launch.conditions import UnlessCondition
+
+```
+
+- Uso: `UnlessCondition(<condicion_por_falso>)`
+
+<br>
+
+```python {code-line-numbers="false"}
+    from launch.conditions import LaunchConfigurationNotEquals
+
+```
+
+- Uso: `LaunchConfigurationNotEquals('<nombre_argumento>', <valor>)`
+
+<br>
+
+::: {.callout-note appearance="simple" title="Comportamiento inverso que `IfCondition` y `LaunchConfigurationEquals` respectivamente"}
+
+:::
+
+::: {.aside}
+Más condiciones de `launch`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch/launch.conditions.html){target="_blank"}
+:::
+
+
+
+::: {.notes}
+- Similar a `IfCondition` pero devuelve "*true*" para cuando la condición es "*false*" (invertido)
+:::

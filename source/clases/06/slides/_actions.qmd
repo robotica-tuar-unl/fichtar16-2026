@@ -1,0 +1,218 @@
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Actions*]{.underline}: Ejecutar un nodo
+
+```python {code-line-numbers="false"}
+    from launch_ros.actions import Node
+
+```
+
+```python {code-line-numbers="|2-3,19,21|4-6|7|8-11|12-15|16|17|18"}
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package = '<nombre_paquete>',
+            executable = '<nombre_ejecutable>',
+            name = '<nombre_nodo>',
+            namespace = '<nombre_namespace>',
+            parameters = [{                     # Pueden ser archivos
+              '<nombre_parametro>': <valor>,
+              # ..
+            }],
+            remappings = [
+              ('<nombre_topic>', '<nuevo_nombre>'),
+              # ..
+            ],
+            output = '<screen|log|both>',
+            ros_arguments = [...],              # Argumentos de ROS (nivel de log, etc)
+            arguments = [...],                  # Argumentos del comando
+        ),
+        # ..
+    ])
+
+```
+
+::: {.aside}
+Más acciones de `launch_ros`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch_ros/launch_ros.actions.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- `launch_ros.actions` -> Acciones específicas de ROS
+- Sí o sí el `executable` y si es necesario `package` 
+- Por lo general se quiere tener control en el nombre del nodo (para identificarlo en los prints de consola)
+- Utilizar *namespaces* únicos permite al sistema iniciar múltiples nodos iguales sin tener conflicto entre los *topics* o nombres 
+- Utilice `args` cuando combine argumentos de ROS y argumentos que no lo son
+- `args`: requiere la bandera `--ros-args` para argumentos de ROS
+- `ros_args` para una sintaxis más limpia con solo argumentos de ROS (*remapping*, parámetros o *log-level*)
+:::
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Actions*]{.underline}: Ejecutar un nodo
+
+- Ejemplo: ejecutar `talker` y `listener` de `demo_nodes_py`
+
+```python {code-line-numbers="True"}
+def generate_launch_description():
+    nodo_talker = Node(
+        package = 'demo_nodes_py',
+        executable = 'talker',
+        name = 'publicador',
+    )
+    node_listener = Node(
+        package = 'demo_nodes_py',
+        executable = 'listener',
+        name = 'suscriptor',
+    )
+    return LaunchDescription([
+        nodo_talker,
+        node_listener,
+    ])
+
+```
+
+
+::: {.callout-note appearance="simple" title="Reemplaza los comandos"}
+- ```bash {code-line-numbers="false"}
+    $ ros2 run demo_nodes_py talker --ros-args -r __node:=publicador
+  ```
+
+- ```bash {code-line-numbers="false"}
+    $ ros2 run demo_nodes_py listener --ros-args -r __node:=suscriptor
+  ```
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Actions*]{.underline}: Ejecutar un comando
+
+```python {code-line-numbers="false"}
+    from launch.actions import ExecuteProcess
+
+```
+
+```python {code-line-numbers="|2-3,9-10|4-6|7"}
+def generate_launch_description():
+    return LaunchDescription([
+        ExecuteProcess(
+            cmd = [
+                '<comando>', # opciones / argumentos ..
+            ],
+            shell = <True|False>,
+        ),
+    ])
+
+```
+
+- Ejemplo: Ejecutar una llamada a servicio de *ROS*
+
+```python {code-line-numbers="True"}
+def generate_launch_description():
+    return LaunchDescription([
+        Node(package = 'demo_nodes_py', executable = 'add_two_ints_server'),
+        ExecuteProcess(
+            cmd = [[ 'ros2 service call ', 
+                '/add_two_ints ',
+                'example_interfaces/srv/AddTwoInts ',
+                '\"{a: 5, b: 10}\"'
+            ]],
+            shell = True,
+        ),
+    ])
+
+```
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Actions*]{.underline}: Incluir otros archivos *launch*
+
+```python {code-line-numbers="false"}
+    from launch.actions import IncludeLaunchDescription
+    from launch.launch_description_sources import PythonLaunchDescriptionSource
+```
+
+```python {code-line-numbers="|2-3,7-8|4-6"}
+def generate_launch_description():
+    return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                # Ruta al archivo 'launch' de Python
+            ])
+        ),
+    ])
+
+```
+
+- Ejemplo: Incluir `talker_listener_launch.py` del paquete `demo_nodes_cpp`
+
+```python {code-line-numbers="True"}
+def generate_launch_description():
+    return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                '/opt/ros/jazzy/share/demo_nodes_cpp',
+                '/launch/topics/talker_listener_launch.py'
+            ])
+        ),
+    ])
+
+```
+
+::: {.callout-warning appearance="simple" title="En *Windows* no funcionaría"}
+
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Actions*]{.underline}: Declarar argumentos
+
+```python {code-line-numbers="false"}
+    from launch.actions import DeclareLaunchArgument
+
+```
+
+```python {code-line-numbers="3-7"}
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            '<nombre_argumento>',
+            default_value = '<valor_por_defecto>',
+            description = '<descripcion>'             # Opcional
+        ),
+    ])
+
+```
+
+<br>
+
+::: {.callout-note appearance="simple" title="Los argumentos se agregan al final del comando"}
+
+```bash {code-line-numbers="false"}
+    $ ros2 launch <nombre_paquete> <archivo_launch> <nombre_argumento>:=<valor> ..
+```
+:::
+
+::: {.callout-tip appearance="simple" title="Se pueden consultar utilizando la opción `--show-args`"}
+
+```bash {code-line-numbers="false"}
+    $ ros2 launch <nombre_paquete> <archivo_launch> --show-args
+```
+:::
+
+
+::: {.aside}
+Más acciones de `launch`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch/launch.actions.html){target="_blank"}
+:::
+
+::: {.notes}
+- Pueden tener valor por defecto, una descripción (opcional)
+- Si no tiene valor por defecto el argumento se vuelve obligatorio (si no se le asigna un valor dará error)
+- Se pueden definir opciones de valores válidos (*choices*)
+- Cualquier argumento declarado dentro de launch.LaunchDescription se expondrá como argumento:
+    - En línea de comandos al ejecutar `ros2 launch`
+    - o en `IncludeLaunchDescription` (al importar)
+:::

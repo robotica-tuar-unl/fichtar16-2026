@@ -1,0 +1,279 @@
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Argumentos
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import LaunchConfiguration
+
+```
+- Uso: `LaunchConfiguration('<nombre_argumento>')`
+
+- Ejemplo: establecer el valor de un parámetro desde el comando `ros2 launch`
+```python {code-line-numbers="|3|9"}
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument('<nombre_argumento>', default_value = '<valor>'),
+        Node(
+            package = '<nombre_paquete>',
+            executable = '<nombre_ejecutable>',
+            name = '<nombre_nodo>',
+            parameters = [{
+                '<parametro_del_nodo>': LaunchConfiguration('<nombre_argumento>'),
+            }]
+        ),
+    ])
+
+```
+
+<br>
+
+```bash {code-line-numbers="false"}
+    $ ros2 launch <nombre_paquete> <archivo_launch> <nombre_argumento>:=<valor> ..
+```
+
+
+::: {.notes}
+- **Substitutions**: Formas de hacer los archivos *launch* más flexibles
+- Parámetros o "variables" dentro del *launch* que se pueden modificar al momento de iniciar ejecutar un nodo o proceso
+- Obtener información por fuera, que es substituida solo al momento de la ejecución
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}:  Variable de entorno
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import EnvironmentVariable
+
+```
+- Uso: `EnvironmentVariable('<nombre_variable>')`
+
+
+- Ejemplo: establecer el nombre del nodo igual al nombre de usuario
+```python {code-line-numbers="6"}
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package = 'demo_nodes_py',
+            executable = 'talker',
+            name = EnvironmentVariable('USER'),
+        ),
+    ])
+
+```
+
+
+::: {.notes}
+- Si la variable no existe, devuelve un string vacío
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: "Salida" de un comando 
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import Command
+
+```
+- Uso: `Command('<comando>')`
+
+- Ejemplo: establecer el *namespace* como el *hostname* del dispositivo donde se ejecuta
+```python {code-line-numbers="6"}
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package = 'demo_nodes_py',
+            executable = 'talker',
+            namespace = Command(['/bin/sh -c \'hostname | head -c -1\'']),
+        ),
+    ])
+
+```
+
+
+::: {.notes}
+- Captura la salida de un comando como un string
+:::
+
+
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Rutas de archivos
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import PathJoinSubstitution
+
+```
+- Uso: `PathJoinSubstitution(['<ubicacion>', .. , '<archivo>'])`
+
+- Ejemplo: Incluir `talker_listener_launch.py` del paquete `demo_nodes_cpp`
+
+```python {code-line-numbers="5-9"}
+def generate_launch_description():
+    return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                PathJoinSubstitution([
+                    '/opt/ros/jazzy', 'share', 'demo_nodes_cpp',
+                    'launch/topics',
+                    'talker_listener_launch.py'
+                ])
+            ])
+        ),
+    ])
+
+```
+
+::: {.notes}
+- Facilita el armado de rutas, independientemente del sistema operativo / plataforma
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Texto
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import TextSubstitution
+
+```
+- Uso: `TextSubstitution(<variable_a_str>)`
+
+- Ejemplo: establecer el nombre del nodo igual al nombre de usuario y un identificador
+```python {code-line-numbers="6"}
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package = 'demo_nodes_py',
+            executable = 'talker',
+            name = [EnvironmentVariable('USER'), TextSubstitution('_publicador')],
+        ),
+    ])
+
+```
+
+::: {.notes}
+- Acepta variables convertibles a *String* utilizando `str()`
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Condición de igualdad
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import EqualsSubstitution
+
+```
+- Uso: `EqualsSubstitution(<argumento1>, <argumento2>)`
+
+- Si ambos son iguales devuelve `true`, caso contrario `false`
+
+- Ejemplo: establecer el parámetro `use_sim_time` según el valor del argumento `modo`
+
+```python {code-line-numbers="3,8"}
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument('modo', default_value = 'normal'),
+        Node(
+            package = 'demo_nodes_py',
+            executable = 'talker',
+            parameters = [{
+                'use_sim_time': EqualsSubstitution(LaunchConfiguration('modo'), 'prueba')
+            }],
+        ),
+    ])
+
+```
+
+::: {.notes}
+- Chequea si los dos argumentos son iguales y devuelve un string en "*true*" o "*false*"
+- El parámetro `use_sim_time` (**del nodo**) va a ser `true` solo si el argumento argumento `modo` es igual a "prueba"
+:::
+
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Expresión de *Python*
+
+```python {code-line-numbers="false"}
+    from launch.substitutions import PythonExpression
+
+```
+
+- Uso: `PythonExpression('<expresion_evaluable_de_python>')`
+
+- Ejemplo: ejecutar `talker` o `listener` según el valor del argumento `modo`
+
+```python {code-line-numbers="2,5,8-10"}
+def generate_launch_description():
+    modo = LaunchConfiguration('modo')
+
+    return LaunchDescription([
+        DeclareLaunchArgument('modo', default_value = 'publicador'),
+        Node(
+            package = 'demo_nodes_py',
+            executable = PythonExpression([
+                "'talker' if '", modo, "' == 'publicador' else 'listener'"
+            ])
+        ),
+    ])
+
+```
+
+::: {.aside}
+Más *substituitions* de `launch`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch/launch.substitutions.html){target="_blank"}
+:::
+
+::: {.notes}
+- Si `EqualsSubstitution` se queda corto, podemos usar expresiones de Python para construir valores más complejos
+- Pueden acceder a variables locales del contexto
+- Deben devolver algo que se pueda a convertir a *String*
+:::
+
+
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Substitutions*]{.underline}: Obtener la ubicación de un paquete de ROS
+
+```python {code-line-numbers="false"}
+    from launch_ros.substitutions import FindPackageShare
+
+```
+
+- Uso: `FindPackageShare('<nombre_paquete>')`
+
+- Ejemplo: Incluir un archivo *launch* de otro paquete
+```python {code-line-numbers="6"}
+def generate_launch_description():
+    return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                PathJoinSubstitution([
+                    FindPackageShare(['demo_nodes_cpp']), 'launch/topics', 'talker_listener_launch.py'
+                ])
+            ])
+        ),
+    ])
+
+```
+
+::: {.callout-note appearance="simple" title="Evita definir rutas absolutas y estáticas"} 
+`'/opt/ros/jazzy/share/demo_nodes_cpp/launch/topics/talker_listener_launch.py'`
+:::
+
+
+::: {.aside}
+Más *substituitions* de `launch_ros`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch_ros/launch_ros.substitutions.html){target="_blank"}
+:::
+
+
+::: {.notes}
+- Intenta ubicar el directorio "*share*" de un paquete de ROS
+- Ejemplo de obtener el *path* a un archivo ubicado en el directorio `carpeta` dentro de un `paquete`
+:::

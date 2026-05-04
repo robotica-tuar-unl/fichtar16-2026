@@ -1,0 +1,44 @@
+## Archivos *launch* en *Python* {.smaller}
+
+> #### [*Events*]{.underline}: Ejecutar una o varias acciones acción después de otra
+
+```python {code-line-numbers="false"}
+    from launch.actions import RegisterEventHandler
+    from launch.event_handlers import OnProcessExit
+
+```
+
+- Ejemplo: ejecutar el nodo `talker` luego de setear un parámetro
+
+```python {code-line-numbers="|2-5|9|10-13"}
+def generate_launch_description():
+    ros2_param_set = ExecuteProcess(
+        cmd = ['ros2 param set', '/set_parameters_callback', 'param1', '10.0'],
+        shell = True,
+    )
+    nodo_talker = Node(package = 'demo_nodes_py', executable = 'talker')
+    return LaunchDescription([
+        Node(package = 'demo_nodes_py', executable = 'set_parameters_callback'),
+        ros2_param_set,
+        RegisterEventHandler(event_handler = OnProcessExit(
+            target_action = ros2_param_set,
+            on_exit = [node_listener],
+        ))
+    ])
+
+```
+
+::: {.aside}
+Más eventos de `launch`: [docs.ros.org](https://docs.ros.org/en/jazzy/p/launch/launch.events.html){target="_blank"}
+
+Más información: [`ROS Tutorials`](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Launch/Launch-Main.html){target="_blank"}
+:::
+
+
+
+::: {.notes}
+- ROS2 *launch* se encarga de monitorear el estado de los procesos (iniciando, corriendo, detenidos, etc) y reaccionar ante los cambios en dicho estado
+- Estos cambios se denominan eventos y se gestionan registrando un controlador de eventos
+- Permiten definir un conjunto complejo de reglas que modifican el comportamiento del archivo de forma dinámica
+- El controlador de eventos `OnProcessExit` se utiliza para registrar una "acción" que se ejecuta cuando finaliza otra
+:::

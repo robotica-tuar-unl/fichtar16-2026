@@ -1,0 +1,93 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+output-file: index.html
+---
+
+# Argumentos {visibility="hidden"}
+
+{{< include slides/_ros_args.qmd >}}
+
+
+
+
+# Sistema de *launch* {visibility="hidden"}
+
+{{< include slides/_ros2launch.qmd >}}
+
+
+
+
+# *launch*: `actions` {visibility="hidden"}
+
+{{< include slides/_actions.qmd >}}
+
+
+
+
+
+# *launch*: `substitutions` {visibility="hidden"}
+
+{{< include slides/_substitutions.qmd >}}
+
+
+
+
+# *launch*: `conditions` {visibility="hidden"}
+
+{{< include slides/_conditions.qmd >}}
+
+
+
+
+# *launch*: `events` {visibility="hidden"}
+
+{{< include slides/_events.qmd >}}
+
+
+
+
+# Recomendaciones de diseño {visibility="hidden"}
+
+## Archivos *launch* en *Python* {.smaller}
+
+[Recomendaciones de diseño]{.underline}
+
+> - #### Modularidad y reutilización
+
+> - #### Usar argumentos y evitar valores *hardcodeados*
+
+> - #### Usar niveles de jerarquía
+
+> - #### Evitar lógicas complejas
+
+::: {.notes}
+1. Dividir el sistema en múltiples *launch* cortos y reutilizables; usar uno principal para orquestar
+2. Evitar valores hardcodeados; usar argumentos (LaunchConfiguration) para adaptar el comportamiento.
+3. Los launch de más alto nivel deben ser cortos, claros y fáciles de modificar
+4. Mantener un esquema uniforme para nodos, topics y namespaces
+5. La lógica compleja debe ir en los nodos
+:::
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+- Archivos *launch*
+- Práctica integradora 

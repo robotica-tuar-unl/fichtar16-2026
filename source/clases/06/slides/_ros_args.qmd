@@ -1,0 +1,80 @@
+## Argumentos en ROS2 {.smaller}
+
+> Conjunto de argumentos que permiten reconfigurar los nodos ([solo al inicio]{.underline})
+
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```bash {code-line-numbers="false"}
+    $ ros2 run <nombre_paquete> <nombre_ejecutable> --ros-args ...
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+<br>
+
+#### Remapping: `-r` o `--remap`
+
+- Cambio de nombre de nodo
+
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args -r __node:=<nuevo_nombre_nodo>
+```
+
+- Cambio de *namespace*
+
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args -r __ns:=/<nombre_namespace>
+```
+
+- Cambio de nombre de *topic*
+
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args -r <topic>:=<nuevo_nombre_topic>
+```
+
+::: {.notes}
+- Todos los nodos ROS aceptan un conjunto de argumentos que permiten reconfigurar diversas propiedades
+- De forma nativa (no hay que programar nada adicional)
+- Se ubican luego de la opción `--ros-args`
+:::
+
+## Argumentos en ROS2 {.smaller}
+
+> Propiedades que ROS permite reconfigurar de forma nativa
+
+
+#### Nivel de log: `--log-level`
+
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args --log-level <info|debug|warn|error>
+```
+
+<br>
+
+#### Archivo de log: `--log-file-name`
+
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args --log-file-name <ruta_nombre_archivo>
+```
+
+<br>
+
+#### Parámetros: `-p` o `--param`
+        
+```bash {code-line-numbers="false" style="width: 80%;"}
+    $ ros2 run ... --ros-args -p <nombre_parametro>:=<valor>
+
+    $ ros2 run ... --ros-args  --params-file <nombre_archivo>
+```
+
+::: {.aside}
+Más información: [How To Guides](https://docs.ros.org/en/jazzy/How-To-Guides/Node-arguments.html){target="_blank"}
+:::
