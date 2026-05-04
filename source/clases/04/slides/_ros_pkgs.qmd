@@ -89,11 +89,11 @@ Se pueden crear manualmente o utilizando el comando<br> `ros2 pkg create ..`
 > ```
 > 📂 src
 > └── 📂 paquete_ejemplo
->     ├── 📁 paquete_ejemplo
+>     ├── 📂 paquete_ejemplo
 >     │   ├── 📄 __init__.py
 >     │   ├── 📄 nodo_ejemplo.py    ⬅️ Código
 >     │   └── ...
->     ├── 📁 resource
+>     ├── 📂 resource
 >     │   └── 📄 paquete_ejemplo
 >     ├── 📁 launch
 >     ├── 📁 config
@@ -129,24 +129,24 @@ Se pueden crear manualmente o utilizando el comando<br> `ros2 pkg create ..`
 > 📂 src
 > ├── 📂 paquete_cpp_1
 > │   ├── 📄 CMakeLists.txt
-> │   ├── 📁 include
+> │   ├── 📂 include
 > │   │   └── 📁 paquete_cpp_1
 > │   ├── 📄 package.xml
 > │   └── 📁 src
 > │
 > ├── 📂 paquete_python_1
 > │   ├── 📄 package.xml
-> │   ├── 📁 resource
+> │   ├── 📂 resource
 > │   │   └── 📄 paquete_python_1
 > │   ├── 📄 setup.cfg
 > │   ├── 📄 setup.py
 > │   └── 📁 paquete_python_1
 > │
-> ├── 📂 ...
+> ├── 📁 ...
 > │
 > └── 📂 paquete_cpp_N
 >     ├── 📄 CMakeLists.txt
->     ├── 📁 include
+>     ├── 📂 include
 >     │   └── 📁 paquete_cpp_N
 >     ├── 📄 package.xml
 >     └── 📁 src

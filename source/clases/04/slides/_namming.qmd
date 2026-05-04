@@ -34,12 +34,12 @@ Nombres para:
 
 ```{.default code-line-numbers="false" code-line-numbers="2,3,8" filename="Workspace"}
 📂 src
-  📁 nombre_paquete
-      📁 nombre_paquete
+  📂 nombre_paquete
+      📂 nombre_paquete
           📄 __init__.py
 		  📄 codigo.py
           ...					
-  	📁 resource
+  	📂 resource
   	    📄 nombre_paquete
   	📄 package.xml
   	📄 setup.cfg
@@ -67,12 +67,12 @@ Nombres para:
 
 ```{.default code-line-numbers="false" code-line-numbers="5" filename="Workspace"}
 📂 src
-  📁 nombre_paquete
-      📁 nombre_paquete
+  📂 nombre_paquete
+      📂 nombre_paquete
           📄 __init__.py
 		  📄 codigo.py
           ...					
-  	📁 resource
+  	📂 resource
   	    📄 nombre_paquete
   	📄 package.xml
   	📄 setup.cfg
