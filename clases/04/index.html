@@ -505,11 +505,11 @@ mkdir -p ros2_tutorial_workspace/src
 <blockquote>
 <pre><code>📂 src
 └── 📂 paquete_ejemplo
-    ├── 📁 paquete_ejemplo
+    ├── 📂 paquete_ejemplo
     │   ├── 📄 __init__.py
     │   ├── 📄 nodo_ejemplo.py    ⬅️ Código
     │   └── ...
-    ├── 📁 resource
+    ├── 📂 resource
     │   └── 📄 paquete_ejemplo
     ├── 📁 launch
     ├── 📁 config
@@ -549,24 +549,24 @@ mkdir -p ros2_tutorial_workspace/src
 <pre><code>📂 src
 ├── 📂 paquete_cpp_1
 │   ├── 📄 CMakeLists.txt
-│   ├── 📁 include
+│   ├── 📂 include
 │   │   └── 📁 paquete_cpp_1
 │   ├── 📄 package.xml
 │   └── 📁 src
 │
 ├── 📂 paquete_python_1
 │   ├── 📄 package.xml
-│   ├── 📁 resource
+│   ├── 📂 resource
 │   │   └── 📄 paquete_python_1
 │   ├── 📄 setup.cfg
 │   ├── 📄 setup.py
 │   └── 📁 paquete_python_1
 │
-├── 📂 ...
+├── 📁 ...
 │
 └── 📂 paquete_cpp_N
     ├── 📄 CMakeLists.txt
-    ├── 📁 include
+    ├── 📂 include
     │   └── 📁 paquete_cpp_N
     ├── 📄 package.xml
     └── 📁 src</code></pre>
@@ -826,12 +826,12 @@ mkdir -p ros2_tutorial_workspace/src
 <pre><strong>Workspace</strong></pre>
 </div>
 <div class="sourceCode" id="cb7" data-code-line-numbers="2,3,8" data-filename="Workspace"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>📂 src</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>  📁 nombre_paquete</span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>      📁 nombre_paquete</span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>  📂 nombre_paquete</span>
+<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>      📂 nombre_paquete</span>
 <span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>          📄 __init__.py</span>
 <span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>          📄 codigo.py</span>
 <span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>          ...                   </span>
-<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>    📁 resource</span>
+<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a>    📂 resource</span>
 <span id="cb7-8"><a aria-hidden="true" tabindex="-1"></a>        📄 nombre_paquete</span>
 <span id="cb7-9"><a aria-hidden="true" tabindex="-1"></a>    📄 package.xml</span>
 <span id="cb7-10"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.cfg</span>
@@ -856,12 +856,12 @@ mkdir -p ros2_tutorial_workspace/src
 <pre><strong>Workspace</strong></pre>
 </div>
 <div class="sourceCode" id="cb8" data-code-line-numbers="5" data-filename="Workspace"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>📂 src</span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  📁 nombre_paquete</span>
-<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>      📁 nombre_paquete</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>  📂 nombre_paquete</span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>      📂 nombre_paquete</span>
 <span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>          📄 __init__.py</span>
 <span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>          📄 codigo.py</span>
 <span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>          ...                   </span>
-<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>    📁 resource</span>
+<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>    📂 resource</span>
 <span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a>        📄 nombre_paquete</span>
 <span id="cb8-9"><a aria-hidden="true" tabindex="-1"></a>    📄 package.xml</span>
 <span id="cb8-10"><a aria-hidden="true" tabindex="-1"></a>    📄 setup.cfg</span>
@@ -1526,6 +1526,7 @@ Se activa la función <em>callback</em>
 </div>
 </div><div class="column" style="width:10%;">
 
+</div></div>
 </section></section>
 <section>
 
