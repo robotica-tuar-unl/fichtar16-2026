@@ -1,0 +1,99 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Argumentos en ROS2}
+
+\begin{itemize}
+    \item Conjunto de argumentos que permiten reconfigurar diversas propiedades de los nodos sin programación adicional
+    %\item Todos los nodos ROS aceptan argumentos de forma nativa
+    %\item Se utilizan luego de la opción \texttt{--ros-args}
+    \item Las opciones van delante de la opción \texttt{--ros-args} y solo se permite al iniciar el nodo
+    \begin{itemize}
+        \item Cambio de nombre de nodo: \texttt{-r \_\_node:=<nuevo\_nombre\_nodo>`}
+        \item Cambio de \textit{namespace}: \texttt{-r \_\_ns:=/<nombre\_namespace>`}
+        \item Cambio de nombre de \textit{topic}: \texttt{-r <topic>:=<nuevo\_nombre\_topic>`}
+        \item Nivel de log: \texttt{--log-level <info|debug|warn|error>}
+        \item Parámetros: \texttt{-p <nombre\_parametro>:=<valor>`}
+    \end{itemize}
+\end{itemize}
+
+\section{Sistema \textit{launch} de ROS2}
+
+\begin{itemize}
+    \item Un sistema ROS 2 puede estar compuesto de muchos nodos que se ejecutan en diversos procesos (e incluso en distintos dispositivos). Si bien es posible ejecutar manualmente cada uno de estos nodos, se vuelve engorroso rapidamente.
+    \item El sistema de ''lanzamiento" de ROS simplifica la ejecución de sistemas complejos
+    \item También se encarga de monitorear el estado de los procesos lanzados, e informar y/o reaccionar ante cambios
+    \item Los archivos que describen la configuración completa del sistema pueden ser escritos en XML, YAML o \textit{Python}, y se ubican dentro de la carpeta \texttt{launch} dentro del paquete. Para compilarlos adecuadamente se debe modificar el archivo \texttt{setup.py}.
+    \item Para mayor flexibilidad, se prefiere en \textit{Python} porque así se tiene acceso a todas las funciones del lenguaje y las librerías (\texttt{ros2/launch} y \texttt{ros2/launch\_ros})
+\end{itemize}
+
+
+\subsection{Archivos \textit{launch} en \textit{Python}}
+
+\begin{itemize}
+    \item Dentro del archivo se debe implementar la función \texttt{generate\_launch\_description()} que devuelve un objeto de tipo \texttt{launch.LaunchDescription()}
+    \item El objeto \texttt{LaunchDescription} se compone de una colección o lista de ''\textit{acciones}". Para esto se utilizan dos librerías principales:
+    \begin{itemize}
+        \item \texttt{launch}: Librería independiente de ROS2
+        \item \texttt{launch\_ros}: Librería específica con acciones de ROS2
+    \end{itemize}
+\end{itemize}
+
+\pagebreak
+
+\subsubsection{Acciones más utilizadas}
+
+\begin{itemize}
+    \item Acciones
+    \begin{itemize}
+        \item Ejecutar un nodo (\texttt{launch\_ros.actions.Node})
+        \item Ejecutar un comando ({launch.actions.ExecuteProcess})
+        \item Incluir otros archivos \texttt{launch} (\texttt{launch.actions.IncludeLaunchDescription})
+        \item Declarar argumentos (\texttt{launch.actions.DeclareLaunchArgument})
+    \end{itemize}
+
+    \item Susbtituciones
+    \begin{itemize}
+        \item Substituir por argumentos (\texttt{launch.substitutions.LaunchConfigurationt})
+        \item Utilizar variables de entorno ({launch.substitutions.EnvironmentVariable})
+        \item Utilizar la salida de un comando (\texttt{launch.substitutions.Command})
+        \item Rutas de archivos (\texttt{launch.substitutions.PathJoinSubstitution})
+        \item Obtener la ubicación de un paquete de ROS (\texttt{launch\_ros.substitutions.FindPackageShare})
+    \end{itemize}
+
+    \item Condicionales
+    \begin{itemize}
+        \item Condición \texttt{Si <verdadero> entonces} (\texttt{launch.conditions.IfCondition} o \texttt{launch.conditions.LaunchConfigurationEquals})
+        \item Condición \texttt{Si <falso> entonces} (\texttt{launch.conditions.UnlessCondition} o \texttt{launch.conditions.LaunchConfigurationNotEquals})
+    \end{itemize}
+
+    \item Eventos
+    \begin{itemize}
+        \item Encadenar ejecución (\texttt{launch.event\_handlers.OnProcessExit})
+    \end{itemize}
+\end{itemize}
+
+
+
+
+\newpage
+
+\section{Laboratorio}
+
+\subsection*{Práctica integradora Unidad I *}

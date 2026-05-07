@@ -1,4 +1,3 @@
-
 ## `ros2launch` {.smaller}
 
 > Herramienta que ayuda a describir un sistema y automatiza la ejecución en un solo comando:
@@ -211,7 +210,7 @@ data_files=[
 
 - #### [Algunos ejemplos]{.underline}:
   - Ejecutar un nodo (`launch_ros.actions.Node`)
-  - Ejecutar un comando (`launch.actions.execute_process`)
+  - Ejecutar un comando (`launch.actions.ExecuteProcess`)
   - Agregar argumentos (`launch.actions.DeclareLaunchArgument`)
   - Encadenar ejecución (ej.: `launch.event_handlers.OnExecutionComplete`)
   - Utilizar variables de entorno (`launch.substitutions.EnvironmentVariable`)
