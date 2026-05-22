@@ -1,0 +1,280 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+filters:
+   - include-code-files
+---
+
+# Librería de transformaciones `tf2`
+
+## Herramientas para transformaciones
+
+- #### Publicar una transformación estática con `static_transform_publisher`
+
+>       $ ros2 run tf2_ros static_transform_publisher
+>           --x <X> --y <Y> --z <Z>
+>           --roll <ROLL> --pitch <PITCH> --yaw <YAW>
+>           --frame-id <marco_referencia>
+>           --child-frame-id <marco_objetivo>
+
+::: {.aside}
+::: {.callout-note appearance="simple"}
+Siguiendo el [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} los angulos son en radianes
+:::
+:::
+
+
+Ejemplo
+
+```{.bash code-line-numbers="false"}
+ros2 run tf2_ros static_transform_publisher --x 5.0 --y 3.0 --yaw 3.141592 mundo mi_robot
+```
+
+
+::: {.callout-note appearance="simple" title="Los campos vacíos quedan con el valor por defecto"}
+:::
+
+
+
+- #### Ver árbol de transformación `rqt_tf_tree`
+
+```{.bash code-line-numbers="false"}
+ros2 run rqt_tf_tree rqt_tf_tree
+```
+
+::: {.callout-tip appearance="simple" title="Si el paquete no se encuentra instalado"}
+```
+    $ sudo apt install ros-jazzy-rqt-tf-tree
+```
+:::
+
+
+- #### Obtener una transformación con `tf2_echo`
+
+>       $ ros2 run tf2_ros tf2_echo
+>           <marco_de_referencia> <marco_objetivo>
+
+Ejemplo
+
+```{.bash code-line-numbers="false"}
+ros2 run tf2_ros tf2_echo odom base_link
+```
+
+- #### Visualizar las transformaciones con `rviz2`
+
+```{.bash code-line-numbers="false"}
+ros2 run rviz2 rviz2
+```
+
+
+::: {.callout-note appearance="simple"}
+Se deberá configurar el `fixed_frame` y agregar el elemento de visualización `TF`
+:::
+
+
+## Transformaciones en Nodos
+
+- #### Importar las librerías y objetos correspondientes
+
+```python
+# Para publicar la transformación
+from tf2_ros import TransformBroadcaster
+
+# Para construir el mensaje de transformación
+from geometry_msgs.msg import TransformStamped
+```
+
+------
+
+- #### Crear el publicador (dentro del constructor del nodo)
+
+```python
+self.tf_broadcaster = TransformBroadcaster(self)
+```
+
+------
+
+- #### Crear el mensaje de transformación
+
+```python
+tf = TransformStamped()
+```
+
+------
+
+- #### Completar los campos 
+
+```python
+# Marca de tiempo
+tf.header.stamp = self.get_clock().now().to_msg()
+# Marco de referencia (padre)
+tf.header.frame_id = '<marco_referencia'
+# Marco objetivo (hijo)
+tf.child_frame_id = '<marco_referencia_objetivo>'
+
+# Traslación
+tf.transform.translation.x = t_x    # Valores calculados
+tf.transform.translation.y = t_y
+tf.transform.translation.z = t_z
+
+# Rotación
+tf.transform.rotation.x = q_1       # Valores calculados
+tf.transform.rotation.y = q_2
+tf.transform.rotation.z = q_3
+tf.transform.rotation.w = q_0
+```
+
+------
+
+- #### Enviar la transformación
+
+```python
+self.tf_broadcaster.sendTransform(tf)
+```
+
+------
+
+# Transformaciones en ROS 2
+
+
+## Transformaciones estáticas
+
+#### Escenario
+
+- Un robot $\textbf{A}$ se encuentra en la posición $(2,1)$ con orientación $30^\circ$ en coordenadas del $\textit{Mundo}$
+- Un robot $\textbf{B}$ se encuentra en la posición $(0.5,\tfrac{\sqrt{3}}{2})$ con orientación $60^\circ$ en el sistema de coordenadas del robot $\textbf{A}$
+- Un obstáculo ${}^W \boldsymbol{O}_1 = (0, 3)$ en coordenadas del $\textit{Mundo}$
+- Un obstáculo ${}^A \boldsymbol{O}_2 = (\sqrt{3}, -1)$ en coordenadas del robot $\textbf{A}$
+
+
+<!-- #### 1. Representar todos los robots, obstácutlos, poses y todos los sistemas de coordenadas que identifique
+
+::: {.callout-note appearance="simple"}
+Puedes dibujarlos en una cuadrícula o utilizar variables en python
+::: -->
+
+#### 1. Identificar todos los marcos de referencia y las poses del escenario 
+
+::: {.aside}
+
+::: {.callout-tip appearance="simple"}
+Se recomienda dibujar un esquema para visualizar mejor los datos
+:::
+
+:::
+
+#### 2. Crear un archivo *launch* que recree el escenario utilizando el nodo `static_transform_publisher`
+
+- Publique la transformación de cada uno de los marcos de referencia y puntos de interés (robots, obstáculos, etc)
+
+- El nodo `static_transform_publisher` recibe sus valores mediante argumentos (no por parámetro). Por lo tanto, utilizar el campo `arguments` de la acción `Node` del *launch*: 
+
+```python
+    Node(
+        # ..
+        arguments = [
+                '--x', '<X>',
+                '--y', '<Y>',
+                '--z', '<Z>',
+                '--roll', '<ROLL>',
+                '--pitch', '<PITCH>',
+                '--yaw', '<YAW>',
+                '--frame-id', '<marco_referencia>',
+                '--child-frame-id', '<marco_objetivo>',
+        ],
+        # ..
+    ),
+```
+
+::: {.callout-tip appearance="simple"}
+Puede utilizar el paquete `rqt_tf_tree` o `rviz2` para verificar el resultado
+:::
+
+#### 2. Utilizando el ejecutable `tf2_echo`, encuentre el resultado a las siguientes consultas
+
+a. #### ¿Cuáles son las coordenadas del obstáculo $\boldsymbol{O}_1$ en el sistema de coordenadas del robot $\textbf{A}$?
+
+b. #### ¿Cuáles son las coordenadas del obstáculo $\boldsymbol{O}_2$ en el sistema de coordenadas del robot $\textbf{B}$?
+
+c. #### ¿Cuál es la pose del robot $\textbf{B}$ en coordenadas del $\textit{Mundo}$?
+
+
+
+## Transformaciones dinámicas
+
+#### Implementar un nodo que publique la transformación de un movimiento circular uniforme
+
+- Utilice como marco de referencia fijo aquel que haya utilizado como $\textit{Mundo}$ en la parte 1, y utilice `robotC` como nombre para el marco móvil
+- Generar las coordenadas $x$ e $y$ mediante las siguientes ecuaciones:
+
+$$
+\left\{
+\begin{align}
+x &= R \cdot \cos(t) \\
+y &= R \cdot \sin(t)
+\end{align}
+\right.
+$$
+
+::: {.aside}
+
+::: {.callout-tip appearance="simple"}
+Puede crear un parámetro para configurar el radio $R$ del círculo
+:::
+
+:::
+
+- Para obtener el tiempo $t$ puede utilizar la función `get_clock()`del nodo:
+
+```py
+seconds, nanoseconds = self.get_clock().now().seconds_nanoseconds()
+t = (nanoseconds / 1E9 + seconds)       # convertir a segundos
+t = t * (2.0 * np.pi / 4.0)             # 1 vuelta cada 4 segundos
+```
+
+- Puede utilizar una coordenada $z = 0$ constante u otro valor que desee   
+- Para calcular la orientación, se debe obtener el ángulo de la tangente a la trayectoria, para esto podría utilizar la función `arctan2` de `numpy`:
+
+```py
+import numpy as np
+# ..
+yaw = np.arctan2(np.cos(t), -np.sin(t))
+```
+
+::: {.callout-tip appearance="simple"}
+Recuerde que en rotaciones 2D el cuaternion para rotar un ángulo $\alpha$ puede definirse de la siguiente forma
+$$
+\boldsymbol{q} = \begin{bmatrix} q_w \\ q_x \\ q_y \\ q_z\end{bmatrix} = \begin{bmatrix} \cos{\tfrac{\theta}{2}} \\ 0 \\ 0 \\ \sin{\tfrac{\theta}{2}} \end{bmatrix}
+$$
+:::
+
+- Publique las transformaciones a 100 [Hz] (o un valor mayor a 30) para ver una animación fluida
+
+::: {.aside}
+
+::: {.callout-tip appearance="simple"}
+Puede crear un parámetro para configurar la frecuencia de actualización
+:::
+
+:::
+
+- Modifique el `launch` del ejercicio anterior para añadir este nuevo nodo al escenario
+
+::: {.callout-warning appearance="simple"}
+Recuerde siempre completar las dependencias e instalarlas, configurar adecuadamente el archivo `setup.py` de instalación, compilar el `workspace` y configurar el entorno local
+:::

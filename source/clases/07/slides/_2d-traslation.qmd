@@ -1,0 +1,308 @@
+## Traslación 2D
+
+::: {.columns}
+:::  {.column width="45%"}
+
+::: {style="font-size: 70%;"}
+
+Dado un marco de referencia $\textcolor{Orange}{\{\boldsymbol{B}\}}$ paralelo a un marco de referencia $\textcolor{Blue}{\{\boldsymbol{A}\}}$ trasladado $\textcolor{ForestGreen}{{}^\boldsymbol{A}{\boldsymbol{t}}_\boldsymbol{B}}$. Encontrar la matriz de transformación que convierte las coordenadas del marco $\textcolor{Orange}{\boldsymbol{B}}$ al $\textcolor{Blue}{\boldsymbol{A}}$.
+
+::: {.fragment}
+$$
+\textcolor{Blue}{{}^A{\boldsymbol{p}}} = \textcolor{ForestGreen}{{}^A\boldsymbol{t}_B} + \textcolor{Orange}{{}^B{\boldsymbol{p}}}
+$$
+
+:::
+
+::: {.fragment}
+Puede representarse como una transformación lineal?
+$$
+f(\boldsymbol{p}) = \boldsymbol{T} \, \boldsymbol{p}
+$$
+
+:::
+
+::: {.fragment}
+::: {.callout-important appearance="simple"}
+No para un dimensión de $n=2$
+::: 
+:::
+
+:::
+
+:::
+::: {.column width="55%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: traslacion
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+
+
+  \def\axisLen{3.5}
+  \pgfmathsetmacro{\axisLenB}{\axisLen*0.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (3.0,2.5);
+  \coordinate (B) at (1.8,2.0);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_A$};
+
+  % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+  \node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+
+  % Punto p y vector
+  \node[fill=Maroon,circle,scale=0.3] (0,0) at (P) {};
+  \draw[->,thick, color=Blue] (0,0) -- (P) node[midway,right=2] {${}^{\boldsymbol{A}}\boldsymbol{p}$};
+  
+  % Ejes del marco B
+  \draw[->,very thick,color=Orange] (B) -- +(\axisLenB,0) node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Orange] (B) -- +(0,\axisLenB) node[midway,left] {$\{\boldsymbol{B}\}$} node[left] {$\boldsymbol{y}_B$};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  %style="font-size: 50%;"\node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Vector desplazamiento entre A y B
+  \draw[->,thick, color=ForestGreen] (0,0) -- (B) node[midway,above left=-3] {${}^{\boldsymbol{A}}{\boldsymbol{t}}_{\boldsymbol{B}}$};
+
+  % Vector en el marco de referencia B
+  \draw[->,thick, color=Orange] (B) -- (P) node[midway,above] {${}^{\boldsymbol{B}}\boldsymbol{p}$};
+  
+\end{tikzpicture}
+```
+
+:::
+:::
+
+
+## Coordenadas homogéneas {.smaller}
+
+> Que sucede si representamos un punto 2D con un vector de 3 componentes?
+
+Dado un vector ${\boldsymbol{p}} = {\begin{bmatrix} a & b \end{bmatrix}}^{\top}$ su correspondiente homogéneo:
+
+$$
+{\boldsymbol{\tilde{p}}} = \begin{bmatrix} \tilde{a} \\ \tilde{b} \\ c \end{bmatrix} \quad \textsf{donde} \; 
+\begin{cases}
+\tilde{a} = \tfrac{a}{c} \\
+\tilde{b} = \tfrac{b}{c} \\
+c \neq 0
+\end{cases}
+$$
+
+::: {.fragment}
+
+Con $c = 1 \to {\boldsymbol{\tilde{p}}} = {\begin{bmatrix} a & b & 1 \end{bmatrix}}^{\top}$
+
+:::
+
+
+::: {.fragment}
+
+Para el problema de traslación 2D:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{ForestGreen}{{}^\boldsymbol{A}\boldsymbol{\tilde{t}}_\boldsymbol{B}} + \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}} \to
+\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \\ 1  \end{bmatrix} =
+{\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} \\ \textcolor{ForestGreen}{{t_y}} \\ 0 \end{bmatrix}} + \begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ 1  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ 1  \end{bmatrix}
+$$
+
+:::
+
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+::: {.fragment}
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} ? & ? & ? \\ ? & ? & ? \\ \colorbox{white}{?} & \colorbox{white}{?} & \colorbox{white}{?} \end{bmatrix}} \begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$
+
+:::
+
+
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} ? & ? & ? \\ ? & ? & ? \\ \colorbox{gray}{?} & \colorbox{gray}{?} & \colorbox{gray}{?} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ \colorbox{gray}{1}  \end{bmatrix}
+\end{align}
+$$
+
+::: {.fragment}
+
+$$
+\colorbox{gray}{?} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{gray}{?} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{gray}{?} \cdot {1} = \colorbox{gray}{1}
+$$
+
+:::
+
+::: {.fragment}
+
+$$
+\colorbox{white}{0} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{white}{0} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{white}{1} \cdot {1} = \colorbox{white}{1}
+$$
+
+:::
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} ? & ? & ? \\ ? & ? & ? \\ \colorbox{white}{0} & \colorbox{white}{0} & \colorbox{white}{1} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$
+
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} \colorbox{lightgray}{?} & \colorbox{lightgray}{?} & \colorbox{lightgray}{?} \\ ? & ? & ? \\ \colorbox{white}{0} & \colorbox{white}{0} & \colorbox{white}{1} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \colorbox{lightgray}{$\textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}$}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$
+
+
+::: {.fragment}
+
+$$
+\colorbox{lightgray}{?} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{lightgray}{?} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{lightgray}{?} \cdot {1} = \colorbox{lightgray}{$\textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}$}
+$$
+
+:::
+
+::: {.fragment}
+
+$$
+\colorbox{white}{1} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{white}{0} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{white}{$\textcolor{ForestGreen}{{t_x}}$} \cdot {1} = \colorbox{white}{$\textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}$}
+$$
+
+:::
+
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} \colorbox{white}{1} & \colorbox{white}{0} & \colorbox{white}{$\textcolor{ForestGreen}{{t_x}}$} \\ ? & ? & ? \\ \colorbox{white}{0} & \colorbox{white}{0} & \colorbox{white}{1} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \colorbox{white}{$\textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}$}  \\  \textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$
+
+
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+{\begin{bmatrix} \colorbox{white}{1} & \colorbox{white}{0} & \colorbox{white}{$\textcolor{ForestGreen}{{t_x}}$} \\ \colorbox{lightgray}{?} & \colorbox{lightgray}{?} & \colorbox{lightgray}{?} \\ \colorbox{white}{0} & \colorbox{white}{0} & \colorbox{white}{1} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \\ \colorbox{lightgray}{$\textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}}$} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$
+
+
+::: {.fragment}
+
+$$
+\colorbox{lightgray}{?} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{lightgray}{?} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{lightgray}{?} \cdot {1} = \colorbox{lightgray}{$\textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}}$}
+$$
+
+
+$$
+\colorbox{white}{0} \cdot \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} + \colorbox{white}{1} \cdot \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} + \colorbox{white}{$\textcolor{ForestGreen}{{t_y}}$} \cdot {1} = \colorbox{white}{$\textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}}$}
+$$
+
+:::
+
+## Traslación 2D en c.h. {.smaller}
+
+El problema expresado en coordenadas homogéneas:
+
+$$
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} = \textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} \textcolor{Orange}{{}^\boldsymbol{B}{\boldsymbol{\tilde{p}}}}
+$$
+con ${}^A\boldsymbol{T}_B$ de dimension $3 \times 3$
+
+$$
+\begin{align}
+\textcolor{Blue}{{}^\boldsymbol{A}{\boldsymbol{\tilde{p}}}} &=
+\underbrace{{\begin{bmatrix} \colorbox{white}{1} & \colorbox{white}{0} & \colorbox{white}{$\textcolor{ForestGreen}{{t_x}}$} \\ \colorbox{white}{0} & \colorbox{white}{1} & \colorbox{white}{$\textcolor{ForestGreen}{{t_y}}$} \\ \colorbox{white}{0} & \colorbox{white}{0} & \colorbox{white}{1} \end{bmatrix}}}_{\textsf{Matriz de traslación} ~\textcolor{Blue}{{}^\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} }
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ {1}  \end{bmatrix} =
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \\ \colorbox{white}{$\textcolor{ForestGreen}{{t_y}} + \textcolor{Orange}{p_{{y}_\boldsymbol{B}}}$} \\ \colorbox{white}{1}  \end{bmatrix}
+\end{align}
+$$

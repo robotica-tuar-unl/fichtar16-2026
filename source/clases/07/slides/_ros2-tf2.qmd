@@ -1,0 +1,527 @@
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} *"Standard Units of Measure and Coordinate Conventions"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Unidades en [S.I.](http://en.wikipedia.org/wiki/International_System_of_Units){target="_blank"} (metro, segundo, kg, radian)
+
+:::
+::: {.column width="50%"}
+:::
+
+:::
+
+::: {.notes}
+- Unidades: Sistema internacional -> Metros, kilogramo, segundo
+- Radianes para ángulos
+:::
+
+
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} *"Standard Units of Measure and Coordinate Conventions"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Unidades en [S.I.](http://en.wikipedia.org/wiki/International_System_of_Units){target="_blank"} (metro, segundo, kg, radian)
+- [Regla de la mano derecha](https://en.wikipedia.org/wiki/Right-hand_rule){target="_blank"} 
+
+:::
+
+::: {.column width="50%"}
+
+![Fuente: [wikipedia.org](https://en.wikipedia.org/wiki/Right-hand_rule){target="_blank"}](https://upload.wikimedia.org/wikipedia/commons/3/34/Right-hand_grip_rule.svg){fig-align="center" width="60%"}
+
+:::
+
+:::
+
+
+::: {.notes}
+- Marcos de coordenadas: Todos son de mano derecha -> Cumplen la regla de la mano derecha
+:::
+
+
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} *"Standard Units of Measure and Coordinate Conventions"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Unidades en [S.I.](http://en.wikipedia.org/wiki/International_System_of_Units){target="_blank"} (metro, segundo, kg, radian)
+- [Regla de la mano derecha](https://en.wikipedia.org/wiki/Right-hand_rule){target="_blank"}
+- Marcos de referencia:
+    - `ENU`: Este - Norte - Arriba
+
+:::
+
+::: {.column width="50%"}
+
+![Fuente: [Wikipedia.org](https://en.wikipedia.org/wiki/Axes_conventions){target="_blank"}](https://upload.wikimedia.org/wikipedia/commons/f/f5/RPY_angles_of_cars.png){fig-align="center" width="80%"}
+
+:::
+
+:::
+
+::: {.notes}
+- La orientación de los ejes para cuerpos: x-adelante, y-izquierda, z-arriba
+- Coordenadas geográficas de “corto alcance” -> ENU: X-este, Y-norte, Z-arriba
+:::
+
+
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} *"Standard Units of Measure and Coordinate Conventions"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Unidades en [S.I.](http://en.wikipedia.org/wiki/International_System_of_Units){target="_blank"} (metro, segundo, kg, radian)
+- [Regla de la mano derecha](https://en.wikipedia.org/wiki/Right-hand_rule){target="_blank"}
+- Marcos de referencia:
+    - `ENU`: Este - Norte - Arriba
+    - `NED`: Norte - Este - Abajo
+
+:::
+
+::: {.column width="50%"}
+
+![Fuente: [Wikipedia.org](https://en.wikipedia.org/wiki/Axes_conventions){target="_blank"}](https://upload.wikimedia.org/wikipedia/commons/2/2f/RPY_angles_of_airplanes.png){fig-align="center" width="80%"}
+
+:::
+
+:::
+
+
+::: {.notes}
+- Para sistemas de ambiente exteriores: -> NED:X-norte, Y-este, Z-abajo
+:::
+
+
+
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 103](https://reps.openrobotics.org/rep-0103/){target="_blank"} *"Standard Units of Measure and Coordinate Conventions"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Unidades en [S.I.](http://en.wikipedia.org/wiki/International_System_of_Units){target="_blank"} (metro, segundo, kg, radian)
+- [Regla de la mano derecha](https://en.wikipedia.org/wiki/Right-hand_rule){target="_blank"}
+- Marcos de referencia:
+    - `ENU`: Este - Norte - Arriba
+    - `NED`: Norte - Este - Abajo
+- Roll ([X]{style="color: red;"}), Pitch ([Y]{style="color: green;"}) y Yaw ([Z]{style="color: blue;"})
+:::
+
+::: {.column width="50%"}
+
+
+:::
+
+:::
+
+::: {.notes}
+- Rotaciones: Roll-Pitch-Yaw alrededor de X Y Z respectivamente
+:::
+
+
+## Transformaciones en ROS2 {.smaller}
+
+### Convenciones (REP)
+
+> [REP 105](https://reps.openrobotics.org/rep-0105/){target="_blank"} *"Coordinate Frames for Mobile Platforms"*
+
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+- Convención de nombres
+- Marco de coordenadas para plataformas robóticas
+  - `base_link`: Fijo al robot (según REP103)
+  - `odom`: Fijo al mundo
+  - `map`: Fijo al mundo
+
+:::
+
+::: {.column width="50%"}
+
+```{mermaid }
+%%| fig-align: center
+---
+displayMode: compact
+config:
+  theme: forest
+  htmlLabels: false
+---
+flowchart TD
+  %% A((earth))
+  %% B((map))
+  %% C((odom))
+  %% D((base_link))
+  A[earth]
+  B[map]
+  C[odom]
+  D[base_link]
+
+  A --> B --> C --> D
+```
+
+:::
+
+:::
+
+
+
+::: {.notes}
+- Nombramiento marcos de coordenadas: minúscula y con guión bajo para separación de palabras
+- Deben ser únicos
+- `base_link`: Es el marco fijado rigidamente a la base del robot móvil -> Se recomienda utilizar lo del REP103
+- `odom`: marco de referencia fijo respecto del mundo. Si bien sufre los problemas de drift sin límite, es continuo y no posee saltos.
+- `map`: marco de referencia fijo respecto del mundo, con el eje Z apuntando hacia arriba. La pose del robot respecto del ‘map’ no debe tener un drift significativo a lo largo del tiempo. El marco puede no ser continuo, sufriendo saltos en cualquier momento.
+:::
+
+## Representación de rotaciones 3D {.smaller}
+
+> ROS2 utiliza el espacio tridimensional (terrestre, aéreo, acuático)
+
+#### [Problemas con las matrices]{.underline}:
+
+::: {.columns}
+::: {.column width="60%"}
+
+::: {.fragment}
+- En 3 dimensiones son 9 elementos ($3 \times 3$)
+:::
+
+::: {.fragment}
+
+$$
+\begin{align}
+R &= R_x(\gamma)\, R_y(\beta)\, R_z(\alpha) \\
+&= 
+\begin{bmatrix}
+\cos \beta \cos \gamma & \sin \alpha \sin \beta \cos \gamma - \cos \alpha \sin \gamma & \cos \alpha \sin \beta \cos \gamma + \sin \alpha \sin \gamma \\
+\cos \beta \sin \gamma & \sin \alpha \sin \beta \sin \gamma + \cos \alpha \cos \gamma & \cos \alpha \sin \beta \sin \gamma - \sin \alpha \cos \gamma \\
+-\sin \beta & \sin \alpha \cos \beta & \cos \alpha \cos \beta
+\end{bmatrix}
+\end{align}
+$$
+
+:::
+
+:::
+::: {.column width="40%"}
+
+:::
+:::
+
+## Representación de rotaciones 3D {.smaller}
+
+> ROS2 utiliza el espacio tridimensional (terrestre, aéreo, acuático)
+
+#### [Problemas con las matrices]{.underline}:
+
+::: {.columns}
+::: {.column width="60%"}
+
+- En 3 dimensiones son 9 elementos ($3 \times 3$)
+- Difícil de interpolar
+- Acumulan errores (pueden perder ortogonalidad)
+- Gimbal lock
+
+:::
+::: {.column width="40%"}
+
+::: {.fragment}
+::: {#fig-gimbal-lock fig-env="figure*"}
+[![](https://upload.wikimedia.org/wikipedia/commons/4/49/Gimbal_Lock_Plane.gif){fig-align="center"}](https://en.wikipedia.org/wiki/Gimbal_lock){target="_blank"}\
+
+Cuando el pitch (verde) y el yaw (magenta) se alinean, cambios en el roll (azul) y yaw aplican la misma rotación (Fuente: [Wikipedia](https://en.wikipedia.org/wiki/Gimbal_lock))
+:::
+:::
+
+:::
+:::
+
+
+::: {.notes}
+ROS 2 no usa matrices directamente para las rotaciones porque son grandes (9 números para una rotación), difíciles de interpolar, y pueden perder ortogonalidad al acumular errores.
+:::
+
+
+## Representación de rotaciones 3D {.smaller}
+
+> Cuaterniones: Representación más compacta y robusta
+
+$$
+\boldsymbol{q} = \begin{bmatrix} q_w & q_x & q_y & q_z \end{bmatrix}^{\top}
+$$
+
+::: {.fragment}
+- Las poses ahora se componen de una traslación $\boldsymbol t = \begin{bmatrix} x & y & z \end{bmatrix}^{\top}$ y una orientación $\boldsymbol{q}$
+:::
+
+::: {.fragment}
+- El cuaternion de la rotación en el plano $X\,Y$ con ángulo $\theta$ se define como:
+
+$$
+\boldsymbol{q} = \begin{bmatrix} q_w \\ q_x \\ q_y \\ q_z\end{bmatrix} = \begin{bmatrix} \cos{\tfrac{\theta}{2}} \\ 0 \\ 0 \\ \sin{\tfrac{\theta}{2}} \end{bmatrix}
+$$
+:::
+
+::: {.notes}
+En vez de eso, usamos cuaterniones, que representan la rotación de forma más compacta (4 números) y más robusta para cálculos computacionales. Así como en 2D usamos un solo ángulo (theta) para representar la orientación, en 3D usamos un cuaternión.
+:::
+
+## Librería de transformaciones {visibility="hidden"}
+
+::: {style="font-size: 75%;"}
+> Por qué necesitamos una?
+:::
+
+:::: {.columns}
+::: {.column width="10%"}
+:::
+
+::: {.column width="80%"}
+::: {.fragment}
+[![](https://docs.nav2.org/_images/simple_robot.png)](https://docs.nav2.org/setup_guides/transformation/setup_transforms.html)
+:::
+
+::: {.fragment}
+[![](https://docs.nav2.org/_images/tf_robot.png)](https://docs.nav2.org/setup_guides/transformation/setup_transforms.html)
+:::
+:::
+
+::: {.column width="10%"}
+:::
+::::
+
+::: {.aside}
+Ejemplo extraido de [docs.nav2.org](https://docs.nav2.org/setup_guides/transformation/setup_transforms.html)
+:::
+
+::: {.notes}
+Ejemplo: un robot con dos marcos, uno el centro del robot ‘base_link’ y otro en el centro del laser ‘base_laser’. Dada la información respecto del laser ‘base_laser’, es necesario transformar esa información respecto al ‘base_link’ (definir una relación entre los dos marcos de coordenadas). Según la figura, será necesario aplicar una traslación (x: 0.1[m], y: 0.0[m], z: 0.2[m]), para ir del ‘base_link’ al ‘base_laser’. Como se requiere la transformación opuesta, sería (x: -0.1[m], y: 0.0[m], z: -0.2[m])
+
+TF2 soluciona el problema de gestionar estas relaciones para que no lo tengamos que hacer por nuestra cuenta. Es útil sobre todo para escenarios no estáticos (99%).
+:::
+
+
+## `tf2`: Librería de transformaciones {.smaller}
+
+::: {.columns}
+::: {.column}
+::: {.fragment fragment-index=1}
+- Marco de coordenadas y sus transformaciones [en el tiempo]{.underline}
+:::
+
+::: {.fragment fragment-index=2}
+- Estructura de árbol (no existen bucles)
+:::
+
+:::
+::: {.column}
+
+::: {.fragment fragment-index=1}
+![](slides/figs/hibachi-tf.png)
+:::
+
+:::
+:::
+
+::: {.fragment fragment-index=2}
+![](slides/figs/frames.png)
+:::
+
+
+::: {.notes}
+- Herramienta para seguir los marcos de coordenada a través del tiempo (4ta dimensión)
+- Mantiene las relaciones entre los marcos de coordenadas en una estructura de árbol buffereado en el tiempo
+- Cada nodo en el árbol es un marco de coordenadas, y cada conexión o arista corresponde a la transformación que debe ser aplicada para ir o venir
+- Arbol = no hay bucles = cada nodo 1 solo padre
+- Cada marco puede estar definido solo por una transformación desde otro marco
+- Permite transformar puntos, vectores, etc entre marcos de coordenadas para un determinado tiempo
+:::
+
+## `tf2`: Librería de transformaciones
+
+- Basado en topics y mensajes `tf2_msgs/msg/TFMessage`
+
+```
+geometry_msgs/TransformStamped
+├── std_msgs/Header header
+├── string child_frame_id
+└── geometry_msgs/Transform transform
+    ├── geometry_msgs/Vector3 translation     ⬅️
+    └── geometry_msgs/Quaternion rotation     ⬅️
+```
+::: {.fragment}
+- No se utilizan publishers/subscribers $\to$ la librería `tf2_ros`
+:::
+
+::: {.fragment}
+::: {.callout-note appearance="simple"}
+ROS representa orientaciones como cuaterniones en todos los mensajes de pose y transformaciones
+:::
+:::
+
+::: {.notes}
+Si bien se utilizan topics para manejar la comunicación, no se realiza una publicación/suscripción directa, sino a través de la librería por eso se dice broadcast/listen
+:::
+
+
+## `tf2`: Librería de transformaciones
+
+- 2 Tipos de transformaciones: estáticas y dinámicas
+
+[![](https://articulatedrobotics.xyz/assets/images/tf_topics-4c303e7085bb3dc329b80ae9e3b262ff.png)](https://articulatedrobotics.xyz/tutorials/ready-for-ros/tf)
+
+::: {.aside}
+Fuente: [articulatedrobotics.xyz](https://articulatedrobotics.xyz/tutorials/ready-for-ros/tf)
+:::
+
+::: {.notes}
+Las transformaciones pueden ser estáticas o dinámicas (si cambian o no en el tiempo). En el caso de las transformaciones estáticas pueden publicarse una sola vez y se asumen "actualizadas" hasta que se transmita una nueva.
+:::
+
+## Transformaciones estáticas {.smaller}
+
+> `static_transform_publisher`: crear transformaciones estáticas manualmente
+
+```{.bash code-line-numbers="false"}
+    $ ros2 run tf2_ros static_transform_publisher [..]
+```
+
+- #### [Parámetros]{.underline}:
+::: {.incremental}
+    - Traslación: `--x <X>`, `--y <Y>`, `--z <Z>`
+    - Rotación: (2 opciones)
+        - Ángulos: `--roll ROLL`, `--pitch PITCH`, `--yaw YAW`
+        - Cuaternion: `--qx <QX>`, `--qy <QY>`, `--qz <QZ>`, `--qw <QW>`
+    - Marco de referencia (padre): `--frame-id <nombre_marco_referencia_padre>`
+    - Marco objetivo (hijo): `--child-frame-id <nombre_marco_referencia_hijo>`
+:::
+
+. . .
+
+::: {.callout-note appearance="simple" title="Si no se completa traslación y rotación, se publica la transformación identidad"}
+:::
+
+
+## Publicar transformaciones {.smaller}
+
+> Librería `tf2_ros` y mensaje `TransformStamped`
+
+```py
+from tf2_ros import TransformBroadcaster
+from geometry_msgs.msg import TransformStamped
+```
+
+<br>
+
+- Mediante el objeto `TransformBroadcaster` se podrán publicar las transformaciones
+
+```{.py code-line-numbers="7"}
+# ..
+class FramePublisher(Node):
+    def __init__(self):
+        super().__init__('frame_publisher')
+
+        # Inicializar el broadcaster
+        self.tf_broadcaster = TransformBroadcaster(self)
+# ..
+```
+
+## Publicar transformaciones {.smaller}
+
+> Publicar transformaciones
+
+```{.py code-line-numbers="|2-4|5|7|8-11|13-16|18-23|24-25"}
+    def send_tf(self):
+        # Cálculo de los elementos de transformación
+        # Transformación => Traslación + Rotación
+        # ..
+        tf = TransformStamped()
+
+        tf.header.stamp = self.get_clock().now().to_msg()
+        # Marco de referencia (padre)
+        tf.header.frame_id = '<marco_referencia'  
+        # Marco objetivo (hijo)                      
+        tf.child_frame_id = '<marco_referencia_objetivo>'                 
+
+        # Traslación
+        tf.transform.translation.x = t_x    # Valores calculados
+        tf.transform.translation.y = t_y
+        tf.transform.translation.z = t_z
+
+        # Rotación
+        tf.transform.rotation.x = q[1]      # Valores calculados
+        tf.transform.rotation.y = q[2]
+        tf.transform.rotation.z = q[3]
+        tf.transform.rotation.w = q[0]
+
+        # Enviar la transformación
+        self.tf_broadcaster.sendTransform(tf)
+```
+
+
+## Herramientas de visualización 
+
+::: {.fragment}
+- Ver el árbol de transformaciones: 
+```bash {code-line-numbers="false"}
+    $ ros2 run rqt_tf_tree rqt_tf_tree
+```
+:::
+
+::: {.fragment}
+- Obtener una transformación:
+```bash {code-line-numbers="false"}
+    $ ros2 run tf2_ros tf2_echo <marco_de_referencia> <marco_objetivo>
+```
+:::
+
+::: {.fragment}
+- Monitor de transformaciones:
+```bash {code-line-numbers="false"}
+    $ ros2 run tf2_ros tf2_monitor
+```
+:::
+
+::: {.fragment}
+- Visualización mediante *RViz*
+```bash {code-line-numbers="false"}
+    $ ros2 run rviz2 rviz2
+```
+:::
+
+::: {.notes}
+- Problemas comunes: que falte un transformación o que esté mal
+:::

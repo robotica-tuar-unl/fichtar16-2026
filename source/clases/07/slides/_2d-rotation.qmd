@@ -1,0 +1,494 @@
+## Rotación 2D
+
+::: {.columns}
+::: {.column width="50%"}
+Dado un marco de referencia $\textcolor{Orange}{\{B\}}$ rotado un ángulo $\textcolor{Plum}{\theta}$ respecto de un marco de referencia $\textcolor{Blue}{\{A\}}$. Encontrar la matriz de transformación que convierte las coordenadas del marco $\textcolor{Orange}{B}$ al $\textcolor{Blue}{A}$.
+
+$$
+\textcolor{Orange}{\boldsymbol{B}} \to \textcolor{Blue}{\boldsymbol{A}} \qquad  
+{}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{T}_{\textcolor{Orange}{\boldsymbol{B}}} = ?
+$$
+
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: rot-matrix1 
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.5,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_A$};
+
+  % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+  \node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+
+  % Punto p y vector
+  \node[fill=ForestGreen,circle,scale=0.3] (0,0) at (P) {};
+  \draw[-,thick, color=ForestGreen] (B) -- (P) node[midway,right=2] {$\boldsymbol{p}$};
+
+  % Líneas punteadas para componentes en A
+  \draw[densely dashed,Blue] (P) -- (1.5,0) node[below right] {$p_{x_A}$};
+  \draw[densely dashed,Blue] (P) -- (0,2.2) node[above left] {$p_{y_A}$};
+  %\node[fill=Blue,circle,scale=0.3] at (1.5,0) {};
+  %\node[fill=Blue,circle,scale=0.3] at (0,2.2) {};
+  
+  % Ejes del marco B
+  \draw[->,very thick,color=Orange] (B) -- +(\axisLen,\inclinacion) node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Orange] (B) -- +(-\inclinacion,\axisLen) node[left] {$\boldsymbol{y}_B$};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  \node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Precalcular ángulos
+  \pgfmathsetmacro{\thetaB}{atan(\inclinacion/\axisLen)}
+  \pgfmathsetmacro{\angleP}{atan(2.2/1.5)}
+
+  % Líneas punteadas para componentes en B
+  % Proyección sobre x_B
+  \path[name path=xBaxis] (0,0) -- ++(\axisLen,\inclinacion);
+  \path[name path=projxB] (P) -- ++(\inclinacion,-\axisLen);
+  \path[name intersections={of=projxB and xBaxis, by=PxB}];
+  \draw[densely dashed,Orange] (P) -- (PxB) node[below right] {$p_{x_B}$};% node[midway,above,rotate=(\thetaB-90)] {\footnotesize $\sin{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PxB) {};
+
+  % Proyección sobre y_B
+  %\draw[dashed,Orange] (P) -- ++(-\axisLen,-\inclinacion) node[below left] {$p_{y_B}$};
+  \path[name path=yBaxis] (0,0) -- ++(-\inclinacion,\axisLen);
+  \path[name path=projyB] (P) -- ++(-\axisLen,-\inclinacion);
+  \path[name intersections={of=projyB and yBaxis, by=PyB}];
+  \draw[densely dashed,Orange] (P) -- (PyB) node[left] {$p_{y_B}$};% node[midway,above,rotate=(\thetaB)] {\footnotesize $\cos{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PyB) {};
+
+  % Arco para el ángulo theta
+  \draw[Plum,thick,->] 
+    (3,0) arc[start angle=0, end angle=atan(\inclinacion/\axisLen), radius=3] node[midway, right] {$\theta$};
+
+  % Arco para el ángulo alpha entre x_B y p
+  %\draw[Maroon,thick,->]
+  %  ([shift={(0,0)}] \thetaB:0.8)
+  %  arc[start angle=\thetaB, end angle=\angleP, radius=0.8] node[near end,right] {$\alpha$};
+
+  %\node[Maroon] at (1.1,0.35) {$\alpha$};
+  
+\end{tikzpicture}
+```
+
+:::
+:::
+
+## Rotación 2D 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment}
+
+$$\tiny
+{}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \end{bmatrix} =
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\[0.6em]  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix} \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $}  \\  \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \end{bmatrix}
+$$
+
+:::
+
+::: {.fragment}
+
+$$\tiny
+{}^{\textcolor{Blue}{\boldsymbol{A}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} =
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix} |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}  \\  |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})} \end{bmatrix}
+$$
+
+:::
+
+::: {.fragment style="font-size: 50% !important;"}
+Sabiendo:
+
+- $\sin{(A+B)} = \sin{A} \cos{B} + \cos{A} \sin{B}$
+- $\cos{(A+B)} = \cos{A} \cos{B} - \sin{A} \sin{B}$
+:::
+
+::: {.fragment}
+$$\tiny
+\begin{align}
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} &=
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} &=
+\begin{bmatrix} |\textcolor{ForestGreen}{\boldsymbol{p}}| ( \cos{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} - \sin{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \\  |\textcolor{ForestGreen}{\boldsymbol{p}}| ( \sin{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} + \cos{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \end{bmatrix} \\
+&= \begin{bmatrix} \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} - \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}} \\ \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} + \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}} \end{bmatrix}
+\end{align}
+$$
+
+:::
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: rot-matrix2
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.5,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_A$};
+
+  % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+  \node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+
+  % Punto p y vector
+  \node[fill=ForestGreen,circle,scale=0.3] (0,0) at (P) {};
+  \draw[-,thick, color=ForestGreen] (B) -- (P) node[midway,right=2] {$\boldsymbol{p}$};
+
+  % Líneas punteadas para componentes en A
+  \draw[densely dashed,Blue] (P) -- (1.5,0) node[below right] {$p_{x_A}$};
+  \draw[densely dashed,Blue] (P) -- (0,2.2) node[above left] {$p_{y_A}$};
+  %\node[fill=Blue,circle,scale=0.3] at (1.5,0) {};
+  %\node[fill=Blue,circle,scale=0.3] at (0,2.2) {};
+  
+  % Ejes del marco B
+  \draw[->,very thick,color=Orange] (B) -- +(\axisLen,\inclinacion) node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Orange] (B) -- +(-\inclinacion,\axisLen) node[left] {$\boldsymbol{y}_B$};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  \node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Precalcular ángulos
+  \pgfmathsetmacro{\thetaB}{atan(\inclinacion/\axisLen)}
+  \pgfmathsetmacro{\angleP}{atan(2.2/1.5)}
+
+  % Líneas punteadas para componentes en B
+  % Proyección sobre x_B
+  \path[name path=xBaxis] (0,0) -- ++(\axisLen,\inclinacion);
+  \path[name path=projxB] (P) -- ++(\inclinacion,-\axisLen);
+  \path[name intersections={of=projxB and xBaxis, by=PxB}];
+  \draw[densely dashed,Orange] (P) -- (PxB) node[below right] {$p_{x_B}$} node[midway,above,rotate=(\thetaB-90)] {\footnotesize $\sin{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PxB) {};
+
+  % Proyección sobre y_B
+  %\draw[dashed,Orange] (P) -- ++(-\axisLen,-\inclinacion) node[below left] {$p_{y_B}$};
+  \path[name path=yBaxis] (0,0) -- ++(-\inclinacion,\axisLen);
+  \path[name path=projyB] (P) -- ++(-\axisLen,-\inclinacion);
+  \path[name intersections={of=projyB and yBaxis, by=PyB}];
+  \draw[densely dashed,Orange] (P) -- (PyB) node[left] {$p_{y_B}$} node[midway,above,rotate=(\thetaB)] {\footnotesize $\cos{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PyB) {};
+
+  % Arco para el ángulo theta
+  \draw[Plum,thick,->] 
+    (3,0) arc[start angle=0, end angle=atan(\inclinacion/\axisLen), radius=3] node[midway, right] {$\theta$};
+
+  % Arco para el ángulo alpha entre x_B y p
+  \draw[Maroon,thick,->]
+    ([shift={(0,0)}] \thetaB:0.8)
+    arc[start angle=\thetaB, end angle=\angleP, radius=0.8] node[near end,right] {$\alpha$};
+
+  %\node[Maroon] at (1.1,0.35) {$\alpha$};
+  
+\end{tikzpicture}
+```
+
+:::
+::::
+
+## Rotación 2D
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
+$$\tiny
+{}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \end{bmatrix} =
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\[0.6em]  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix} \colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $}  \\  \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \end{bmatrix}
+$$
+
+
+$$\tiny
+{}^{\textcolor{Blue}{\boldsymbol{A}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} =
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix} |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}  \\  |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})} \end{bmatrix}
+$$
+
+
+::: {style="font-size: 50% !important;"}
+Sabiendo:
+
+- $\sin{(A+B)} = \sin{A} \cos{B} + \cos{A} \sin{B}$
+- $\cos{(A+B)} = \cos{A} \cos{B} - \sin{A} \sin{B}$
+:::
+
+$$\tiny
+\begin{align}
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} &=
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} &=
+\begin{bmatrix} |\textcolor{ForestGreen}{\boldsymbol{p}}| ( \cos{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} - \sin{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \\  |\textcolor{ForestGreen}{\boldsymbol{p}}| ( \sin{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} + \cos{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \end{bmatrix} \\
+&= \begin{bmatrix} \colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} - \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}} \\ \colorbox{white}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} + \colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}} \end{bmatrix}
+\end{align}
+$$
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides_files/mediabag/rot-matrix2.svg){width="100%"}
+
+:::
+::::
+
+
+## Rotación 2D
+
+:::: {.columns}
+::: {.column width="50%"}
+
+$$\tiny
+{}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \end{bmatrix} =
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\[0.6em]  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+\colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $}  \\
+\colorbox{lightgray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $}
+\end{bmatrix}
+$$
+
+
+$$\tiny
+{}^{\textcolor{Blue}{\boldsymbol{A}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} =
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}
+\end{bmatrix}
+$$
+
+
+::: {style="font-size: 50% !important;"}
+Sabiendo:
+
+- $\sin{(A+B)} = \sin{A} \cos{B} + \cos{A} \sin{B}$
+- $\cos{(A+B)} = \cos{A} \cos{B} - \sin{A} \sin{B}$
+:::
+
+$$\tiny
+\begin{align}
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} &=
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} &=
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \cos{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} - \sin{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \sin{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} + \cos{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )
+\end{bmatrix} \\
+&= \begin{bmatrix}
+\colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} - \colorbox{lightgray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}} \\
+\colorbox{lightgray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $} \cos{\textcolor{Plum}{\theta}} + \colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $} \sin{\textcolor{Plum}{\theta}}
+\end{bmatrix}
+\end{align}
+$$
+
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides_files/mediabag/rot-matrix2.svg){width="100%"}
+
+:::
+::::
+
+## Rotación 2D
+
+:::: {.columns}
+::: {.column width="50%"}
+
+$$\tiny
+{}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \end{bmatrix} =
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\[0.6em]  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+\colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $}  \\
+\colorbox{lightgray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $}
+\end{bmatrix}
+$$
+
+
+$$\tiny
+{}^{\textcolor{Blue}{\boldsymbol{A}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} =
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}
+\end{bmatrix}
+$$
+
+
+::: {style="font-size: 50% !important;"}
+Sabiendo:
+
+- $\sin{(A+B)} = \sin{A} \cos{B} + \cos{A} \sin{B}$
+- $\cos{(A+B)} = \cos{A} \cos{B} - \sin{A} \sin{B}$
+:::
+
+$$\tiny
+\begin{align}
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} &=
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} &=
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \cos{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} - \sin{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \sin{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} + \cos{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )
+\end{bmatrix} \\
+%&= \begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \cos{\textcolor{Plum}{\theta}} - \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \sin{\textcolor{Plum}{\theta}} \\ \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \cos{\textcolor{Plum}{\theta}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \sin{\textcolor{Plum}{\theta}} \end{bmatrix}
+&= \sideset{}{_\textcolor{Orange}{\boldsymbol{B}}}{\begin{bmatrix}
+\textcolor{ForestGreen}{p_{x}} \cos{\textcolor{Plum}{\theta}} - \textcolor{ForestGreen}{p_{y}} \sin{\textcolor{Plum}{\theta}} \\
+\textcolor{ForestGreen}{p_{y}} \cos{\textcolor{Plum}{\theta}} + \textcolor{ForestGreen}{p_{x}} \sin{\textcolor{Plum}{\theta}}
+\end{bmatrix}}
+\end{align}
+$$
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides_files/mediabag/rot-matrix2.svg){width="100%"}
+
+:::
+::::
+
+
+## Rotación 2D
+
+:::: {.columns}
+::: {.column width="50%"}
+
+$$\tiny
+{}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \end{bmatrix} =
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\[0.6em]  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+\colorbox{Gray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{\textcolor{Maroon}{\alpha}} $}  \\
+\colorbox{lightgray}{$ |\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{\textcolor{Maroon}{\alpha}} $}
+\end{bmatrix}
+$$
+
+
+$$\tiny
+{}^{\textcolor{Blue}{\boldsymbol{A}}}{\textcolor{ForestGreen}{\boldsymbol{p}}} =
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} =
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} =
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \cos{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| \sin{(\textcolor{Maroon}{\alpha}+\textcolor{Plum}{\theta})}
+\end{bmatrix}
+$$
+
+
+::: {style="font-size: 50% !important;"}
+Sabiendo:
+
+- $\sin{(A+B)} = \sin{A} \cos{B} + \cos{A} \sin{B}$
+- $\cos{(A+B)} = \cos{A} \cos{B} - \sin{A} \sin{B}$
+:::
+
+$$\tiny
+\begin{align}
+%\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \end{bmatrix} &=
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}} &=
+\begin{bmatrix}
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \cos{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} - \sin{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )  \\
+|\textcolor{ForestGreen}{\boldsymbol{p}}| ( \sin{\textcolor{Maroon}{\alpha}} \cos{\textcolor{Plum}{\theta}} + \cos{\textcolor{Maroon}{\alpha}} \sin{\textcolor{Plum}{\theta}} )
+\end{bmatrix} \\
+%&= \begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \cos{\textcolor{Plum}{\theta}} - \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \sin{\textcolor{Plum}{\theta}} \\ \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \cos{\textcolor{Plum}{\theta}} + \textcolor{Orange}{p_{{x}_\boldsymbol{B}}} \sin{\textcolor{Plum}{\theta}} \end{bmatrix}
+&= \sideset{}{_\textcolor{Orange}{\boldsymbol{B}}}{\begin{bmatrix}
+\textcolor{ForestGreen}{p_{x}} \cos{\textcolor{Plum}{\theta}} - \textcolor{ForestGreen}{p_{y}} \sin{\textcolor{Plum}{\theta}} \\
+\textcolor{ForestGreen}{p_{y}} \cos{\textcolor{Plum}{\theta}} + \textcolor{ForestGreen}{p_{x}} \sin{\textcolor{Plum}{\theta}}
+\end{bmatrix}}
+= \sideset{^\textcolor{Blue}{\boldsymbol{A}}}{_\textcolor{Orange}{\boldsymbol{B}}}{\begin{bmatrix}
+\cos{\textcolor{Plum}{\theta}} & -\sin{\textcolor{Plum}{\theta}} \\ \sin{\textcolor{Plum}{\theta}} & \cos{\textcolor{Plum}{\theta}}\end{bmatrix}}
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}}
+\end{align}
+$$
+
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides_files/mediabag/rot-matrix2.svg){width="100%"}
+
+:::
+::::
+
+
+## Rotación 2D {.smaller}
+
+Expresado en forma matricial:
+
+$$
+\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}}
+= \underbrace{\sideset{^\textcolor{Blue}{\boldsymbol{A}}}{_\textcolor{Orange}{\boldsymbol{B}}}{\begin{bmatrix}
+\cos{\textcolor{Plum}{\theta}} & -\sin{\textcolor{Plum}{\theta}} \\ \sin{\textcolor{Plum}{\theta}} & \cos{\textcolor{Plum}{\theta}}
+\end{bmatrix}}}_{\textsf{Matriz de rotacion} ~\boldsymbol{R}(\textcolor{Plum}{\theta}) }
+\sideset{^\textcolor{Orange}{\boldsymbol{B}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{p_{{x}}}  \\  \textcolor{ForestGreen}{p_{{y}}} \end{bmatrix}}
+$$
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\textcolor{ForestGreen}{\boldsymbol{p}}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{T}_{\textcolor{Orange}{\boldsymbol{B}}} {}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}}
+\to
+{}^\textcolor{Blue}{\boldsymbol{A}}{\textcolor{ForestGreen}{\boldsymbol{p}}} = \boldsymbol{R}(\textcolor{Plum}{\theta}) {}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{ForestGreen}{\boldsymbol{p}}}
+$$
+
+donde:
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{T}_{\textcolor{Orange}{\boldsymbol{B}}} = \boldsymbol{R}(\textcolor{Plum}{\theta})
+= \begin{bmatrix} \cos{\textcolor{Plum}{\theta}} & -\sin{\textcolor{Plum}{\theta}} \\ \sin{\textcolor{Plum}{\theta}} & \cos{\textcolor{Plum}{\theta}}\end{bmatrix}
+$$
+
+
+Matriz ortogonal y ortonormal:
+
+$$
+\boldsymbol{R}(\theta)^{-1} = \boldsymbol{R}(\theta)^{\top}
+\qquad
+\det{\boldsymbol{R}(\theta)} = 1
+$$

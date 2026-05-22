@@ -1,0 +1,100 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: default
+        #css: test-format.css
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+filters:
+  - diagram
+diagram:
+    engine:
+        tikz:
+            execpath: pdflatex
+            header-includes:
+                - '\usepackage{amsmath}'
+                - '\usetikzlibrary{arrows, shapes, intersections}'
+                - '\usepackage{adjustbox}'
+jupyter: python3
+output-file: index.html
+---
+
+
+# Posicionamiento 2D {visibility="hidden"} 
+
+<!-- {{< include slides/_2d-positioning.qmd >}} -->
+
+
+
+
+# Transformaciones {visibility="hidden"}
+
+{{< include slides/_intro.qmd >}}
+
+
+
+
+# Rotaciones {visibility="hidden"}
+
+{{< include slides/_2d-rotation.qmd >}}
+
+
+{{< include slides/_2d-rot-example.qmd >}}
+
+
+
+
+# Traslaciones {visibility="hidden"}
+
+{{< include slides/_2d-traslation.qmd >}}
+
+
+
+
+
+
+# Traslacion y rotacion {visibility="hidden"} 
+
+
+{{< include slides/_tras-rot.qmd >}}
+
+
+
+
+# Pose {visibility="hidden"} 
+
+{{< include slides/_pose.qmd >}}
+
+
+
+
+# Transformaciones en ROS2 y `tf2` {visibility="hidden"}
+
+{{< include slides/_ros2-tf2.qmd >}}
+
+
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+Transformaciones 2D y `tf2`
+

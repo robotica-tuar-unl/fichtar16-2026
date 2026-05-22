@@ -1,0 +1,177 @@
+## Volviendo al mundo real
+
+![](slides/figs/pose1.png){fig-align="center" height=40%}
+
+## Volviendo al mundo real
+
+![](slides/figs/pose2.png){fig-align="center" height=40%}
+
+::: {.notes}
+Denominación "de referencia" (padre) y "objetivo o target" (hijo)
+:::
+
+## Pose 2D {.smaller}
+
+> Tres componentes: posición 2D y orientación $(x, y, \theta)$
+
+:::: {.columns}
+::: {.column width="60%"} 
+
+
+$$
+{}^\textcolor{black}{\boldsymbol{W}} \textcolor{Purple}{\boldsymbol{\xi}}_\textcolor{Orange}{\boldsymbol{R}} \triangleq
+{}^\textcolor{black}{\boldsymbol{W}} \textcolor{black}{\boldsymbol{T}}_\textcolor{Orange}{\boldsymbol{R}} = 
+\begin{bmatrix}
+\cos{\theta} & -\sin{\theta} & {}^\textcolor{black}{\boldsymbol{W}} \textcolor{black}{t_x} \\
+\sin{\theta} & \cos{\theta} & {}^\textcolor{black}{\boldsymbol{W}} \textcolor{black}{t_x} \\
+ 0 & 0 & 1
+\end{bmatrix}
+$$
+
+$$
+{}^\textcolor{black}{\boldsymbol{W}} \textcolor{LimeGreen}{\boldsymbol{\tilde{p}}}_\textcolor{PineGreen}{d} =
+{}^\textcolor{black}{\boldsymbol{W}} \textcolor{Purple}{\boldsymbol{\xi}}_\textcolor{Orange}{\boldsymbol{R}}
+{}^\textcolor{Orange}{\boldsymbol{R}} \textcolor{LimeGreen}{\boldsymbol{\tilde{p}}}_\textcolor{PineGreen}{d}
+$$
+
+:::
+::: {.column width="40%"}
+
+![](slides/figs/pose3.png)
+
+:::
+::::
+
+::: {.incremental}
+- Se puede considerar como un movimiento de traslación y rotación del marco de coordenadas
+- La pose de un marco de coordenada es siempre respecto a otro
+:::
+
+## Pose 2D {.smaller}
+
+> Y si queremos ir del marco $\{ \textcolor{Blue}{\boldsymbol{A}} \}$ al $\{ \textcolor{Orange}{\boldsymbol{B}} \}$?
+
+::: {.fragment}
+
+::: {.callout-tip appearance="simple" style="width: 60%;" title="La operación inversa"}
+:::
+
+$$
+{{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{\xi}_\textcolor{Orange}{\boldsymbol{B}} }^{-1} = {}^\textcolor{Orange}{\boldsymbol{B}} \boldsymbol{\xi}_\textcolor{Blue}{\boldsymbol{A}} \to {}^\textcolor{Orange}{\boldsymbol{B}} \boldsymbol{T}_\textcolor{Blue}{\boldsymbol{A}} = {{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} }^{-1}
+$$
+
+:::
+
+::: {.fragment}
+
+- Dada la forma particular de $\boldsymbol{T}$ es posible calcular su inversa mediante:
+
+$$
+\boldsymbol{\xi}^{-1} = \begin{pmatrix} \boldsymbol{R} & \boldsymbol{t} \\ \boldsymbol{0} & 1 \end{pmatrix}^{-1} = \begin{pmatrix} \boldsymbol{R}^{\top} & -\boldsymbol{R}^{\top} \boldsymbol{t} \\ \boldsymbol{0} & 1 \end{pmatrix}
+$$
+
+:::
+
+
+## Composición de poses {.smaller}
+
+:::: {.columns}
+::: {.column width="45%"} 
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{\xi}_\textcolor{ForestGreen}{\boldsymbol{C}} =
+{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{\xi}_\textcolor{Maroon}{\boldsymbol{B}} \otimes {}^\textcolor{Maroon}{\boldsymbol{B}} \boldsymbol{\xi}_\textcolor{ForestGreen}{\boldsymbol{C}}
+$$
+
+Se puede cacular como:
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{\xi}_\textcolor{Maroon}{\boldsymbol{B}} \otimes {}^\textcolor{Maroon}{\boldsymbol{B}} \boldsymbol{\xi}_\textcolor{ForestGreen}{\boldsymbol{C}} =
+{}^\textcolor{Blue}{\boldsymbol{A}} \boldsymbol{T}_\textcolor{Maroon}{\boldsymbol{B}} {}^\textcolor{Maroon}{\boldsymbol{B}} \boldsymbol{T}_\textcolor{ForestGreen}{\boldsymbol{C}}
+$$
+
+
+::: {.fragment}
+
+- Dada la forma particular de $\boldsymbol{T}$, el producto se puede obtener mediante:
+
+$$
+\begin{align}
+\boldsymbol{\xi}_1 \otimes \boldsymbol{\xi}_2 &=
+\begin{pmatrix} \boldsymbol{R}_1 & \boldsymbol{t}_1 \\ \boldsymbol{0} & 1 \end{pmatrix}
+\begin{pmatrix} \boldsymbol{R}_2 & \boldsymbol{t}_2 \\ \boldsymbol{0} & 1 \end{pmatrix} \\[0.5em]
+&= \begin{pmatrix} \boldsymbol{R}_1 \boldsymbol{R}_2 & \boldsymbol{t}_1 + \boldsymbol{R}_1 \boldsymbol{t}_2 \\ \boldsymbol{0} & 1 \end{pmatrix}
+\end{align}
+$$
+
+:::
+
+:::
+::: {.column width="55%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: pose-comp
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.2}
+  \pgfmathsetmacro{\axisLenB}{\axisLen*0.5}
+  \def\inclinacion{-1.0}
+  \def\Px{2.0}
+  \def\Py{4.2}
+  \coordinate (P) at (\Px,\Py);
+
+  \def\Bx{1.8}
+  \def\By{1.5}
+  \coordinate (B) at (\Bx,\By);
+  \def\Cx{3.5}
+  \def\Cy{2.5}
+  \coordinate (C) at (\Cx,\Cy);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[midway,below] {$\{\boldsymbol{A}\}$} node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_A$};
+
+  % Ejes del marco B
+  \draw[->,very thick,color=Maroon] (B) -- +(\axisLenB,\inclinacion) node[midway,below left=-3] {$\{\boldsymbol{B}\}$} node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Maroon] (B) -- +(-\inclinacion,\axisLenB) node[left] {$\boldsymbol{y}_B$};
+
+  % Ejes del marco C
+  \draw[->,very thick,color=ForestGreen] (C) -- +(\axisLenB,0.4) node[midway,below] {$\{\boldsymbol{C}\}$} node[right] {$\boldsymbol{x}_C$};
+  \draw[->,very thick,color=ForestGreen] (C) -- +(-0.4,\axisLenB) node[above] {$\boldsymbol{y}_C$};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  %\node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Etiqueta del marco de referencia C (debajo del origen, a la derecha)
+  %\node[below right, color=ForestGreen] at (B) {$\{\boldsymbol{C}\}$};
+  
+  % Vector desplazamiento entre A y B
+  \draw[->,thick, color=Blue] (0,0) -- (B) node[midway,below right=-3] {${}^A\boldsymbol{\xi}_{B}$};
+
+  % Vector desplazamiento entre B y C
+  \draw[->,thick, color=Maroon] (B) -- (C) node[midway,below right=-3] {${}^B\boldsymbol{\xi}_{C}$};
+
+  % Punto p
+  \node[fill=Gray,circle,scale=0.3] (0,0) at (P) {};
+
+  % Vector en el marco A al punto p
+  \draw[->,thick, color=Blue] (0,0) -- (P) node[midway,left=4] {${}^{\boldsymbol{A}}\boldsymbol{p}$};
+  
+  % Vector en el marco C al punto p
+  \draw[->,thick, color=ForestGreen] (C) -- (P) node[midway,above] {${}^{\boldsymbol{C}}\boldsymbol{p}$};
+  
+\end{tikzpicture}
+```
+
+:::
+::::

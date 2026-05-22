@@ -1,0 +1,300 @@
+## Traslación y rotación 2D {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+
+#### [Traslación]{.underline} $\to {}^\textcolor{Blue}{\boldsymbol{A}}{\boldsymbol{p}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{ForestGreen}{\boldsymbol{C}}} + {}^\textcolor{ForestGreen}{\boldsymbol{C}}{\boldsymbol{p}}$
+
+#### [Rotación]{.underline} $\to {}^\textcolor{ForestGreen}{\boldsymbol{C}}{\boldsymbol{p}} = {}^\textcolor{ForestGreen}{\boldsymbol{C}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} {}^\textcolor{Orange}{\boldsymbol{B}}{\boldsymbol{p}}$
+
+::: {.fragment}
+
+- Reemplazando:
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\boldsymbol{p}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{ForestGreen}{\boldsymbol{C}}} + {}^\textcolor{ForestGreen}{\boldsymbol{C}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} {}^\textcolor{Orange}{\boldsymbol{B}}{\boldsymbol{p}}
+$$
+
+:::
+
+::: {.fragment}
+
+- y dado que $\textcolor{ForestGreen}{\boldsymbol{\{C\}}} \parallel \textcolor{Blue}{\boldsymbol{\{A\}}}$ y $\textcolor{Orange}{\boldsymbol{B}} \equiv \textcolor{ForestGreen}{\boldsymbol{C}}$:
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\boldsymbol{p}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{Orange}{\boldsymbol{B}}} + {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} {}^\textcolor{Orange}{\boldsymbol{B}}{\boldsymbol{p}}
+$$
+
+:::
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: tras-rot
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+
+
+  \def\axisLen{3.2}
+  \pgfmathsetmacro{\axisLenB}{\axisLen*0.5}
+  \def\inclinacion{1.8}
+  \def\Px{3.3}
+  \def\Py{4.2}
+  \coordinate (P) at (\Px,\Py);
+  \def\Bx{1.8}
+  \def\By{1.5}
+  \coordinate (B) at (\Bx,\By);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[midway,left] {$\{\boldsymbol{A}\}$} node[left] {$\boldsymbol{y}_A$};
+
+  % Punto p y vector
+  \node[fill=Maroon,circle,scale=0.3] (0,0) at (P) {};
+  \draw[->,thick, color=Gray] (B) -- (P) node[midway,right=2] {$\boldsymbol{p}$};
+
+  % Ejes del marco C
+  \draw[->,very thick,color=ForestGreen] (B) -- +(\axisLen,0) node[right] {$\boldsymbol{x}_C$};
+  \draw[->,very thick,color=ForestGreen] (B) -- +(0,\axisLen) node[left] {$\boldsymbol{y}_C$};
+
+  % Líneas punteadas para componentes en C
+  \draw[densely dashed,ForestGreen] (P) -- (\Px,\By) node[below] {$p_{x_C}$};
+  \draw[densely dashed,ForestGreen] (P) -- (\Bx,\Py) node[left] {$p_{y_C}$};
+
+  % Etiqueta del marco de referencia C (debajo del origen, a la derecha)
+  \node[below right, color=ForestGreen] at (B) {$\{\boldsymbol{C}\}$};
+
+  % Ejes del marco B
+  \draw[->,very thick,color=Orange] (B) -- +(\axisLen,\inclinacion) node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Orange] (B) -- +(-\inclinacion,\axisLen) node[near start,below left] {$\{\boldsymbol{B}\}$} node[left] {$\boldsymbol{y}_B$};
+
+  % Precalcular ángulos
+  \pgfmathsetmacro{\thetaB}{atan(\inclinacion/\axisLen)}
+  \pgfmathsetmacro{\angleP}{atan(\Py/\Px)}
+
+  % Líneas punteadas para componentes en B
+  % Proyección sobre x_B
+  \path[name path=xCaxis] (B) -- ++(\axisLen,\inclinacion);
+  \path[name path=projxB] (P) -- ++(\inclinacion,-\axisLen);
+  \path[name intersections={of=projxB and xCaxis, by=PxB}];
+  \draw[densely dashed,Orange] (P) -- (PxB) node[below right] {$p_{x_{\boldsymbol{B}}}$};% node[midway,above,rotate=(\thetaB-90)] {\footnotesize $\sin{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PxB) {};
+
+  % Proyección sobre y_B
+  \path[name path=yBaxis] (B) -- ++(-\inclinacion,\axisLen);
+  \path[name path=projyB] (P) -- ++(-\axisLen,-\inclinacion);
+  \path[name intersections={of=projyB and yBaxis, by=PyB}];
+  \draw[densely dashed,Orange] (P) -- (PyB) node[left] {$p_{y_{\boldsymbol{B}}}$};% node[midway,above,rotate=(\thetaB)] {\footnotesize $\cos{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PyB) {};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  %\node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Vector desplazamiento entre A y C
+  \draw[->,thick, color=ForestGreen] (0,0) -- (B) node[midway,above left=-3] {${}^{\boldsymbol{A}}{\boldsymbol{t}}_{\boldsymbol{C}}$};
+
+  % Vector en el marco de referencia B
+  %\draw[->,thick, color=Orange] (B) -- (P) node[midway,above] {${}^{\boldsymbol{B}}\boldsymbol{p}$};
+
+  % Arco para el ángulo theta
+  \draw[Maroon,thick,->] 
+    (3.8,\By) arc[start angle=0, end angle=atan(\inclinacion/\axisLen), radius=2.0] node[midway, right] {$\theta$};
+  
+\end{tikzpicture}
+```
+
+:::
+::::
+
+## Traslación y rotación 2D  {.smaller}
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\boldsymbol{p}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} {}^\textcolor{Orange}{\boldsymbol{B}}{\boldsymbol{p}} +  {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{Orange}{\boldsymbol{B}}}
+$$
+
+. . .
+
+$$
+\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}}  \end{bmatrix} =
+{\begin{bmatrix} \cos{\theta} & -\sin{\theta} \\ \sin{\theta} & \cos{\theta} \end{bmatrix}}  \begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}}  \end{bmatrix} +
+\begin{bmatrix} \textcolor{ForestGreen}{{t_x}}  \\  \textcolor{ForestGreen}{{t_y}}  \end{bmatrix}
+$$
+
+. . .
+
+En coordenadas homogéneas:
+<!--
+$$
+\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}}  \end{bmatrix} =
+{\begin{bmatrix} \cos{\theta} & -\sin{\theta} & \textcolor{ForestGreen}{{t_x}} \\ \sin{\theta} & \cos{\theta} & \textcolor{ForestGreen}{{t_y}} \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ 1 \end{bmatrix}
+$$
+-->
+
+$$
+\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \\ 1  \end{bmatrix} =
+\left[
+\begin{array}{cc|c}
+\cos{\theta} & -\sin{\theta} & \textcolor{ForestGreen}{{t_x}} \\ \sin{\theta} & \cos{\theta} & \textcolor{ForestGreen}{{t_y}} \\ \hline 0 & 0 & 1 
+\end{array}
+\right]
+%{\begin{bmatrix} \cos{\theta} & -\sin{\theta} & \textcolor{ForestGreen}{{t_x}} \\ \sin{\theta} & \cos{\theta} & \textcolor{ForestGreen}{{t_y}} \\ 0 & 0 & 1 \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ 1 \end{bmatrix}
+$$
+
+. . .
+
+
+$$
+\begin{bmatrix} \textcolor{Blue}{p_{{x}_\boldsymbol{A}}}  \\  \textcolor{Blue}{p_{{y}_\boldsymbol{A}}} \\ 1  \end{bmatrix} =
+\left[
+\begin{array}{c|c}
+\begin{array}{c}  {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} \end{array} & \begin{array}{c} {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{Orange}{\boldsymbol{B}}} \end{array} \\
+\hline
+\begin{array}{c} 0 & 0 \end{array} & 1 
+\end{array}
+\right]
+%{\begin{bmatrix} \cos{\theta} & -\sin{\theta} & \textcolor{ForestGreen}{{t_x}} \\ \sin{\theta} & \cos{\theta} & \textcolor{ForestGreen}{{t_y}} \\ 0 & 0 & 1 \end{bmatrix}}
+\begin{bmatrix} \textcolor{Orange}{p_{{x}_\boldsymbol{B}}}  \\  \textcolor{Orange}{p_{{y}_\boldsymbol{B}}} \\ 1 \end{bmatrix}
+$$
+
+
+
+## Transformación homogénea 2D {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"} 
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\textcolor{Gray}{\boldsymbol{\tilde{p}}}} = \begin{bmatrix} {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} & {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{Orange}{\boldsymbol{B}}} \\ \boldsymbol{0} & 1 \end{bmatrix} {}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{Gray}{\boldsymbol{\tilde{p}}}}
+$$
+
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}{\textcolor{Gray}{\boldsymbol{\tilde{p}}}} = {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} {}^{\textcolor{Orange}{\boldsymbol{B}}}{\textcolor{Gray}{\boldsymbol{\tilde{p}}}}
+$$
+
+donde
+$$
+{}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{T}_\textcolor{Orange}{\boldsymbol{B}} =
+\begin{bmatrix} {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{R}_\textcolor{Orange}{\boldsymbol{B}} & {}^\textcolor{Blue}{\boldsymbol{A}}\boldsymbol{t}_{\textcolor{Orange}{\boldsymbol{B}}} \\ \boldsymbol{0} & 1 \end{bmatrix}
+$$
+
+describe una pose relativa como una matriz de $3\times3$
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: tras-rot-final
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.2}
+  \pgfmathsetmacro{\axisLenB}{\axisLen*0.5}
+  \def\inclinacion{1.8}
+  \def\Px{3.3}
+  \def\Py{4.2}
+  \coordinate (P) at (\Px,\Py);
+  \def\Bx{1.8}
+  \def\By{1.5}
+  \coordinate (B) at (\Bx,\By);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_A$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[midway,left] {$\{\boldsymbol{A}\}$} node[left] {$\boldsymbol{y}_A$};
+
+  % Ejes del marco C
+  \draw[-,very thick,color=ForestGreen] (B) -- +(2.5,0);% node[right] {$\boldsymbol{x}_C$};
+  %\draw[->,very thick,color=ForestGreen] (B) -- +(0,\axisLen) node[left] {$\boldsymbol{y}_C$};
+
+  % Líneas punteadas para componentes en C
+  %\draw[densely dashed,ForestGreen] (P) -- (\Px,\By) node[below] {$p_{x_C}$};
+  %\draw[densely dashed,ForestGreen] (P) -- (\Bx,\Py) node[left] {$p_{y_C}$};
+
+  % Etiqueta del marco de referencia C (debajo del origen, a la derecha)
+  %\node[below right, color=ForestGreen] at (B) {$\{\boldsymbol{C}\}$};
+
+  % Ejes del marco B
+  \draw[->,very thick,color=Orange] (B) -- +(\axisLen,\inclinacion) node[right] {$\boldsymbol{x}_B$};
+  \draw[->,very thick,color=Orange] (B) -- +(-\inclinacion,\axisLen) node[near end,above right] {$\{\boldsymbol{B}\}$} node[left] {$\boldsymbol{y}_B$};
+
+  % Precalcular ángulos
+  \pgfmathsetmacro{\thetaB}{atan(\inclinacion/\axisLen)}
+  \pgfmathsetmacro{\angleP}{atan(\Py/\Px)}
+
+  % Líneas punteadas para componentes en B
+  % Proyección sobre x_B
+  \path[name path=xCaxis] (B) -- ++(\axisLen,\inclinacion);
+  \path[name path=projxB] (P) -- ++(\inclinacion,-\axisLen);
+  \path[name intersections={of=projxB and xCaxis, by=PxB}];
+  \draw[densely dashed,Orange] (P) -- (PxB) node[below right] {$p_{x_{\boldsymbol{B}}}$}; % node[midway,above,rotate=(\thetaB-90)] {\footnotesize $\sin{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PxB) {};
+
+  % Proyección sobre y_B
+  \path[name path=yBaxis] (B) -- ++(-\inclinacion,\axisLen);
+  \path[name path=projyB] (P) -- ++(-\axisLen,-\inclinacion);
+  \path[name intersections={of=projyB and yBaxis, by=PyB}];
+  \draw[densely dashed,Orange] (P) -- (PyB) node[left] {$p_{y_{\boldsymbol{B}}}$}; % node[midway,above,rotate=(\thetaB)] {\footnotesize $\cos{\alpha}$};
+  %\node[fill=Orange,circle,scale=0.3] at (PyB) {};
+
+  % Etiqueta del marco de referencia B (arriba a la izquierda del origen)
+  %\node[above left,color=Orange] at (-0.2,0) {$\{\boldsymbol{B}\}$};
+
+  % Punto p y vector
+  \node[fill=Maroon,circle,scale=0.3] (0,0) at (P) {};
+  \draw[->,thick, color=Gray] (B) -- (P) node[midway,right=2] {${}^{\boldsymbol{B}}\boldsymbol{p}$};
+  \draw[->,thick, color=Plum] (0,0) -- (P) node[midway,left=4] {${}^{\boldsymbol{A}}\boldsymbol{p}$};
+
+  % Vector desplazamiento entre A y C
+  \draw[->,thick, color=Orange] (0,0) -- (B) node[midway,below right=-3] {${}^{\boldsymbol{A}}{\boldsymbol{t}}_{\boldsymbol{B}}$};
+
+  % Vector en el marco de referencia B
+  %\draw[->,thick, color=Orange] (B) -- (P) node[midway,above] {${}^{\boldsymbol{B}}\boldsymbol{p}$};
+
+  % Arco para el ángulo theta
+  \draw[Maroon,thick,->] 
+    (3.8,\By) arc[start angle=0, end angle=atan(\inclinacion/\axisLen), radius=2.0] node[midway, right] {$\theta$};
+  
+\end{tikzpicture}
+```
+
+:::
+::::
+
+
+## Generalizando {.smaller}
+
+La estructura de $\boldsymbol{T}$ se puede generalizar para $n$-dimensiones:
+
+$$
+\boldsymbol{T} ~\boldsymbol{\hat{p}} = \begin{bmatrix} \boldsymbol{R}_{n \times n} & \boldsymbol{t}_{n \times 1} \\ \boldsymbol{0}_{1 \times n} & 1 \end{bmatrix}_{(n+1) \times (n+1)} \boldsymbol{{p}}_{(n+1)}
+$$
+
+
+[**En resumen**]{.underline}: a partir de la función no lineal de *traslación-rotación*, se desarrolló una función lineal en el sistema de coordenadas homogéneo $\boldsymbol{\tilde{p}}$
+$$
+\begin{align*}
+f(\boldsymbol{p}) &= \boldsymbol{R} ~\boldsymbol{p} + \boldsymbol{t} \\
+&\downarrow \\
+g(\boldsymbol{\tilde{p}}) &= \boldsymbol{T} \boldsymbol{\tilde{p}} =  \begin{bmatrix} {}^A\boldsymbol{R}_B & {}^A\boldsymbol{t}_B \\ \boldsymbol{0} & 1 \end{bmatrix} \tilde{p}
+\end{align*}
+$$
