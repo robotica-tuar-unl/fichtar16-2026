@@ -301,6 +301,41 @@
     "text": "Laboratorio\n\nInvocar y analizar servicios\nComandos para setear y obtener parámetros"
   },
   {
+    "objectID": "clases/07/lab.html",
+    "href": "clases/07/lab.html",
+    "title": "Clase 07 - Laboratorio",
+    "section": "",
+    "text": "$ ros2 run tf2_ros static_transform_publisher\n      --x &lt;X&gt; --y &lt;Y&gt; --z &lt;Z&gt;\n      --roll &lt;ROLL&gt; --pitch &lt;PITCH&gt; --yaw &lt;YAW&gt;\n      --frame-id &lt;marco_referencia&gt;\n      --child-frame-id &lt;marco_objetivo&gt;\n\n\n\n\n\n\n\n\n\nSiguiendo el REP 103 los angulos son en radianes\n\n\n\nEjemplo\nros2 run tf2_ros static_transform_publisher --x 5.0 --y 3.0 --yaw 3.141592 mundo mi_robot\n\n\n\n\n\n\nNotaLos campos vacíos quedan con el valor por defecto\n\n\n\n\n\n\n\n\n\nros2 run rqt_tf_tree rqt_tf_tree\n\n\n\n\n\n\nTipSi el paquete no se encuentra instalado\n\n\n\n    $ sudo apt install ros-jazzy-rqt-tf-tree\n\n\n\n\n\n\n  $ ros2 run tf2_ros tf2_echo\n      &lt;marco_de_referencia&gt; &lt;marco_objetivo&gt;\n\nEjemplo\nros2 run tf2_ros tf2_echo odom base_link\n\n\n\nros2 run rviz2 rviz2\n\n\n\n\n\n\nSe deberá configurar el fixed_frame y agregar el elemento de visualización TF\n\n\n\n\n\n\n\n\n\n# Para publicar la transformación\nfrom tf2_ros import TransformBroadcaster\n\n# Para construir el mensaje de transformación\nfrom geometry_msgs.msg import TransformStamped\n\n\n\n\nself.tf_broadcaster = TransformBroadcaster(self)\n\n\n\n\ntf = TransformStamped()\n\n\n\n\n# Marca de tiempo\ntf.header.stamp = self.get_clock().now().to_msg()\n# Marco de referencia (padre)\ntf.header.frame_id = '&lt;marco_referencia'\n# Marco objetivo (hijo)\ntf.child_frame_id = '&lt;marco_referencia_objetivo&gt;'\n\n# Traslación\ntf.transform.translation.x = t_x    # Valores calculados\ntf.transform.translation.y = t_y\ntf.transform.translation.z = t_z\n\n# Rotación\ntf.transform.rotation.x = q_1       # Valores calculados\ntf.transform.rotation.y = q_2\ntf.transform.rotation.z = q_3\ntf.transform.rotation.w = q_0\n\n\n\n\nself.tf_broadcaster.sendTransform(tf)"
+  },
+  {
+    "objectID": "clases/07/lab.html#herramientas-para-transformaciones",
+    "href": "clases/07/lab.html#herramientas-para-transformaciones",
+    "title": "Clase 07 - Laboratorio",
+    "section": "",
+    "text": "$ ros2 run tf2_ros static_transform_publisher\n      --x &lt;X&gt; --y &lt;Y&gt; --z &lt;Z&gt;\n      --roll &lt;ROLL&gt; --pitch &lt;PITCH&gt; --yaw &lt;YAW&gt;\n      --frame-id &lt;marco_referencia&gt;\n      --child-frame-id &lt;marco_objetivo&gt;\n\n\n\n\n\n\n\n\n\nSiguiendo el REP 103 los angulos son en radianes\n\n\n\nEjemplo\nros2 run tf2_ros static_transform_publisher --x 5.0 --y 3.0 --yaw 3.141592 mundo mi_robot\n\n\n\n\n\n\nNotaLos campos vacíos quedan con el valor por defecto\n\n\n\n\n\n\n\n\n\nros2 run rqt_tf_tree rqt_tf_tree\n\n\n\n\n\n\nTipSi el paquete no se encuentra instalado\n\n\n\n    $ sudo apt install ros-jazzy-rqt-tf-tree\n\n\n\n\n\n\n  $ ros2 run tf2_ros tf2_echo\n      &lt;marco_de_referencia&gt; &lt;marco_objetivo&gt;\n\nEjemplo\nros2 run tf2_ros tf2_echo odom base_link\n\n\n\nros2 run rviz2 rviz2\n\n\n\n\n\n\nSe deberá configurar el fixed_frame y agregar el elemento de visualización TF"
+  },
+  {
+    "objectID": "clases/07/lab.html#transformaciones-en-nodos",
+    "href": "clases/07/lab.html#transformaciones-en-nodos",
+    "title": "Clase 07 - Laboratorio",
+    "section": "",
+    "text": "# Para publicar la transformación\nfrom tf2_ros import TransformBroadcaster\n\n# Para construir el mensaje de transformación\nfrom geometry_msgs.msg import TransformStamped\n\n\n\n\nself.tf_broadcaster = TransformBroadcaster(self)\n\n\n\n\ntf = TransformStamped()\n\n\n\n\n# Marca de tiempo\ntf.header.stamp = self.get_clock().now().to_msg()\n# Marco de referencia (padre)\ntf.header.frame_id = '&lt;marco_referencia'\n# Marco objetivo (hijo)\ntf.child_frame_id = '&lt;marco_referencia_objetivo&gt;'\n\n# Traslación\ntf.transform.translation.x = t_x    # Valores calculados\ntf.transform.translation.y = t_y\ntf.transform.translation.z = t_z\n\n# Rotación\ntf.transform.rotation.x = q_1       # Valores calculados\ntf.transform.rotation.y = q_2\ntf.transform.rotation.z = q_3\ntf.transform.rotation.w = q_0\n\n\n\n\nself.tf_broadcaster.sendTransform(tf)"
+  },
+  {
+    "objectID": "clases/07/lab.html#transformaciones-estáticas",
+    "href": "clases/07/lab.html#transformaciones-estáticas",
+    "title": "Clase 07 - Laboratorio",
+    "section": "2.1 Transformaciones estáticas",
+    "text": "2.1 Transformaciones estáticas\n\nEscenario\n\nUn robot \\(\\textbf{A}\\) se encuentra en la posición \\((2,1)\\) con orientación \\(30^\\circ\\) en coordenadas del \\(\\textit{Mundo}\\)\nUn robot \\(\\textbf{B}\\) se encuentra en la posición \\((0.5,\\tfrac{\\sqrt{3}}{2})\\) con orientación \\(60^\\circ\\) en el sistema de coordenadas del robot \\(\\textbf{A}\\)\nUn obstáculo \\({}^W \\boldsymbol{O}_1 = (0, 3)\\) en coordenadas del \\(\\textit{Mundo}\\)\nUn obstáculo \\({}^A \\boldsymbol{O}_2 = (\\sqrt{3}, -1)\\) en coordenadas del robot \\(\\textbf{A}\\)\n\n\n\n\n1. Identificar todos los marcos de referencia y las poses del escenario\n\n\n\n\n\n\n\n\nSe recomienda dibujar un esquema para visualizar mejor los datos\n\n\n\n\n\n2. Crear un archivo launch que recree el escenario utilizando el nodo static_transform_publisher\n\nPublique la transformación de cada uno de los marcos de referencia y puntos de interés (robots, obstáculos, etc)\nEl nodo static_transform_publisher recibe sus valores mediante argumentos (no por parámetro). Por lo tanto, utilizar el campo arguments de la acción Node del launch:\n\n    Node(\n        # ..\n        arguments = [\n                '--x', '&lt;X&gt;',\n                '--y', '&lt;Y&gt;',\n                '--z', '&lt;Z&gt;',\n                '--roll', '&lt;ROLL&gt;',\n                '--pitch', '&lt;PITCH&gt;',\n                '--yaw', '&lt;YAW&gt;',\n                '--frame-id', '&lt;marco_referencia&gt;',\n                '--child-frame-id', '&lt;marco_objetivo&gt;',\n        ],\n        # ..\n    ),\n\n\n\n\n\n\n\nPuede utilizar el paquete rqt_tf_tree o rviz2 para verificar el resultado\n\n\n\n\n\n2. Utilizando el ejecutable tf2_echo, encuentre el resultado a las siguientes consultas\n\n¿Cuáles son las coordenadas del obstáculo \\(\\boldsymbol{O}_1\\) en el sistema de coordenadas del robot \\(\\textbf{A}\\)?\n¿Cuáles son las coordenadas del obstáculo \\(\\boldsymbol{O}_2\\) en el sistema de coordenadas del robot \\(\\textbf{B}\\)?\n¿Cuál es la pose del robot \\(\\textbf{B}\\) en coordenadas del \\(\\textit{Mundo}\\)?"
+  },
+  {
+    "objectID": "clases/07/lab.html#transformaciones-dinámicas",
+    "href": "clases/07/lab.html#transformaciones-dinámicas",
+    "title": "Clase 07 - Laboratorio",
+    "section": "2.2 Transformaciones dinámicas",
+    "text": "2.2 Transformaciones dinámicas\n\nImplementar un nodo que publique la transformación de un movimiento circular uniforme\n\nUtilice como marco de referencia fijo aquel que haya utilizado como \\(\\textit{Mundo}\\) en la parte 1, y utilice robotC como nombre para el marco móvil\nGenerar las coordenadas \\(x\\) e \\(y\\) mediante las siguientes ecuaciones:\n\n\\[\n\\left\\{\n\\begin{align}\nx &= R \\cdot \\cos(t) \\\\\ny &= R \\cdot \\sin(t)\n\\end{align}\n\\right.\n\\]\n\n\n\n\n\n\n\n\nPuede crear un parámetro para configurar el radio \\(R\\) del círculo\n\n\n\n\nPara obtener el tiempo \\(t\\) puede utilizar la función get_clock()del nodo:\n\nseconds, nanoseconds = self.get_clock().now().seconds_nanoseconds()\nt = (nanoseconds / 1E9 + seconds)       # convertir a segundos\nt = t * (2.0 * np.pi / 4.0)             # 1 vuelta cada 4 segundos\n\nPuede utilizar una coordenada \\(z = 0\\) constante u otro valor que desee\n\nPara calcular la orientación, se debe obtener el ángulo de la tangente a la trayectoria, para esto podría utilizar la función arctan2 de numpy:\n\nimport numpy as np\n# ..\nyaw = np.arctan2(np.cos(t), -np.sin(t))\n\n\n\n\n\n\nRecuerde que en rotaciones 2D el cuaternion para rotar un ángulo \\(\\alpha\\) puede definirse de la siguiente forma \\[\n\\boldsymbol{q} = \\begin{bmatrix} q_w \\\\ q_x \\\\ q_y \\\\ q_z\\end{bmatrix} = \\begin{bmatrix} \\cos{\\tfrac{\\theta}{2}} \\\\ 0 \\\\ 0 \\\\ \\sin{\\tfrac{\\theta}{2}} \\end{bmatrix}\n\\]\n\n\n\n\nPublique las transformaciones a 100 [Hz] (o un valor mayor a 30) para ver una animación fluida\n\n\n\n\n\n\n\n\n\nPuede crear un parámetro para configurar la frecuencia de actualización\n\n\n\n\nModifique el launch del ejercicio anterior para añadir este nuevo nodo al escenario\n\n\n\n\n\n\n\nRecuerde siempre completar las dependencias e instalarlas, configurar adecuadamente el archivo setup.py de instalación, compilar el workspace y configurar el entorno local"
+  },
+  {
     "objectID": "clases/06/lab.html",
     "href": "clases/06/lab.html",
     "title": "Clase 06 - Laboratorio",
@@ -627,14 +662,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nROS2 R.E.P.. Traslación y rotación 2D. Transformaciones homogéneas. tf2\n\n\n\n\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n\n\n\n\n\n\n\n10\n19/05\nGazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n\n\n\n\n\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n\n\n\n\n\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n\n\n\n\n\n\n\n13\n09/06\nPercepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.\n\n\n\n\n\n\n\n14\n16/06\nSimulación de sensores en Gazebo\n\n\n\n\n\n\n\n15\n23/06\nPresentación entregable 1"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -957,6 +992,384 @@
     "title": "Robótica",
     "section": "Material adicional recomendado",
     "text": "Material adicional recomendado\n\nArticulated Robotics\nThe Construct\nETH Zürich - Programming for Robotic (2021)\nAutomatic Addison\n\nBibliografía (muy) complementaria\n\nSpringer Handbook of Robotics\nRobotic Systems (draft), Kris Hauser"
+  },
+  {
+    "objectID": "clases/07/index.html#notación",
+    "href": "clases/07/index.html#notación",
+    "title": "Robótica",
+    "section": "Notación",
+    "text": "Notación\n\n\n\nPunto: \\(\\require{color} \\textcolor{PineGreen}{d}_{\\small \\textrm{2D}} = \\begin{pmatrix} \\textcolor{Orange}{a} \\\\ \\textcolor{RedViolet}{b} \\end{pmatrix}\\)\nVector: \\(\\require{color} \\textcolor{LimeGreen}{\\boldsymbol{\\vec{p}}}_\\textcolor{PineGreen}{d} = \\textcolor{Orange}{a} \\boldsymbol{\\vec{i}} + \\textcolor{RedViolet}{b} \\boldsymbol{\\vec{j}}\\)\n\n\\[\n\\textcolor{LimeGreen}{\\boldsymbol{\\vec{p}}}_\\textcolor{PineGreen}{d}\n= \\begin{bmatrix} \\textcolor{Orange}{a} \\\\ \\textcolor{RedViolet}{b} \\end{bmatrix}\n\\]\n\n\n\n\n\n\n\nLos vectores y matrices serán distinguidos en negrita"
+  },
+  {
+    "objectID": "clases/07/index.html#notación-1",
+    "href": "clases/07/index.html#notación-1",
+    "title": "Robótica",
+    "section": "Notación",
+    "text": "Notación\n\n\n\nPunto: \\(\\require{color} \\textcolor{PineGreen}{d}_{\\small \\textrm{2D}} = \\begin{pmatrix} \\textcolor{Orange}{a} \\\\ \\textcolor{RedViolet}{b} \\end{pmatrix} \\;\\)\nCoordenadas del vector respecto del marco de referencia \\(\\textcolor{Blue}{A}\\): \\[\\require{color} {}^{\\textcolor{Blue}{A}}{\\boldsymbol{\\textcolor{LimeGreen}{p}}_\\textcolor{PineGreen}{d}} = \\textcolor{Orange}{a} \\textcolor{Blue}{\\boldsymbol{\\vec{i}}} + \\textcolor{RedViolet}{b} \\textcolor{Blue}{\\boldsymbol{\\vec{j}}}\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#notación-2",
+    "href": "clases/07/index.html#notación-2",
+    "title": "Robótica",
+    "section": "Notación",
+    "text": "Notación\n\n\n\nUn vector tiene una representación por cada marco de referencia\nTodas “apuntan” al mismo punto \\(\\textcolor{PineGreen}{d}\\):\n\n\\[\\require{color} {}^{\\textcolor{Blue}{A}}{\\boldsymbol{\\textcolor{LimeGreen}{p}}} \\equiv \\require{color} {}^{\\textcolor{Orange}{B}}{\\boldsymbol{\\textcolor{LimeGreen}{p}}} \\equiv \\require{color} {}^{\\textcolor{Gray}{C}}{\\boldsymbol{\\textcolor{LimeGreen}{p}}} \\equiv \\require{color} {}^{\\textcolor{Maroon}{D}}{\\boldsymbol{\\textcolor{LimeGreen}{p}}}\\]\n\nLas componentes pueden ser distintas\n\n\\[\n{\\small\n\\textcolor{Blue}{\\sideset{^{A}}{}{\\begin{bmatrix}\n    \\textcolor{black}{2.1} \\\\\n    \\textcolor{black}{1.0}\n\\end{bmatrix}}} \\equiv\n\\textcolor{Orange}{\\sideset{^{B}}{}{\\begin{bmatrix}\n    \\textcolor{black}{-1.7} \\\\\n    \\textcolor{black}{0.6}\n\\end{bmatrix}}} \\equiv\n\\textcolor{Gray}{\\sideset{^{C}}{}{\\begin{bmatrix}\n    \\textcolor{black}{1.5} \\\\\n    \\textcolor{black}{0.6}\n\\end{bmatrix}}} \\equiv\n\\textcolor{Maroon}{\\sideset{^{D}}{}{\\begin{bmatrix}\n    \\textcolor{black}{-1.5} \\\\\n    \\textcolor{black}{1.0}\n\\end{bmatrix}}}\n}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-lineales",
+    "href": "clases/07/index.html#transformaciones-lineales",
+    "title": "Robótica",
+    "section": "Transformaciones lineales",
+    "text": "Transformaciones lineales\nPara un vector \\(\\boldsymbol{p} \\in \\mathbb{R}^{n}\\), son funciones de la forma:\n\\[\nf(\\boldsymbol{p}) = \\boldsymbol{T} ~\\boldsymbol{p}\n\\]\ndonde \\(\\boldsymbol{T}\\) es una matrix de \\(n \\times n\\)\n\n\nPropiedad: Se pueden encadenar como producto de matrices \\[f_3(f_2(f_1(\\boldsymbol{p}))) = \\boldsymbol{T}_3 \\left( \\boldsymbol{T}_2  \\left( \\boldsymbol{T}_1 ~\\boldsymbol{p} \\right) \\right) = \\boldsymbol{T}_3 ~\\boldsymbol{T}_2 ~\\boldsymbol{T}_1  ~\\boldsymbol{p}\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-lineales-1",
+    "href": "clases/07/index.html#transformaciones-lineales-1",
+    "title": "Robótica",
+    "section": "Transformaciones lineales",
+    "text": "Transformaciones lineales\nEjemplo para 2 dimensiones (\\(n = 2\\)):\n\\[ \\boldsymbol{T} = \\begin{bmatrix} \\textcolor{red}{a} & \\textcolor{lime}{b} \\\\ \\textcolor{blue}{c} & \\textcolor{magenta}{d} \\end{bmatrix} \\]\nentonces, dado \\(\\boldsymbol{p} =  \\begin{bmatrix} x_1 & y_1  \\end{bmatrix}^\\top\\)\n\\[\nf(\\boldsymbol{p}) = \\boldsymbol{T} ~\\boldsymbol{p} =\n\\begin{bmatrix} \\textcolor{red}{a} & \\textcolor{lime}{b} \\\\ \\textcolor{blue}{c} & \\textcolor{magenta}{d} \\end{bmatrix}\n\\begin{bmatrix} x_1 \\\\ y_1 \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{red}{a} ~x_1 + \\textcolor{lime}{b} ~y_1 \\\\ \\textcolor{blue}{c} ~x_1 + \\textcolor{magenta}{d} ~y_1 \\end{bmatrix} =\n\\begin{bmatrix} x_2 \\\\ y_2 \\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d",
+    "href": "clases/07/index.html#rotación-2d",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\nDado un marco de referencia \\(\\textcolor{Orange}{\\{B\\}}\\) rotado un ángulo \\(\\textcolor{Plum}{\\theta}\\) respecto de un marco de referencia \\(\\textcolor{Blue}{\\{A\\}}\\). Encontrar la matriz de transformación que convierte las coordenadas del marco \\(\\textcolor{Orange}{B}\\) al \\(\\textcolor{Blue}{A}\\).\n\\[\n\\textcolor{Orange}{\\boldsymbol{B}} \\to \\textcolor{Blue}{\\boldsymbol{A}} \\qquad  \n{}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{T}_{\\textcolor{Orange}{\\boldsymbol{B}}} = ?\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-1",
+    "href": "clases/07/index.html#rotación-2d-1",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\n\n\\[\\tiny\n{}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\[0.6em]  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix} \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $}  \\\\  \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\end{bmatrix}\n\\]\n\n\n\\[\\tiny\n{}^{\\textcolor{Blue}{\\boldsymbol{A}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix} |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}  \\\\  |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})} \\end{bmatrix}\n\\]\n\n\nSabiendo:\n\n\\(\\sin{(A+B)} = \\sin{A} \\cos{B} + \\cos{A} \\sin{B}\\)\n\\(\\cos{(A+B)} = \\cos{A} \\cos{B} - \\sin{A} \\sin{B}\\)\n\n\n\n\\[\\tiny\n\\begin{align}\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} &=\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} &=\n\\begin{bmatrix} |\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\cos{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} - \\sin{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\\\  |\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\sin{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} + \\cos{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\end{bmatrix} \\\\\n&= \\begin{bmatrix} \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} - \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}} \\\\ \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} + \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}} \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-2",
+    "href": "clases/07/index.html#rotación-2d-2",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\n\\[\\tiny\n{}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\[0.6em]  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix} \\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $}  \\\\  \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\end{bmatrix}\n\\]\n\\[\\tiny\n{}^{\\textcolor{Blue}{\\boldsymbol{A}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix} |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}  \\\\  |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})} \\end{bmatrix}\n\\]\n\nSabiendo:\n\n\\(\\sin{(A+B)} = \\sin{A} \\cos{B} + \\cos{A} \\sin{B}\\)\n\\(\\cos{(A+B)} = \\cos{A} \\cos{B} - \\sin{A} \\sin{B}\\)\n\n\n\\[\\tiny\n\\begin{align}\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} &=\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} &=\n\\begin{bmatrix} |\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\cos{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} - \\sin{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\\\  |\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\sin{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} + \\cos{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\end{bmatrix} \\\\\n&= \\begin{bmatrix} \\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} - \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}} \\\\ \\colorbox{white}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} + \\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}} \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-3",
+    "href": "clases/07/index.html#rotación-2d-3",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\n\\[\\tiny\n{}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\[0.6em]  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n\\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $}  \\\\\n\\colorbox{lightgray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $}\n\\end{bmatrix}\n\\]\n\\[\\tiny\n{}^{\\textcolor{Blue}{\\boldsymbol{A}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}\n\\end{bmatrix}\n\\]\n\nSabiendo:\n\n\\(\\sin{(A+B)} = \\sin{A} \\cos{B} + \\cos{A} \\sin{B}\\)\n\\(\\cos{(A+B)} = \\cos{A} \\cos{B} - \\sin{A} \\sin{B}\\)\n\n\n\\[\\tiny\n\\begin{align}\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} &=\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} &=\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\cos{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} - \\sin{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\sin{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} + \\cos{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )\n\\end{bmatrix} \\\\\n&= \\begin{bmatrix}\n\\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} - \\colorbox{lightgray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}} \\\\\n\\colorbox{lightgray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $} \\cos{\\textcolor{Plum}{\\theta}} + \\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $} \\sin{\\textcolor{Plum}{\\theta}}\n\\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-4",
+    "href": "clases/07/index.html#rotación-2d-4",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\n\\[\\tiny\n{}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\[0.6em]  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n\\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $}  \\\\\n\\colorbox{lightgray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $}\n\\end{bmatrix}\n\\]\n\\[\\tiny\n{}^{\\textcolor{Blue}{\\boldsymbol{A}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}\n\\end{bmatrix}\n\\]\n\nSabiendo:\n\n\\(\\sin{(A+B)} = \\sin{A} \\cos{B} + \\cos{A} \\sin{B}\\)\n\\(\\cos{(A+B)} = \\cos{A} \\cos{B} - \\sin{A} \\sin{B}\\)\n\n\n\\[\\tiny\n\\begin{align}\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} &=\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} &=\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\cos{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} - \\sin{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\sin{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} + \\cos{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )\n\\end{bmatrix} \\\\\n%&= \\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\cos{\\textcolor{Plum}{\\theta}} - \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\sin{\\textcolor{Plum}{\\theta}} \\\\ \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\cos{\\textcolor{Plum}{\\theta}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\sin{\\textcolor{Plum}{\\theta}} \\end{bmatrix}\n&= \\sideset{}{_\\textcolor{Orange}{\\boldsymbol{B}}}{\\begin{bmatrix}\n\\textcolor{ForestGreen}{p_{x}} \\cos{\\textcolor{Plum}{\\theta}} - \\textcolor{ForestGreen}{p_{y}} \\sin{\\textcolor{Plum}{\\theta}} \\\\\n\\textcolor{ForestGreen}{p_{y}} \\cos{\\textcolor{Plum}{\\theta}} + \\textcolor{ForestGreen}{p_{x}} \\sin{\\textcolor{Plum}{\\theta}}\n\\end{bmatrix}}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-5",
+    "href": "clases/07/index.html#rotación-2d-5",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\n\n\n\\[\\tiny\n{}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\[0.6em]  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n\\colorbox{Gray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{\\textcolor{Maroon}{\\alpha}} $}  \\\\\n\\colorbox{lightgray}{$ |\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{\\textcolor{Maroon}{\\alpha}} $}\n\\end{bmatrix}\n\\]\n\\[\\tiny\n{}^{\\textcolor{Blue}{\\boldsymbol{A}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} =\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} =\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} =\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\cos{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| \\sin{(\\textcolor{Maroon}{\\alpha}+\\textcolor{Plum}{\\theta})}\n\\end{bmatrix}\n\\]\n\nSabiendo:\n\n\\(\\sin{(A+B)} = \\sin{A} \\cos{B} + \\cos{A} \\sin{B}\\)\n\\(\\cos{(A+B)} = \\cos{A} \\cos{B} - \\sin{A} \\sin{B}\\)\n\n\n\\[\\tiny\n\\begin{align}\n%\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\end{bmatrix} &=\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}} &=\n\\begin{bmatrix}\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\cos{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} - \\sin{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )  \\\\\n|\\textcolor{ForestGreen}{\\boldsymbol{p}}| ( \\sin{\\textcolor{Maroon}{\\alpha}} \\cos{\\textcolor{Plum}{\\theta}} + \\cos{\\textcolor{Maroon}{\\alpha}} \\sin{\\textcolor{Plum}{\\theta}} )\n\\end{bmatrix} \\\\\n%&= \\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\cos{\\textcolor{Plum}{\\theta}} - \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\sin{\\textcolor{Plum}{\\theta}} \\\\ \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\cos{\\textcolor{Plum}{\\theta}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\sin{\\textcolor{Plum}{\\theta}} \\end{bmatrix}\n&= \\sideset{}{_\\textcolor{Orange}{\\boldsymbol{B}}}{\\begin{bmatrix}\n\\textcolor{ForestGreen}{p_{x}} \\cos{\\textcolor{Plum}{\\theta}} - \\textcolor{ForestGreen}{p_{y}} \\sin{\\textcolor{Plum}{\\theta}} \\\\\n\\textcolor{ForestGreen}{p_{y}} \\cos{\\textcolor{Plum}{\\theta}} + \\textcolor{ForestGreen}{p_{x}} \\sin{\\textcolor{Plum}{\\theta}}\n\\end{bmatrix}}\n= \\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{_\\textcolor{Orange}{\\boldsymbol{B}}}{\\begin{bmatrix}\n\\cos{\\textcolor{Plum}{\\theta}} & -\\sin{\\textcolor{Plum}{\\theta}} \\\\ \\sin{\\textcolor{Plum}{\\theta}} & \\cos{\\textcolor{Plum}{\\theta}}\\end{bmatrix}}\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-6",
+    "href": "clases/07/index.html#rotación-2d-6",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nExpresado en forma matricial:\n\\[\n\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}}\n= \\underbrace{\\sideset{^\\textcolor{Blue}{\\boldsymbol{A}}}{_\\textcolor{Orange}{\\boldsymbol{B}}}{\\begin{bmatrix}\n\\cos{\\textcolor{Plum}{\\theta}} & -\\sin{\\textcolor{Plum}{\\theta}} \\\\ \\sin{\\textcolor{Plum}{\\theta}} & \\cos{\\textcolor{Plum}{\\theta}}\n\\end{bmatrix}}}_{\\textsf{Matriz de rotacion} ~\\boldsymbol{R}(\\textcolor{Plum}{\\theta}) }\n\\sideset{^\\textcolor{Orange}{\\boldsymbol{B}}}{}{\\begin{bmatrix} \\textcolor{ForestGreen}{p_{{x}}}  \\\\  \\textcolor{ForestGreen}{p_{{y}}} \\end{bmatrix}}\n\\]\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{T}_{\\textcolor{Orange}{\\boldsymbol{B}}} {}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}}\n\\to\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}} = \\boldsymbol{R}(\\textcolor{Plum}{\\theta}) {}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{ForestGreen}{\\boldsymbol{p}}}\n\\]\ndonde: \\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{T}_{\\textcolor{Orange}{\\boldsymbol{B}}} = \\boldsymbol{R}(\\textcolor{Plum}{\\theta})\n= \\begin{bmatrix} \\cos{\\textcolor{Plum}{\\theta}} & -\\sin{\\textcolor{Plum}{\\theta}} \\\\ \\sin{\\textcolor{Plum}{\\theta}} & \\cos{\\textcolor{Plum}{\\theta}}\\end{bmatrix}\n\\]\nMatriz ortogonal y ortonormal:\n\\[\n\\boldsymbol{R}(\\theta)^{-1} = \\boldsymbol{R}(\\theta)^{\\top}\n\\qquad\n\\det{\\boldsymbol{R}(\\theta)} = 1\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-7",
+    "href": "clases/07/index.html#rotación-2d-7",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(\\textcolor{Plum}{\\theta}) = \\begin{bmatrix}\n\\cos{\\textcolor{Plum}{\\theta}} & -\\sin{\\textcolor{Plum}{\\theta}} \\\\ \\sin{\\textcolor{Plum}{\\theta}} & \\cos{\\textcolor{Plum}{\\theta}}\n\\end{bmatrix} =\n\\begin{bmatrix}\n\\cos{\\textcolor{Plum}{30°}} & -\\sin{\\textcolor{Plum}{30°}} \\\\ \\sin{\\textcolor{Plum}{30°}} & \\cos{\\textcolor{Plum}{30°}}\n\\end{bmatrix} \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-8",
+    "href": "clases/07/index.html#rotación-2d-8",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nPrimer punto: \\((2, 0)\\)\n\n\n\n\\[\n\\hat{p} = \\boldsymbol{R}(30°) ~p =\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\begin{bmatrix}\n2 \\\\ 0\n\\end{bmatrix} \\approx\n\\begin{bmatrix}\n1.73 \\\\ 1.0\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-9",
+    "href": "clases/07/index.html#rotación-2d-9",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nPrimer punto: \\((2, 0)\\)\n\n\n\\[\n\\hat{p} = \\boldsymbol{R}(30°) ~p =\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\begin{bmatrix}\n2 \\\\ 0\n\\end{bmatrix} \\approx\n\\begin{bmatrix}\n1.73 \\\\ 1.0\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-10",
+    "href": "clases/07/index.html#rotación-2d-10",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nSegundo punto: \\((2, 2)\\)"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-11",
+    "href": "clases/07/index.html#rotación-2d-11",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nSegundo punto: \\((2, 2)\\)\n\n\n\\[\n\\hat{p} = \\boldsymbol{R}(30°) ~p =\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\begin{bmatrix}\n2 \\\\ 2\n\\end{bmatrix} \\approx\n\\begin{bmatrix}\n0.73 \\\\ 2.73\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-12",
+    "href": "clases/07/index.html#rotación-2d-12",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nSegundo punto: \\((2, 2)\\)\n\n\n\\[\n\\hat{p} = \\boldsymbol{R}(30°) ~p =\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\begin{bmatrix}\n2 \\\\ 2\n\\end{bmatrix} \\approx\n\\begin{bmatrix}\n0.73 \\\\ 2.73\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#rotación-2d-13",
+    "href": "clases/07/index.html#rotación-2d-13",
+    "title": "Robótica",
+    "section": "Rotación 2D",
+    "text": "Rotación 2D\nEjemplo numérico: rotación de \\(30°\\)\n\n\n\nMatriz de rotación:\n\n\\[\n\\boldsymbol{R}(30°) \\approx\n\\begin{bmatrix}\n{0.866} & -{0.5} \\\\ {0.5} & {0.866}\n\\end{bmatrix}\n\\]\n\n\nPuntos: \\((2, 0)\\), \\((2, 2)\\), \\((1, 3)\\), \\((0, 2)\\), \\((0, 0)\\), \\((2, 0)\\)\n\n\n\n\nPuntos rotados: \\((1.73, 1.0)\\), \\((0.73, 2.73)\\), \\((-0.63, 3.10)\\), \\((-1.0, 1.73)\\), \\((0, 0)\\), \\((1.73, 1.0)\\)"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d",
+    "href": "clases/07/index.html#traslación-2d",
+    "title": "Robótica",
+    "section": "Traslación 2D",
+    "text": "Traslación 2D\n\n\n\nDado un marco de referencia \\(\\textcolor{Orange}{\\{\\boldsymbol{B}\\}}\\) paralelo a un marco de referencia \\(\\textcolor{Blue}{\\{\\boldsymbol{A}\\}}\\) trasladado \\(\\textcolor{ForestGreen}{{}^\\boldsymbol{A}{\\boldsymbol{t}}_\\boldsymbol{B}}\\). Encontrar la matriz de transformación que convierte las coordenadas del marco \\(\\textcolor{Orange}{\\boldsymbol{B}}\\) al \\(\\textcolor{Blue}{\\boldsymbol{A}}\\).\n\n\\[\n\\textcolor{Blue}{{}^A{\\boldsymbol{p}}} = \\textcolor{ForestGreen}{{}^A\\boldsymbol{t}_B} + \\textcolor{Orange}{{}^B{\\boldsymbol{p}}}\n\\]\n\n\nPuede representarse como una transformación lineal? \\[\nf(\\boldsymbol{p}) = \\boldsymbol{T} \\, \\boldsymbol{p}\n\\]\n\n\n\n\n\n\n\n\nNo para un dimensión de \\(n=2\\)"
+  },
+  {
+    "objectID": "clases/07/index.html#coordenadas-homogéneas",
+    "href": "clases/07/index.html#coordenadas-homogéneas",
+    "title": "Robótica",
+    "section": "Coordenadas homogéneas",
+    "text": "Coordenadas homogéneas\n\nQue sucede si representamos un punto 2D con un vector de 3 componentes?\n\nDado un vector \\({\\boldsymbol{p}} = {\\begin{bmatrix} a & b \\end{bmatrix}}^{\\top}\\) su correspondiente homogéneo:\n\\[\n{\\boldsymbol{\\tilde{p}}} = \\begin{bmatrix} \\tilde{a} \\\\ \\tilde{b} \\\\ c \\end{bmatrix} \\quad \\textsf{donde} \\;\n\\begin{cases}\n\\tilde{a} = \\tfrac{a}{c} \\\\\n\\tilde{b} = \\tfrac{b}{c} \\\\\nc \\neq 0\n\\end{cases}\n\\]\n\nCon \\(c = 1 \\to {\\boldsymbol{\\tilde{p}}} = {\\begin{bmatrix} a & b & 1 \\end{bmatrix}}^{\\top}\\)\n\n\nPara el problema de traslación 2D:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{ForestGreen}{{}^\\boldsymbol{A}\\boldsymbol{\\tilde{t}}_\\boldsymbol{B}} + \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}} \\to\n\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\\\ 1  \\end{bmatrix} =\n{\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} \\\\ \\textcolor{ForestGreen}{{t_y}} \\\\ 0 \\end{bmatrix}} + \\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ 1  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ 1  \\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} ? & ? & ? \\\\ ? & ? & ? \\\\ \\colorbox{white}{?} & \\colorbox{white}{?} & \\colorbox{white}{?} \\end{bmatrix}} \\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-1",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-1",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} ? & ? & ? \\\\ ? & ? & ? \\\\ \\colorbox{gray}{?} & \\colorbox{gray}{?} & \\colorbox{gray}{?} \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ \\colorbox{gray}{1}  \\end{bmatrix}\n\\end{align}\n\\]\n\n\\[\n\\colorbox{gray}{?} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{gray}{?} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{gray}{?} \\cdot {1} = \\colorbox{gray}{1}\n\\]\n\n\n\\[\n\\colorbox{white}{0} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{white}{0} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{white}{1} \\cdot {1} = \\colorbox{white}{1}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-2",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-2",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} ? & ? & ? \\\\ ? & ? & ? \\\\ \\colorbox{white}{0} & \\colorbox{white}{0} & \\colorbox{white}{1} \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-3",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-3",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} \\colorbox{lightgray}{?} & \\colorbox{lightgray}{?} & \\colorbox{lightgray}{?} \\\\ ? & ? & ? \\\\ \\colorbox{white}{0} & \\colorbox{white}{0} & \\colorbox{white}{1} \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\colorbox{lightgray}{$\\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}$}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]\n\n\\[\n\\colorbox{lightgray}{?} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{lightgray}{?} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{lightgray}{?} \\cdot {1} = \\colorbox{lightgray}{$\\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}$}\n\\]\n\n\n\\[\n\\colorbox{white}{1} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{white}{0} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}}$} \\cdot {1} = \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}$}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-4",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-4",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} \\colorbox{white}{1} & \\colorbox{white}{0} & \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}}$} \\\\ ? & ? & ? \\\\ \\colorbox{white}{0} & \\colorbox{white}{0} & \\colorbox{white}{1} \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}$}  \\\\  \\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-5",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-5",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n{\\begin{bmatrix} \\colorbox{white}{1} & \\colorbox{white}{0} & \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}}$} \\\\ \\colorbox{lightgray}{?} & \\colorbox{lightgray}{?} & \\colorbox{lightgray}{?} \\\\ \\colorbox{white}{0} & \\colorbox{white}{0} & \\colorbox{white}{1} \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\\\ \\colorbox{lightgray}{$\\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}}$} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]\n\n\\[\n\\colorbox{lightgray}{?} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{lightgray}{?} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{lightgray}{?} \\cdot {1} = \\colorbox{lightgray}{$\\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}}$}\n\\]\n\\[\n\\colorbox{white}{0} \\cdot \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} + \\colorbox{white}{1} \\cdot \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} + \\colorbox{white}{$\\textcolor{ForestGreen}{{t_y}}$} \\cdot {1} = \\colorbox{white}{$\\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}}$}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-2d-en-c.h.-6",
+    "href": "clases/07/index.html#traslación-2d-en-c.h.-6",
+    "title": "Robótica",
+    "section": "Traslación 2D en c.h.",
+    "text": "Traslación 2D en c.h.\nEl problema expresado en coordenadas homogéneas:\n\\[\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} = \\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} \\textcolor{Orange}{{}^\\boldsymbol{B}{\\boldsymbol{\\tilde{p}}}}\n\\] con \\({}^A\\boldsymbol{T}_B\\) de dimension \\(3 \\times 3\\)\n\\[\n\\begin{align}\n\\textcolor{Blue}{{}^\\boldsymbol{A}{\\boldsymbol{\\tilde{p}}}} &=\n\\underbrace{{\\begin{bmatrix} \\colorbox{white}{1} & \\colorbox{white}{0} & \\colorbox{white}{$\\textcolor{ForestGreen}{{t_x}}$} \\\\ \\colorbox{white}{0} & \\colorbox{white}{1} & \\colorbox{white}{$\\textcolor{ForestGreen}{{t_y}}$} \\\\ \\colorbox{white}{0} & \\colorbox{white}{0} & \\colorbox{white}{1} \\end{bmatrix}}}_{\\textsf{Matriz de traslación} ~\\textcolor{Blue}{{}^\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} }\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ {1}  \\end{bmatrix} =\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}} + \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}} \\\\ \\colorbox{white}{$\\textcolor{ForestGreen}{{t_y}} + \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}}$} \\\\ \\colorbox{white}{1}  \\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-y-rotación-2d",
+    "href": "clases/07/index.html#traslación-y-rotación-2d",
+    "title": "Robótica",
+    "section": "Traslación y rotación 2D",
+    "text": "Traslación y rotación 2D\n\n\nTraslación \\(\\to {}^\\textcolor{Blue}{\\boldsymbol{A}}{\\boldsymbol{p}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{ForestGreen}{\\boldsymbol{C}}} + {}^\\textcolor{ForestGreen}{\\boldsymbol{C}}{\\boldsymbol{p}}\\)\nRotación \\(\\to {}^\\textcolor{ForestGreen}{\\boldsymbol{C}}{\\boldsymbol{p}} = {}^\\textcolor{ForestGreen}{\\boldsymbol{C}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} {}^\\textcolor{Orange}{\\boldsymbol{B}}{\\boldsymbol{p}}\\)\n\n\nReemplazando:\n\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\boldsymbol{p}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{ForestGreen}{\\boldsymbol{C}}} + {}^\\textcolor{ForestGreen}{\\boldsymbol{C}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} {}^\\textcolor{Orange}{\\boldsymbol{B}}{\\boldsymbol{p}}\n\\]\n\n\n\ny dado que \\(\\textcolor{ForestGreen}{\\boldsymbol{\\{C\\}}} \\parallel \\textcolor{Blue}{\\boldsymbol{\\{A\\}}}\\) y \\(\\textcolor{Orange}{\\boldsymbol{B}} \\equiv \\textcolor{ForestGreen}{\\boldsymbol{C}}\\):\n\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\boldsymbol{p}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{Orange}{\\boldsymbol{B}}} + {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} {}^\\textcolor{Orange}{\\boldsymbol{B}}{\\boldsymbol{p}}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#traslación-y-rotación-2d-1",
+    "href": "clases/07/index.html#traslación-y-rotación-2d-1",
+    "title": "Robótica",
+    "section": "Traslación y rotación 2D",
+    "text": "Traslación y rotación 2D\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\boldsymbol{p}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} {}^\\textcolor{Orange}{\\boldsymbol{B}}{\\boldsymbol{p}} +  {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{Orange}{\\boldsymbol{B}}}\n\\]\n\n\\[\n\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}}  \\end{bmatrix} =\n{\\begin{bmatrix} \\cos{\\theta} & -\\sin{\\theta} \\\\ \\sin{\\theta} & \\cos{\\theta} \\end{bmatrix}}  \\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}}  \\end{bmatrix} +\n\\begin{bmatrix} \\textcolor{ForestGreen}{{t_x}}  \\\\  \\textcolor{ForestGreen}{{t_y}}  \\end{bmatrix}\n\\]\n\n\nEn coordenadas homogéneas: \n\\[\n\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\\\ 1  \\end{bmatrix} =\n\\left[\n\\begin{array}{cc|c}\n\\cos{\\theta} & -\\sin{\\theta} & \\textcolor{ForestGreen}{{t_x}} \\\\ \\sin{\\theta} & \\cos{\\theta} & \\textcolor{ForestGreen}{{t_y}} \\\\ \\hline 0 & 0 & 1\n\\end{array}\n\\right]\n%{\\begin{bmatrix} \\cos{\\theta} & -\\sin{\\theta} & \\textcolor{ForestGreen}{{t_x}} \\\\ \\sin{\\theta} & \\cos{\\theta} & \\textcolor{ForestGreen}{{t_y}} \\\\ 0 & 0 & 1 \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ 1 \\end{bmatrix}\n\\]\n\n\n\\[\n\\begin{bmatrix} \\textcolor{Blue}{p_{{x}_\\boldsymbol{A}}}  \\\\  \\textcolor{Blue}{p_{{y}_\\boldsymbol{A}}} \\\\ 1  \\end{bmatrix} =\n\\left[\n\\begin{array}{c|c}\n\\begin{array}{c}  {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} \\end{array} & \\begin{array}{c} {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{Orange}{\\boldsymbol{B}}} \\end{array} \\\\\n\\hline\n\\begin{array}{c} 0 & 0 \\end{array} & 1\n\\end{array}\n\\right]\n%{\\begin{bmatrix} \\cos{\\theta} & -\\sin{\\theta} & \\textcolor{ForestGreen}{{t_x}} \\\\ \\sin{\\theta} & \\cos{\\theta} & \\textcolor{ForestGreen}{{t_y}} \\\\ 0 & 0 & 1 \\end{bmatrix}}\n\\begin{bmatrix} \\textcolor{Orange}{p_{{x}_\\boldsymbol{B}}}  \\\\  \\textcolor{Orange}{p_{{y}_\\boldsymbol{B}}} \\\\ 1 \\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#transformación-homogénea-2d",
+    "href": "clases/07/index.html#transformación-homogénea-2d",
+    "title": "Robótica",
+    "section": "Transformación homogénea 2D",
+    "text": "Transformación homogénea 2D\n\n\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\textcolor{Gray}{\\boldsymbol{\\tilde{p}}}} = \\begin{bmatrix} {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} & {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{Orange}{\\boldsymbol{B}}} \\\\ \\boldsymbol{0} & 1 \\end{bmatrix} {}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{Gray}{\\boldsymbol{\\tilde{p}}}}\n\\]\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}{\\textcolor{Gray}{\\boldsymbol{\\tilde{p}}}} = {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} {}^{\\textcolor{Orange}{\\boldsymbol{B}}}{\\textcolor{Gray}{\\boldsymbol{\\tilde{p}}}}\n\\]\ndonde \\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} =\n\\begin{bmatrix} {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{R}_\\textcolor{Orange}{\\boldsymbol{B}} & {}^\\textcolor{Blue}{\\boldsymbol{A}}\\boldsymbol{t}_{\\textcolor{Orange}{\\boldsymbol{B}}} \\\\ \\boldsymbol{0} & 1 \\end{bmatrix}\n\\]\ndescribe una pose relativa como una matriz de \\(3\\times3\\)"
+  },
+  {
+    "objectID": "clases/07/index.html#generalizando",
+    "href": "clases/07/index.html#generalizando",
+    "title": "Robótica",
+    "section": "Generalizando",
+    "text": "Generalizando\nLa estructura de \\(\\boldsymbol{T}\\) se puede generalizar para \\(n\\)-dimensiones:\n\\[\n\\boldsymbol{T} ~\\boldsymbol{\\hat{p}} = \\begin{bmatrix} \\boldsymbol{R}_{n \\times n} & \\boldsymbol{t}_{n \\times 1} \\\\ \\boldsymbol{0}_{1 \\times n} & 1 \\end{bmatrix}_{(n+1) \\times (n+1)} \\boldsymbol{{p}}_{(n+1)}\n\\]\nEn resumen: a partir de la función no lineal de traslación-rotación, se desarrolló una función lineal en el sistema de coordenadas homogéneo \\(\\boldsymbol{\\tilde{p}}\\) \\[\n\\begin{align*}\nf(\\boldsymbol{p}) &= \\boldsymbol{R} ~\\boldsymbol{p} + \\boldsymbol{t} \\\\\n&\\downarrow \\\\\ng(\\boldsymbol{\\tilde{p}}) &= \\boldsymbol{T} \\boldsymbol{\\tilde{p}} =  \\begin{bmatrix} {}^A\\boldsymbol{R}_B & {}^A\\boldsymbol{t}_B \\\\ \\boldsymbol{0} & 1 \\end{bmatrix} \\tilde{p}\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#volviendo-al-mundo-real",
+    "href": "clases/07/index.html#volviendo-al-mundo-real",
+    "title": "Robótica",
+    "section": "Volviendo al mundo real",
+    "text": "Volviendo al mundo real"
+  },
+  {
+    "objectID": "clases/07/index.html#volviendo-al-mundo-real-1",
+    "href": "clases/07/index.html#volviendo-al-mundo-real-1",
+    "title": "Robótica",
+    "section": "Volviendo al mundo real",
+    "text": "Volviendo al mundo real\n\n\n\n\n\n\nDenominación “de referencia” (padre) y “objetivo o target” (hijo)"
+  },
+  {
+    "objectID": "clases/07/index.html#pose-2d",
+    "href": "clases/07/index.html#pose-2d",
+    "title": "Robótica",
+    "section": "Pose 2D",
+    "text": "Pose 2D\n\nTres componentes: posición 2D y orientación \\((x, y, \\theta)\\)\n\n\n\n\\[\n{}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{Purple}{\\boldsymbol{\\xi}}_\\textcolor{Orange}{\\boldsymbol{R}} \\triangleq\n{}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{black}{\\boldsymbol{T}}_\\textcolor{Orange}{\\boldsymbol{R}} =\n\\begin{bmatrix}\n\\cos{\\theta} & -\\sin{\\theta} & {}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{black}{t_x} \\\\\n\\sin{\\theta} & \\cos{\\theta} & {}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{black}{t_x} \\\\\n0 & 0 & 1\n\\end{bmatrix}\n\\]\n\\[\n{}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{LimeGreen}{\\boldsymbol{\\tilde{p}}}_\\textcolor{PineGreen}{d} =\n{}^\\textcolor{black}{\\boldsymbol{W}} \\textcolor{Purple}{\\boldsymbol{\\xi}}_\\textcolor{Orange}{\\boldsymbol{R}}\n{}^\\textcolor{Orange}{\\boldsymbol{R}} \\textcolor{LimeGreen}{\\boldsymbol{\\tilde{p}}}_\\textcolor{PineGreen}{d}\n\\]\n\n\n\n\n\nSe puede considerar como un movimiento de traslación y rotación del marco de coordenadas\nLa pose de un marco de coordenada es siempre respecto a otro"
+  },
+  {
+    "objectID": "clases/07/index.html#pose-2d-1",
+    "href": "clases/07/index.html#pose-2d-1",
+    "title": "Robótica",
+    "section": "Pose 2D",
+    "text": "Pose 2D\n\nY si queremos ir del marco \\(\\{ \\textcolor{Blue}{\\boldsymbol{A}} \\}\\) al \\(\\{ \\textcolor{Orange}{\\boldsymbol{B}} \\}\\)?\n\n\n\n\n\n\n\n\n\nLa operación inversa\n\n\n\n\n\n\n\n\\[\n{{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{\\xi}_\\textcolor{Orange}{\\boldsymbol{B}} }^{-1} = {}^\\textcolor{Orange}{\\boldsymbol{B}} \\boldsymbol{\\xi}_\\textcolor{Blue}{\\boldsymbol{A}} \\to {}^\\textcolor{Orange}{\\boldsymbol{B}} \\boldsymbol{T}_\\textcolor{Blue}{\\boldsymbol{A}} = {{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{T}_\\textcolor{Orange}{\\boldsymbol{B}} }^{-1}\n\\]\n\n\n\nDada la forma particular de \\(\\boldsymbol{T}\\) es posible calcular su inversa mediante:\n\n\\[\n\\boldsymbol{\\xi}^{-1} = \\begin{pmatrix} \\boldsymbol{R} & \\boldsymbol{t} \\\\ \\boldsymbol{0} & 1 \\end{pmatrix}^{-1} = \\begin{pmatrix} \\boldsymbol{R}^{\\top} & -\\boldsymbol{R}^{\\top} \\boldsymbol{t} \\\\ \\boldsymbol{0} & 1 \\end{pmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#composición-de-poses",
+    "href": "clases/07/index.html#composición-de-poses",
+    "title": "Robótica",
+    "section": "Composición de poses",
+    "text": "Composición de poses\n\n\n\\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{\\xi}_\\textcolor{ForestGreen}{\\boldsymbol{C}} =\n{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{\\xi}_\\textcolor{Maroon}{\\boldsymbol{B}} \\otimes {}^\\textcolor{Maroon}{\\boldsymbol{B}} \\boldsymbol{\\xi}_\\textcolor{ForestGreen}{\\boldsymbol{C}}\n\\]\nSe puede cacular como: \\[\n{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{\\xi}_\\textcolor{Maroon}{\\boldsymbol{B}} \\otimes {}^\\textcolor{Maroon}{\\boldsymbol{B}} \\boldsymbol{\\xi}_\\textcolor{ForestGreen}{\\boldsymbol{C}} =\n{}^\\textcolor{Blue}{\\boldsymbol{A}} \\boldsymbol{T}_\\textcolor{Maroon}{\\boldsymbol{B}} {}^\\textcolor{Maroon}{\\boldsymbol{B}} \\boldsymbol{T}_\\textcolor{ForestGreen}{\\boldsymbol{C}}\n\\]\n\n\nDada la forma particular de \\(\\boldsymbol{T}\\), el producto se puede obtener mediante:\n\n\\[\n\\begin{align}\n\\boldsymbol{\\xi}_1 \\otimes \\boldsymbol{\\xi}_2 &=\n\\begin{pmatrix} \\boldsymbol{R}_1 & \\boldsymbol{t}_1 \\\\ \\boldsymbol{0} & 1 \\end{pmatrix}\n\\begin{pmatrix} \\boldsymbol{R}_2 & \\boldsymbol{t}_2 \\\\ \\boldsymbol{0} & 1 \\end{pmatrix} \\\\[0.5em]\n&= \\begin{pmatrix} \\boldsymbol{R}_1 \\boldsymbol{R}_2 & \\boldsymbol{t}_1 + \\boldsymbol{R}_1 \\boldsymbol{t}_2 \\\\ \\boldsymbol{0} & 1 \\end{pmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2",
+    "href": "clases/07/index.html#transformaciones-en-ros2",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 103 “Standard Units of Measure and Coordinate Conventions”\n\n\n\n\nUnidades en S.I. (metro, segundo, kg, radian)\n\n\n\n\n\n\nUnidades: Sistema internacional -&gt; Metros, kilogramo, segundo\nRadianes para ángulos"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2-1",
+    "href": "clases/07/index.html#transformaciones-en-ros2-1",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 103 “Standard Units of Measure and Coordinate Conventions”\n\n\n\n\nUnidades en S.I. (metro, segundo, kg, radian)\nRegla de la mano derecha\n\n\n\n\n\nFuente: wikipedia.org\n\n\n\n\n\nMarcos de coordenadas: Todos son de mano derecha -&gt; Cumplen la regla de la mano derecha"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2-2",
+    "href": "clases/07/index.html#transformaciones-en-ros2-2",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 103 “Standard Units of Measure and Coordinate Conventions”\n\n\n\n\nUnidades en S.I. (metro, segundo, kg, radian)\nRegla de la mano derecha\nMarcos de referencia:\n\nENU: Este - Norte - Arriba\n\n\n\n\n\n\nFuente: Wikipedia.org\n\n\n\n\n\nLa orientación de los ejes para cuerpos: x-adelante, y-izquierda, z-arriba\nCoordenadas geográficas de “corto alcance” -&gt; ENU: X-este, Y-norte, Z-arriba"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2-3",
+    "href": "clases/07/index.html#transformaciones-en-ros2-3",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 103 “Standard Units of Measure and Coordinate Conventions”\n\n\n\n\nUnidades en S.I. (metro, segundo, kg, radian)\nRegla de la mano derecha\nMarcos de referencia:\n\nENU: Este - Norte - Arriba\nNED: Norte - Este - Abajo\n\n\n\n\n\n\nFuente: Wikipedia.org\n\n\n\n\n\nPara sistemas de ambiente exteriores: -&gt; NED:X-norte, Y-este, Z-abajo"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2-4",
+    "href": "clases/07/index.html#transformaciones-en-ros2-4",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 103 “Standard Units of Measure and Coordinate Conventions”\n\n\n\n\nUnidades en S.I. (metro, segundo, kg, radian)\nRegla de la mano derecha\nMarcos de referencia:\n\nENU: Este - Norte - Arriba\nNED: Norte - Este - Abajo\n\nRoll (X), Pitch (Y) y Yaw (Z)\n\n\n\n\n\n\nRotaciones: Roll-Pitch-Yaw alrededor de X Y Z respectivamente"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-en-ros2-5",
+    "href": "clases/07/index.html#transformaciones-en-ros2-5",
+    "title": "Robótica",
+    "section": "Transformaciones en ROS2",
+    "text": "Transformaciones en ROS2\nConvenciones (REP)\n\nREP 105 “Coordinate Frames for Mobile Platforms”\n\n\n\n\nConvención de nombres\nMarco de coordenadas para plataformas robóticas\n\nbase_link: Fijo al robot (según REP103)\nodom: Fijo al mundo\nmap: Fijo al mundo\n\n\n\n\n\n\n\n\n---\ndisplayMode: compact\nconfig:\n  theme: forest\n  htmlLabels: false\n---\nflowchart TD\n  %% A((earth))\n  %% B((map))\n  %% C((odom))\n  %% D((base_link))\n  A[earth]\n  B[map]\n  C[odom]\n  D[base_link]\n\n  A --&gt; B --&gt; C --&gt; D\n\n\n\n\n\n\n\n\n\nNombramiento marcos de coordenadas: minúscula y con guión bajo para separación de palabras\nDeben ser únicos\nbase_link: Es el marco fijado rigidamente a la base del robot móvil -&gt; Se recomienda utilizar lo del REP103\nodom: marco de referencia fijo respecto del mundo. Si bien sufre los problemas de drift sin límite, es continuo y no posee saltos.\nmap: marco de referencia fijo respecto del mundo, con el eje Z apuntando hacia arriba. La pose del robot respecto del ‘map’ no debe tener un drift significativo a lo largo del tiempo. El marco puede no ser continuo, sufriendo saltos en cualquier momento."
+  },
+  {
+    "objectID": "clases/07/index.html#representación-de-rotaciones-3d",
+    "href": "clases/07/index.html#representación-de-rotaciones-3d",
+    "title": "Robótica",
+    "section": "Representación de rotaciones 3D",
+    "text": "Representación de rotaciones 3D\n\nROS2 utiliza el espacio tridimensional (terrestre, aéreo, acuático)\n\nProblemas con las matrices:\n\n\n\n\nEn 3 dimensiones son 9 elementos (\\(3 \\times 3\\))\n\n\n\n\\[\n\\begin{align}\nR &= R_x(\\gamma)\\, R_y(\\beta)\\, R_z(\\alpha) \\\\\n&=\n\\begin{bmatrix}\n\\cos \\beta \\cos \\gamma & \\sin \\alpha \\sin \\beta \\cos \\gamma - \\cos \\alpha \\sin \\gamma & \\cos \\alpha \\sin \\beta \\cos \\gamma + \\sin \\alpha \\sin \\gamma \\\\\n\\cos \\beta \\sin \\gamma & \\sin \\alpha \\sin \\beta \\sin \\gamma + \\cos \\alpha \\cos \\gamma & \\cos \\alpha \\sin \\beta \\sin \\gamma - \\sin \\alpha \\cos \\gamma \\\\\n-\\sin \\beta & \\sin \\alpha \\cos \\beta & \\cos \\alpha \\cos \\beta\n\\end{bmatrix}\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "clases/07/index.html#representación-de-rotaciones-3d-1",
+    "href": "clases/07/index.html#representación-de-rotaciones-3d-1",
+    "title": "Robótica",
+    "section": "Representación de rotaciones 3D",
+    "text": "Representación de rotaciones 3D\n\nROS2 utiliza el espacio tridimensional (terrestre, aéreo, acuático)\n\nProblemas con las matrices:\n\n\n\nEn 3 dimensiones son 9 elementos (\\(3 \\times 3\\))\nDifícil de interpolar\nAcumulan errores (pueden perder ortogonalidad)\nGimbal lock\n\n\n\n\n\n\n\n\n\n\nFigura 1: Cuando el pitch (verde) y el yaw (magenta) se alinean, cambios en el roll (azul) y yaw aplican la misma rotación (Fuente: Wikipedia)\n\n\n\n\n\n\nROS 2 no usa matrices directamente para las rotaciones porque son grandes (9 números para una rotación), difíciles de interpolar, y pueden perder ortogonalidad al acumular errores."
+  },
+  {
+    "objectID": "clases/07/index.html#representación-de-rotaciones-3d-2",
+    "href": "clases/07/index.html#representación-de-rotaciones-3d-2",
+    "title": "Robótica",
+    "section": "Representación de rotaciones 3D",
+    "text": "Representación de rotaciones 3D\n\nCuaterniones: Representación más compacta y robusta\n\n\\[\n\\boldsymbol{q} = \\begin{bmatrix} q_w & q_x & q_y & q_z \\end{bmatrix}^{\\top}\n\\]\n\n\nLas poses ahora se componen de una traslación \\(\\boldsymbol t = \\begin{bmatrix} x & y & z \\end{bmatrix}^{\\top}\\) y una orientación \\(\\boldsymbol{q}\\)\n\n\n\n\nEl cuaternion de la rotación en el plano \\(X\\,Y\\) con ángulo \\(\\theta\\) se define como:\n\n\\[\n\\boldsymbol{q} = \\begin{bmatrix} q_w \\\\ q_x \\\\ q_y \\\\ q_z\\end{bmatrix} = \\begin{bmatrix} \\cos{\\tfrac{\\theta}{2}} \\\\ 0 \\\\ 0 \\\\ \\sin{\\tfrac{\\theta}{2}} \\end{bmatrix}\n\\]\n\n\nEn vez de eso, usamos cuaterniones, que representan la rotación de forma más compacta (4 números) y más robusta para cálculos computacionales. Así como en 2D usamos un solo ángulo (theta) para representar la orientación, en 3D usamos un cuaternión."
+  },
+  {
+    "objectID": "clases/07/index.html#tf2-librería-de-transformaciones",
+    "href": "clases/07/index.html#tf2-librería-de-transformaciones",
+    "title": "Robótica",
+    "section": "tf2: Librería de transformaciones",
+    "text": "tf2: Librería de transformaciones\n\n\n\n\nMarco de coordenadas y sus transformaciones en el tiempo\n\n\n\n\nEstructura de árbol (no existen bucles)\n\n\n\n\n\n\n\n\n\n\n\n\nHerramienta para seguir los marcos de coordenada a través del tiempo (4ta dimensión)\nMantiene las relaciones entre los marcos de coordenadas en una estructura de árbol buffereado en el tiempo\nCada nodo en el árbol es un marco de coordenadas, y cada conexión o arista corresponde a la transformación que debe ser aplicada para ir o venir\nArbol = no hay bucles = cada nodo 1 solo padre\nCada marco puede estar definido solo por una transformación desde otro marco\nPermite transformar puntos, vectores, etc entre marcos de coordenadas para un determinado tiempo"
+  },
+  {
+    "objectID": "clases/07/index.html#tf2-librería-de-transformaciones-1",
+    "href": "clases/07/index.html#tf2-librería-de-transformaciones-1",
+    "title": "Robótica",
+    "section": "tf2: Librería de transformaciones",
+    "text": "tf2: Librería de transformaciones\n\nBasado en topics y mensajes tf2_msgs/msg/TFMessage\n\ngeometry_msgs/TransformStamped\n├── std_msgs/Header header\n├── string child_frame_id\n└── geometry_msgs/Transform transform\n    ├── geometry_msgs/Vector3 translation     ⬅️\n    └── geometry_msgs/Quaternion rotation     ⬅️\n\n\nNo se utilizan publishers/subscribers \\(\\to\\) la librería tf2_ros\n\n\n\n\n\n\n\n\n\nROS representa orientaciones como cuaterniones en todos los mensajes de pose y transformaciones\n\n\n\n\n\nSi bien se utilizan topics para manejar la comunicación, no se realiza una publicación/suscripción directa, sino a través de la librería por eso se dice broadcast/listen"
+  },
+  {
+    "objectID": "clases/07/index.html#tf2-librería-de-transformaciones-2",
+    "href": "clases/07/index.html#tf2-librería-de-transformaciones-2",
+    "title": "Robótica",
+    "section": "tf2: Librería de transformaciones",
+    "text": "tf2: Librería de transformaciones\n\n2 Tipos de transformaciones: estáticas y dinámicas\n\n\n\n\nLas transformaciones pueden ser estáticas o dinámicas (si cambian o no en el tiempo). En el caso de las transformaciones estáticas pueden publicarse una sola vez y se asumen “actualizadas” hasta que se transmita una nueva.\n\n\nFuente: articulatedrobotics.xyz"
+  },
+  {
+    "objectID": "clases/07/index.html#transformaciones-estáticas",
+    "href": "clases/07/index.html#transformaciones-estáticas",
+    "title": "Robótica",
+    "section": "Transformaciones estáticas",
+    "text": "Transformaciones estáticas\n\nstatic_transform_publisher: crear transformaciones estáticas manualmente\n\n    $ ros2 run tf2_ros static_transform_publisher [..]\n\nParámetros:\n\nTraslación: --x &lt;X&gt;, --y &lt;Y&gt;, --z &lt;Z&gt;\nRotación: (2 opciones)\n\nÁngulos: --roll ROLL, --pitch PITCH, --yaw YAW\nCuaternion: --qx &lt;QX&gt;, --qy &lt;QY&gt;, --qz &lt;QZ&gt;, --qw &lt;QW&gt;\n\nMarco de referencia (padre): --frame-id &lt;nombre_marco_referencia_padre&gt;\nMarco objetivo (hijo): --child-frame-id &lt;nombre_marco_referencia_hijo&gt;\n\n\n\n\n\n\n\n\n\n\nSi no se completa traslación y rotación, se publica la transformación identidad"
+  },
+  {
+    "objectID": "clases/07/index.html#publicar-transformaciones",
+    "href": "clases/07/index.html#publicar-transformaciones",
+    "title": "Robótica",
+    "section": "Publicar transformaciones",
+    "text": "Publicar transformaciones\n\nLibrería tf2_ros y mensaje TransformStamped\n\nfrom tf2_ros import TransformBroadcaster\nfrom geometry_msgs.msg import TransformStamped\n\n\nMediante el objeto TransformBroadcaster se podrán publicar las transformaciones\n\n# ..\nclass FramePublisher(Node):\n    def __init__(self):\n        super().__init__('frame_publisher')\n\n        # Inicializar el broadcaster\n        self.tf_broadcaster = TransformBroadcaster(self)\n# .."
+  },
+  {
+    "objectID": "clases/07/index.html#publicar-transformaciones-1",
+    "href": "clases/07/index.html#publicar-transformaciones-1",
+    "title": "Robótica",
+    "section": "Publicar transformaciones",
+    "text": "Publicar transformaciones\n\nPublicar transformaciones\n\n    def send_tf(self):\n        # Cálculo de los elementos de transformación\n        # Transformación =&gt; Traslación + Rotación\n        # ..\n        tf = TransformStamped()\n\n        tf.header.stamp = self.get_clock().now().to_msg()\n        # Marco de referencia (padre)\n        tf.header.frame_id = '&lt;marco_referencia'  \n        # Marco objetivo (hijo)                      \n        tf.child_frame_id = '&lt;marco_referencia_objetivo&gt;'                 \n\n        # Traslación\n        tf.transform.translation.x = t_x    # Valores calculados\n        tf.transform.translation.y = t_y\n        tf.transform.translation.z = t_z\n\n        # Rotación\n        tf.transform.rotation.x = q[1]      # Valores calculados\n        tf.transform.rotation.y = q[2]\n        tf.transform.rotation.z = q[3]\n        tf.transform.rotation.w = q[0]\n\n        # Enviar la transformación\n        self.tf_broadcaster.sendTransform(tf)"
+  },
+  {
+    "objectID": "clases/07/index.html#herramientas-de-visualización",
+    "href": "clases/07/index.html#herramientas-de-visualización",
+    "title": "Robótica",
+    "section": "Herramientas de visualización",
+    "text": "Herramientas de visualización\n\n\nVer el árbol de transformaciones:\n\n    $ ros2 run rqt_tf_tree rqt_tf_tree\n\n\n\nObtener una transformación:\n\n    $ ros2 run tf2_ros tf2_echo &lt;marco_de_referencia&gt; &lt;marco_objetivo&gt;\n\n\n\nMonitor de transformaciones:\n\n    $ ros2 run tf2_ros tf2_monitor\n\n\n\nVisualización mediante RViz\n\n    $ ros2 run rviz2 rviz2\n\n\n\nProblemas comunes: que falte un transformación o que esté mal"
+  },
+  {
+    "objectID": "clases/07/index.html#laboratorio-1",
+    "href": "clases/07/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nTransformaciones 2D y tf2"
   },
   {
     "objectID": "clases/03/lab.html",
