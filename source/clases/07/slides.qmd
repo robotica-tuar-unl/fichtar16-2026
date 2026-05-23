@@ -36,11 +36,11 @@ jupyter: python3
 output-file: index.html
 ---
 
-
+<!-- 
 # Posicionamiento 2D {visibility="hidden"} 
 
-<!-- {{< include slides/_2d-positioning.qmd >}} -->
-
+{{< include slides/_2d-positioning.qmd >}}
+ -->
 
 
 
@@ -55,7 +55,6 @@ output-file: index.html
 
 {{< include slides/_2d-rotation.qmd >}}
 
-
 {{< include slides/_2d-rot-example.qmd >}}
 
 
@@ -68,10 +67,7 @@ output-file: index.html
 
 
 
-
-
 # Traslacion y rotacion {visibility="hidden"} 
-
 
 {{< include slides/_tras-rot.qmd >}}
 

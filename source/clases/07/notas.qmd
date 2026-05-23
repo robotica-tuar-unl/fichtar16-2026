@@ -1,0 +1,224 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+    include-in-header:
+      - text: |
+          \usepackage{mathtools, amsmath, amssymb}
+          \usepackage[inkscapelatex=false]{svg}
+    # use-rsvg-convert: false
+    pdf-engine-opts: ["-shell-escape"]
+---
+
+
+\section{Transformaciones en 2D}
+\begin{itemize}
+    %\item Marcos de referencia: definición y aplicación en la robótica.
+    \item Definición y notación: Punto, Vector, Marco de referencia
+    \item Transformaciones lineales: analogía con funciones, matrices y producto matriz-vector.
+    \item Matriz de rotación 2D para convertir un punto en el marco de referencia $\{\boldsymbol{B}\}$ rotado respecto de un marco $\{\boldsymbol{A}\}$ un ángulo $\theta$:
+    \begin{equation*}
+        \begin{bmatrix} x_A \\ y_A\end{bmatrix} =
+        \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\ \sin{\theta} & \cos{\theta} \end{bmatrix}
+        \begin{bmatrix} x_B \\ y_B \end{bmatrix}
+        % \\[.5em]
+        %  $$ {}^A{\boldsymbol{p}} = \boldsymbol{R}(\theta) {}^B{\boldsymbol{p}} \to
+        %  {}^A{\boldsymbol{p}} = {}^A\boldsymbol{T}_B {}^B{\boldsymbol{p}}$$
+        % \\[.5em]
+        %  donde:
+        %  $${}^A\boldsymbol{T}_B = \boldsymbol{R}(\theta) = \begin{bmatrix} \cos{\theta} & -\sin{\theta} \\ \sin{\theta} & \cos{\theta} \end{bmatrix}
+    \end{equation*}
+    \item Traslación 2D: caso no lineal. Coordenadas homogéneas.
+    \item Traslación 2D en coordenadas no homogéneas, de un marco de referencia $\{\boldsymbol{B}\}$ trasladado un vector $\boldsymbol{\Tilde{t}}$ respecto de un marco $\{\boldsymbol{A}\}$:
+    \begin{equation*}
+        \prescript{A}{}{\begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}} =
+        \prescript{A}{}{\begin{bmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{bmatrix}_B}
+        \prescript{B}{}{\begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}}
+    \end{equation*}
+    \item Matriz de transformación homogénea:\\
+    \noindent\begin{minipage}{.4\textwidth}
+    \begin{equation*}
+        {}^A{\boldsymbol{\Tilde{p}}} = \begin{pmatrix} {}^A\boldsymbol{R}_B & {}^A\boldsymbol{t}_B \\ \boldsymbol{0} & 1 \end{pmatrix} {}^B{\boldsymbol{\Tilde{p}}}
+    \end{equation*}
+    \begin{equation*}
+        \prescript{A}{}{\begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}} =
+        \prescript{A}{}{\begin{bmatrix} \cos{\theta} & -\sin{\theta} & {}^A t_x \\ \sin{\theta} & \cos{\theta} & {}^A  t_y \\ 0 & 0 & 1\end{bmatrix}_B}
+        \prescript{B}{}{\begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}}
+    \end{equation*}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}  
+        % \includegraphics[width=\textwidth]{tras-rot-final.pdf}
+        % \includesvg[]{slides_files/mediabag/tras-rot-final.svg}
+        \includesvg{slides/figs/tras-rot-final.svg}
+    \end{minipage}
+\end{itemize}
+
+
+\section{Pose}
+\begin{itemize}
+    \item Representación, elementos que componen el vector pose en 2 dimensiones: $(x, y, \theta)$.
+    \item Analogía de pose y transformaciones. Cambio de marcos de referencia: ${}^W\boldsymbol{\Tilde{p}}_d = {}^W\boldsymbol{\xi}_R {}^R\boldsymbol{\Tilde{p}}_d$
+    \item Inverso: $$\boldsymbol{\xi}^{-1} = \begin{pmatrix} \boldsymbol{R} & \boldsymbol{t} \\ \boldsymbol{0} & 1 \end{pmatrix}^{-1} = \begin{pmatrix} \boldsymbol{R}^T & -\boldsymbol{R}^T \boldsymbol{t} \\ \boldsymbol{0} & 1 \end{pmatrix}$$
+    \item Composición de poses: ${}^A\boldsymbol{\xi}_C = {}^A \boldsymbol{\xi}_B \otimes {}^B \boldsymbol{\xi}_C$ $$\boldsymbol{\xi}_1 \boldsymbol{\xi}_2 = \begin{pmatrix} \boldsymbol{R}_1 \boldsymbol{R}_2 & \boldsymbol{t}_1 + \boldsymbol{R}_1 \boldsymbol{t}_2 \\ \boldsymbol{0} & 1 \end{pmatrix} $$
+\end{itemize}
+
+\section{Transformaciones en ROS y \texttt{tf2}}
+
+\subsection{Convenciones: REP103 y REP105}
+\begin{itemize}
+    \item Convención de unidades: Sistema Internacional
+    \item Regla de la mano derecha: Para marcos de referencia y giros
+    \item Marco ENU y NED
+    \item Nombre de los marcos de referencia con guión bajo. Para plataformas móviles:
+        \begin{itemize}
+            \item \texttt{base\_link}: Fijo a la base del robot.
+            \item \texttt{odom}: Fijo respecto del mundo. Continuo pero con drift.
+            \item \texttt{map}: Fijo respecto del mundo. Con saltos y sin drift (idealmente).
+        \end{itemize}
+    \item Representación de rotaciones mediante cuaterniones. % Ejemplo de rotación 2D.
+\end{itemize}
+
+\section{\texttt{tf2}: Librería y gestión de transformaciones}
+\begin{itemize}
+    \item Gestión de transformaciones entre marcos de coordenadas a lo largo del tiempo utilizando una estructura de árbol.
+    
+    \item Cada marco se define con una única transformación respecto de otro marco de referencia (padre). No existen bucles.
+    
+    \item Funciona mediante mensajes de tipo \texttt{tf2\_msgs/msg/TFMessage} y los topics \texttt{\char`\\ tf} y \texttt{\char`\\ tf\_static}. Pero no se utilizan subscriptores o publishers, se trabaja a través de la librería \texttt{tf2}.
+    
+    \item Transformaciones estáticas y dinámicas
+
+    \item Publicación de transformaciones estáticas: \texttt{static\_transform\_publisher}
+\begin{verbatim}
+$ ros2 run tf2_ros static_transform_publisher
+      --x <X> --y <Y> --z <Z>
+      --roll <ROLL> --pitch <PITCH> --yaw <YAW>
+      --frame-id <marco_referencia>
+      --child-frame-id <marco_objetivo>
+\end{verbatim}
+
+    \item Ver el árbol de transformaciones: \texttt{ros2 run rqt\_tf\_tree rqt\_tf\_tree}
+    
+    \item Obtener una transformación:
+\begin{verbatim}
+$ ros2 run tf2_ros tf2_echo <marco_de_referencia> <marco_objetivo>   
+\end{verbatim}
+
+    \item Visualizar las transformaciones con \texttt{Rviz}: \texttt{ros2 run rviz2 rviz2}
+\end{itemize}
+
+\pagebreak
+
+\subsection{Publicar transformaciones dinámicas}
+
+\begin{verbatim}
+import rclpy
+from rclpy.node import Node
+
+# Para publicar la transformación
+from tf2_ros import TransformBroadcaster
+
+# Para construir el mensaje de transformación
+from geometry_msgs.msg import TransformStamped
+
+class FramePublisher(Node):
+    def __init__(self):
+        super().__init__('frame_publisher')
+
+        # Inicializar el broadcaster
+        self.tf_broadcaster = TransformBroadcaster(self)
+
+        # ..
+
+    def send_tf(self):
+        # Cálculo de los elementos de transformación
+        # Transformación = Traslación + Rotación
+        # ..
+        
+        tf = TransformStamped()
+
+        # Marca de tiempo
+        tf.header.stamp = self.get_clock().now().to_msg()
+        # Marco de referencia (padre)
+        tf.header.frame_id = '<marco_referencia'
+        # Marco objetivo (hijo)      
+        tf.child_frame_id = '<marco_referencia_objetivo>
+        # Marco de referencia (padre)
+        tf.header.frame_id = '<marco_referencia'
+        # Marco objetivo (hijo)
+        tf.child_frame_id = '<marco_referencia_objetivo>'               
+
+        # Traslación
+        tf.transform.translation.x = t_x    # Valores calculados
+        tf.transform.translation.y = t_y
+        tf.transform.translation.z = t_z
+
+        # Rotación
+        tf.transform.rotation.x = q_1       # Valores calculados
+        tf.transform.rotation.y = q_2
+        tf.transform.rotation.z = q_3
+        tf.transform.rotation.w = q_0
+
+        # Enviar la transformación
+        self.tf_broadcaster.sendTransform(tf)
+# ..
+\end{verbatim}
+
+\newpage
+
+\section{Práctica}
+
+\subsection{Transformaciones 2D}
+
+Dado el siguiente escenario:
+\begin{itemize}
+    \item un robot \textbf{A} se encuentra en la posición $(2,1)$ con orientación $30^\circ$ en coordenadas del \textit{Mundo}
+    \item un robot \textbf{B} se encuentra en la posición $(0.5,\tfrac{\sqrt{3}}{2})$ con orientación $60^\circ$ en el sistema de coordenadas del robot \textbf{A}
+    \item un obstáculo ${}^W \boldsymbol{O}_1 = (0, 3)$ en coordenadas del \textit{Mundo}
+    \item un obstáculo ${}^A \boldsymbol{O}_2 = (\sqrt{3}, -1)$ en coordenadas del robot \textbf{A}
+\end{itemize}
+
+\paragraph{Ejercicio 1} Representar todos los robots y sus poses, y todos los sistemas de coordenadas que identifique
+\paragraph{Ejercicio 2} ¿Cuáles son las coordenadas del obstáculo $\boldsymbol{O}_1$ en el sistema de coordenadas del robot $\textbf{A}$?
+\paragraph{Ejercicio 3} ¿Cuáles son las coordenadas del obstáculo $\boldsymbol{O}_2$ en el sistema de coordenadas del robot $\textbf{B}$?
+\paragraph{Ejercicio 4} ¿Cuál es la pose del robot $\textbf{B}$ en coordenadas del $\textit{Mundo}$?
+\paragraph*{Opcional} Pruebe que realizar dos rotaciones consecutivas es lo mismo que realizar una rotación de los ángulos sumados.
+
+\subsection{\texttt{tf2}}
+
+\paragraph{Ejercicio 5} Crear un archivo launch que recree el escenario de la parte 1 utilizando el nodo \texttt{static\_transform\_publisher} y mediante el comando \texttt{tf2\_echo} verifique los resultados obtenidos en la parte 1
+
+\paragraph{Ejercicio 6} Implementar un nodo que publique una transformación en movimiento
+\begin{align*}
+x &= R \cdot \cos(t) \\
+y &= R \cdot \sin(t)
+\end{align*}
+
+Para obtener el tiempo $t$ puede utilizar la función \texttt{get\_clock()} del nodo:
+\begin{verbatim}
+        seconds, nanoseconds = self.get_clock().now().seconds_nanoseconds()
+        t = (nanoseconds / 1E9 + seconds)       # convertir a segundos
+        t = t * (2.0 * np.pi / 4.0)             # 1 vuelta cada 4 segundos
+\end{verbatim}
+
+Para calcular la orientación, se debe obtener el ángulo de la tangente a la trayectoria
+$$
+\theta = \arctan2 (\cos(t), -\sin(t))
+$$
+
+\noindent y luego formar el cuaternion para la rotación 2D:
+$$\boldsymbol{q} = \begin{pmatrix} 0 & 0 & \sin{ \tfrac{\theta}{2} } & \cos{ \tfrac{\theta}{2} } \end{pmatrix}^T$$
