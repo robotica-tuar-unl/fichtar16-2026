@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Robótica 2026</title>
+<title>entregable1 – Robótica 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,22 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -70,8 +71,37 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="sh-highlight.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../sh-highlight.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -107,51 +137,127 @@ ul.task-list li input[type="checkbox"] {
 </div></div>
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Robótica 2026</a> 
+      <a href="../../">Robótica 2026</a> 
     </div>
       </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="entregable1.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Robótica 2026</h1>
-</div>
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta column-page-right">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<hr>
-<section id="intro" class="level1">
-<h1>Intro</h1>
 <ul>
-<li><strong>Carreras en FICH</strong>: Tecnicatura universitaria en automatización y robótica</li>
-<li><strong>Extensión</strong>: Anual</li>
-<li><strong>Carga Horaria</strong>: 120hs</li>
-<li><strong>Sitio</strong>: <a href="https://robotica-tuar-unl.github.io/fichtar16-2026/">Robótica 2026</a></li>
-<li><strong>Docente</strong>:
+<li><p>Fecha de entrega: 26 de Junio</p></li>
+<li><p>Formato de entrega: Archivo comprimido con el código fuente de los paquetes. Formato pdf en caso de necesitar entregar ejercicios de desarrollo. Proveer en un archivo de texto <code>README.md</code> los comandos necesarios para la ejecución de el/los paquete/s para los ejercicios.</p></li>
+<li><p>Archivos disponibles: <code>entregable-1.zip</code></p>
 <ul>
-<li><em>Capovilla, Agustín</em> (<a href="mailto:acapovilla@sinc.unl.edu.ar"><code>acapovilla@sinc.unl.edu.ar</code></a>)</li>
+<li>Carpeta <code>meshes</code> con archivos <code>.stl</code> para las geometrías visuales de los compnentes del robot.</li>
+<li>Carpeta <code>urdf</code> con dos archivos: <code>inertial_macros.xacro</code> con definición de inercias y materiales de ejemplo; <code>motor.xacro</code>con macro para insertar un motor en el robot.</li>
 </ul></li>
 </ul>
+<section id="ejercicios" class="level1">
+<h1>Ejercicios</h1>
+<section id="urdf" class="level2">
+<h2 class="anchored" data-anchor-id="urdf">URDF</h2>
+<p>Crear un archivo de definición del robot en formato <em>XACRO</em> respetando la geometría representada en las vistas del anexo y cumpliendo con los siguientes requerimientos:</p>
+<ul>
+<li>Debe contener al menos un <code>base_link</code> asignado al chasis del robot y un <em>link</em> y un <em>joint</em> por cada rueda</li>
+<li>Cada <em>link</em> deberá tener definida la geometría visual y de colisión, según la tabla correspondiente del anexo</li>
+<li>Debe estar parametrizado al menos el radio de las ruedas de tracción y la separación de las mismas</li>
+<li>En caso de poder reutilizar bloques, hacer uso de <em>macros</em></li>
+<li>Utilice el <em>macro</em> <code>motor</code> importando el archivo <code>motor.xacro</code> para ubicar el motor izquierdo y derecho. El macro recibe 3 parámetros:
+<ul>
+<li><code>prefix</code> (<em>String</em>): para diferenciar el <em>link</em> con un prefijo</li>
+<li><code>chassis_width</code> (<em>Double</em>): ancho del chasis</li>
+<li><code>reflect</code> (<em>Bool</em>): No reflejar (<code>False</code>) o sí reflejar (<code>True</code>). La orientación original es hacia la izquierda</li>
+</ul></li>
+</ul>
+<div style="page-break-after: always;"></div>
+<p>Crear un paquete de ROS llamado <code>(*)_description</code> para albergar el <em>robot description</em> siguiendo la estructura vista en clases.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Establecer un nombre al robot el cual deberá completar en el <em>URDF</em> y utilizar como prefijo <code>(*)</code> en los demás paquetes del entregable</p>
+</div>
+</div>
+</div>
+<p>En el mismo paquete, crear un archivo <em>launch</em> de nombre <code>description.launch.py</code>, en el cuál se deberá procesar el archivo <em>XACRO</em> con la descripción del robot y se deberá publicar la misma a través del paquete <code>robot_state_publisher</code>. El <em>launch</em> deberá recibir, a través de un parámetro de tipo <em>bool</em> llamado <code>testing</code>, la condición para ejecutar o no el paquete <code>joint_state_publisher_gui</code> y <code>RViz</code>.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Este archivo será útil para probar el archivo del ejercicio anterior, por lo que se recomienda realizarlos en paralelo</p>
+</div>
+</div>
+</div>
 </section>
-<section id="clases" class="level1">
-<h1>Clases</h1>
+<section id="gazebo" class="level2">
+<h2 class="anchored" data-anchor-id="gazebo">Gazebo</h2>
+<p>Editar el o los archivos <em>XACRO</em> del ejercicio 1, de manera que sea/n compatible/s con los requerimientos de <em>Gazebo</em>, haciendo uso de los <em>macros</em> disponibles en el archivo <code>inertial_macros.xacro</code>.</p>
+<p>Crear un paquete <code>(*)_gz</code> y un archivo <em>launch</em> nuevo, que ejecute <em>Gazebo</em>, procese la descripción del robot y, utilizando el ejecutable <code>spawn_entity.py</code>, cargue el robot en el simulador. Puede reutilizar el archivo creado en el ejercicio 2 incluyéndolo (no debe ejecutar el <code>joint_state_publisher_gui</code> ni <code>RViz</code>).</p>
+</section>
+<section id="ros2-control" class="level2">
+<h2 class="anchored" data-anchor-id="ros2-control">ROS2 control</h2>
+<p>Editar el archivo de definición del robot y agregar los elementos necesarios para configurar <em>ROS2 control</em> y <em>Gazebo</em> de forma tal que las juntas correspondientes a las ruedas de tracción reciban comandos de velocidad y devuelvan el estado de posición y velocidad. Para esto deberá añadir los <em>tags</em> <code>&lt;ros2_control&gt;</code> y <code>&lt;gazebo&gt;</code>.</p>
+<p>Crear un paquete <code>(*)_control</code>, con una carpeta <code>config</code> y un archivo de configuración en formato <em>YAML</em> con los parámetros necesarios para que el <code>controller_manager</code> de <em>ROS2 control</em> cargue un <code>JointStateBroadcaster</code> y dos controladores de velocidad de tipo <code>JointGroupVelocityController</code>, uno para cada rueda de tracción.</p>
+<p>Editar el archivo <em>launch</em> del ejercicio 3 para invocar al comando <code>load_controller</code> de <code>ros2_control</code> y cargar los controladores del inciso anterior.</p>
+<!--  -->
+</section>
+<section id="cinemática" class="level2">
+<h2 class="anchored" data-anchor-id="cinemática">Cinemática</h2>
+<p>Calcular la velocidad lineal y angular del robot y de las ruedas para que se complete:</p>
+<ul>
+<li>una trayectoria recta de 1[m] en 10 [s].</li>
+<li>una trayectoria circular con un radio de 0.5 [m] en sentido horario en 20 [s].</li>
+</ul>
+<p>Examinar la definición de los mensajes de tipo <code>geometry_msgs/Twist</code> y describir cuál sería la secuencia de comandos de velocidad a aplicar al robot para seguir la trayectoria mostrada en la <a href="#fig-camino" class="quarto-xref">Figura&nbsp;1</a> utilizando dichos mensajes. La velocidad máxima de giro de los motores es de <span class="math inline">\(50 [rpm]\)</span>.</p>
+<div id="fig-camino" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-camino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="entregable1_files/mediabag/camino.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-camino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Trayectoria para el ejercicio 6
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>El punto inicial del robot será asignado por el docente.</p>
+</div>
+</div>
+</div>
+<p>Examinar la definición de los mensajes del <em>topic</em> suscripto por el <code>JointGroupVelocityController</code>. Calcule las velocidades angulares de las ruedas para cada comando del ejercicio 6 y construya la secuencia de mensajes de comando correspondientes.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>El campo <code>layout</code> no se debe completar.</p>
+</div>
+</div>
+</div>
+<p>Dentro del paquete <code>(*)_control</code>, cree un nodo que reciba comandos de tipo <code>geometry_msgs/Twist</code> a través de un <em>topic</em> llamado <code>cmd_vel</code>, calcule las velocidades angulares en base al modelo cinemático inverso del robot y escriba los comandos de velocidad de cada rueda de tracción en los <em>topics</em> <code>left_wheel_cmd</code> y <code>right_wheel_cmd</code>. Tenga en cuenta que los parámetros del robot se encuentran en el <em>robot description</em>.</p>
+</section>
+<section id="odometría" class="level2">
+<h2 class="anchored" data-anchor-id="odometría">Odometría</h2>
+<p>Crear un nodo (en el mismo paquete que el ejercicio anterior o por separado) que lea el o los <em>topics</em> de posición de las juntas de las ruedas (publicados por el <code>JointStateBroadcaster</code>), calcule la odometría basado en el modelo cinemático directo del robot y publique la misma en el <em>topic</em> <code>\odom</code> con mensajes de tipo <code>nav_msgs/Odometry</code>. El nodo debe recibir como parámetro las dimensiones geométricas del modelo cinemático y los nombres correspondientes a las juntas de las ruedas de tracción.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -162,192 +268,124 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado</p>
+<p>El campo <code>twist</code> y <code>covariance</code> en <code>pose</code> no se deben completar para el mensaje <code>nav_msgs/Odometry</code>.</p>
 </div>
 </div>
-<table class="table-striped table-hover caption-top table">
+<p>Cree un nuevo paquete <code>(*)_bringup</code> con un archivo <em>launch</em> en el cual se cargue todo el sistema desarrollado (URDF, <em>Gazebo</em>, los controladores de <em>ROS2 control</em>) y los nodos de los ejercicios 8 y 9. Recuerde configurar correctamente los parámetros y <em>topics</em> de cada nodo. Puede probar que el robot se encuentra funcionando utilizando el <code>teleop_twist_keyboard</code> o publicando mensajes de <code>Twist</code> como los del ejercicio 5 o 6.</p>
+</section>
+<section id="ros-2-y-tf2" class="level2">
+<h2 class="anchored" data-anchor-id="ros-2-y-tf2">ROS 2 y <code>tf2</code></h2>
+<ul>
+<li><p><strong>(Opción A)</strong> Crear un nodo que publique la transformación entre los <em>frames</em> <code>odom</code> y <code>base_link</code> a partir de los mensajes del <em>topic</em> <code>/odom</code>. Agregar la ejecución del mismo al <em>launch</em> del ejercicio anterior.</p></li>
+<li><p><strong>(Opción B)</strong> Modificar el nodo del ejercicio 9 para que que publique la transformación entre los <em>frames</em> <code>odom</code> y <code>base_link</code>. Agregar un parámetro para que cuando no se requiera esta transformación, no se publique.</p></li>
+</ul>
+<p>Cree un archivo <em>launch</em> en el paquete <code>(*)_bringup</code> que extienda (inclusión o copia) al del ejercicio 10 y añada la ejecución de <code>RViz</code> junto con su respectivo archivo de configuración, el cual muestre el robot en el <em>frame</em> <code>odom</code> y las transformaciones de todos los <em>links</em> definidos en el <em>URDF</em>.</p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="anexo-a" class="level1 appendix unnumbered"><h2 class="anchored quarto-appendix-heading">Anexo A</h2><div class="quarto-appendix-contents">
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../entregables/01/figs/lateral.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../entregables/01/figs/frontal.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../entregables/01/figs/superior.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+<div style="font-size: 75%;">
+<table class="caption-top table">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 52%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
+<col style="width: 22%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 31%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: center;">Semana</th>
-<th>Fecha</th>
-<th>Tema</th>
-<th style="text-align: center;"><span title="Slides">Slides</span></th>
-<th style="text-align: center;"><span title="Notas">Notas</span></th>
-<th style="text-align: center;"><span title="Teórico">T.</span></th>
-<th style="text-align: center;"><span title="Laboratorio">Lab.</span></th>
-<th style="text-align: center;"><span title="Taller de resolución">T.R.</span></th>
+<th style="text-align: left;">Componente</th>
+<th style="text-align: center;">Masa [g]</th>
+<th style="text-align: center;">Largo [mm]</th>
+<th style="text-align: center;">Ancho [mm]</th>
+<th style="text-align: center;">Alto [mm]</th>
+<th style="text-align: left;"><em>Mesh</em></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">1</td>
-<td>17/03</td>
-<td>Introducción a la Robótica. Organización de la materia. Herramientas de trabajo.</td>
-<td style="text-align: center;"><a href="./clases/01/index.html" aria-label="Clase 1 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/01/notas.pdf" aria-label="Clase 1 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td>24/03</td>
-<td><strong>Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia</strong></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td>31/03</td>
-<td>ROS2: Definición y propósito. Conceptos básicos (nodos, <em>topics</em>, mensajes, contexto). Instalación y ejemplos básicos.</td>
-<td style="text-align: center;"><a href="./clases/02/index.html" aria-label="Clase 2 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/02/notas.pdf" aria-label="Clase 2 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/02/lab.html" aria-label="Clase 2 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td>07/04</td>
-<td>ROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.</td>
-<td style="text-align: center;"><a href="./clases/03/index.html" aria-label="Clase 3 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/03/notas.pdf" aria-label="Clase 3 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/03/lab.html" aria-label="Clase 3 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
+<td style="text-align: left;">Chasis</td>
+<td style="text-align: center;">800</td>
+<td style="text-align: center;">195</td>
+<td style="text-align: center;">100</td>
 <td style="text-align: center;">5</td>
-<td>14/04</td>
-<td>ROS2 <em>R.E.P.</em>’s. Entorno y <em>workspace</em>. Paquetes y librería <code>rclpy</code>: programación de nodos. Callbacks. Compilación y ejecución.</td>
-<td style="text-align: center;"><a href="./clases/04/index.html" aria-label="Clase 4 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/04/notas.pdf" aria-label="Clase 4 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/04/lab.html" aria-label="Clase 4 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
+<td style="text-align: left;"><code>chassis.stl</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">6</td>
-<td>21/04</td>
-<td>Programación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. <em>Logging</em>.</td>
-<td style="text-align: center;"><a href="./clases/05/index.html" aria-label="Clase 5 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/05/notas.pdf" aria-label="Clase 5 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/05/lab.html" aria-label="Clase 5 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
+<td style="text-align: left;">Motor</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">188</td>
+<td style="text-align: center;">225</td>
+<td style="text-align: left;"><code>motor.stl</code></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">7</td>
-<td>28/04</td>
-<td>Sistema <code>roslaunch</code>, aplicación en proyectos de ROS2. Argumentos. Práctica integradora <em>unidad 1</em>.</td>
-<td style="text-align: center;"><a href="./clases/06/index.html" aria-label="Clase 6 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/06/notas.pdf" aria-label="Clase 6 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/06/lab.html" aria-label="Clase 6 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
+<td style="text-align: left;">Ruedas</td>
+<td style="text-align: center;">150</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: left;"><code>wheel.stl</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">8</td>
-<td>05/05</td>
-<td>Traslación y rotación 2D. Pose y orientación 3D en ROS. Librería <code>tf2</code> y publicación de transformaciones.</td>
-<td style="text-align: center;"><a href="./clases/07/index.html" aria-label="Clase 7 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/07/notas.pdf" aria-label="Clase 7 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/07/lab.html" aria-label="Clase 7 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">9</td>
-<td>12/05</td>
-<td><em>U.R.D.F.</em>: Representación de geometría de un robot. Uso de <em>XACRO</em>, <code>robot_state_publisher</code> y <code>tf2</code>.</td>
-<td style="text-align: center;"><a href="./clases/08/index.html" aria-label="Clase 8 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="./clases/08/notas.pdf" aria-label="Clase 8 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="./clases/08/tres.html" aria-label="Clase 8 Taller de resolución" title="Taller de resolución">🛠️</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">10</td>
-<td>19/05</td>
-<td>Gazebo: Entorno de simulación. Uso conjunto con ROS2. Paquete <code>ros2_control</code> y <code>gz_ros2_contol</code>. <em>Hardware interface</em> y controladores.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">11</td>
-<td>26/05</td>
-<td>Cinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">12</td>
-<td>02/06</td>
-<td>Odometría: Cálculo de posición en base al modelo cinemático directo.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">13</td>
-<td>09/06</td>
-<td>Percepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir.</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">14</td>
-<td>16/06</td>
-<td>Simulación de sensores en Gazebo</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
+<td style="text-align: left;">Base rueda giratoria</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">32</td>
+<td style="text-align: center;">38</td>
 <td style="text-align: center;">15</td>
-<td>23/06</td>
-<td>Presentación entregable 1</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: left;"><code>caster_base.stl</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Base giratoria</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: left;"><code>caster_wheel_</code> <code>support.stl</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rueda giratoria</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: left;"><code>caster_wheel.stl</code></td>
 </tr>
 </tbody>
 </table>
+</div>
 
 
-</section>
-
-</main> <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
