@@ -1,0 +1,7 @@
+\paragraph{Ejercicio 9} Crear un nodo (en el mismo paquete que el ejercicio anterior o por separado) que lea el o los *topics* de posición de las juntas de las ruedas (publicados por el `JointStateBroadcaster`), calcule la odometría basado en el modelo cinemático directo del robot y publique la misma en el *topic* `\odom` con mensajes de tipo `nav_msgs/Odometry`. El nodo debe recibir como parámetro las dimensiones geométricas del modelo cinemático y los nombres correspondientes a las juntas de las ruedas de tracción.
+
+::: {.callout-note}
+El campo `twist` y `covariance` en `pose` no se deben completar para el mensaje `nav_msgs/Odometry`.
+:::
+
+\paragraph{Ejercicio 10} Cree un nuevo paquete `(*)_bringup` con un archivo *launch* en el cual se cargue todo el sistema desarrollado (URDF, *Gazebo*, los controladores de *ROS2 control*) y los nodos de los ejercicios 8 y 9. Recuerde configurar correctamente los parámetros y *topics* de cada nodo. Puede probar que el robot se encuentra funcionando utilizando el `teleop_twist_keyboard` o publicando mensajes de `Twist` como los del ejercicio 5 o 6.

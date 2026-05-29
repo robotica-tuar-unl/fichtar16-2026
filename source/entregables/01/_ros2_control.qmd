@@ -1,0 +1,5 @@
+\paragraph{Ejercicio 4.a} Editar el archivo de definición del robot y agregar los elementos necesarios para configurar *ROS2 control* y *Gazebo* de forma tal que las juntas correspondientes a las ruedas de tracción reciban comandos de velocidad y devuelvan el estado de posición y velocidad. Para esto deberá añadir los *tags* `<ros2_control>` y `<gazebo>`.
+
+\paragraph{Ejercicio 4.b} Crear un paquete `(*)_control`, con una carpeta `config` y un archivo de configuración en formato *YAML* con los parámetros necesarios para que el `controller_manager` de *ROS2 control* cargue un `JointStateBroadcaster` y dos controladores de velocidad de tipo `JointGroupVelocityController`, uno para cada rueda de tracción.
+
+\paragraph{Ejercicio 4.c} Editar el archivo *launch* del ejercicio 3 para invocar al comando `load_controller` de `ros2_control` y cargar los controladores del inciso anterior.

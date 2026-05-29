@@ -1,0 +1,26 @@
+\paragraph{Ejercicio 1} Crear un archivo de definición del robot en formato *XACRO* respetando la geometría representada en las vistas del anexo y cumpliendo con los siguientes requerimientos:
+
+- Debe contener al menos un `base_link` asignado al chasis del robot y un *link* y un *joint* por cada rueda
+- Cada *link* deberá tener definida la geometría visual y de colisión, según la tabla correspondiente del anexo
+- Debe estar parametrizado al menos el radio de las ruedas de tracción y la separación de las mismas
+- En caso de poder reutilizar bloques, hacer uso de *macros*
+- Utilice el *macro* `motor` importando el archivo `motor.xacro` para ubicar el motor izquierdo y derecho. El macro recibe 3 parámetros:
+    - `prefix` (*String*): para diferenciar el *link* con un prefijo
+    - `chassis_width` (*Double*): ancho del chasis
+    - `reflect` (*Bool*): No reflejar (`False`) o sí reflejar (`True`). La orientación original es hacia la izquierda
+
+{{< pagebreak >}}
+
+Crear un paquete de ROS llamado `(*)_description` para albergar el *robot description* siguiendo la estructura vista en clases.
+
+
+::: {.callout-note appearance="simple"}
+Establecer un nombre al robot el cual deberá completar en el *URDF* y utilizar como prefijo `(*)` en los demás paquetes del entregable
+:::
+
+
+\paragraph{Ejercicio 2} En el mismo paquete, crear un archivo *launch* de nombre `description.launch.py`, en el cuál se deberá procesar el archivo *XACRO* con la descripción del robot y se deberá publicar la misma a través del paquete `robot_state_publisher`. El *launch* deberá recibir, a través de un parámetro de tipo *bool* llamado `testing`, la condición para ejecutar o no el paquete `joint_state_publisher_gui` y `RViz`.
+
+::: {.callout-tip appearance="simple"}
+Este archivo será útil para probar el archivo del ejercicio anterior, por lo que se recomienda realizarlos en paralelo
+:::

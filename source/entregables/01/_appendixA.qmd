@@ -1,0 +1,19 @@
+![](/entregables/01/figs/lateral.png){width="90%" fig-align="center"}
+
+![](/entregables/01/figs/frontal.png){width="90%" fig-align="center"}
+
+![](/entregables/01/figs/superior.png){width="100%" fig-align="center"}
+
+
+::: {style="font-size: 75%;"}
+
+| Componente           | Masa [g] | Largo [mm] | Ancho [mm] | Alto [mm] | *Mesh*                        |
+|:---------------------|:--------:|:----------:|:----------:|:---------:|:------------------------------|
+| Chasis               | 800      | 195        | 100        | 5         | `chassis.stl`                 |
+| Motor                | 100      | 70         | 188        | 225       | `motor.stl`                   |
+| Ruedas               | 150      | 70         | 25         | 70        | `wheel.stl`                   |
+| Base rueda giratoria | 20       | 32         | 38         | 15        | `caster_base.stl`             |
+| Base giratoria       | 20       | 33         | 25         | 25        | `caster_wheel_` `support.stl` |
+| Rueda giratoria      | 10       | 15         | 15         | 15        | `caster_wheel.stl`            |
+
+:::

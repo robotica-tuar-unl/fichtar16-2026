@@ -1,0 +1,82 @@
+---
+title: ""
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,12pt,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - margin=1in
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: false
+filters:
+  - diagram
+diagram:
+    engine:
+        tikz:
+            execpath: pdflatex
+            header-includes:
+                - '\usetikzlibrary{arrows.meta, shapes, intersections, calc}'
+                - '\usepackage{tikz-dimline}'
+                - '\usepackage{amsmath}'
+                - '\usepackage{adjustbox}'
+                - '\usepackage{graphicx}'
+---
+
+\begin{center}
+Introducción a la Robótica
+
+Tecnicatura en Automatización y Robótica
+
+FICH - UNL
+
+\huge Cinemática de un robot diferencial con ROS2 
+
+\large Guía de trabajos prácticos 2026 - Entregable 1
+\end{center}
+
+
+- Fecha de entrega: 26 de Junio
+
+- Formato de entrega: Archivo comprimido con el código fuente de los paquetes. Formato pdf en caso de necesitar entregar ejercicios de desarrollo. Proveer en un archivo de texto `README.md` los comandos necesarios para la ejecución de el/los paquete/s para los ejercicios.
+
+- Archivos disponibles: `entregable-1.zip`
+  - Carpeta `meshes` con archivos `.stl` para las geometrías visuales de los compnentes del robot.
+  - Carpeta `urdf` con dos archivos: `inertial_macros.xacro` con definición de inercias y materiales de ejemplo; `motor.xacro`con macro para insertar un motor en el robot.
+
+# Ejercicios
+
+## URDF
+
+{{< include _urdf.qmd >}}
+
+## Gazebo
+
+{{< include _gazebo.qmd >}}
+
+## ROS2 control
+
+{{< include _ros2_control.qmd >}}
+
+<!-- {{< pagebreak >}} -->
+
+## Cinemática
+
+{{< include _cinematica.qmd >}}
+
+## Odometría
+
+{{< include _odometria.qmd >}}
+
+## ROS 2 y `tf2`
+
+{{< include _tf2.qmd >}}
+
+{{< pagebreak >}}
+
+# Anexo A {.appendix .unnumbered}
+
+{{< include _appendixA.qmd >}}

@@ -1,0 +1,3 @@
+\paragraph{Ejercicio 3.a} Editar el o los archivos *XACRO* del ejercicio 1, de manera que sea/n compatible/s con los requerimientos de *Gazebo*, haciendo uso de los *macros* disponibles en el archivo `inertial_macros.xacro`.
+
+\paragraph{Ejercicio 3.b} Crear un paquete `(*)_gz` y un archivo *launch* nuevo, que ejecute *Gazebo*, procese la descripción del robot y, utilizando el ejecutable `spawn_entity.py`, cargue el robot en el simulador. Puede reutilizar el archivo creado en el ejercicio 2 incluyéndolo (no debe ejecutar el `joint_state_publisher_gui` ni `RViz`).

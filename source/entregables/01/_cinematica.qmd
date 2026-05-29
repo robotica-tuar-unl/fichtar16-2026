@@ -1,0 +1,52 @@
+\paragraph{Ejercicio 5} Calcular la velocidad lineal y angular del robot y de las ruedas para que se complete:
+
+- una trayectoria recta de 1[m] en 10 [s].
+- una trayectoria circular con un radio de 0.5 [m] en sentido horario en 20 [s].
+
+\paragraph{Ejercicio 6} Examinar la definición de los mensajes de tipo `geometry_msgs/Twist` y describir cuál sería la secuencia de comandos de velocidad a aplicar al robot para seguir la trayectoria mostrada en la @fig-camino utilizando dichos mensajes. La velocidad máxima de giro de los motores es de $50 [rpm]$.
+
+::: {#fig-camino}
+
+```{.tikz}
+%%| filename: camino
+
+\begin{tikzpicture}
+    \coordinate     (a) at (-0.1,0);
+    \coordinate     (b) at (6,0);
+    \coordinate     (c) at (6,3);
+    \coordinate     (d) at (0,3);
+    \coordinate     (e) at (0,6);
+
+    % Línea horizontal de (0,0) a (6,0)
+    %\draw[{Triangle[reversed, scale=2]}-,thick] (-0.3,0) -- (b);
+    \draw[{Circle[scale=1.5]}-,thick] (a) -- (b);
+
+    % Arco desde (6,0) hasta (6,3)
+    \draw[thick] (b) arc[start angle=-90, end angle=90, radius=1.5];
+
+    % Línea horizontal de (6,3) a (0,3)
+    \draw[thick] (c) -- (d);
+
+    % Arco desde (0,3) hasta (0,6)
+    \draw[-{Square[scale=1.5]},thick] (d) arc[start angle=270, end angle=90, radius=1.5];
+
+    \draw[|-|] ($(0,0)!-4mm! 90:(6,0)$) -- ($(6,0)!-4mm!-90:(0,0)$) node [midway,fill=white]     {\footnotesize 1[m]};
+
+    \draw[|-|] ($(7.5,0)!-4mm! 90:(7.5,3)$) --  node[right] {\footnotesize 0.5[m]} ($(7.5,3)!-4mm!-90:(7.5,0)$);
+\end{tikzpicture}
+```
+
+Trayectoria para el ejercicio 6
+:::
+
+::: {.callout-note appearance="simple"}
+El punto inicial del robot será asignado por el docente.
+:::
+
+\paragraph{Ejercicio 7} Examinar la definición de los mensajes del *topic* suscripto por el \sloppy `JointGroupVelocityController`. Calcule las velocidades angulares de las ruedas para cada comando del ejercicio 6 y construya la secuencia de mensajes de comando correspondientes.
+
+::: {.callout-note appearance="simple"}
+El campo `layout` no se debe completar.
+:::
+
+\paragraph{Ejercicio 8} Dentro del paquete `(*)_control`, cree un nodo que reciba comandos de tipo `geometry_msgs/Twist` a través de un *topic* llamado `cmd_vel`, calcule las velocidades angulares en base al modelo cinemático inverso del robot y escriba los comandos de velocidad de cada rueda de tracción en los *topics* `left_wheel_cmd` y  `right_wheel_cmd`. Tenga en cuenta que los parámetros del robot se encuentran en el *robot description*.

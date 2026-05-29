@@ -1,0 +1,6 @@
+\paragraph{Ejercicio 11} 
+- **(Opción A)** Crear un nodo que publique la transformación entre los *frames* `odom` y `base_link` a partir de los mensajes del *topic* `/odom`. Agregar la ejecución del mismo al *launch* del ejercicio anterior.
+
+- **(Opción B)** Modificar el nodo del ejercicio 9 para que que publique la transformación entre los *frames* `odom` y `base_link`. Agregar un parámetro para que cuando no se requiera esta transformación, no se publique.
+
+\paragraph{Ejercicio 12} Cree un archivo *launch* en el paquete `(*)_bringup` que extienda (inclusión o copia) al del ejercicio 10 y añada la ejecución de `RViz` junto con su respectivo archivo de configuración, el cual muestre el robot en el *frame* `odom` y las transformaciones de todos los *links* definidos en el *URDF*.
