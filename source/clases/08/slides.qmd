@@ -1,0 +1,855 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: default
+        # css: test-format.css
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        mermaid:
+            theme: neutral
+output-file: index.html
+---
+
+
+# URDF {visibility="hidden"}
+
+{{< include slides/_intro.qmd >}}
+
+
+
+
+# XML {visibility="hidden"}
+
+{{< include slides/_intro-xml.qmd >}}
+
+
+
+
+# Estructura URDF {visibility="hidden"}
+
+
+## Etiqueta `<robot>..<\robot>` {.smaller}
+
+> [Etiqueta raíz]{.underline}: todo el contenido se encuentra dentro
+
+- 1 solo atributo: nombre de identificación del robot
+- 2 elementos principales: `<link>` y `<joint>` (pueden aparecer muchas veces) 
+
+```xml
+<?xml version="1.0"?>
+
+<robot name="[nombre]">
+    <!-- Descripción del robot -->
+
+    <link> <!-- ..  --> </link>
+    <link> <!-- .. --> </link>
+
+    <joint> <!-- .. --> </joint>
+</robot>
+```
+
+::: {.notes}
+- Todos los archivos XML empiezan con la declaración en la primera linea (propio de XML)
+- Para archivos URDF existe una única etiqueta denominada raíz donde todas las otras etiquetas conviven (están dentro de)
+- Esta etiqueta es el `robot` tag, y el único atributo que posee es el nombre del robot `name=”mi_robot”`
+:::
+
+
+{{< include slides/_urdf-link.qmd >}}
+
+
+{{< include slides/_urdf-joint.qmd >}}
+
+
+
+
+# XACRO {visibility="hidden"}
+
+## XACRO: Macros en XML {.smaller}
+
+- Facilita la codificación de URDF
+- Herramienta para dividir código y evitar duplicar
+- Provee estructuras de "*programación*""
+
+::: {.fragment}
+- **Agregar a la etiqueta `robot`**:
+
+            xmlns:xacro="http://www.ros.org/wiki/xacro"
+
+```xml {code-line-numbers="false" code-line-numbers="1"}
+<robot name="[nombre]" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <!-- .. -->
+    <!-- Descripción del robot -->
+    <!-- .. -->
+</robot>
+```
+:::
+
+::: {.aside}
+[Documentación](wiki.ros.org/xacro)
+:::
+
+
+::: {.notes}
+- Cuanto más complejos los sistemas, más largos y pesados se hacen los URDF, por lo que separarlos en diferentes archivos permite encontrar las cosas de forma fácil y modificar de forma rápida, además de que al usar controles de versión los cambios quedan mejor ordenados
+- Herramienta para escribir URDF facilmente. Dos características principales: dividir el código en varios archivos y evitar duplicar código.
+:::
+
+
+
+
+## XACRO: Macros en XML {.smaller}
+
+> Se agrega un paso de compilación
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Cada vez que se cambia el URDF hay que ejecutar el comando
+
+```bash {code-line-numbers="false"}
+    $ xacro [archivo.xacro]
+```
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+```{mermaid}
+%%| fig-align: center
+---
+displayMode: compact
+config:
+  htmlLabels: false
+---
+flowchart LR
+    subgraph s1 [" "]
+        F1@{ shape: notch-rect, label: "Archivo<br>.xacro" } 
+        F2@{ shape: notch-rect, label: "Archivo<br>.urdf" }
+        F3@{ shape: notch-rect, label: "Archivo<br>.xacro" }
+
+        M1@{ label: "Archivos<br>no procesados" }
+        style M1 stroke-width:0px
+    end
+
+    F1 --> B(xacro)
+    F2 --> B
+    F3 --> B
+    
+    subgraph s2 [" "]
+        C@{ shape: doc, label: "**robot_description**" }
+
+        M2@{ label: "Único archivo" }
+        style M2 stroke-width:0px
+    end
+
+    B --> C
+```
+
+:::
+:::
+
+
+::: {.fragment}
+::: {.callout-note appearance="simple"}
+Actualizar dependencias: `<exec_depend>xacro</exec_depend>` e instalar `xacro`
+:::
+:::
+
+
+
+
+## XACRO: Macros en XML {.smaller}
+
+> Se divide el URDF en múltiples archivos
+
+::: {.columns}
+::: {.column style="font-size: 75%;"}
+
+### Particiones más comunes
+
+- La geometría principal (links y joints)
+- Materiales
+- Sensores
+- Simulador (y parámetros de simulación)
+- Macros
+
+:::
+::: {.column width="50%"}
+
+> ```default {filename="Estructura robot_description" code-line-numbers="false"}
+> 📂 robot_description
+> ├── 📁 robot_description
+> ├── 📁 launch
+> ├── 📂 urdf
+> │   ├── 📄 robot.urdf.xacro
+> │   ├── 📄 materials.xacro
+> │   ├── 📄 mi_macro.xacro
+> │   ├── 📄 sim_sensor.xacro
+> │   └── ...
+> ├── 📦 package.xml
+> ├── ⚙️ setup.cfg
+> ├── 🛠️ setup.py
+> │   
+> ```
+
+:::
+:::
+
+::: {.callout-note appearance="simple"}
+Actualizar `setup.py` para instalar los archivos de la carpeta `urdf`
+:::
+
+
+::: {.notes}
+La división depende del escenario y la persona que lo programa, pero generalmente se sigue el siguiente esquema: Nucleo o core del robot (links y joints), lista de materiales (colores), sensores (links y joints) y los correspondientes a gazebo, macros
+:::
+
+## XACRO: Macros en XML {.smaller} 
+
+> Inclusión de archivos: `xacro:include`
+
+::: {.incremental}
+- Archivo principal:
+    - se lo nombre con extensión '`.urdf.xacro`'
+    - contiene el tag `robot` **con nombre**
+
+- Archivos incluidos:
+    - extensión '`.xacro`'
+    - solo contienen el tag `robot` (sin nombre)
+:::
+
+::: {.notes}
+Se tiene un archivo principal o ‘main’ que representa el robot con el tag de ‘robot’ con nombre y la extensión ‘.urdf.xacro’.
+
+El archivo incluido debe ser también de tipo xacro, con el tag ‘robot’ pero esta vez sin el atributo de ‘name’.
+
+No existe límite para incluir archivos
+:::
+
+## XACRO: Macros en XML {.smaller} 
+
+> Inclusión de archivos: `xacro:include`
+
+
+```{.xml filename="materials.xacro" code-line-numbers="false"}
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <material name="Orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+</robot>
+```
+
+. . .
+
+<br>
+
+```xml {filename="robot.urdf.xacro" code-line-numbers="false" code-line-numbers="|3|10"}
+<?xml version="1.0"?>
+<robot name="MyBot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+    <xacro:include filename="materials.xacro" />
+    <link name="parteA_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.1 0.1 0.4" />
+            </geometry>
+            <material name="Orange" />
+        </visual>
+    </link>
+</robot>
+```
+
+## XACRO: Macros en XML {.smaller} 
+
+> Inclusión de archivos: `xacro:include`
+
+- Salida del comando: `$ xacro robot.urdf.xacro`
+
+```xml {code-line-numbers="|7-9"}
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo1.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="MyBot">
+  <material name="Orange">
+    <color rgba="1 0.3 0.1 1"/>
+  </material>
+  <link name="parteA_link">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+  </link>
+</robot>
+```
+
+
+::: {.hidden}
+
+Archivo:
+```xml
+<?xml version="1.0"?>
+
+<robot name="mi_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="world">
+    </link>
+
+    <joint name="prueba_joint" type="continuous">
+        <parent link="world" />
+        <child link="parteA_link" />
+        <axis xyz="1 0 0" />
+    </joint>
+
+    <xacro:include filename="/workspaces/catkin_ws/src/clase_08/materials.xacro" />
+
+    <link name="parteA_link">
+        <visual>
+            <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.1 0.1 0.4" />
+            </geometry>
+            <material name="Orange" />
+        </visual>
+    </link>
+
+</robot>
+```
+
+Salida
+```xml
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo1.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="mi_robot">
+  <link name="world">
+    </link>
+  <joint name="prueba_joint" type="continuous">
+    <parent link="world"/>
+    <child link="parteA_link"/>
+    <axis xyz="1 0 0"/>
+  </joint>
+  <material name="Orange">
+    <color rgba="1 0.3 0.1 1"/>
+  </material>
+  <link name="parteA_link">
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.2"/>
+      <geometry>
+        <box size="0.1 0.1 0.4"/>
+      </geometry>
+      <material name="Orange"/>
+    </visual>
+  </link>
+</robot>
+```
+:::
+
+
+
+## XACRO: Macros en XML {.smaller} 
+
+> Parametrización de atributos: variables
+
+::: {.incremental}
+- Operaciones matemáticas: `${..}` 
+- Propiedades `xacro:property`: Nombre y valor
+:::
+
+. . .
+
+```xml {filename="robot.urdf.xacro" code-line-numbers="false" code-line-numbers="|3,4,11|5,9"}
+<?xml version="1.0"?>
+<robot name="MyBot" .. >
+    <xacro:property name="diametro" value="2.1" />
+    <xacro:property name="ancho" value="4.5" />
+    <xacro:property name="theta" value="${30/180*pi}" />
+
+    <link name="parteA_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${theta} 0 0" />
+            <geometry>
+                <cylinder radius="${diametro/2}" length="${ancho}" />
+            </geometry>
+        </visual>
+    </link>
+</robot>
+
+```
+
+
+## XACRO: Macros en XML {.smaller} 
+
+> Parametrización de atributos: variables
+
+- Salida del comando: `$ xacro robot.urdf.xacro`
+
+```xml {code-line-numbers="|9,11"}
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo2.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="MyBot">
+  <link name="parteA_link">
+    <visual>
+      <origin rpy="0.5235987755982988 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="4.5" radius="1.05"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
+```
+
+
+::: {.hidden}
+Archivo:
+```xml
+<?xml version="1.0"?>
+
+<robot name="mi_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="diametro" value="2.1" />
+    <xacro:property name="ancho" value="4.5" />
+    <xacro:property name="theta" value="${30/180*pi}" />
+
+    <link name="parteA_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${theta} 0 0" />
+            <geometry>
+                <cylinder radius="${diametro/2}" length="${ancho}" />
+            </geometry>
+        </visual>
+    </link>
+
+</robot>
+```
+
+Salida
+```xml
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo2.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="mi_robot">
+  <link name="parteA_link">
+    <visual>
+      <origin rpy="0.5235987755982988 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.15" radius="0.25"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
+```
+:::
+
+
+## XACRO: Macros en XML {.smaller} 
+
+> Parametrización de atributos: argumentos y rutas de archivos
+
+- Declarar argumentos `xacro:args`: Nombre y valor por defecto
+
+```xml {code-line-numbers="false"}
+    <xacro:arg name="[nombre]" default="[valor]"/>
+```
+
+- Reemplazar argumentos `$(arg ..)`:
+
+
+```xml {code-line-numbers="false"}
+    <material name="$(arg [nombre]"/>
+```
+
+. . .
+
+- Buscar paquetes `$(find ..)`:
+
+```xml {code-line-numbers="false"}
+    <xacro:include filename="$(find [nombre_paquete])/[nombre_archivo].xacro" />
+```
+
+
+
+## XACRO: Macros en XML {.smaller} 
+
+> Bloques condicionales
+
+- Etiqueta `xacro:if` para `true` y `xacro:unless` para `false`
+
+```xml {code-line-numbers="false"}
+<xacro:if value="[expresion]">
+    <!-- Si la expresión es verdadera: 'true' o 1 -->
+</xacro:if>
+
+<xacro:unless value="[expresion]">
+    <!-- Si la expresión es falsa: 'false' o 0  -->
+</xacro:unless>
+```
+
+
+::: {.hidden}
+
+Archivo
+
+```xml
+<?xml version="1.0"?>
+
+<robot name="mi_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:arg name="usar_geometria_detallada" default="false" />
+
+    <link name="parteA_link">
+        <xacro:if value="$(arg usar_geometria_detallada)">
+            <!-- Si la expresión es verdadera: 'true' o 1 -->
+            <visual>
+                <geometry>
+                    <mesh filename="file:///workspaces/catkin_ws/src/clase_08/helical_double_circle.stl" scale="0.01 0.01 0.01"/>
+                </geometry>
+            </visual>
+        </xacro:if>
+
+        <xacro:unless value="$(arg usar_geometria_detallada)">
+            <!-- Si la expresión es falsa: 'false' o 0  -->
+            <visual>
+                <geometry>
+                    <cylinder radius="0.25" length="0.15" />
+                </geometry>
+            </visual>
+        </xacro:unless>
+    </link>
+
+</robot>
+```
+
+Comando: `xacro src/clase_08/ejemplo3.urdf.xacro usar_geometria_detallada:=true`
+
+```xml
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo3.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="mi_robot">
+  <link name="parteA_link">
+    <!-- Si la expresión es verdadera: 'true' o 1 -->
+    <visual>
+      <geometry>
+        <mesh filename="file:///workspaces/catkin_ws/src/clase_08/helical_double_circle.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
+```
+
+Comando `xacro src/clase_08/ejemplo3.urdf.xacro`
+```
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo3.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="mi_robot">
+  <link name="parteA_link">
+    <!-- Si la expresión es falsa: 'false' o 0  -->
+    <visual>
+      <geometry>
+        <cylinder length="0.15" radius="0.25"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
+```
+
+:::
+
+
+## XACRO: Macros en XML {.smaller} 
+
+<!-- > Porciones de código a reutilizar (plantillas) -->
+
+- Macros `xacro:macro`: Nombre y parámetros a recibir
+
+::: {.columns}
+::: {.column}
+
+```xml {filename="rueda.xacro" code-line-numbers="|1|2|3-4|5,7,14|9,10,16,17|"}
+<xacro:macro name="rueda"
+    params="prefijo radio ancho">
+    <xacro:property name="nombre_link"
+        value="${prefijo}_link" />
+    <link name="${nombre_link}">
+        <visual>
+            <origin rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="radio"
+                          length="ancho" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="radio"
+                          length="ancho" />
+            </geometry>
+        </collision>
+    </link>
+</xacro:macro>
+
+
+```
+
+::: {.hidden}
+
+```xml
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="rueda" params="prefijo radio ancho">
+        <xacro:property name="nombre_link" value="${prefijo}_link" />
+
+        <link name="${nombre_link}">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${radio}" length="${ancho}" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+                <geometry>
+                    <cylinder radius="${radio}" length="${ancho}" />
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+</robot>
+```
+
+:::
+
+
+:::
+::: {.column}
+
+::: {.fragment}
+```xml {filename="robot.urdf.xacro" code-line-numbers="false"}
+<xacro:include filename="rueda.xacro" />
+<xacro:rueda prefix="rueda_derecha"
+             radio="0.20" ancho="0.05" /> 
+```
+
+::: {.hidden}
+
+```xml
+<?xml version="1.0"?>
+
+<robot name="mi_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="/workspaces/catkin_ws/src/clase_08/rueda.xacro" />
+
+    <xacro:rueda prefijo="parteA" radio="0.20" ancho="0.05" />
+
+</robot>
+```
+:::
+
+:::
+
+::: {.fragment}
+Resultado: `$ xacro robot.urdf.xacro`
+
+```xml {code-line-numbers="false"}
+  <link name="rueda_derecha_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+```
+
+::: {.hidden}
+
+```xml
+<?xml version="1.0" ?>
+<!-- =================================================================================== -->
+<!-- |    This document was autogenerated by xacro from src/clase_08/ejemplo4.urdf.xacro | -->
+<!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
+<!-- =================================================================================== -->
+<robot name="mi_robot">
+  <link name="parteA_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.2"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
+
+```
+
+:::
+
+:::
+
+:::
+:::
+
+
+::: {.notes}
+Porciones de código a reutilizar (plantillas)
+:::
+
+
+
+
+# URDF y TF2 {visibility="hidden"}
+
+## URDF y `tf2`
+
+<br>
+
+::: {.list-table header-rows=0 tbl-colwidths="[50,50]" aligns="c,c" width="100%"}
+
+- - ### URDF
+  - ### `tf2`
+
+- - []{colspan=2} arbol de ..
+
+- - ### links
+  - ### frames
+
+- - []{colspan=2} conectados por ..
+
+- - ### joints
+  - ### transforms
+
+:::
+
+<br>
+
+::: {.fragment}
+::: {.callout-tip appearance="simple" style="font-size: 70%;"}
+A partir de los `links` y `joints` del **robot description** se puede publicar los `frames` y `tf` correspondientes
+:::
+:::
+
+
+## Paquete `robot_state_publisher` {.smaller}
+
+::: {.incremental}
+1. Descripción del robot ➡️ `/robot_description`
+2. Juntas fijas (transformaciones estáticas) ➡️ `/tf_static`
+3. Juntas móviles ➡️ `/joint_states` ➡️ transformaciones dinámicas ➡️ `/tf`
+:::
+
+::: {.fragment}
+![](slides/figs/rsp-fig1.svg){fig-align="center"}
+:::
+
+::: {.notes}
+El paquete `robot_state_publisher` toma el archivo *URDF* y automaticamente transmite todas las transformaciones necesarias
+
+Además publica el contenido en el topic `/robot_description` así todos los otros nodos que necesitan la descripción del robot utilizan el mismo archivo
+
+Para las `joints` que son fijas, se publica la transformación estática
+
+Para las móviles se necesitan datos externos (angulo o distancia) para calcular la transformación dinámica para cada instante de tiempo.
+
+Para esto el nodo se subscribe al topic `/joint_states` 
+:::
+
+## Topic `/joint_states` {.smaller}
+
+- Listado de juntas con sus respectivos estados:
+
+```default {code-line-numbers="false"}
+        sensor_msgs/JointState
+        ├── std_msgs/Header header
+        ├── string[] name
+        ├── float64[] position
+        ├── float64[] velocity
+        └── float64[] effort
+```
+
+::: {.callout-tip appearance="simple"}
+Quién publica en el `/joint_states`?
+:::
+
+. . .
+
+![](slides/figs/rsp-fig2.svg){fig-align="center"}
+
+::: {.notes}
+Utilizando el paquete `joint_state_publisher_gui` se puede controlar la posición de la junta.
+
+Publica posiciones ficticias de cada una de las juntas.
+:::
+
+## Sistema completo
+
+![URDF + XACRO + `robot_state_publisher` + `joint_state_publisher_gui`](slides/figs/full-diagram.svg){fig-align="center"}
+
+## Comandos de cada paquete
+
+- `robot_state_publisher`
+
+```
+    $ ros2 run robot_state_publisher robot_state_publisher
+                --ros-args -p robot_description:='<robot_description>'
+```
+
+- `joint_state_publisher_gui`
+
+```
+    $ ros2 run joint_state_publisher_gui joint_state_publisher_gui
+```
+
+
+
+# Taller de resolución {visibility="hidden"}
+
+## [Taller de resolución](tres.qmd) {.center}
+
+Ejercicios 1 y 2

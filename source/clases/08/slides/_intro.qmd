@@ -1,0 +1,77 @@
+## URDF: [Unified Robot Definition Format]{style="font-size: 85%;"}
+
+- Permite describir geometría y características del robot
+
+::: {.notes}
+Cuando se desarrolla un robot, pueden existir muchos componentes de software diferentes que necesitan conocer características físicas del robot. Lo ideal es mantener esa información en una sola ubicación donde todos puedan acceder y hacer referencia
+
+En ROS -> robot description o descripción del robot; y se hace a través de archivos Unified Robot Description Format (URDF)
+:::
+
+. . .
+
+- Formato `XML`: La información se representa a través de etiquetas con *jerarquía*
+
+
+::: {.aside}
+[Documentación](http://wiki.ros.org/urdf/XML){target="_blank"}
+:::
+
+
+::: {.notes}
+- El estándar URDF se basa en XML (Visto en archivos `package.xml`)
+    - todo está representado a través de **tags** (etiquetas) que se pueden anidar formando una estructura jerárquica
+- Existen muchos tipos (los cuales están estandarizados) pero tres principales:  `<robot>`, `<link>`, `<joint>`
+:::
+
+## URDF: 2 Elementos fundamentales
+
+::: {.fragment fragment-index=1}
+- Eslabones: `<link>`
+:::
+::: {.fragment fragment-index=2}
+- Juntas: `<joint>`
+:::
+
+::: {layout="[-10,35,-10,35,-10]" layout-valign="center"}
+
+::: {.fragment fragment-index=1}
+![](slides/figs/link.png)
+
+:::
+::: {.fragment fragment-index=2}
+
+![](slides/figs/joint.png)
+
+:::
+:::
+
+::: {.notes}
+La estructura es un arbol de `links` conectados por `joints`. Los links (eslabones) representan partes o componentes físicos del robot y las `joints` (juntas) representan como se mueve un `link` con respecto a otro definiendo la ubicación del `link` en el espacio.
+:::
+
+## URDF: 2 Elementos fundamentales {.smaller}
+
+> Cómo determinar *links* y *joints*
+
+::: {.incremental}
+1. Una parte que se mueve relativa a otra
+    <!-- - Ej.: una rueda o una articulación -->
+2. Una parte que no se mueve pero es conveniente conocer su marco de referencia
+    <!-- - Ej.: una cámara o cualquier sensor -->
+3. Una serie de transformaciones para las partes anteriores
+    <!-- - Ej.: un soporte que conecta una rueda -->
+:::
+
+<br>
+
+::: {.callout-warning appearance="simple" title="Muy importante"}
+Identificar de forma conveniente como dividir la estructura física del robot en links y joints
+:::
+
+::: {.notes}
+- Cuando se describe un robot a través de un URDF es necesario identificar como dividir el robot de forma conveniente/inteligente en `links` y `joints`
+- Caso 1: Parte móvil, ej: rueda
+- Caso 2: Parte fija de interés, ej: un sensor / cámara
+- Caso 3: Transf. para los casos anteriores, ej: un soporte que posee una cámara
+:::

@@ -1,0 +1,250 @@
+## Etiqueta `<joint>..</joint>` {.smaller}
+
+- 2 atributos: el nombre y tipo
+
+::: {.fragment}
+- 2 elementos requeridos: *link* padre e hijo
+
+```xml {code-line-numbers="false"}
+<joint name="[nombre]_joint" type="[tipo]">
+    <parent link="[padre_link]"/>
+    <child link="[hijo_link]"/>
+    <!-- .. -->
+</joint>
+```
+:::
+
+<br>
+
+::: {.fragment width="60%"}
+::: {.callout-note appearance="simple"}
+Por convención el nombre tiene sufijo '`_joint`'
+:::
+:::
+
+::: {.notes}
+Son los que realmente almacenan la información de cómo se compone la estructura del robot, define la ubicación de los `link` y como se mueven entre sí. (Similar a tf donde se tienen los marcos, pero lo que importan son las transformaciones)
+
+Atributos:
+- name -> Nombre de cada junta
+- type -> Tipo
+
+Elementos:
+- Parent -> `link` padre
+- Child -> `link` hijo (para definir la relación de un link (hijo) respecto a otro (padre))
+:::
+
+## Tipos de juntas {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+- Fija (`fixed`)
+:::
+
+::: {.fragment fragment-index=1}
+#### 1 elemento: `<origin .. />`
+
+```xml {code-line-numbers="false" code-line-numbers="4-5"}
+    <joint name="[nombre]_joint" type="fixed">
+        <parent link="[padre_link]"/>
+        <child link="[hijo_link]"/>
+        <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+    </joint>
+```
+:::
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+::: {.fragment fragment-index=2}
+
+```xml {code-line-numbers="true" style="font-size: 70%;"}
+<link name="padre_link">
+  <visual>
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+   <geometry><box size="0.1 0.1 0.3"/></geometry>
+  </visual>
+</link>
+<link name="parteA_link">
+    <visual>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <geometry><box size="0.1 0.1 0.4"/></geometry>
+    </visual>
+</link>
+<joint name="parteA_joint" type="fixed">
+    <child link="parteA_link"/>
+    <parent link="padre_link"/>
+    <origin xyz="0 0 0.35" rpy="0 1.57 0"/>
+</joint>
+
+
+
+```
+
+![](slides/figs/fixed-joint.gif){fig-align="center" width="60%"}
+
+:::
+
+:::
+:::
+
+::: {.notes}
+El `link` hijo está conectado de forma rígida con el `link` padre
+
+Origin -> Origen de la relación antes de cualquier movimiento (como se inicia)
+:::
+
+## Tipos de juntas {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Fija (`fixed`)
+- Continua (`continuous`)
+
+::: {.fragment fragment-index=1}
+#### 2 elementos: `<origin .. />` y
+#### `<axis ../>`
+
+```xml {code-line-numbers="false" code-line-numbers="4-6"}
+    <joint name="[nombre]_joint" type="continuous">
+        <parent link="[padre_link]"/>
+        <child link="[hijo_link]"/>
+        <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+        <axis xyz="[x] [y] [z]"/>
+    </joint>
+```
+:::
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+::: {.fragment fragment-index=2}
+
+```xml {code-line-numbers="true" style="font-size: 70%;"}
+<link name="padre_link">
+    <visual>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+        <geometry><box size="0.1 0.1 0.3"/></geometry>
+    </visual>
+</link>
+<link name="parteA_link">
+    <visual>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <geometry><box size="0.1 0.1 0.4"/></geometry>
+    </visual>
+</link>
+<joint name="parteA_joint" type="continuous">
+    <child link="parteA_link"/>
+    <parent link="padre_link"/>
+    <origin xyz="0 0 0.35" rpy="0 1.57 0"/>
+    <axis xyz="1 0 0"/>
+</joint>
+
+
+```
+
+![](slides/figs/continuous-joint.gif){fig-align="center" width="60%"}
+:::
+
+:::
+:::
+
+::: {.notes}
+Movimiento rotacional sin límites
+
+Axis -> El eje en el cual se desarrolla el movimiento
+:::
+
+## Tipos de juntas {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Fija (`fixed`)
+- Continua (`continuous`)
+- Revolución (`revolute`)
+
+::: {.fragment fragment-index=1}
+#### 3 elementos: `<origin .. />`,
+#### `<axis ../>` y `<limit ../>`
+
+
+```xml {code-line-numbers="false" code-line-numbers="4-9"}
+    <joint name="[nombre]_joint" type="revolute">
+        <parent link="[padre_link]"/>
+        <child link="[hijo_link]"/>
+        <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+        <axis xyz="[x] [y] [z]"/>
+        <limit lower="[min_rad]" upper="[max_rad]"
+            velocity="[rad_por_seg]"
+            effort="[effort]" />
+    </joint>
+```
+:::
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+::: {.fragment fragment-index=2}
+
+```xml {code-line-numbers="true" style="font-size: 70%;"}
+<link name="padre_link">
+    <visual>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+        <geometry><box size="0.1 0.1 0.3"/></geometry>
+    </visual>
+</link>
+<link name="parteA_link">
+    <visual>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <geometry><box size="0.1 0.1 0.4"/></geometry>
+    </visual>
+</link>
+<joint name="parteA_joint" type="continuous">
+    <child link="parteA_link"/>
+    <parent link="padre_link"/>
+    <origin xyz="0 0 0.35" rpy="0 1.57 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57"/>
+</joint>
+```
+
+![](slides/figs/revolute-joint.gif){fig-align="center" width="60%"}
+:::
+:::
+:::
+
+::: {.notes}
+Movimiento rotacional con ángulos máximos y mínimos
+
+
+Limits -> Límites de actuación física, pueden ser (lower|upper|velocity|effort) 
+:::
+
+## Tipos de juntas {visibility="hidden"}
+
+::: {.columns}
+::: {.column style="font-size: 75%;"}
+
+- Fija (`fixed`)
+- Continua (`continuous`)
+- Revolución (`revolute`)
+- Prismática (`prismatic`)
+
+:::
+
+::: {.column}
+
+:::
+:::

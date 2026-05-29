@@ -1,0 +1,283 @@
+## Etiqueta `<link>..</link>` {.smaller}
+
+- 1 solo atributo: nombre de identificación
+
+::: {.fragment}
+- 3 posibles elementos: `<visual>`, `<collision>` y `<inertial>`
+
+```xml
+<link name="[nombre]_link">
+    <visual>
+        <!-- Geometría visual (visualización) -->
+    </visual>
+
+    <collision>
+        <!-- Geometría de colisión (simulación) -->
+    </collision>
+
+    <inertial>
+        <!-- Propiedades físicas (simulación) -->
+    </inertial>	
+</link>
+```
+:::
+
+<br>
+
+::: {.fragment}
+::: {.callout-note appearance="simple"}
+Por convención el nombre tiene sufijo '`_link`'
+:::
+:::
+
+
+::: {.notes}
+- `link` -> Permite especificar el nombre
+- Hijos: la apariencia visual, las propiedades inerciales y de colisión
+- Visual -> Es lo que se visualiza en RViz y Gazebo
+- Collision/Inertial -> Utilizado para el cálculo de colisión física en simulación
+:::
+
+## Etiqueta `<link>..</link>` {.smaller}
+
+> Geometría visual: `<visual>..</visual>`
+
+::: {.columns}
+::: {.column}
+
+::: {.fragment}
+- Origen:
+```xml {code-line-numbers="false"}
+    <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+```
+
+::: {.notes}
+Origin: Offset para la geometría en el caso de que no esté centrado en el origen del `link`
+:::
+:::
+
+::: {.fragment}
+- Material (color):
+```xml {code-line-numbers="false"}
+    <material name="[nombre]">
+        <color rgba="[R] [G] [B] [Alpha]"/>
+    </material>
+```
+
+::: {.notes}
+Material: El color (si se declara un material con nombre, puede utilizarse, si no los valores RGB)
+:::
+:::
+
+::: {.fragment}
+- Geometría: *prisma*
+```xml { code-line-numbers="false"}
+    <box size="[largo-x] [ancho-y] [alto-z]" />
+```
+
+::: {.notes}
+Geometry: con los parámetros de tamaño  
+:::
+:::
+
+:::
+::: {.column}
+
+::: {.fragment}
+```xml {filename="Ejemplo:" code-line-numbers="false"}
+<visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <geometry>
+        <box size="0.1 0.2 0.3" />
+    </geometry>
+    <material name="Cyan">
+        <color rgba="0 1.0 1.0 1"/>
+    </material>
+</visual>
+```
+
+![](slides/figs/box.png){width="40%" fig-align="center"}
+:::
+
+:::
+:::
+
+## Etiqueta `<link>..</link>` {.smaller}
+
+> Geometría visual: `<visual>..</visual>`
+
+::: {.columns}
+::: {.column}
+
+- Origen:
+```xml {code-line-numbers="false"}
+    <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+```
+
+- Material (color):
+```xml {code-line-numbers="false"}
+    <material name="[nombre]">
+        <color rgba="[R] [G] [B] [Alpha]"/>
+    </material>
+```
+
+- Geometría: *cilindro*
+```xml {code-line-numbers="false"}
+    <cylinder radius="[radio]" length="[ancho]" />
+```
+
+:::
+::: {.column}
+
+::: {.fragment}
+```xml {filename="Ejemplo:" code-line-numbers="false"}
+<visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <geometry>
+        <cylinder radius="0.1" length="0.1" />
+    </geometry>
+    <material name="Silver">
+        <color rgba="0.79 0.82 0.93 1"/>
+    </material>
+</visual>
+```
+
+![](slides/figs/cylinder.png){width="40%" fig-align="center"}
+:::
+
+:::
+:::
+
+## Etiqueta `<link>..</link>` {visibility="hidden" .smaller}
+
+> Geometría visual: `<visual>..</visual>`
+
+::: {.columns}
+::: {.column}
+
+- Origen:
+```xml {code-line-numbers="false"}
+    <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+```
+
+- Material (color):
+```xml {code-line-numbers="false"}
+    <material name="[nombre]">
+        <color rgba="[R] [G] [B] [Alpha]"/>
+    </material>
+```
+
+- Geometría: *esfera*
+```xml {code-line-numbers="false"}
+    <sphere radius="[radio]" />
+```
+
+:::
+::: {.column}
+
+[FALTA LA ESFERA]{.mark}
+
+:::
+:::
+
+## Etiqueta `<link>..</link>` {.smaller}
+
+> Geometría visual: `<visual>..</visual>`
+
+::: {.columns}
+::: {.column}
+
+- Origen:
+```xml {code-line-numbers="false"}
+    <origin xyz="[pos_x] [pos_y] [pos_z]"
+            rpy="[roll] [pitch] [yaw]"/>
+```
+
+- Material (color):
+```xml {code-line-numbers="false"}
+    <material name="[nombre]">
+        <color rgba="[R] [G] [B] [Alpha]"/>
+    </material>
+```
+
+- Geometría: *malla*
+```xml {code-line-numbers="false"}
+    <mesh filename="file:///[ubicacion_archivo]" 
+          scale="[e_x e_y e_z]"/>
+```
+
+
+::: {.callout-note appearance="simple" title="Formatos soportados: `stl` o `dae`"}
+:::
+
+
+:::
+::: {.column}
+
+::: {.fragment}
+```xml {filename="Ejemplo:" code-line-numbers="false"}
+<visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <geometry>
+        <mesh filename="file:///gear.stl"
+            scale="0.01 0.01 0.01"/>
+    </geometry>
+    <material name="Orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+</visual>
+```
+
+![](slides/figs/gear.png){width="40%" fig-align="center"}
+:::
+
+:::
+:::
+
+
+## Etiqueta `<link>..</link>` {.smaller}
+
+
+> Geometría para simulación: `<collision>..</collision>`
+
+::: {.notes}
+Generalmente por razones de computabilidad, se busca que sea una forma más simple que la visual para simplificar los cálculos.
+:::
+
+::: {.fragment}
+- Origen:
+```xml {code-line-numbers="false"}
+    <origin xyz="[pos_x] [pos_y] [pos_z]" rpy="[roll] [pitch] [yaw]"/>
+```
+:::
+::: {.fragment}
+- Geometría: `box`, `cylinder`, `sphere`, `mesh`
+
+```xml {code-line-numbers="false"}
+    <box size="[largo-x] [ancho-y] [alto-z]" />
+```
+
+```xml {code-line-numbers="false"}
+    <cylinder radius="[radio]" length="[ancho]" />
+```
+
+```xml {code-line-numbers="false"}
+    <sphere radius="[radio]" />
+```
+
+```xml {code-line-numbers="false"}
+    <mesh filename="file://[ubicacion_archivo]" />
+```
+:::
+
+::: {.notes}
+Geometry y Origin: igual que para el caso visual.
+:::
+
+
+## Etiqueta `<link>..</link>` {visibility="hidden" .smaller}
+
+[EJEMPLO DE COLISIÓN POR SOBRE EL VISUAL]{.mark}

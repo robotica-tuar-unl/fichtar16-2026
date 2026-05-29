@@ -1,0 +1,203 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\newcommand{\joint}{\texttt{joint}\xspace}
+\newcommand{\joints}{\texttt{joints}\xspace}
+\newcommand{\link}{\texttt{link}\xspace}
+\newcommand{\links}{\texttt{links}\xspace}
+
+
+\section{URDF}
+\begin{itemize}
+    \item Archivo en formato \texttt{XML} (etiquetas anidadas) estándarizado para describir la geometría y características de un robot en general. \hyperlink{wiki.ros.org/urdf/XML}{wiki.ros.org/urdf/XML}
+
+    \item Estructura de árbol basado en dos elementos fundamentales: \links que representan las partes y \joints que representa cómo están relacionadas esas partes.
+
+    \item 3 etiquetas principales: \begin{itemize}
+         \item \texttt{robot}: Etiqueta raíz donde se ubica el contenido del \texttt{URDF}. Un solo atributo \texttt{name}.
+ \begin{verbatim}
+<?xml version="1.0"?>
+<robot name="[nombre]">
+    ...
+    <!-- Contenido URDF -->
+    ...
+</robot>
+\end{verbatim}
+
+        \item \link: Un solo atributo \texttt{name}. Se definen 3 geometrías o características:
+        \begin{itemize}
+            \item Visual: Origen, forma y material (color)
+\begin{verbatim}
+<link name="[nombre]_link">
+    ...
+    <visual>
+        <origin xyz="[x] [y] [z]" rpy="[roll] [pitch] [yaw]" />
+        <geometry>.. </geometry>
+        <material>..</material>
+    </visual>
+    ...	
+</link>
+\end{verbatim}
+            \item Colisión: Origen y geometría
+\begin{verbatim}
+<link name="[nombre]_link">
+    ...
+    <collision>
+        <origin xyz="[x] [y] [z]" rpy="[roll] [pitch] [yaw]" />
+        <geometry>.. </geometry>
+    </collision>
+    ...	
+</link>
+\end{verbatim}
+            \item Inercial: Origen, masa e inercia
+\begin{verbatim}
+<link name="[nombre]_link">
+    ...
+    <inertial>
+        <origin xyz="[x] [y] [z]" rpy="[roll] [pitch] [yaw]" />
+        <mass value="{masa]" />
+        <inertia ..  />
+    </inertial>
+    ...	
+</link>
+\end{verbatim}   
+        \end{itemize}
+
+        \item \joint: Dos atributos \texttt{name} y \texttt{type}. Dos elementos obligatorios: \texttt{parent} y \texttt{child}. 4 tipos de \joints principales:
+        \begin{itemize}
+            \item \texttt{fixed}: Fija (\texttt{origin})
+            \item \texttt{continuous}: Continua (\texttt{origin} + \texttt{axis})
+            \item \texttt{revolute}: Revolución (\texttt{origin} + \texttt{axis} + \texttt{limit})
+            \item \texttt{prismatic}: Prismática
+        \end{itemize}
+\begin{verbatim}
+<joint name="[nombre]_joint" type="[tipo]">
+    <parent link="[nombre_padre]"/>
+    <child link="[nombre_hijo]"/>
+    <origin xyz="[x] [y] [z]" rpy="[roll] [pitch] [yaw]"/>
+    <axis xyz="[x] [y] [z]"/>
+    <limit .. />	
+</joint>
+\end{verbatim}
+    \end{itemize}
+
+    \item Uso de \joints fijas y partes NO móviles
+\end{itemize}
+
+\subsection{XACRO}
+\begin{itemize}
+    \item Acrónimo de \textit{XML Macro}. Presenta utilidades para facilitar la codificación de URDF, como división de código, estructuras de control o parámetros. \hyperlink{wiki.ros.org/xacro}{wiki.ros.org/xacro}.
+
+    \item Se añade un paso de compilación a través del ejecutable \texttt{xacro}.
+
+    \item División sugerida: Core con la geometría (\links y \joints); Macros; Materiales; Sensores (\links y \joints); Gazebo y parámetros de simulación.
+
+    \item Archivo principal con el tag \texttt{robot}, el nombre (es lo que lo diferencia de un archivo URDF) y el atributo \texttt{xmlns:xacro}. Generalmente se nombra con extensión \texttt{.urdf.xacro}.
+% \begin{verbatim}
+% <?xml version="1.0"?>
+% <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="[nombre]">
+%     ...
+%     CONTENIDO
+%     ...
+% </robot>
+% \end{verbatim}
+
+    \item Incluir archivos con \texttt{xacro:include}. Los archivos incluidos tienen el tag \texttt{robot} pero sin el atributo de nombre.
+\begin{verbatim}
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="[nombre]">
+    <xacro:include filename="[archivo].xacro" />
+    ...
+</robot>
+\end{verbatim}
+
+    \item Propiedades \texttt{xacro:property} y operaciones matemáticas \texttt{\$\char`\{..\char`\}}
+    \item Argumentos \texttt{xacro:args}: Nombre y valor por defecto
+    \item Bloques condicionales \texttt{<xacro:if value=”[expresion]”>..</xacro:if>} y \texttt{<xacro:unless value=”[expresion]”>..</xacro:unless>}
+    \item Macros \texttt{xacro:macro}
+
+    \item Compilación del URDF:
+    \begin{itemize}
+        \item desde consola: \texttt{\$ xacro nombre\_archivo.xacro.urdf}
+        \item desde \textit{launch}:
+\begin{verbatim}
+setup(
+    name=package_name,
+    # ...
+    data_files=[
+        # ...
+        # Install launch files inside 'launch' folder
+        (os.path.join('share', package_name, 'launch'),
+            glob(os.path.join('launch', '*.launch.py'))),
+        # Install URDF and XACRO files inside de 'urdf' folder
+        (os.path.join('share', package_name, 'urdf'),
+            glob(os.path.join('urdf', '*[.urdf][.xacro]'))),
+        # Install STL files inside de 'meshes' folder
+        (os.path.join('share', package_name, 'meshes'),
+            glob(os.path.join('meshes', '*.stl'))),
+    ],
+    ...
+)
+\end{verbatim}
+    \end{itemize}
+    \item Adaptación estructura de paquete. Configuración \texttt{setup.py}:
+\begin{verbatim}
+# Ubicación del paquete y del archivo URDF
+urdf_path = PathJoinSubstitution(
+  [FindPackageShare("[nombre_paquete]"),  "urdf", "[nombre_archivo].urdf.xacro"]
+)
+
+# Procesar archivo URDF
+urdf = Command(['xacro ', urdf_path])
+\end{verbatim}    
+\end{itemize}
+
+\subsection{\texttt{URDF} y \texttt{tf2}}
+\begin{itemize}
+    \item Similitud en las estructuras. Conversión entre juntas de un tipo a su respectiva transformación.
+    
+    \item Uso del paquete \texttt{robot\_state\_publisher} para transformaciones estáticas y dinámicas, y para publicar el topic \texttt{robot\_description}
+    \begin{itemize}
+        \item desde consola: \texttt{\$ ros2 run robot\_state\_publisher robot\_state\_publisher
+                --ros-args -p robot\_description:='<robot\_description>'}
+        \item desde \textit{launch}:
+\begin{verbatim}
+Node(
+    package = 'robot_state_publisher',
+    executable = 'robot_state_publisher',
+    parameters=[{
+        'robot_description': '<robot_description>',
+    }]
+)
+\end{verbatim}
+    \end{itemize}
+    
+    \item Particularidad de las juntas no fijas: Datos necesarios para publicar la transformación. Uso del paquete \texttt{joint\_state\_publisher\_gui} para simular posiciones de las juntas.
+    \begin{itemize}
+        \item desde consola: \texttt{\$ ros2 run joint\_state\_publisher\_gui joint\_state\_publisher\_gui}
+        \item desde \textit{launch}:
+\begin{verbatim}
+Node(
+    package = 'joint_state_publisher_gui',
+    executable = 'joint_state_publisher_gui',
+    output = 'screen',
+)
+\end{verbatim}
+    \end{itemize}
+\end{itemize}

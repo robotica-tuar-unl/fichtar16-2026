@@ -1,0 +1,82 @@
+## XML: Extensible Markup Language {.smaller}
+
+> Formato estándar basado en **etiquetas** de texto para almacenar y transportar información
+
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Organiza la información en una estructura tipo árbol
+- Un elemento puede contener a otros (padre ➡️ hijo)
+- No existen variables, condicionales, loops, funciones, etc.
+
+:::
+::: {.column width="5%"}
+
+:::
+::: {.column width="45%"}
+
+```xml {filename="Estructura de ejemplo"}
+<etiqueta_padre>
+    <etiqueta_hijo>
+        <!-- .. --> 
+    </etiqueta_hijo>
+    <etiqueta_hijo2>
+        <etiqueta_nieto></etiqueta_nieto>
+    </etiqueta_hijo2>
+    </otra_etiqueta>
+</etiqueta_padre>
+```
+
+```{mermaid}
+%%| fig-align: center
+---
+displayMode: compact
+config:
+  htmlLabels: false
+---
+flowchart TD
+    A("etiqueta_padre") --> B("etiqueta_hijo")
+    A --> C("etiqueta_hijo2")
+    A --> D("otra_etiqueta")
+    C --> E("etiqueta_nieto")
+```
+
+:::
+:::
+
+::: {.notes}
+- No es un lenguaje de programación
+- No hay variables, condicionales, loops, funciones, etc.
+- XML solamente organiza información en una estructura tipo árbol
+- Un elemento puede contener otros elementos, eso genera una jerarquía padre → hijo
+:::
+
+
+## XML: Extensible Markup Language {.smaller}
+
+> Reglas básicas
+
+::: {.incremental}
+- Preámbulo siempre al inicio: `<?xml version="1.0"?>`
+- Las etiquetas tienen apertura y cierre: `<etiqueta> .. </etiqueta>`
+- En caso de ser abreviadas: `<etiqueta .. />`
+- La indentación no afecta y es sensible a mayúscula/minúscula
+- Comentarios con `<!--  -->`
+:::
+::: {.fragment}
+- Las etiquetas pueden tener atributos:
+```xml {code-line-numbers="false" style="width: 80%;"}
+<etiqueta nombre_atributo="valor_atributo"> <!-- .. --> </etiqueta>
+```
+:::
+
+
+::: {.notes}
+- Las etiquetas tienen apertura y cierre -> toda etiqueta abierta debe cerrarse
+- Los atributos guardan propiedades: en URDF gran parte de la información aparece como atributos
+- XML ignora espacios y tabs en la mayoría de los casos, pero ayudan a la lectura/inspección
+    - estructura visual y cerrar etiquetas alineadas
+- XML es sensible a mayúsculas: `<link>` no es igual a `<Link>`
+- Los nombres deben coincidir exactamente
+:::
