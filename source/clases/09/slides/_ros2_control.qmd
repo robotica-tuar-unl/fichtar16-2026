@@ -1,0 +1,792 @@
+## Control de robots reales y simulados {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Sistemas robóticos
+
+1. #### *Sense*: Entrada (usuario / entorno)
+2. #### *Think*: Calcular o procesar
+3. #### *Act*: Controlar un actuador
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/ideal_approach-abd64b60ee4e9775cfa8cefd69d7372c.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.callout-tip appearance="simple"}
+#### Existen enorme diversidad de actuadores y métodos de control pero a la vez son siempre similares
+:::
+
+
+::: {.notes}
+- Por lo general, el elemento principal de un robot es tomar algún tipo de entrada (de un operador o del entorno), hacer algo "*inteligente*" y según el resultado controlar un actuador
+- Existen muchos tipos diferentes de actuadores e interfaces, y muchas metodologías de control distintas para resolver problemas
+- Pero dentro de. enorme universo de opciones, en realidad hay muchas similitudes
+- Si no se cuenta con algún tipo de sistema estandarizado y siempre se programa un controlador y una interfaz personalizados para cada aplicación terminamos perdiendo el tiempo reescribiendo cosas y resolviendo problemas que ya se han resuelto cientos de veces
+
+- Podría pensarse que este problema se presta bien a los *topics* de ROS: mensajes estándar, escribir nodos para los controladores y drivers, ¡y listo!
+    - Un problema con este enfoque es que queremos que algo así se ejecute a máxima velocidad
+    - no debería haber ningún retraso entre el controlador y el driver
+
+- Solución `ros2_control`
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Controller manager*
+
+- Es el centro del sistema
+- Se encarga de conectar los algoritmos de control con los elementos de "*hardware*" 
+- Utiliza un sistema de *plugins* que carga los componentes según la ejecución
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/controller_manager-e24939c0978c1da025c7eea4d869ef8e.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+:::
+
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Hardware interfaces*
+
+- Capa entre el *hardware* y `ros2_control`
+- 2 robots que se controlan igual pueden tener diferencias de implementación:
+    - Comunicación de los motores
+    - Variable que controlan
+    - Único o múltiples puertos
+    - etc.
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/robot_comparison-c96c70fa0d3316a2d0b16b25eed79199.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+- Actúa como capa de abstracción entre el *hardware* real (o simulado) y `ros2_control`
+
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Hardware interfaces*
+
+- Capa entre el *hardware* y `ros2_control`
+- 2 robots que se controlan igual pueden tener diferencias de implementación
+- El *hardware interface* aísla estos detalles para que el usuario solo utilice 2 interfaces:
+    - `state interfaces`: <br>
+        estado / sensor (entrada)
+    - `command interfaces`: <br>
+        actuador (salida)
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/command_state_interfaces-2a53343866bcca7d9e66a7dfd01090b4.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+- Mediante la capa de *hardware interface*, el usuario solo tiene que entender como se representa (no los detalles de implementación en sí)
+- La representación se simplifica en 2 tipos de interfaces:
+    - Interfaces de comando: cosas que se pueden controlar
+    - Interfaces de estado: cosas que solo se pueden monitorear 
+
+- Lo importante es que se ocultan los detalles del robot y solo se trabaja con interfaces
+
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Hardware interfaces*
+
+- Un robot puede tener múltiples *hardware interface*
+- Cada uno a su vez distinta cantidad de interfaces
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/multi_hardware_interfaces-b941b98befc1cb93d3942cf30a57539f.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+- Ejemplo de un brazo robótico sobre una base móvil cada uno con su sistema de control de motores separado o cada motor independiente
+
+- Ejemplo de un robot como el del entregable (diff drive)
+    - Actuadores: motores -> control de velocidad
+    - Cantidad 2 -> Hardware interface tendrá 2 interfaces de comando
+    - Sensores: encoders por cada motor
+    - Variables a medir con enconders -> Velocidad y posición (2)
+    - Cantidad de interfaces de estado -> 2 motores x 2 variables = 4
+
+- En caso de medir torque o corriente se podrían agregar
+
+:::
+
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Resource manager*
+
+- Permite que los controladores accedan a la lista de las interfaces
+- El manejador de recursos y los controladores conocen las interfaces a través del **URDF**:
+
+> `<ros2_control>`..`</ros2_control>`
+    
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/resource_manager-3046dd03f18cf4c0ae5dc9b200775b5c.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+- Para lidiar con el problema de los múltiples *hardware interfaces* y múltiples *interfaces*,  `ros2_control` utiliza un manejador de recursos
+
+:::
+
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Controllers*
+
+- Puerta de comunicación con el resto del ecosistema de *ROS2*:
+    - Suscriben a *topics* para recibir información
+    - Procesan esa información a través de un algoritmo
+    - Envian comandos a las interfaces de control y reciben el estado
+    - Publican en *topics* información de estado
+
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/controllers-bd5dd7e2eb5706d805171df3d84708c2.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+- Los controladores son el medio por el cual el resto del ecosistema ROS interactúa con `ros2_control`
+- Por un lado, escuchan un *topic* de ROS para recibir información de control (como la posición de las articulaciones o la velocidad del cuerpo móvil)
+- Procesan esta información y utilizan un algoritmo para determinar la velocidad y posición adecuadas de los actuadores
+- Envían a las interfaces de hardware los controles correspondientes
+- También pueden publicar información en *topics* como retroalimentación de comandos o información de estado del hardware
+- Un solo controlador puede transmitir información en ambas direcciones
+- Es común encontrar controladores que en realidad no "controlan" nada, sino que simplemente publican datos de sensores o retroalimentación
+
+:::
+
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+### *Controllers*
+
+- [SI BIEN EL HARDWARE ES ESPECÍFICO LOS CONTROLADORES ESTÁN AISLADOS Y YA EXISTEN MÚLTIPLES PROGRAMADOS]{.mark}
+
+- [PAQUETE: `ros2_controllers`]{.mark}
+
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/controllers-bd5dd7e2eb5706d805171df3d84708c2.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+> #### Resumiendo
+
+<!-- ### *Controller manager* -->
+
+- La tarea del *controller manager* es tomar los controladores solicitados y asociarlos a las interfaces de estado y de comando adecuadas
+- Para configurar los controladores se utiliza un archivo **YAML**
+- #### [Importante]{.underline}:
+    - Una interfaz de control solo puede tener asociado un controlador
+    - Una interfaz de estado sí puede asociarse a múltiples controladores
+
+
+:::
+::: {.column}
+
+<br>
+
+[![Fuente: <a href="https://articulatedrobotics.xyz" target="_blank">articulatedrobotics.xyz</a>](https://articulatedrobotics.xyz/assets/images/controllers-bd5dd7e2eb5706d805171df3d84708c2.png){fig-align="center"}](https://articulatedrobotics.xyz/tutorials/mobile-robot/applications/ros2_control-concepts/){target="_blank"}
+
+:::
+:::
+
+
+::: {.notes}
+
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+### *Controller manager* 
+
+- Para la ejecución se utiliza el nodo `ros2_control_node` dentro del paquete `controller_manager`:
+
+```bash {code-line-numbers="false"} 
+    $ ros2 run controller_manager ros2_control_node [archivo_parametros.yaml]
+```
+
+<br>
+
+- Para robots en simulación el paquete `gazebo_ros2_control` ejecuta su propio *controller manager*
+
+
+::: {.callout-note appearance="simple" title="Se necesitan los detalles del *hardware interface* en el **URDF** y de los *controllers* en el **YAML**"}
+
+:::
+
+
+::: {.notes}
+
+:::
+
+
+## Paquete `ros2_control` {.smaller}
+
+### *Controller manager*
+
+- Una vez que se encuentra en ejecución se necesita interactuar para chequear el *hardware* y lanzar los *controllers*
+
+::: {.incremental}
+- Existen 3 opciones:
+    1. A través de servicios: `ros2 service call ..`
+    2. Con comandos específicos: `ros2 control ..`
+    3. Con nodos ya programados (que llaman a los servicios) 
+:::
+
+::: {.notes}
+
+:::
+
+
+
+## Modificaciones al URDF {.smaller}
+
+- Añadir el plugin de `gz_ros2_control` a *Gazebo*:
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```xml {code-line-numbers="false"}
+<gazebo>
+    <plugin filename="gz_ros2_control-system"
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin" />
+</gazebo>
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+- Definir un hardware simulado con la etiqueta `ros2_control`:
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```xml {code-line-numbers="false"}
+<ros2_control name="GazeboSystem" type="system">
+	<hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+	<!-- Definición de las interfaces -->
+</ros2_control>
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+<br>
+
+::: {.callout-note appearance="simple" title="Se recomienda crear un archivo aparte `ros2_control.xacro` e incorporarlo al *robot description*"}
+
+:::
+
+
+::: {.notes}
+
+:::
+
+
+
+## Modificaciones al URDF {.smaller}
+
+> Configurar el *hardware interface* (tag `ros2_control`)
+
+- Las interfaces van a estar asociadas a juntas del *URDF*
+- Para definir las interfaces según el tipo
+    - Interfaces de estado: `<state_interface ../>`
+```xml {code-line-numbers="false"}
+    <joint name="[nombre_junta]">
+        <state_interface name="[position|velocity|effort]" />
+    </joint>
+```
+  
+    - Interfaces de comando: `<command_interface .. />`
+```xml {code-line-numbers="false"}
+    <joint name="[nombre_junta]">
+        <command_interface name="[velocity|position|effort]">
+            <!-- Parámetros opcionales -->
+            <param name="min">[limite_min]</param>
+            <param name="max">[limite_max]</param>
+            <param name="initial_value">[valor_incial]</param>
+        </command_interface>
+    </joint>
+```
+
+::: {.notes}
+
+:::
+
+
+
+## Modificaciones al URDF {.smaller}
+
+> Ejemplo control de velocidad y sensado de posición y velocidad
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```xml {filename="ros2_control.xacro" code-line-numbers="" }
+<ros2_control name="GazeboSystem" type="system">
+	<hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="[nombre_junta]">
+        <command_interface name="velocity">
+            <!-- Límite de 10 rpm -->
+            <param name="min">-1.047198</param>
+            <param name="max">1.047198</param>
+        </command_interface>
+        <state_interface name="position" />
+        <state_interface name="velocity" />
+    </joint>
+	<!-- .. -->
+</ros2_control>
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+## Modificaciones al URDF {.smaller}
+
+> Configurar los controladores (tag `gazebo`)
+
+- El plugin `gz_ros2_control::GazeboSimROS2ControlPlugin` realiza las siguientes acciones:
+    - Carga los elementos necesarios para que *Gazebo* se comunique con el *hardware interface*
+    - Ejecuta un *controller manager*
+    - Busca el *URDF* provisto por el `robot_state_publisher`
+
+- Para el *controller manager* se deben asignar parámetros mediante un archivo *YAML*
+
+```xml {code-line-numbers="false" code-line-numbers="3"}
+<gazebo>
+    <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
+        <parameters>$(find [nombre_paquete])/config/[nombre_archivo].yaml</parameters>
+    </plugin>
+</gazebo>
+```
+
+
+
+::: {.notes}
+
+:::
+
+
+
+## Parámetros del *controller manager* {.smaller}
+
+> Para definir los controladores se deben listar con:
+> 
+> - Nombre
+> - Tipo (según lista de controladores disponibles)
+
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```yaml {filename="controllers.yaml" code-line-numbers="false" code-line-numbers="|1|3-4|6-7,9-10"}
+controller_manager:
+  ros__parameters:
+	update_rate: 30         # Velocidad de actualización de los controladores
+	use_sim_time: true      # Utilizar la simulación de Gazebo
+
+    <nombre_controlador>
+        type: <tipo_controlador>
+    
+    <nombre_controlador2>
+        type: <tipo_controlador>
+    # ..
+
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+
+::: {.callout-note appearance="simple" title="Los utilizados serán `velocity_controllers` y `joint_state_broadcaster`"}
+
+:::
+
+
+::: {.aside}
+Lista de controladores en [control.ros.org/jazzy](https://control.ros.org/jazzy/doc/ros2_controllers/doc/controllers_index.html){target="_blank"}
+:::
+
+::: {.notes}
+
+:::
+
+
+
+## Parámetros del *controller manager* {.smaller}
+
+> Por cada controlador se deben establecer los parámetros correspondientes
+
+- Se utiliza el nombre para asociar la configuración
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```yaml {filename="controllers.yaml" code-line-numbers="false"}
+# ..
+
+<nombre_controlador>:
+  ros__parameters:
+
+	<parametro_1>: <valor>
+    <parametro_2>: <valor>
+    
+    # ..
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+::: {.notes}
+
+:::
+
+## Parámetros del *controller manager* {.smaller}
+
+> Controlador: `joint_state_broadcaster`
+
+- [Tipo]{.underline}: `joint_state_broadcaster/JointStateBroadcaster`
+- [Función]{.underline}: Leer todas las interfaces de estado y reportarlas en el topic `/joint_states`
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```yaml {filename="controllers.yaml" code-line-numbers="false" code-line-numbers="|4-5|7-8"}
+<nombre_controlador>:
+  ros__parameters:
+
+    # Listado de juntas a publicar (si no se define se publican todas)
+    joints: ["<nombre_junta1>", "<nombre_junta2>", "<..>" ]
+    
+    # Marco de referencia (por defecto es 'base_link')
+    frame_id: <nombre_marco_referencia>
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+<br>
+
+::: {.callout-note appearance="simple" title="El orden en que se publican las juntas puede ser establecido con el parámetro `joints`"}
+
+:::
+
+
+
+::: {.aside}
+[Documentación del controlador](https://control.ros.org/jazzy/doc/ros2_controllers/joint_state_broadcaster/doc/userdoc.html){target="_blank"}
+:::
+
+
+::: {.notes}
+
+:::
+
+
+## Parámetros del *controller manager* {.smaller}
+
+> Controlador: `velocity_controllers`
+
+- [Tipo]{.underline}: `velocity_controllers/JointGroupVelocityController`
+- [Función]{.underline}: Recibe comandos a través del topic `~/commands` y controla la velocidad de 1 o más juntas 
+
+::: {.hide}
+<!-- Bloque intencional -->
+:::
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```yaml {filename="controllers.yaml" code-line-numbers="false" code-line-numbers="|5-7"}
+<nombre_controlador>:
+  ros__parameters:
+
+    # Listado de juntas a controlar
+    joints:
+        - "<nombre_junta1>"
+        - "<nombre_junta2>"
+        # ..
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+
+::: {.aside}
+[Documentación del controlador](https://control.ros.org/jazzy/doc/ros2_controllers/velocity_controllers/doc/userdoc.html){target="_blank"}
+:::
+
+
+## Comandos de `ros2_control` {.smaller}
+
+- #### Listar componentes de hardware disponibles
+
+```{.bash code-line-numbers="false"}
+    $ ros2 control list_hardware_components
+```
+
+- #### Listar interfaces de hardware disponibles
+
+```{.bash code-line-numbers="false"}
+    $ ros2 control list_hardware_interfaces
+```
+
+- #### Listar controladores disponibles (para cargar)
+
+```{.bash code-line-numbers="false"}
+    $ ros2 control list_controller_types
+```
+
+- #### Listar controladores cargados
+
+```{.bash code-line-numbers="false"}
+    $ ros2 control list_controllers
+```
+
+::: {.aside}
+[Documentación de comandos](https://control.ros.org/jazzy/doc/ros2_control/ros2controlcli/doc/userdoc.html)
+:::
+
+::: {.notes}
+
+:::
+
+
+## Cargar controladores {.smaller}
+
+> Desde la linea de comando utilizando `ros2 control`:
+
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```bash {code-line-numbers="false"}
+    $ ros2 control load_controller --set-state active <nombre_controlador>
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+> Desde archivo *launch* ejecutando el comando:
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```{.py code-line-numbers="false"}
+    ExecuteProcess(
+        cmd = ['ros2', 'control', 'load_controller', '--set-state', 'active',
+               '<nombre_controlador>'],
+        output = 'screen'
+    )
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+> Desde archivo *launch* utilizando el script:
+
+::: {.columns}
+::: {.column width="10%"}
+:::
+::: {.column width="80%"}
+
+```{.py code-line-numbers="false"}
+    Node(
+        package = "controller_manager",
+        executable = "spawner",
+        arguments = [ "<nombre_controlador>" ],
+    )
+```
+
+:::
+::: {.column width="10%"}
+:::
+:::
+
+
+::: {.notes}
+
+:::

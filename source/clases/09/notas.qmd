@@ -1,0 +1,185 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Gazebo}
+\begin{itemize}
+    \item Importancia de los entornos de simulación:
+        \begin{itemize}
+            \item Esfuerzo, tiempo y costo de probar hardware real
+            \item Prueba de algoritmos con acciones que pueden presentar peligros y riesgo el código no probado
+            \item Aislar variables
+        \end{itemize}
+    \item Gazebo: gratis, open-source, de 'Open Robotics'
+    \item Entorno virtual y robot simulado: Sensores, actuadores y feedback
+    \item Cambio de \texttt{joint\_state\_publisher\_gui} (valores artificiales) por estados simulados desde Gazebo
+\end{itemize}
+
+\subsection{Archivos SDF}
+\begin{itemize}
+    \item \textit{SDF}: Simulation Description Format. Permite describir un mundo además de modelos y robots que se encuentran en el mismo.
+
+    \item Se puede convertir \textit{URDF} a \textit{SDF}. Requisitos: Nombramiento y propiedades inerciales y físicas de cada link:
+\begin{verbatim}
+<link name="[nombre_link]">
+    <!-- .. -->
+    <inertial>
+        <origin xyz="[traslacion]" rpy="[rotacion]"/>
+        <mass value="[masa_kg]"/>
+        <inertia ixx="[I_xx]" ixy="[I_xy]" ixz="[I_xz]"
+                              iyy="[I_yy]" iyz="[I_yz]"
+                                           izz="[I_zz]"/>
+    </inertial>
+    <!-- .. -->
+</link>
+\end{verbatim}
+
+    \item \texttt{inertial\_macros.xacro}
+    \begin{itemize}
+        \item Prisma
+\begin{verbatim}
+    <xacro:inertial_box mass="[masa_kg]" x="[largo]" y="[ancho]" z="[alto]">
+        <origin xyz="[traslacion]" rpy="[rotacion]"/>
+    </xacro:inertial_box>
+\end{verbatim}
+
+        \item Cilindro
+\begin{verbatim}
+    <xacro:inertial_cylinder mass="[masa_kg]" radius="[radio]" length="[ancho]">
+        <origin xyz="[traslacion]" rpy="[rotacion]"/>
+    </xacro:inertial_cylinder>
+\end{verbatim}
+
+\pagebreak
+        
+        \item Para cuando sea necesario una inercia despreciable
+\begin{verbatim}
+    <dummy_inertial />
+\end{verbatim}
+    \end{itemize}
+
+    \item Cargar URDF en gazebo desde archivo \textit{launch}
+\begin{verbatim}
+    Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-entity", "<nombre_robot>",
+            "-topic", "robot_description",
+        ],
+        output="screen",
+    )
+\end{verbatim}    
+\end{itemize}
+
+
+\section{\texttt{ros2\_control}}
+
+\begin{itemize}
+    \item Conjunto de paquetes para desarrollar controladores genéricos para todo tipo de robots
+
+    \item \texttt{ros2\_control} + \textit{Gazebo} = \texttt{gz\_ros2\_control}
+
+    \item Definir un hardware simulado con \texttt{<ros2\_control>} y añadir el plugin \texttt{gz\_ros2\_control}
+\begin{verbatim}
+    <ros2_control name="GazeboSystem" type="system">
+    	<hardware>
+            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+	    <!-- Definición de las interfaces -->
+    </ros2_control>
+    <!-- .. -->
+    <gazebo>
+        <plugin filename="gz_ros2_control-system"
+                name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <parameters>
+                $(find [nombre_paquete])/config/[nombre_archivo].yaml
+            </parameters>
+        <\plugin>
+    </gazebo>
+\end{verbatim}
+
+    \item Para cada junta \texttt{<joint>} definir las interfaces: \texttt{state\_} o \texttt{command\_} \texttt{interface} 
+\begin{verbatim}
+    <ros2_control name="GazeboSystem" type="system">
+    	<!-- .. -->
+        <joint name="[nombre_junta]">
+            <!-- Interfaz de posición -->
+            <[state|command]_interface name="position" />
+            <!-- Interfaz de velocidad -->
+            <[state|command]_interface name="velocity" />
+            <!-- Interfaz de esfuerzo -->
+            <[state|command]_interface name="effort" />
+        </joint>
+    	<!-- .. -->
+    </ros2_control>
+\end{verbatim}
+
+\pagebreak  
+
+    \item Definir controladores para \texttt{ros2\_control} en archivo \textit{YAML}
+    \begin{itemize}
+        \item \texttt{joint\_state\_broadcaster/JointStateBroadcaster}
+        \item \texttt{velocity\_controllers/JointGroupVelocityController}
+    \end{itemize}
+\begin{verbatim}
+controller_manager:
+  ros__parameters:
+	update_rate: 30         # Velocidad de actualización de los controladores
+	use_sim_time: true      # Utilizar la simulación de Gazebo
+
+    <nombre_controlador>
+        type: <tipo_controlador>
+
+    # ..
+\end{verbatim}
+
+    \item Configurar controlador \texttt{velocity\_controllers/JointGroupVelocityController}
+\begin{verbatim}
+<nombre_controlador>:
+  ros__parameters:
+	joints:
+  		- <nombre_junta>
+        # ..
+
+\end{verbatim}
+
+    \item Configurar controlador \texttt{joint\_state\_broadcaster/JointStateBroadcaster}
+\begin{verbatim}
+<nombre_controlador>:
+  ros__parameters:
+
+    # Listado de juntas a publicar (si no se define se publican todas)
+    joints: ["<nombre_junta1>", "<nombre_junta2>", "<..>" ]
+    
+    # Marco de referencia (por defecto es 'base_link')
+    frame_id: <nombre_marco_referencia>
+
+\end{verbatim}
+
+    \item Cargar controladores desde archivo \textit{launch}:
+\begin{verbatim}
+    ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller',
+             '--set-state', 'active',
+             '<nombre_controlador>'],
+        output='screen'
+    )
+\end{verbatim}
+
+\end{itemize}

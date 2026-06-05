@@ -1,0 +1,43 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: default
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        mermaid:
+            theme: neutral
+output-file: index.html
+---
+
+# *Gazebo* {visibility="hidden"}
+
+{{< include slides/_gazebo.qmd >}}
+
+
+
+
+# ROS2 Control {visibility="hidden"}
+
+{{< include slides/_ros2_control.qmd >}}
+
+
+
+
+# Taller de resolución {visibility="hidden"}
+
+## [Taller de resolución](tres.qmd) {.center}
+
+Ejercicios 3 y 4
+

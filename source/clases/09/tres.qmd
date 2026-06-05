@@ -1,0 +1,290 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Taller de resolución
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+
+# *Gazebo*
+
+## Instalación de *Gazebo*
+
+#### 1️⃣ Actualizar el sistema
+
+Actualizar repositorios apt y asegurar que los paquetes se encuentren actualizados
+```bash {code-line-numbers="false"}
+sudo apt update && sudo apt upgrade -y
+```
+
+#### 2️⃣ Instalar *Gazebo* Harmonic
+
+Instalar la versión de *Gazebo* por defecto para *ROS 2 Jazzy*
+```bash {code-line-numbers="false"}
+sudo apt install ros-jazzy-ros-gz
+```
+
+Traducido de [gazebosim.org](https://gazebosim.org/docs/harmonic/ros_installation/){target="_blank"}
+
+---------
+
+::: {.callout-note appearance="simple" title="Recuerda actualizar las dependencias del paquete. *Gazebo*: `ros_gz` y *ROS2 control*: `gz_ros2_control`"}
+
+:::
+
+
+
+## Ejecutar Gazebo
+
+#### Desde la linea de comando
+
+```bash {code-line-numbers="false"}
+ros2 launch ros_gz_sim gz_sim.launch.py gz_args:=empty.sdf
+```
+
+#### Desde archivo *launch*
+
+```py {code-line-numbers="false"}
+    IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'
+            ]),
+        ),
+        launch_arguments={
+            'gz_args': '-r empty.sdf',
+            'on_exit_shutdown': 'True'
+        }.items(),
+    ),
+```
+
+
+## Macros de inercia: `inertial_macros.xacro`
+
+#### Geometría de prisma
+
+```xml {code-line-numbers="false"}
+<xacro:inertial_box mass="[masa_kg]" x="[largo]" y="[ancho]" z="[alto]">
+    <origin xyz="[traslacion]" rpy="[rotacion]"/>
+</xacro:inertial_box>
+```
+
+#### Geometría de cilindro
+
+```xml {code-line-numbers="false"}
+<xacro:inertial_cylinder mass="[masa_kg]" radius="[radio]" length="[ancho]">
+    <origin xyz="[traslacion]" rpy="[rotacion]"/>
+</xacro:inertial_cylinder>
+```
+
+#### Geometría de esfera
+
+```xml {code-line-numbers="false"}
+<xacro:inertial_sphere mass="[masa_kg]" radius="[radio]">
+    <origin xyz="[traslacion]" rpy="[rotacion]"/>
+</xacro:inertial_sphere>
+```
+
+#### Geometría e inercia despreciable
+
+```xml {code-line-numbers="false"}
+<dummy_inertial />
+```
+
+## Cargar robot en Gazebo
+
+::: {.callout-warning appearance="simple" title="Recuerda que el URDF debe estar disponible en el topic `/robot_description` y cumplir con todos los requerimientos de *Gazebo*:"}
+
+- Geometrías de colisión e inercias definidas
+- Todos los *links* y *joints* nombrados
+- Colores y materiales (opcional)
+:::
+
+
+#### Desde la linea de comando
+
+- Mientras *Gazebo* se encuentra en ejecución:
+
+```bash {code-line-numbers="false"}
+ros2 run ros_gz_sim create -topic robot_description -entity <nombre_robot>
+```
+
+#### Desde archivo *launch*
+
+```py {code-line-numbers="false"}
+    Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-entity", "<nombre_robot>",
+            "-topic", "robot_description",
+        ],
+        output="screen",
+    ),
+```
+
+# `ros2_control`
+
+## Definición de hardware simulado y las interfaces
+
+#### Definir un hardware simulado con la etiqueta `hardware`
+
+```xml {code-line-numbers="false"}
+<ros2_control name="GazeboSystem" type="system">
+	<hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+	<!-- Definición de las interfaces -->
+</ros2_control>
+```
+
+#### Para cada junta `<joint>` definir las interfaces
+
+```xml {code-line-numbers="false"}
+<ros2_control name="GazeboSystem" type="system">
+	<!-- .. -->
+	<joint name="[nombre_junta]">
+        <!-- Interfaces -->
+    </joint>
+</ros2_control>
+```
+
+- Interfaces de estado con `<state_interface .. />`
+
+```xml {code-line-numbers="false"}
+    <joint name="[nombre_junta]">
+        <!-- Interfaz de estado de posición -->
+        <state_interface name="position" />
+        <!-- Interfaz de estado de velocidad -->
+        <state_interface name="velocity" />
+        <!-- Interfaz de estado de esfuerzo -->
+        <state_interface name="effort" />
+    </joint>
+```
+
+- Interfaces de comando `<command_interface .. />`
+
+```xml {code-line-numbers="false"}
+    <joint name="[nombre_junta]">
+        <!-- Interfaz de comando de posición -->
+        <command_interface name="position" />
+        <!-- Interfaz de comando de velocidad -->
+        <command_interface name="velocity" />
+        <!-- Interfaz de comando de esfuerzo -->
+        <command_interface name="effort" />
+    </joint>
+```
+
+::: {.callout-note appearance="simple" title="Adicionalmente las interfaces de comando pueden recibir parámetros:"}
+
+- `<param name="initial_value">[valor inicial]</param>`
+- `<param name="min">[limite_minimo]</param>`
+- `<param name="max">[limite_maximo]</param>`
+
+:::
+
+
+## Definir controladores para `ros2_control`
+
+- #### Tipos de controladores:
+  - Publicar estado de las juntas: `joint_state_broadcaster/JointStateBroadcaster`
+  - Controlar la velocidad de la junta: `velocity_controllers/JointGroupVelocityController`
+
+- #### Parámetros del *controller manager* mediante un archivo de configuración *YAML*:
+
+```yaml {code-line-numbers="false"}
+controller_manager:
+  ros__parameters:
+	update_rate: 30         # Velocidad de actualización de los controladores
+	use_sim_time: true      # Utilizar la simulación de Gazebo
+
+    <nombre_controlador>
+        type: <tipo_controlador>
+
+    # ..
+```
+
+::: {.callout-warning appearance="simple" title="Recordar configurar adecuadamente el `setup.py` para instalar los archivos de configuración"}
+
+:::
+
+#### Configuraciones `velocity_controllers/JointGroupVelocityController`
+
+```yaml {code-line-numbers="false"}
+<nombre_controlador>:
+  ros__parameters:
+	joints:
+  		- <nombre_junta>
+        # ..
+
+```
+
+#### Configuraciones `joint_state_broadcaster/JointStateBroadcaster`
+
+```yaml {code-line-numbers="false"}
+<nombre_controlador>:
+  ros__parameters:
+
+    # Listado de juntas a publicar (si no se define se publican todas)
+    joints: ["<nombre_junta1>", "<nombre_junta2>", "<..>" ]
+    
+    # Marco de referencia (por defecto es 'base_link')
+    frame_id: <nombre_marco_referencia>
+```
+
+
+## Añadir el plugin de `gz_ros2_control` a *Gazebo*
+
+- Cargar el plugin con un archivo de configuración adicional
+
+```xml {code-line-numbers="false"}
+<gazebo>
+    <plugin filename="gz_ros2_control-system"
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin" />
+        <parameters>
+            $(find [nombre_paquete])/config/[nombre_archivo].yaml
+        </parameters>
+    </plugin>
+</gazebo>
+```
+
+## Cargar controladores en `ros2_control`
+
+#### Desde la linea de comando
+
+```bash {code-line-numbers="false"}
+ros2 control load_controller --set-state active <nombre_controlador>
+```
+
+#### Desde archivo *launch* ejecutando el comando:
+
+```{.py code-line-numbers="false"}
+    ExecuteProcess(
+        cmd = ['ros2', 'control', 'load_controller',
+               '--set-state', 'active',
+               '<nombre_controlador>'],
+        output = 'screen'
+    )
+```
+
+
+# Resolución ejercicios 3 y 4
+
+{{< include ../../entregables/01/_gazebo.qmd >}}
+
+
+
+{{< include ../../entregables/01/_ros2_control.qmd >}}
