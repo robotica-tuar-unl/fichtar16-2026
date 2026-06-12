@@ -1,0 +1,78 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Cinemática}
+\begin{itemize}
+    \item Cinemática: Definición y diferencia con \textit{Dinámica}. Aplicación en la robótica y en la móvil.
+    \item Cinemática directa e inversa.
+    \item Sistemas holonómicos y no-holónomicos. Ejemplos y problemas con las restricciones. Relación con los grados de libertad.
+    \item Locomoción: definición y diferencia con \textit{Manipulación}. Ejemplos de locomoción sin ruedas. Robótica móvil con ruedas.
+    \item Tipos de ruedas, ejemplos de aplicaciones, estabilidad mecánica. Robots con ruedas, ejemplos de distintas configuraciones y sus características.
+\end{itemize}
+
+\section{Modelo cinemático de un robot diferencial}
+\begin{itemize}
+    \item Esquema geométrico. Idea del diseño: controlar el curso con la \textit{diferencia} de velocidad entre las ruedas.
+    \item Suposiciones para el modelado: \begin{itemize}
+        \item Movimiento sobre una superficie horizontal y la rotación es ortogonal a la misma.
+        \item Las ruedas no son deformables y están conectadas por una estructura rígida. El contacto con la superficie es un punto y no existe fricción para rotar sobre el punto.
+        \item No existe deslizamiento de ningún tipo, rodaje puro: para una vuelta completa de la rueda, el centro se desplaza $2 \pi r$, donde $r$ es el radio de la rueda.
+    \end{itemize}
+    \item ICR (Centro de rotación instantáneo): definición y relación con la geometría del vehículo.
+    \item Modelo cinemático directo: dada las velocidades angulares de las ruedas, calcular la velocidad lineal y angular del robot:
+    \begin{equation*}
+        \begin{split}
+        \dot\theta = \frac{r (\dot\phi_R - \dot\phi_L)}{b}
+        \end{split}
+        \quad\quad\quad
+        \begin{split}
+        R = \frac{b}{2} \frac{\dot\phi_R + \dot\phi_L}{\dot\phi_R - \dot\phi_L}
+        \end{split}
+    \end{equation*}
+    donde: \begin{itemize}
+        \item $b$ es la separación de las ruedas y $r$ es el radio de las ruedas (geometría)
+        \item $R$ es el radio de giro y $\dot\theta$ la velocidad alrededor del ICR
+        \item $\dot\phi_R$ y $\dot\phi_L$ es la velocidad angular de la rueda derecha e izquierda respectivamente
+    \end{itemize}
+    \item Casos particulares de velocidades angulares de las ruedas (linea recta, rotación sobre el centro, etc)
+
+\pagebreak
+
+    \item Definición en un marco inercial: 
+        \begin{equation*}
+        {}^I \boldsymbol{\dot\xi}_R =
+        \begin{bmatrix}
+        \cos{\theta} & -\sin{\theta} & 0 \\ 
+        \sin{\theta} & \cos{\theta} & 0 \\ 
+        0 & 0 & 1
+        \end{bmatrix}
+        \begin{bmatrix}
+            \frac{r}{2} & \frac{r}{2}\\
+            0 & 0\\
+            \frac{r}{b} & - \frac{r}{b}
+        \end{bmatrix} \begin{bmatrix} \dot\phi_R \\ \dot\phi_L \end{bmatrix}
+        \end{equation*}
+    \item Modelo cinemático inverso: dada la velocidad lineal $\dot x$ y angular $\dot \theta$ del robot, las velocidades angulares de las ruedas se pueden obtener a través de las siguientes ecuaciones:
+        \begin{equation*}
+            \begin{cases}
+                \dot\phi_R = \frac{\dot{x} + b/2 \dot{\theta}}{r} \\
+                \dot\phi_L = \frac{\dot{x} - b/2 \dot{\theta}}{r}
+            \end{cases}
+        \end{equation*}
+\end{itemize}

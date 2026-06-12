@@ -1,0 +1,906 @@
+## Robot diferencial
+
+::: {.columns}
+::: {.column}
+
+> Principio: controlar la dirección del movimiento variando las velocidades de la rueda izq. ($v_L$) y derecha por separado ($v_R$)
+
+:::
+::: {.column}
+
+```{.tikz width="100%"}
+%%| filename: diff-drive
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.75,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  %\draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[above=2] {$\boldsymbol{x}_O$};
+  %\draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[above] {$\boldsymbol{y}_O$};
+
+  \begin{scope}[shift={(P)}, rotate=20, every node/.style={scale=0.75}, transform shape]
+
+    \begin{scope}[shift={(0.75,0)}]
+    % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+    %\node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+    %\node[fill=Blue,circle,scale=0.4] at (0,0);
+    
+    % Cuerpo del robot (rectángulo)
+    \draw[fill=gray!20, draw=black, thick] (-1.5,-1) rectangle (1.5,1);
+
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, -1.35) rectangle (0, -1.05);
+
+    % Rueda izquierda
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, 1.05) rectangle (0, 1.35);
+
+    % Línea punteada entre los centros de las ruedas
+    \draw[gray!50, thick,dash pattern=on 2pt off 1pt] (-0.75, -1.05) -- (-0.75, 1.05);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, -1.2) -- (0.5, -1.2) node[midway, below] {$v_R$};
+
+    % Flecha de velocidad v_R (rueda superior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, 1.2) -- (0.5, 1.2) node[midway, above] {$v_L$};
+
+    % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+    \draw[fill=gray!60, draw=black, thick, rounded corners=0.1cm] 
+    (0.8, -0.1) rectangle ++(0.5, 0.2);
+
+    % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+    \draw[fill=white, draw=black, thick] (0.8, 0) circle (0.05);
+
+
+    % Parámetro para la longitud de ejes
+    %\def\axisLenRobot{0.75}
+
+  % Arco grueso con flecha sólida
+  \draw[-{Stealth[inset=0pt, length=7pt,flex]}, line width=3pt, ForestGreen] (-225:0.4) arc[start angle=-225, end angle=0, radius=0.4] node[midway,below] {};
+
+  \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, ForestGreen] (1.6, 0) -- ++(0.6, 0) node[midway, above] {};
+
+  \end{scope}
+
+  \end{scope}
+
+\end{tikzpicture}
+```
+
+:::
+:::
+
+## [Suposiciones para el modelo]{style="font-size: 80%;"}
+
+- El movimiento es en una superficie horizontal.
+- El contacto de las ruedas con la superficie es un punto.
+- Las ruedas no son deformables.
+- Las ruedas se encuentran conectadas por una estructura rígida.
+
+
+
+## [Suposiciones para el modelo]{style="font-size: 80%;"}
+
+::: {.columns}
+::: {.column width="60%"}
+
+- El movimiento a lo largo del eje Y se conoce como rodaje (*roll*), cualquier otro movimiento se conoce como deslizamiento.
+- Se asume que el movimiento es de rodaje puro.
+- Se asume que no existe deslizamiento de ningún tipo (*sliding*, *skidding*, *slipping*).
+
+:::
+::: {.column width="40%"}
+
+<br>
+
+<br>
+
+![](slides/figs/wheel-speeds.png){fig-align="center"}
+
+:::
+:::
+
+
+## [Suposiciones para el modelo]{style="font-size: 80%;"}
+
+::: {.columns}
+::: {.column width="60%"}
+
+- No existe fricción para una rotación alrededor del punto de contacto.
+- Los ejes de rotación son ortogonales a la superficie.
+- Para una vuelta completa de una rueda de radio $r$, el centro se desplaza $2 \pi ~r$.
+
+:::
+::: {.column width="40%"}
+
+<br>
+
+<br>
+
+![](slides/figs/wheel-speeds.png){fig-align="center"}
+
+:::
+:::
+
+
+## [ICR (*Instantaneous Center of Rotation*)]{style="font-size: 80%;"}
+
+::: {.columns}
+::: {.column width="60%"}
+
+- Para un robot con múltiples ruedas, existe un punto en común de rotación denominado **ICR**
+- La velocidad de cada rueda debe ser consistente con la rotación de la estructura rígida de modo que no exista movimiento relativo entre ellas
+
+:::
+::: {.column width="40%"}
+
+<br>
+
+<br>
+
+![](slides/figs/wheels-icr.png){fig-align="center"}
+
+:::
+:::
+
+::: {.aside}
+[Fig. 24.5a,b. de W. Chung and K. Iagnemma, “Wheeled robots” in *Springer Handbook of Robotics*, 2nd ed., B. Siciliano and O. Khatib, Eds. Cham, Switzerland: Springer, 2016, pp. 575–593]{style="font-size: 70%;"}
+:::
+
+
+## diff-bot-icr {visibility="hidden"}
+
+```{.tikz width="100%"}
+%%| filename: diff-bot-icr
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.75,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  %\draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_O$};
+  %\draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_O$};
+
+  %\begin{scope}[shift={(P)}, rotate=20, transform shape]
+
+    \begin{scope}[shift={(0.75,0)}, every node/.style={scale=0.75}]
+    % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+    %\node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+    %\node[fill=Blue,circle,scale=0.4] at (0,0);
+    
+    % Cuerpo del robot (rectángulo)
+    \draw[fill=gray!20, draw=black, thick] (-1.5,-1) rectangle (1.5,1);
+
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, -1.35) rectangle (0, -1.05);
+
+    % Rueda izquierda
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, 1.05) rectangle (0, 1.35);
+
+    % Línea punteada entre los centros de las ruedas
+    \draw[gray!50, thick,dash pattern=on 2pt off 1pt] (-0.75, -1.05) -- (-0.75, 1.05);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, Blue] (0.1, -1.2) -- (0.5, -1.2) node[midway, below] {$v_R$};
+
+    % Flecha de velocidad v_R (rueda superior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, Blue] (0.1, 1.2) -- (0.5, 1.2) node[midway, above] {$v_L$};
+
+    % --- Separación entre ruedas 'b' ---
+    % Líneas horizontales de terminación
+    \draw[thick, Gray] (-1.65, -1.2) -- (-1.85, -1.2); % línea horizontal inferior
+    \draw[thick, Gray] (-1.65, 1.2) -- (-1.85, 1.2);   % línea horizontal superior
+    % Línea de cota
+    \draw[thick, Gray] (-1.75, -1.2) -- (-1.75, 1.2);
+    % Etiqueta
+    \node[left, Gray] at (-1.75, 0) {$b$};
+
+    % --- Cota horizontal del radio 'r' ---
+    % Líneas verticales de terminación
+    \draw[thick] (-1.5, 1.4) -- (-1.5, 1.6);          % línea vertical en el borde
+    \draw[thick] (-0.75, 1.4) -- (-0.75, 1.6);         % línea vertical en el centro
+    % Línea de cota horizontal
+    \draw[thick] (-1.5, 1.5) -- (-0.75, 1.5);
+    % Etiqueta
+    \node[above] at (-1.125, 1.5) {$r$};
+
+    % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+    \draw[fill=gray!60, draw=black, thick, rounded corners=0.1cm] 
+    (0.8, -0.1) rectangle ++(0.5, 0.2);
+
+    % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+    \draw[fill=white, draw=black, thick] (0.8, 0) circle (0.05);
+
+
+    % Parámetro para la longitud de ejes
+    \def\axisLenRobot{0.75}
+
+    % Marco del robot en (-0.75, 0)
+    \begin{scope}[shift={(-0.75, 0)}]
+      %\draw[->, thick, color=Maroon] (0,0) -- (\axisLenRobot,0) node[right] {$\boldsymbol{x}_R$};
+      %\draw[->, thick, color=Maroon] (0,0) -- (0,\axisLenRobot) node[left=2] {$\boldsymbol{y}_R$};
+      \node[fill=Maroon, circle, scale=0.4] at (0,0) {};
+      \node[Maroon, left] at (0,0) {\footnotesize $P$};
+    \end{scope}
+
+  \end{scope}
+
+  % Arco grueso con flecha sólida
+  %\draw[arrows = -{Stealth[inset=0pt, length=5pt, angle'=90]}, line width=3pt, draw=ForestGreen] (45:0.4) arc[start angle=45, end angle=-135, radius=0.4];
+  %\draw[{Stealth[inset=0pt, length=7pt,flex]}-, line width=3pt, Orange] (60:0.4) arc[start angle=60, end angle=-150, radius=0.4] node[midway,below] {$\boldsymbol{\dot\theta}$};
+
+  %\end{scope}
+
+  %\draw[densely dashed,Blue] (P) -- (1.75,0);
+  %\draw[densely dashed,Blue] (2.5,2.2) -- (0,2.2);
+
+  %\draw[-, thick, ForestGreen] (1.75,2.2) ++(-10:0.5) node [below, style={scale=0.75}] {$\theta$} arc[start angle=-10, end angle=30, radius=0.5];% node [below, style={scale=0.75}] {$\theta$};
+
+  % ICR
+  \draw[densely dashed,Plum] (0,1.6) -- (0,3) node[fill=Plum,circle,scale=0.3] {} node[above=0.5] {\tiny $ICR$};
+  % Arco grueso con flecha sólida
+  \begin{scope}[shift={(0,3)}]
+  \draw[{Stealth[inset=0pt, length=7pt,flex]}-, line width=3pt, Orange] (-30:0.5) arc[start angle=-30, end angle=-150, radius=0.5] node[near end,below left] {$\boldsymbol{\dot\theta}$};
+  \end{scope}
+
+  % --- Distancia ICR 'R' ---
+  % Líneas horizontales de terminación
+  \draw[thick,ForestGreen] (.5, 0) -- (.7, 0);       % línea horizontal inferior
+  \draw[thick,ForestGreen] (.5, 3) -- (.7, 3);   % línea horizontal superior
+  % Línea de cota
+  \draw[thick,ForestGreen] (.6, 0) -- (.6, 3) node[midway, above=8, right] {$\boldsymbol{R}$};
+  % Etiqueta
+  
+
+
+\end{tikzpicture}
+```
+
+
+## [Suposiciones para el modelo de un r.d.]{style="font-size: 80%;"}
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Par de ruedas montadas a lo largo de un eje y una tercera de apoyo (no activa)
+- El *ICR* se ubica a lo largo de este eje
+
+:::
+::: {.column width="50%"}
+
+![](slides_files/mediabag/diff-bot-icr.svg){width="80%"}
+
+:::
+:::
+
+## [Velocidad angular y velocidad lineal]{style="font-size: 80%;"} {.smaller}
+
+::: {.columns}
+::: {.column width="57%"}
+
+::: {.incremental}
+- Una rueda ubicada a $\require{color} \textcolor{ForestGreen}{\mathcal{R}}$ unidades del *ICR*, rota alrededor del *ICR* a lo largo de un círculo de radio $\textcolor{ForestGreen}{\mathcal{R}}$ 
+- La velocidad lineal $\textcolor{Blue}{\upsilon}$ de una rueda puede definirse como $\textcolor{Blue}{\upsilon} = \tfrac{2 \pi \textcolor{ForestGreen}{\mathcal{R}}}{T}$ donde $T$ es el tiempo que tarda en completar una vuelta.
+- La velocidad angular $\textcolor{Orange}{\dot\theta}$ se define como $\textcolor{Orange}{\dot\theta} = \tfrac{2 \pi}{T}$ y tiene unidades de *rad/s*.
+- Combinando estas dos ecuaciones, se obtiene la relación entre velocidad lineal y angular para un movimiento circular:
+$$ 
+\textcolor{Blue}{\upsilon} = \textcolor{Orange}{\dot\theta} \textcolor{ForestGreen}{\mathcal{R}}
+$$ {#eq-V-lin}
+:::
+
+:::
+::: {.column width="5%"}
+
+:::
+::: {.column width="38%"}
+
+<br>
+
+<br>
+
+```{.tikz width="80%"}
+%%| filename: linear-ang-icr
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+
+  % Trayectoria circular
+  \draw[gray, dashed] (0,0) circle (1.5);
+
+  % Rueda sobre la trayectoria
+  %\filldraw[blue!70] (1,0) circle (0.03);
+  %\node[below right] at (1,0) {Rueda};
+
+  \begin{scope}[shift={(1.5,-0.25)}, rotate=90]
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, Blue] (0.6, 0) -- ++(0.4, 0) node[midway, right] {$v$};
+  \end{scope}
+
+  % Arco que representa 2pi
+  %\draw[->, thick, teal, dashed] (1,0) arc[start angle=0, end angle=270, radius=1];
+  %\node at (-0.1,-0.6) {$2\pi$ rad};
+
+  % Vector de velocidad angular omega (circular en el centro)
+  \draw[->, thick, Orange] (0.5,0) arc[start angle=0, end angle=60, radius=0.5] node[midway, right] {$\dot{\theta}$};
+
+  % Radio R
+  \draw[thick, ForestGreen] (0,0) -- (1.5,0) node[midway, below] {$\mathcal{R}$};
+  
+  % ICR
+  \filldraw[black, Plum] (0,0) circle (0.04) node[below left] {ICR};
+
+\end{tikzpicture}
+```
+
+:::
+:::
+
+## [Deducción del modelo de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Dado el punto medio entre las ruedas $\textcolor{Maroon}{P}$ a una distancia $\textcolor{ForestGreen}{R}$ del [*ICR*]{style="color: rgb(146, 38, 143);"}, la distancia de la rueda izquierda y la derecha al [*ICR*]{style="color: rgb(146, 38, 143);"} es:
+
+$$
+\begin{cases}
+    \mathcal{R}_L = \textcolor{ForestGreen}{R} - \tfrac{\textcolor{Gray}{b}}{2}\\
+    \mathcal{R}_R = \textcolor{ForestGreen}{R} + \tfrac{\textcolor{Gray}{b}}{2}
+\end{cases}
+$$
+
+::: {.fragment}
+- Reemplazando en [-@eq-V-lin] ($\textcolor{Blue}{\upsilon} = \textcolor{Orange}{\dot\theta} \mathcal{R}$), las velocidades lineales quedan definidas como:
+$$
+\begin{cases}
+    \textcolor{Blue}{\upsilon_L} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} - \tfrac{\textcolor{Gray}{b}}{2})\\
+    \textcolor{Blue}{\upsilon_R} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \tfrac{\textcolor{Gray}{b}}{2})
+\end{cases}
+$${#eq-V-ruedas}
+
+:::
+
+:::
+::: {.column width="50%"}
+
+![](slides_files/mediabag/diff-bot-icr.svg){width="80%"}
+
+:::
+:::
+
+
+## [Velocidad angular de un robot diferencial]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{cases}
+    \textcolor{Blue}{\upsilon_R} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \tfrac{\textcolor{Gray}{b}}{2})\\
+    \textcolor{Blue}{\upsilon_L} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} - \tfrac{\textcolor{Gray}{b}}{2})
+\end{cases}
+$$
+
+- Restando ambas ecuaciones y resolviendo para $\textcolor{Orange}{\dot\theta}$
+
+$$
+\require{cancel}
+\begin{align*}
+    \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \tfrac{\textcolor{Gray}{b}}{2}) - \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} - \tfrac{\textcolor{Gray}{b}}{2}) &= \textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L} \\
+    \textcolor{Orange}{\dot\theta} (\cancel{\textcolor{ForestGreen}{{R}}} + \tfrac{\textcolor{Gray}{b}}{2} - \cancel{\textcolor{ForestGreen}{{R}}} + \tfrac{\textcolor{Gray}{b}}{2}) &= \textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L} \\
+    \textcolor{Orange}{\dot\theta} \textcolor{Gray}{b} &= \textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L} \to \textcolor{Orange}{\dot\theta} = (\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}) / {\textcolor{Gray}{b}}\\
+\end{align*}
+$$
+
+- Expresión de $\textcolor{Orange}{\dot\theta}$ en función de las velocidades de las ruedas y la geometría:
+
+$$
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+$${#eq-vR-ang}
+
+
+## [Radio de giro de un robot diferencial]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{cases}
+    \textcolor{Blue}{\upsilon_R} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \tfrac{\textcolor{Gray}{b}}{2})\\
+    \textcolor{Blue}{\upsilon_L} = \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} - \tfrac{\textcolor{Gray}{b}}{2})
+\end{cases}
+$$
+
+- Sumando ambas ecuaciones y resolviendo para $\textcolor{ForestGreen}{{R}}$:
+
+$$
+\begin{align*}
+    \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \tfrac{\textcolor{Gray}{b}}{2}) + \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} - \tfrac{\textcolor{Gray}{b}}{2}) &= \textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}\\
+    \textcolor{Orange}{\dot\theta} (\textcolor{ForestGreen}{{R}} + \cancel{\tfrac{\textcolor{Gray}{b}}{2}} + \textcolor{ForestGreen}{{R}} - \cancel{\tfrac{\textcolor{Gray}{b}}{2}}) &= \textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L} \\
+    2 \textcolor{ForestGreen}{{R}} \, \textcolor{Orange}{\dot\theta} &= \textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L} \to \textcolor{ForestGreen}{{R}} = (\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}) / {2 \textcolor{Orange}{\dot\theta}} \\
+    %R &= \frac{\upsilon_R + \upsilon_L}{2 \dot\omega}
+\end{align*}
+$$
+
+- Reemplazando con [-@eq-vR-ang], expresión de $\textcolor{ForestGreen}{{R}}$ en función de las velocidades de las ruedas y la geometría:
+$$
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{2 \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}} \to \textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+$$
+
+## [Casos particulares del modelo de r.d.]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+\end{split}
+$$
+
+- Tres casos particulares:
+
+$$
+\begin{array}{lllc}
+\textcolor{white}{{\upsilon_R} = {\upsilon_L}}  & \textcolor{white}{{\dot\theta} = 0} & \textcolor{white}{{{R}} = \infty} & \textcolor{white}{\text{Movimiento en línea recta}} \\
+\hline
+\textcolor{white}{{\upsilon_L} = -{\upsilon_R}} & \textcolor{white}{{\dot\theta} = \begin{cases}\tfrac{2 {\upsilon_R}}{{b}} \\[.25em] \tfrac{-2 {\upsilon_L}}{{b}} \end{cases}} & \textcolor{white}{{{R}} = 0} & \textcolor{white}{\text{Movimiento de rotación}} \\
+\hline
+\begin{array}{l}
+\textcolor{white}{{\upsilon_L} = 0 \; \text{y} \; {\upsilon_R} \neq 0}  \\[.25em] \textcolor{white}{{\upsilon_R} = 0 \; \text{y} \; {\upsilon_L} \neq 0}
+\end{array} & \textcolor{white}{{\dot\theta} = \begin{cases}\tfrac{{\upsilon_R}}{{b}} \\[.25em]  \tfrac{-{\upsilon_L}}{{b}} \end{cases}} & \textcolor{white}{{{R}} = \begin{cases} \tfrac{{b}}{2} \\[.25em]  \tfrac{-{b}}{2} \end{cases}} & \textcolor{white}{\text{Rotación sobre una rueda}} \\
+\end{array}
+$$
+
+## [Casos particulares del modelo de r.d.]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+\end{split}
+$$
+
+- Tres casos particulares:
+
+$$
+\begin{array}{lllc}
+\textcolor{Blue}{\upsilon_R} = \textcolor{Blue}{\upsilon_L}  & \textcolor{Orange}{\dot\theta} = 0 & \textcolor{ForestGreen}{{R}} = \infty & \text{Movimiento en línea recta} \\
+\hline
+\textcolor{white}{{\upsilon_L} = -{\upsilon_R}} & \textcolor{white}{{\dot\theta} = \begin{cases}\tfrac{2 {\upsilon_R}}{{b}} \\[.25em] \tfrac{-2 {\upsilon_L}}{{b}} \end{cases}} & \textcolor{white}{{{R}} = 0} & \textcolor{white}{\text{Movimiento de rotación}} \\
+\hline
+\begin{array}{l}
+\textcolor{white}{{\upsilon_L} = 0 \; \text{y} \; {\upsilon_R} \neq 0}  \\[.25em] \textcolor{white}{{\upsilon_R} = 0 \; \text{y} \; {\upsilon_L} \neq 0}
+\end{array} & \textcolor{white}{{\dot\theta} = \begin{cases}\tfrac{{\upsilon_R}}{{b}} \\[.25em]  \tfrac{-{\upsilon_L}}{{b}} \end{cases}} & \textcolor{white}{{{R}} = \begin{cases} \tfrac{{b}}{2} \\[.25em]  \tfrac{-{b}}{2} \end{cases}} & \textcolor{white}{\text{Rotación sobre una rueda}} \\
+\end{array}
+$$
+
+## [Casos particulares del modelo de r.d.]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+\end{split}
+$$
+
+- Tres casos particulares:
+
+$$
+\begin{array}{lllc}
+\textcolor{Blue}{\upsilon_R} = \textcolor{Blue}{\upsilon_L}  & \textcolor{Orange}{\dot\theta} = 0 & \textcolor{ForestGreen}{{R}} = \infty & \text{Movimiento en línea recta} \\
+\hline
+\textcolor{Blue}{\upsilon_L} = -\textcolor{Blue}{\upsilon_R} & \textcolor{Orange}{\dot\theta} = \begin{cases}\tfrac{2 \textcolor{Blue}{\upsilon_R}}{\textcolor{Gray}{b}} \\[.25em] \tfrac{-2 \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}} \end{cases} & \textcolor{ForestGreen}{{R}} = 0 & \text{Movimiento de rotación} \\
+\hline
+\begin{array}{l}
+\textcolor{white}{{\upsilon_L} = 0 \; \text{y} \; {\upsilon_R} \neq 0}  \\[.25em] \textcolor{white}{{\upsilon_R} = 0 \; \text{y} \; {\upsilon_L} \neq 0}
+\end{array} & \textcolor{white}{{\dot\theta} = \begin{cases}\tfrac{{\upsilon_R}}{{b}} \\[.25em]  \tfrac{-{\upsilon_L}}{{b}} \end{cases}} & \textcolor{white}{{{R}} = \begin{cases} \tfrac{{b}}{2} \\[.25em]  \tfrac{-{b}}{2} \end{cases}} & \textcolor{white}{\text{Rotación sobre una rueda}} \\
+\end{array}
+$$
+
+## [Casos particulares del modelo de r.d.]{style="font-size: 80%;"} {.smaller}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+\end{split}
+$$
+
+- Tres casos particulares:
+
+$$
+\begin{array}{lllc}
+\textcolor{Blue}{\upsilon_R} = \textcolor{Blue}{\upsilon_L}  & \textcolor{Orange}{\dot\theta} = 0 & \textcolor{ForestGreen}{{R}} = \infty & \text{Movimiento en línea recta} \\
+\hline
+\textcolor{Blue}{\upsilon_L} = -\textcolor{Blue}{\upsilon_R} & \textcolor{Orange}{\dot\theta} = \begin{cases}\tfrac{2 \textcolor{Blue}{\upsilon_R}}{\textcolor{Gray}{b}} \\[.25em] \tfrac{-2 \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}} \end{cases} & \textcolor{ForestGreen}{{R}} = 0 & \text{Movimiento de rotación} \\
+\hline
+\begin{array}{l}
+\textcolor{Blue}{\upsilon_L} = 0 \; \text{y} \; \textcolor{Blue}{\upsilon_R} \neq 0  \\[.25em] \textcolor{Blue}{\upsilon_R} = 0 \; \text{y} \; \textcolor{Blue}{\upsilon_L} \neq 0
+\end{array} & \textcolor{Orange}{\dot\theta} = \begin{cases}\tfrac{\textcolor{Blue}{\upsilon_R}}{\textcolor{Gray}{b}} \\[.25em]  \tfrac{-\textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}} \end{cases} & \textcolor{ForestGreen}{{R}} = \begin{cases} \tfrac{\textcolor{Gray}{b}}{2} \\[.25em]  \tfrac{-\textcolor{Gray}{b}}{2} \end{cases} & \text{Rotación sobre una rueda} \\
+\end{array}
+$$
+
+
+## [Velocidades angulares de las ruedas]{style="font-size: 80%;"} {.smaller}
+
+
+::: {.columns}
+::: {.column width="57%"}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}{\textcolor{Gray}{b}}
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Blue}{\upsilon_R} + \textcolor{Blue}{\upsilon_L}}{\textcolor{Blue}{\upsilon_R} - \textcolor{Blue}{\upsilon_L}}
+\end{split}
+$$
+
+- Sea $\textcolor{Plum}{\dot\phi}$ la velocidad de rotación de la rueda:
+$$\textcolor{Blue}{\upsilon} = \textcolor{Plum}{\dot\phi} \, r$$
+
+::: {.fragment}
+
+- Reemplazando para $\textcolor{Blue}{\upsilon_R}$ y $\textcolor{Blue}{\upsilon_L}$:
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L}}{\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L}}
+\end{split}
+$$
+
+:::
+
+:::
+::: {.column width="5%"}
+
+:::
+::: {.column width="38%"}
+
+<br>
+
+```{.tikz width="80%"}
+%%| filename: diff-bot-v-ruedas
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.75,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  %\draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_O$};
+  %\draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_O$};
+
+  %\begin{scope}[shift={(P)}, rotate=20, transform shape]
+
+    \begin{scope}[shift={(0.75,0)}, every node/.style={scale=0.75}]
+    % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+    %\node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+    %\node[fill=Blue,circle,scale=0.4] at (0,0);
+    
+    % Cuerpo del robot (rectángulo)
+    \draw[fill=gray!20, draw=black, thick] (-1.5,-1) rectangle (1.5,1);
+
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, -1.35) rectangle (0, -1.05);
+
+    % Rueda izquierda
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, 1.05) rectangle (0, 1.35);
+
+    % Línea punteada entre los centros de las ruedas
+    \draw[gray!50, thick,dash pattern=on 2pt off 1pt] (-0.75, -1.05) -- (-0.75, 1.05);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, Blue] (0.1, -1.2) -- (0.5, -1.2) node[midway, below] {$v_R$};
+
+    % Flecha de velocidad v_R (rueda superior)
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, Blue] (0.1, 1.2) -- (0.5, 1.2) node[midway, above] {$v_L$};
+
+    % --- Separación entre ruedas 'b' ---
+    % Líneas horizontales de terminación
+    \draw[thick, Gray] (-1.65, -1.2) -- (-1.85, -1.2); % línea horizontal inferior
+    \draw[thick, Gray] (-1.65, 1.2) -- (-1.85, 1.2);   % línea horizontal superior
+    % Línea de cota
+    \draw[thick, Gray] (-1.75, -1.2) -- (-1.75, 1.2);
+    % Etiqueta
+    \node[left, Gray] at (-1.75, 0) {$b$};
+
+    % --- Cota horizontal del radio 'r' ---
+    % Líneas verticales de terminación
+    \draw[thick] (-1.5, 1.4) -- (-1.5, 1.6);          % línea vertical en el borde
+    \draw[thick] (-0.75, 1.4) -- (-0.75, 1.6);         % línea vertical en el centro
+    % Línea de cota horizontal
+    \draw[thick] (-1.5, 1.5) -- (-0.75, 1.5) node[near start, above] {$r$};
+    % Etiqueta
+    %\node[above] at (-1.125, 1.5) {$r$};
+
+    % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+    \draw[fill=gray!60, draw=black, thick, rounded corners=0.1cm] 
+    (0.8, -0.1) rectangle ++(0.5, 0.2);
+
+    % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+    \draw[fill=white, draw=black, thick] (0.8, 0) circle (0.05);
+
+    % Parámetro para la longitud de ejes
+    \def\axisLenRobot{0.75}
+
+    % Marco del robot en (-0.75, 0)
+    \begin{scope}[shift={(-0.75, 0)}]
+      %\draw[->, thick, color=Maroon] (0,0) -- (\axisLenRobot,0) node[right] {$\boldsymbol{x}_R$};
+      %\draw[->, thick, color=Maroon] (0,0) -- (0,\axisLenRobot) node[left=2] {$\boldsymbol{y}_R$};
+      %\node[fill=Maroon, circle, scale=0.4] at (0,0) {};
+      %\node[Maroon, left] at (0,0) {\footnotesize $P$};
+    \end{scope}
+
+  \end{scope}
+
+  % Arco grueso con flecha sólida
+  %\draw[arrows = -{Stealth[inset=0pt, length=5pt, angle'=90]}, line width=3pt, draw=ForestGreen] (45:0.4) arc[start angle=45, end angle=-135, radius=0.4];
+  %\draw[{Stealth[inset=0pt, length=7pt,flex]}-, line width=3pt, Orange] (60:0.4) arc[start angle=60, end angle=-150, radius=0.4] node[midway,below] {$\boldsymbol{\dot\theta}$};
+
+  %\end{scope}
+  
+  \begin{scope}[shift={(0, -1.75)}]  
+    \draw[thick, ->, Plum] (15:0.35) arc[start angle=15, end angle=330, x radius=0.35, y radius=0.12];
+    \node[Plum] at (0,-0.35) {$\dot\phi_R$};
+  \end{scope}
+
+  \begin{scope}[shift={(0, 1.75)}]  
+    \draw[thick, ->, Plum] (15:0.35) arc[start angle=15, end angle=330, x radius=0.35, y radius=0.12];
+    \node[Plum] at (0,0.45) {$\dot\phi_L$};
+  \end{scope}
+
+  %\draw[densely dashed,Blue] (P) -- (1.75,0);
+  %\draw[densely dashed,Blue] (2.5,2.2) -- (0,2.2);
+
+  %\draw[-, thick, ForestGreen] (1.75,2.2) ++(-10:0.5) node [below, style={scale=0.75}] {$\theta$} arc[start angle=-10, end angle=30, radius=0.5];% node [below, style={scale=0.75}] {$\theta$};
+
+  % ICR
+  %\draw[densely dashed,Plum] (0,1.6) -- (0,3) node[fill=Plum,circle,scale=0.3] {} node[above=0.5] {\tiny $ICR$};
+
+  % --- Distancia ICR 'R' ---
+  % Líneas horizontales de terminación
+  %\draw[thick,ForestGreen] (.5, 0) -- (.7, 0);   % línea horizontal inferior
+  %\draw[thick,ForestGreen] (.5, 3) -- (.7, 3);   % línea horizontal superior
+  % Línea de cota
+  %\draw[thick,ForestGreen] (.6, 0) -- (.6, 3) node[midway, above=8, right] {$\boldsymbol{R}$};
+  % Etiqueta
+
+\end{tikzpicture}
+```
+
+:::
+:::
+
+
+## diff-bot-speeds {visibility="hidden"}
+
+```{.tikz width="100%"}
+%%| filename: diff-bot-speeds
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.75,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  %\draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[below] {$\boldsymbol{x}_O$};
+  %\draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[left] {$\boldsymbol{y}_O$};
+
+  \begin{scope}[shift={(0.75,0)}, every node/.style={scale=0.75}]
+    % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+    %\node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+    %\node[fill=Blue,circle,scale=0.4] at (0,0);
+    
+    % Cuerpo del robot (rectángulo)
+    \draw[fill=gray!20, draw=black, thick] (-1.5,-1) rectangle (1.5,1);
+
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, -1.35) rectangle (0, -1.05);
+
+    % Rueda izquierda
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, 1.05) rectangle (0, 1.35);
+
+    % Línea punteada entre los centros de las ruedas
+    \draw[gray!50, thick,dash pattern=on 2pt off 1pt] (-0.75, -1.05) -- (-0.75, 1.05);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    %\draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, -1.2) -- (0.5, -1.2) node[midway, below] {$v_R$};
+
+    % Flecha de velocidad v_R (rueda superior)
+    %\draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, 1.2) -- (0.5, 1.2) node[midway, above] {$v_L$};
+
+    % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+    \draw[fill=gray!60, draw=black, thick, rounded corners=0.1cm] 
+    (0.8, -0.1) rectangle ++(0.5, 0.2);
+
+    % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+    \draw[fill=white, draw=black, thick] (0.8, 0) circle (0.05);
+
+
+    % Parámetro para la longitud de ejes
+    \def\axisLenRobot{0.75}
+
+    % Marco del robot en (-0.75, 0)
+    \begin{scope}[shift={(-0.75, 0)}]
+      \draw[->, thick, color=Maroon] (0,0) -- (\axisLenRobot,0) node[right] {$\boldsymbol{x}_R$};
+      \draw[->, thick, color=Maroon] (0,0) -- (0,\axisLenRobot) node[left=2] {$\boldsymbol{y}_R$};
+      \node[fill=Maroon, circle, scale=0.4] at (0,0) {};
+      %\node[Maroon, left] at (0,0) {\footnotesize $P$};
+    \end{scope}
+
+  \end{scope}
+
+  % Arco grueso con flecha sólida
+  %\draw[-{Stealth[inset=0pt, length=7pt,flex]}, line width=3pt, Orange] (-225:0.4) arc[start angle=-225, end angle=0, radius=0.4] node[midway,below] {\footnotesize $\dot{\theta}$};
+  \draw[{Stealth[inset=0pt, length=7pt,flex]}-, line width=3pt, Orange] (60:0.4) arc[start angle=60, end angle=-150, radius=0.4] node[midway,below] {$\boldsymbol{\dot\theta}$};
+
+  \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, ForestGreen] (2.4, 0) -- ++(0.6, 0) node[midway, above] {$\dot{x}$};
+  \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, ForestGreen] (0,1.5) -- ++(0,0.6) node[midway, right] {$\dot{y}$};
+
+
+\end{tikzpicture}
+```
+
+
+## [Velocidades lineales del robot diferencial]{style="font-size: 80%;"} {.smaller}
+
+::: {.columns}
+::: {.column width="57%"}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})
+\end{split}
+\quad\quad\quad
+\begin{split}
+{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L}}{\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L}}
+\end{split}
+$$
+
+- Sea $\textcolor{ForestGreen}{\dot{x}}$ e $\textcolor{ForestGreen}{\dot{y}}$ la velocidad lineal del robot en los ejes $\textcolor{Maroon}{\boldsymbol{x}_R}$ e $\textcolor{Maroon}{\boldsymbol{y}_R}$
+
+- Utilizando la ecuación de velocidad angular:
+$$
+\require{cancel}
+\begin{align*}
+    {}^\textcolor{Maroon}{R}\textcolor{ForestGreen}{\dot{x}} = \textcolor{Orange}{\dot\theta} \, R &=  \frac{r}{{\textcolor{Gray}{b}}} {(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})} \, \frac{{\textcolor{Gray}{b}}}{2} \frac{\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L}}{{\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L}}}\\
+    {}^\textcolor{Maroon}{R}\textcolor{ForestGreen}{\dot{x}} &= \frac{r}{2} \, (\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L})
+\end{align*}
+$$
+
+
+::: {.fragment}
+::: {.callout-tip appearance="simple"}
+Que pasa con $\textcolor{ForestGreen}{\dot{y}}$ ?
+:::
+:::
+
+:::
+::: {.column width="5%"}
+
+:::
+::: {.column width="38%"}
+
+<br>
+
+![](slides_files/mediabag/diff-bot-speeds.svg){width="100%"}
+
+:::
+:::
+
+
+## [Velocidades lineales del robot diferencial]{style="font-size: 80%;"} {.smaller}
+
+
+::: {.columns}
+::: {.column width="57%"}
+
+$$
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})
+\end{split}
+\quad\quad\quad
+\begin{split}
+{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L}}{\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L}}
+\end{split}
+$$
+
+- Sea $\textcolor{ForestGreen}{\dot{x}}$ e $\textcolor{ForestGreen}{\dot{y}}$ la velocidad lineal del robot en los ejes $\textcolor{Maroon}{\boldsymbol{x}_R}$ e $\textcolor{Maroon}{\boldsymbol{y}_R}$
+
+- Utilizando la ecuación de velocidad angular:
+$$
+\begin{align*}
+    {}^\textcolor{Maroon}{R}\textcolor{ForestGreen}{\dot{x}} &= \frac{r}{2} \, (\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L})\\
+    {}^\textcolor{Maroon}{R}\textcolor{ForestGreen}{\dot{y}} &= 0
+\end{align*}
+$$
+
+:::
+::: {.column width="5%"}
+
+:::
+::: {.column width="38%"}
+
+<br>
+
+![](slides_files/mediabag/diff-bot-speeds.svg){width="100%"}
+
+:::
+:::

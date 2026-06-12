@@ -1,0 +1,109 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Taller de resolución
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+filters:
+    - diagram
+diagram:
+    engine:
+        tikz:
+            execpath: pdflatex
+            header-includes:
+                - '\usetikzlibrary{arrows.meta, shapes, intersections, calc}'
+                - '\usepackage{tikz-dimline}'
+                - '\usepackage{amsmath}'
+                - '\usepackage{adjustbox}'
+                - '\usepackage{graphicx}'
+---
+
+# Cinemática de un robot diferencial
+
+![](slides_files/mediabag/diff-bot-icr.svg){width="50%" fig-align="center"}
+
+## Modelo cinemático directo
+
+- Dada las velocidades angulares de las ruedas (derecha $\textcolor{Blue}{\upsilon_R}$ e izquierda $\textcolor{Blue}{\upsilon_L}$) y las propiedades geométricos del robot (separación entre las ruedas $\textcolor{Gray}{b}$ y radio de las ruedas $r$), calcular su velocidad angular $\textcolor{Orange}{\dot\theta}$ y radio de giro $\textcolor{ForestGreen}{{R}}$ al rededor del $\textcolor{Plum}{ICR}$:
+
+$$
+{\Large
+\begin{split}
+\textcolor{Orange}{\dot\theta} = \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})
+\end{split}
+\quad\quad\quad
+\begin{split}
+\textcolor{ForestGreen}{{R}} = \frac{\textcolor{Gray}{b}}{2} \frac{\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L}}{\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L}}
+\end{split}
+}
+$$
+
+## Modelo cinemático inverso
+
+-  Dada la velocidad lineal $\textcolor{ForestGreen}{\dot{x}}$ y la velocidad angular $\textcolor{Orange}{\dot\theta}$ del robot junto con las propiedades geométricas (separación entre las ruedas $\textcolor{Gray}{b}$ y radio de las ruedas $r$), calcular las velocidades angulares de la rueda derecha $\textcolor{Blue}{\upsilon_R}$ e izquierda $\textcolor{Blue}{\upsilon_L}$:
+
+
+$$
+{\Large
+\begin{cases}
+    \textcolor{Plum}{\dot\phi_R} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} + \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta}) \\[0.5em]
+    \textcolor{Plum}{\dot\phi_L} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} - \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta})
+\end{cases}
+}
+$$
+
+## Marco inercial
+
+
+![](slides_files/mediabag/diff-bot-inertial-speeds.svg){width="70%" fig-align="center"}
+
+- Pose en el marco de referencia local del robot $\textcolor{Maroon}{\mathcal{P}: \{ \mathcal{X}_R, \mathcal{Y}_R \}}$
+
+$$
+{\Large
+{}^\textcolor{Maroon}{R} \boldsymbol{\dot \xi} =
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{bmatrix}} = \begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+}
+$$
+
+- Pose en el marco de referencia inercial (global) $\textcolor{Blue}{\mathcal{O}: \{ \mathcal{X}_O, \mathcal{Y}_O \}}$
+
+$$
+{\Large
+{}^\textcolor{Blue}{O} \boldsymbol{\dot\xi}_\textcolor{Maroon}{R} = \boldsymbol{R}(\textcolor{Orange}{\theta}) {}^\textcolor{Maroon}{R} \boldsymbol{\dot\xi}_\textcolor{Maroon}{P} =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+}
+$$
+
+# Resolución ejercicios 5 al 8
+
+{{< include ../../entregables/01/_cinematica.qmd >}}

@@ -1,0 +1,337 @@
+## [Modelo cinemático de un robot diferencial]{style="font-size: 80%;"} {.smaller}
+
+
+::: {.columns}
+::: {.column width="57%"}
+
+- Se define un marco inercial $\textcolor{Blue}{\mathcal{O}: \{ \mathcal{X}_O, \mathcal{Y}_O \}}$ y un marco de referencia local del robot $\textcolor{Maroon}{\mathcal{P}: \{ \mathcal{X}_R, \mathcal{Y}_R \}}$
+
+::: {.fragment}
+- La velocidad del robot en el marco local:
+
+$$
+{}^\textcolor{Maroon}{R} \boldsymbol{\dot \xi}_\textcolor{Maroon}{P} = 
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{pmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{pmatrix}_\textcolor{Maroon}{P}} =
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{pmatrix}
+    \frac{r}{2} \, (\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L})\\
+    0 \\
+    \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})
+\end{pmatrix}_\textcolor{Maroon}{P}}
+$$
+
+:::
+
+::: {.fragment}
+- Expresado en forma matricial
+$$
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{bmatrix}_\textcolor{Maroon}{P}} = \begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+$${#eq-pose-local}
+
+:::
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="38%"}
+
+<br>
+
+<br>
+
+```{.tikz width="100%"}
+%%| filename: diff-bot-inertial-speeds
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+  \definecolor{Black}{RGB}{0,0,0}
+  \definecolor{Blue}{RGB}{46, 49, 146}              % pigment: {0.2, 0.2, 0.6}
+  \definecolor{ForestGreen}{RGB}{21, 155, 82}       % web: {0.13, 0.55, 0.13}
+  \definecolor{Orange}{RGB}{244, 110, 43}           % web color: {1.0, 0.65, 0.0}
+  \definecolor{Maroon}{rgb}{0.76, 0.13, 0.28}       % brightmaroon
+  \definecolor{Gray}{RGB}{145, 143, 143}            % html/cssgray: {0.5, 0.5, 0.5}
+  \definecolor{Plum}{RGB}{141, 25, 143}             % traditional: {0.56, 0.27, 0.52}
+
+
+  \def\axisLen{3.5}
+  \def\inclinacion{1.8}
+  \coordinate (P) at (1.75,2.2);
+  \coordinate (B) at (0,0);
+
+  % Ejes del marco A
+  \draw[->,very thick,color=Blue] (0,0) -- (\axisLen,0) node[above=2] {$\boldsymbol{x}_O$};
+  \draw[->,very thick,color=Blue] (0,0) -- (0,\axisLen) node[above] {$\boldsymbol{y}_O$};
+
+  \begin{scope}[shift={(P)}, rotate=20, every node/.style={scale=0.75}, transform shape]
+
+  \begin{scope}[shift={(0.75,0)}, every node/.style={scale=0.75}]
+    % Etiqueta del marco de referencia A (debajo del origen, a la derecha)
+    %\node[below right, color=Blue] at (0,-0.1) {$\{\boldsymbol{A}\}$};
+    %\node[fill=Blue,circle,scale=0.4] at (0,0);
+    
+    % Cuerpo del robot (rectángulo)
+    \draw[fill=gray!20, draw=black, thick] (-1.5,-1) rectangle (1.5,1);
+
+    % Rueda derecha
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, -1.35) rectangle (0, -1.05);
+
+    % Rueda izquierda
+    \draw[fill=gray!80, draw=black, thick, rounded corners=0.15cm]
+    (-1.5, 1.05) rectangle (0, 1.35);
+
+    % Línea punteada entre los centros de las ruedas
+    \draw[gray!50, thick,dash pattern=on 2pt off 1pt] (-0.75, -1.05) -- (-0.75, 1.05);
+
+    % Flecha de velocidad v_L (rueda inferior)
+    %\draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, -1.2) -- (0.5, -1.2) node[midway, below] {$v_R$};
+
+    % Flecha de velocidad v_R (rueda superior)
+    %\draw[-{Stealth[scale=0.6,inset=0pt]}, thick] (0.1, 1.2) -- (0.5, 1.2) node[midway, above] {$v_L$};
+
+    % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+    \draw[fill=gray!60, draw=black, thick, rounded corners=0.1cm] 
+    (0.8, -0.1) rectangle ++(0.5, 0.2);
+
+    % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+    \draw[fill=white, draw=black, thick] (0.8, 0) circle (0.05);
+
+
+    % Parámetro para la longitud de ejes
+    \def\axisLenRobot{0.75}
+
+    % Marco del robot en (-0.75, 0)
+    \begin{scope}[shift={(-0.75, 0)}]
+      \draw[->, thick, color=Maroon] (0,0) -- (\axisLenRobot,0) node[right] {$\boldsymbol{x}_R$};
+      \draw[->, thick, color=Maroon] (0,0) -- (0,\axisLenRobot) node[left=2] {$\boldsymbol{y}_R$};
+      \node[fill=Maroon, circle, scale=0.4] at (0,0) {};
+      \node[Maroon, above right] at (0,0) {\footnotesize $P$};
+    \end{scope}
+
+  \end{scope}
+  
+  \end{scope}
+
+  \draw[densely dashed,Blue] (P) -- (1.75,0);
+  \draw[densely dashed,Blue] (0,2.2) -- ++(2.8,0);
+
+  %\draw[-, thick, Orange] (1.75,2.2) ++(-5:0.6) arc[start angle=-5, end angle=30, radius=0.6] node [above, style={scale=0.75}] {$\theta$};
+
+
+  \begin{scope}[shift={(P)}, rotate=20, every node/.style={scale=0.75}, transform shape]
+    % Arco grueso con flecha sólida
+    \draw[-{Stealth[inset=0pt, length=7pt,flex]}, line width=3pt, Orange] (-225:0.4) arc[start angle=-225, end angle=0, radius=0.4] node[near start,below left] {\small $\dot{\theta}$};
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, ForestGreen] (2.4, 0) -- ++(0.6, 0) node[midway, above] {$\dot{x}$};
+    \draw[-{Stealth[scale=0.6,inset=0pt]}, thick, ForestGreen] (0,1.5) -- ++(0,0.6) node[midway, right] {$\dot{y}$};
+  \end{scope}
+
+
+\end{tikzpicture}
+```
+
+:::
+:::
+
+
+## [Modelo cinemático directo de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+- [Modelo cinemático directo]{.underline}: Dada las velocidades de las ruedas, la orientación actual y la geometría del robot, obtener la velocidad en el marco inercial $\textcolor{Blue}{\mathcal{O}}$.
+
+$$
+\boldsymbol{f}(\textcolor{Gray}{b}, r, \textcolor{Orange}{\theta}, \textcolor{Plum}{\dot\phi_R}, \textcolor{Plum}{\dot\phi_L} ) = \sideset{^\textcolor{Blue}{\mathcal{O}}}{}{\boldsymbol{\dot\xi}_\textcolor{Maroon}{R}} = \sideset{^\textcolor{Blue}{\mathcal{O}}}{}{\begin{bmatrix} \textcolor{ForestGreen}{\dot{x}} \\ \textcolor{ForestGreen}{\dot{y}} \\ \textcolor{Orange}{\dot\theta} \end{bmatrix}_\textcolor{Maroon}{R}}
+$$
+
+::: {.fragment}
+- Dada $\boldsymbol{R}(\textcolor{Orange}{\theta})$ la matriz de rotación entre el marco local $\textcolor{Maroon}{R}$ y el inercial $\textcolor{Blue}{\mathcal{O}}$:
+
+$$
+{}^\textcolor{Blue}{\mathcal{O}} \boldsymbol{\dot\xi}_\textcolor{Maroon}{R} = \boldsymbol{R}(\textcolor{Orange}{\theta}) {}^\textcolor{Maroon}{R} \boldsymbol{\dot\xi}_\textcolor{Maroon}{P} =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{bmatrix}_\textcolor{Maroon}{P}}
+$$
+
+:::
+
+## [Modelo cinemático directo de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+$$
+{}^\textcolor{Blue}{O} \boldsymbol{\dot\xi}_\textcolor{Maroon}{R} =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{bmatrix}_\textcolor{Maroon}{P}}
+$$
+
+- Utilizando la definición de [-@eq-pose-local]:
+
+$$
+{}^\textcolor{Blue}{O} \boldsymbol{\dot\xi}_\textcolor{Maroon}{R} =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+$$
+
+
+
+$$
+\boldsymbol{f}(\textcolor{Gray}{b}, r, \textcolor{Orange}{\theta}, \textcolor{Plum}{\dot\phi_R}, \textcolor{Plum}{\dot\phi_L} ) =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+$$
+
+## [Modelo cinemático directo de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+- Nombrando $\textcolor{ForestGreen}{V}$ a la velocidad lineal en el eje $\textcolor{Maroon}{\boldsymbol{x}_R}$ del marco local del robot: 
+
+$$
+\textcolor{ForestGreen}{V} = {}^\textcolor{Maroon}{R}\textcolor{ForestGreen}{\dot{x}} = \frac{r}{2} \, (\textcolor{Plum}{\dot\phi_R} + \textcolor{Plum}{\dot\phi_L})
+$$
+
+- Sabiendo que $\textcolor{Orange}{\dot\theta} =  \frac{r}{\textcolor{Gray}{b}}(\textcolor{Plum}{\dot\phi_R} - \textcolor{Plum}{\dot\phi_L})$, podemos escribir de forma abreviada:
+
+$$
+\boldsymbol{f}(\textcolor{Gray}{b}, r, \textcolor{Orange}{\theta}, \textcolor{Plum}{\dot\phi_R}, \textcolor{Plum}{\dot\phi_L} ) =
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 1
+\end{bmatrix} \begin{bmatrix} \textcolor{ForestGreen}{V} \\ \textcolor{Orange}{\dot\theta} \end{bmatrix}
+$$
+
+
+## [Modelo cinemático inverso de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+- [Modelo cinemático inverso]{.underline}: Dada la velocidad del robot, la orientación actual y la geometría del robot, obtener las velocidades de las ruedas.
+
+$$
+\boldsymbol{g}(\textcolor{Gray}{b}, r, \textcolor{Orange}{\theta}, {}^\textcolor{Blue}{O} \boldsymbol{\dot\xi}_\textcolor{Maroon}{R} ) = \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} & \textcolor{Plum}{\dot\phi_L} \end{bmatrix} \Rightarrow \boldsymbol{f}^{-1} = {( {}^\textcolor{Blue}{O}{\boldsymbol{\dot\xi}}_\textcolor{Maroon}{R} )}^{-1} = \sideset{^\textcolor{Maroon}{R}}{_\textcolor{Blue}{O}}{\boldsymbol{\dot\xi}}
+$$
+
+::: {.fragment}
+- Como está planteado el problema, no es invertible:
+
+$$
+\boldsymbol{g} = \boldsymbol{f}^{-1} = 
+\left(
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta}} & -\sin{\textcolor{Orange}{\theta}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta}} & \cos{\textcolor{Orange}{\theta}} & 0 \\ 
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+\right)^{-1}
+$$
+
+:::
+
+## [Modelo cinemático inverso de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+- Sabiendo que no hay velocidad en la componente $\textcolor{Maroon}{\boldsymbol{y}_R}$ del robot, es posible reducir [-@eq-pose-local] a dos ecuaciones:
+
+$$
+\begin{gather*}
+{}^\textcolor{Maroon}{R} \boldsymbol{\dot \xi}_\textcolor{Maroon}{P} = 
+\sideset{^\textcolor{Maroon}{R}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\
+    \textcolor{ForestGreen}{\dot{y}} \\
+    \textcolor{Orange}{\dot\theta}
+\end{bmatrix}_\textcolor{Maroon}{P}} = \begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    0 & 0\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}\\[0.5em]
+\downarrow\\[0.5em]
+\overline{{}^\textcolor{Maroon}{R} \boldsymbol{\dot \xi}_\textcolor{Maroon}{P}} = 
+\sideset{^\textcolor{Maroon}{R}}{_\textcolor{Maroon}{P}}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\ \textcolor{Orange}{\dot\theta}
+\end{bmatrix}} =
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix}
+\begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix}
+\end{gather*}
+$$
+
+## [Modelo cinemático inverso de un r.d.]{style="font-size: 80%;"} {.smaller}
+
+- Invirtiendo el sistema:
+
+$$
+\begin{bmatrix} \textcolor{Plum}{\dot\phi_R} \\ \textcolor{Plum}{\dot\phi_L} \end{bmatrix} =
+\begin{bmatrix}
+    \tfrac{r}{2} & \tfrac{r}{2}\\
+    \tfrac{r}{b} & -\tfrac{r}{b}
+\end{bmatrix}^{-1}
+\sideset{^\textcolor{Maroon}{R}}{}{
+\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\ \textcolor{Orange}{\dot\theta}
+\end{bmatrix}} =
+\begin{bmatrix}
+    \tfrac{1}{r} & \tfrac{b}{2r}\\
+    \tfrac{1}{r} & - \tfrac{b}{2r}
+\end{bmatrix}
+\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}} \\ \textcolor{Orange}{\dot\theta}
+\end{bmatrix}
+$$
+
+::: {.fragment}
+- De forma simplificada:
+
+$$
+\begin{cases}
+    \textcolor{Plum}{\dot\phi_R} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} + \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta}) \\[0.5em]
+    \textcolor{Plum}{\dot\phi_L} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} - \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta})
+\end{cases}
+$$
+
+:::
+
+::: {.aside}
+Se puede verificar reemplazando la definición [-@eq-V-lin] en [-@eq-V-ruedas] y $\upsilon = \dot\phi \, r$
+:::

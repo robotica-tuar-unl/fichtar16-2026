@@ -1,0 +1,65 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: default
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+filters:
+    - diagram
+diagram:
+    engine:
+        tikz:
+            execpath: pdflatex
+            header-includes:
+                - '\usepackage{cancel}'
+                - '\usepackage{amsmath}'
+                - '\usetikzlibrary{arrows.meta, shapes, intersections, decorations.markings,bending}'
+                - '\usepackage{adjustbox}'
+jupyter: python3
+output-file: index.html
+---
+
+# Cinemática {visibility="hidden"}
+
+{{< include slides/_cinematica.qmd >}}
+
+
+
+
+# Robot diferencial {visibility="hidden"}
+
+{{< include slides/_diff-drive.qmd >}}
+
+
+
+
+# Modelo cinemático {visibility="hidden"}
+
+{{< include slides/_mod-cinematico.qmd >}}
+
+
+
+
+# Taller de resolución {visibility="hidden"}
+
+## [Taller de resolución](tres.qmd) {.center}
+
+Ejercicios 5 al 8
+

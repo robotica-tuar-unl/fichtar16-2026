@@ -1,0 +1,374 @@
+## Cinemática {.smaller}
+
+> **Def.:** Rama de la mecánica que describe el \underline{movimientos} de los objetos sólidos sin considerar las causas que lo originan. Estudio de la trayectoria en función del tiempo ^[Wikipedia, "Cinemática", disponible en: [es.wikipedia.org/wiki/Cinemática](https://es.wikipedia.org/wiki/Cinemática)]
+
+. . .
+
+- Utiliza velocidades y aceleraciones
+- Diferencia con *Dinámica* (estudio de [fuerzas]{.underline} y sus efectos)
+- Modelos más simples
+
+. . .
+
+::: {.callout-note title="Se utilizará la notación de Newton para las derivadas"}
+
+Velocidad $\boldsymbol{\upsilon}$ (primera derivada) y aceleración $\boldsymbol{a}$ (segunda derivada):
+
+$$
+\boldsymbol{\upsilon} = \frac{d\boldsymbol{x}}{dt} = \boldsymbol{\dot{x}} \qquad\qquad \boldsymbol{a} = \frac{d^2\boldsymbol{x}}{dt^2} = \boldsymbol{\ddot{x}}
+$$
+:::
+
+
+## Modelo cinemático
+
+- Los modelos cinemáticos lidian con la relación entre el movimiento de las ruedas y las restricciones de movimiento de la plataforma
+
+. . .
+
+::: {style="font-size: 80%;"}
+<br>
+
+
+::: {.list-table header-rows="0" aligns="c,c" tbl-colwidths="[50,50]"}
+
+- - **Cinemática directa** 
+  - **Cinemática inversa**
+
+- - []{align=l} Dado un conjunto de velocidades de las ruedas (y la geometría del robot), determinar la velocidad del robot.
+  - []{align=l} Dada la velocidad del robot (y la geometría), determinar el conjunto de velocidades de las ruedas.
+
+- - Utilidad: **Posicionamiento**
+  - Utilidad: **Control**
+
+:::
+
+:::
+
+
+
+
+## Grados de libertad
+
+::: {style="font-size: 80%;"}
+
+::: {.list-table header-rows="0" aligns="c,c" tbl-colwidths="[50,50]"}
+
+- - **Sistemas holonómicos**
+  - **Sistemas no-holonómicos**
+
+- - []{align=l} El sistema puede moverse instantáneamente en cualquier dirección según sus grados de libertad.
+  - []{align=l} El sistema **no** puede moverse instantáneamente en cualquier dirección.
+
+- - **Silla de oficina con rueditas**
+  - **Auto de calle**
+
+:::
+
+:::
+
+
+## Locomoción {.smaller}
+
+> **Def.:** mecanismos que permiten al robot moverse libremente dentro de su entorno [^2]
+
+. . .
+
+- Se diferencia con *Manipulación* donde el robot está fijo y se mueven los objetos
+- Para robótica móvil el uso de ruedas es eficiente en terrenos planos y firmes
+
+::: {.columns}
+::: {.column}
+
+![](https://bostondynamics.com/wp-content/uploads/2023/05/spot-explorer-web-2-768x432.jpg){fig-align="center" width="90%"}
+
+:::
+::: {.column}
+
+![](https://husarion.com/assets/images/panther-1-medium-f0cff804d78a1d6957169b17667d8e65.png){fig-align="center" width="80%"}
+
+:::
+:::
+
+
+
+[^2]:R. Siegwart, I. R. Nourbakhsh, and D. Scaramuzza, Introduction to Autonomous Mobile Robots, 2nd ed. Cambridge, MA: MIT Press, 2011
+
+## Tipos de ruedas
+
+![](slides/figs/tipos-ruedas.png){width="30%" fig-align="center"}
+
+
+. . .
+
+- 3 ruedas son suficientes para garantizar estabilidad. Más de 3 requieren un sistema de suspención adecuado
+- La selección depende de la aplicación
+
+## Configuraciones de robots con ruedas
+
+<center>
+
+```{.tikz width="75%"}
+%%| filename: robots-con-ruedas
+%%| fig-align: 'center'
+
+\begin{tikzpicture}
+
+  \node[below] at  (0,0) {\scriptsize Diff-drive};
+
+  \begin{scope}[shift={(0,0)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.75,0)}]
+      % Cuerpo del robot (rectángulo)
+      \draw[fill=gray!20, draw=black, thick] (-0.75,-0.375) rectangle ++(1.5,0.75);
+
+      % Rueda derecha
+      \begin{scope}[shift={(-0.67,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      % Rueda izquierda
+      \begin{scope}[shift={(-0.67,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      \begin{scope}[shift={(0.15,0)}]
+        % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+        % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+        \draw[fill=white, draw=black] (0,0) circle (0.03);
+      \end{scope}
+    \end{scope}
+  \end{scope}
+
+  \node[below] at (1.5,0) {\scriptsize Skid-steer};
+
+  \begin{scope}[shift={(1.5,0)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.75,0)}]
+      % Cuerpo del robot (rectángulo)
+      \draw[fill=gray!20, draw=black, thick] (-0.75,-0.375) rectangle ++(1.5,0.75);
+
+      % Rueda derecha
+      \begin{scope}[shift={(-0.67,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      % Rueda izquierda
+      \begin{scope}[shift={(-0.67,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+    \end{scope}
+  \end{scope}
+
+  \node[below] at (3.0,0) {\scriptsize Triciclo};
+
+  \begin{scope}[shift={(3.0,0)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.75,0)}]
+      % Cuerpo del robot (rectángulo)
+      \draw[fill=gray!20, draw=black, thick] (-0.75,-0.375) rectangle ++(1.5,0.75);
+
+      % Rueda derecha
+      \begin{scope}[shift={(-0.67,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      % Rueda izquierda
+      \begin{scope}[shift={(-0.67,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      \begin{scope}[shift={(0.15,0)}]
+      \begin{scope}[rotate around={20:(0.25,0)}, transform shape]
+        % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+        % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+        \draw[fill=white, draw=black] (0.25,0) circle (0.03);
+        \draw[{Stealth[scale=0.5,inset=1pt]}-{Stealth[scale=0.5,inset=1pt]}] (-0.05,0) ++(-25:0.6) arc[start angle=-25, end angle=25, radius=0.6];
+      \end{scope}
+      \end{scope}
+      
+    \end{scope}
+  \end{scope}
+
+  \node[below] at (4.5,0) {\scriptsize Tipo auto};
+
+  \begin{scope}[shift={(4.5,0)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.75,0)}]
+      % Cuerpo del robot (rectángulo)
+      \draw[fill=gray!20, draw=black, thick] (-0.75,-0.375) rectangle ++(1.5,0.75);
+
+      % Rueda derecha
+      \begin{scope}[shift={(-0.67,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      % Rueda izquierda
+      \begin{scope}[shift={(-0.67,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,-0.52)}]
+      \begin{scope}[rotate around={-15:(0.25,0)}, transform shape]
+        % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+        % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+        \draw[fill=white, draw=black] (0.25,0) circle (0.03);
+        \draw[{Stealth[scale=0.5,inset=1pt]}-{Stealth[scale=0.5,inset=1pt]}] (-0.05,0) ++(-25:0.6) arc[start angle=-25, end angle=25, radius=0.6];
+      \end{scope}
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,0.52)}]
+      \begin{scope}[rotate around={-15:(0.25,0)}, transform shape]
+        % Dibujo del cuerpo de la rueda (rectángulo gris oscuro con bordes redondeados)
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+        % Dibujo del eje de giro (círculo blanco con borde negro a la izquierda)
+        \draw[fill=white, draw=black] (0.25,0) circle (0.03);
+        \draw[{Stealth[scale=0.5,inset=1pt]}-{Stealth[scale=0.5,inset=1pt]}] (-0.05,0) ++(-25:0.6) arc[start angle=-25, end angle=25, radius=0.6];
+      \end{scope}
+      \end{scope}
+
+    \end{scope}
+  \end{scope}
+
+  \node[below] at (3.5,-2.5) {\scriptsize Omnidireccional};
+
+  \begin{scope}[shift={(3.5,-2.5)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.75,0)}]
+      % Cuerpo del robot (rectángulo)
+      \draw[fill=gray!20, draw=black, thick] (-0.75,-0.375) rectangle ++(1.5,0.75);
+
+      % Rueda derecha
+      \begin{scope}[shift={(-0.67,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+
+        \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,-0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+
+        \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+      \end{scope}
+
+      % Rueda izquierda
+      \begin{scope}[shift={(-0.67,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+
+        \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+      \end{scope}
+
+      \begin{scope}[shift={(0.17,0.52)}]
+        \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+        \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+
+        \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+          \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+        \end{scope}
+      \end{scope}
+
+    \end{scope}
+  \end{scope}
+
+  \node[below] at (1.5,-2.5) {\scriptsize Omni-rueda};
+
+  \begin{scope}[shift={(1.5,-2.5)}, rotate=90, transform shape]
+    \begin{scope}[shift={(0.25,-0.75)}]
+    \draw[fill=gray!80, draw=black, thick] (0,0) -- (1.5,0) -- (.75,1.5) -- cycle;
+
+    \begin{scope}[shift={(.5,1.5)}]
+      \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+    \end{scope}
+
+    \begin{scope}[shift={(-0.18,0.18)}, rotate=-45]
+      \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+    \end{scope}
+
+    \begin{scope}[shift={(1.32,-0.18)}, rotate=45]
+      \draw[fill=gray!80, draw=black, thick, rounded corners=0.075cm] (0,-0.075) rectangle ++(0.5,0.15);
+      \begin{scope}[shift={(0.05,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.2,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+
+      \begin{scope}[shift={(0.35,-0.05)}, rotate=45]
+        \draw[fill=gray!40, draw=gray!40, rounded corners=0.0125cm] (0,-0.0125) rectangle ++(0.15,0.025);
+      \end{scope}
+    \end{scope}
+
+  \end{scope}  
+  \end{scope}
+
+
+\end{tikzpicture}
+```
+
+</center>
