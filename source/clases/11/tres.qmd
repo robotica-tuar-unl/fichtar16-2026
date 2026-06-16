@@ -1,0 +1,92 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Taller de resolución
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Odometría
+
+## Cálculo de odometría para un robot diferencial
+
+- Distancia recorrida por la rueda derecha:
+$$
+d_{R_k} = (\textcolor{Plum}{\phi_{R_k}} - \textcolor{Plum}{\phi_{R_{k-1}}}) r
+$$
+
+- Distancia recorrida por la rueda izquierda:
+$$
+d_{L_k} = (\textcolor{Plum}{\phi_{L_k}} - \textcolor{Plum}{\phi_{L_{k-1}}}) r
+$$
+
+- Distancia recorrida por el robot:
+$$
+\textcolor{Blue}{\Delta d_{k}} = \frac{d_{R_k} + d_{L_k}}{2}
+$$
+
+- Desplazamiento angular del robot:
+$$
+\textcolor{Blue}{\Delta \theta_k} = \frac{d_{R_k} - d_{L_k}}{b}
+$$
+
+- Cálculo de odometría:
+$$
+\boldsymbol{\xi}(t_{k+1}) \approx \boldsymbol{\xi}(t_k) + \dot{\boldsymbol{\xi}}(t_k)(t_{k+1}-t_{k})
+$$
+
+$$
+{}^{O} \boldsymbol{\xi}_{R} (t_{k+1}) =
+\begin{bmatrix}
+\textcolor{ForestGreen}{{x}_{k+1}}\\
+\textcolor{ForestGreen}{{y}_{k+1}}\\
+\textcolor{Orange}{\theta_{k+1}}  
+\end{bmatrix} \approx
+\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}}\\
+    \textcolor{ForestGreen}{{y}_{k}}\\
+    \textcolor{Orange}{\theta_{k}}  
+\end{bmatrix}
++
+\begin{bmatrix}
+    \cos{\textcolor{Orange}{\theta_k}} & 0\\
+    \sin{\textcolor{Orange}{\theta_k}} & 0\\
+    0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \textcolor{Blue}{\Delta d_{k}}\\
+    \textcolor{Blue}{\Delta \theta_k}
+\end{bmatrix}
+$$
+
+$$
+{}^{O} \boldsymbol{\xi}_{R} (t_{k+1})
+\begin{cases}
+    \textcolor{ForestGreen}{{x}_{k+1}} \approx \textcolor{ForestGreen}{{x}_{k}} + \textcolor{Blue}{\Delta d_{k}}     \cos{\textcolor{Orange}{\theta_k}} \\[.5em]
+    \textcolor{ForestGreen}{{y}_{k+1}} \approx \textcolor{ForestGreen}{{y}_{k}} + \textcolor{Blue}{\Delta d_{k}}     \sin{\textcolor{Orange}{\theta_k}} \\[.5em]
+    \textcolor{Orange}{\theta_{k+1}}   \approx \textcolor{Orange}{\theta_{k}}   + \textcolor{Blue}{\Delta \theta_k}
+\end{cases}
+$$
+
+
+# Resolución ejercicios 9 al 12
+
+## Odometría
+
+{{< include ../../entregables/01/_odometria.qmd >}}
+
+## ROS 2 y `tf2`
+
+{{< include ../../entregables/01/_tf2.qmd >}}

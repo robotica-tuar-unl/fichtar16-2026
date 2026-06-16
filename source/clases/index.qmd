@@ -17,7 +17,7 @@ El siguiente cronograma puede sufrir modificaciones o ser actualizado con el cor
 |9  | 12/05 | _U.R.D.F._: Representación de geometría de un robot. Uso de _XACRO_, `robot_state_publisher` y `tf2`. | [🖥️](/clases/08/slides.qmd "Slides"){aria-label="Clase 8 slides"} | [📝](/clases/08/notas.qmd "Notas"){aria-label="Clase 8 notas"} | | | [🛠️](/clases/08/tres.html "Taller de resolución"){aria-label="Clase 8 Taller de resolución"}
 |10 | 19/05 | *Gazebo*: Entorno de simulación. Paquete `ros2_control` y `gz_ros2_contol`. *Hardware interface* y controladores. | [🖥️](/clases/09/slides.qmd "Slides"){aria-label="Clase 9 slides"} | [📝](/clases/09/notas.qmd "Notas"){aria-label="Clase 9 notas"} | | | [🛠️](/clases/09/tres.html "Taller de resolución"){aria-label="Clase 9 Taller de resolución"}
 |11 | 26/05 | Cinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa. | [🖥️](/clases/10/slides.qmd "Slides"){aria-label="Clase 10 slides"} | [📝](/clases/10/notas.qmd "Notas"){aria-label="Clase 10 notas"} | | | [🛠️](/clases/10/tres.html "Taller de resolución"){aria-label="Clase 10 Taller de resolución"}
-|12 | 02/06 | Odometría: Cálculo de posición en base al modelo cinemático directo. | |
+|12 | 02/06 | Odometría: Cálculo de posición en base al modelo cinemático directo. | [🖥️](/clases/11/slides.qmd "Slides"){aria-label="Clase 11 slides"} | [📝](/clases/11/notas.qmd "Notas"){aria-label="Clase 11 notas"} | | | [🛠️](/clases/11/tres.html "Taller de resolución"){aria-label="Clase 11 Taller de resolución"}
 |13 | 09/06 | Percepción: sensores. Clasificación y caracterización. Tipos y ejemplos según variable a medir. | |
 |14 | 16/06 | Simulación de sensores en Gazebo | |
 |15 | 23/06 | Presentación entregable 1 | |

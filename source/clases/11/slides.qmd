@@ -1,0 +1,227 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+    revealjs:
+        theme: default
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+output-file: index.html
+---
+
+# Odometría {visibility="hidden"}
+
+## Odometría
+
+> Cálculo de los cambios de posición de vehículos con ruedas, utilizando información proveniente de sensores
+
+- En Robótica móvil se utiliza para estimar ($\neq$ determinar) la posición relativa a una posición inicial ([localización relativa]{.underline})
+
+- Implementación "*barata*" pero tiene mala precisión a largo plazo (acumula error)
+
+## Definición matemática {.smaller}
+
+- Dada la pose incial $\boldsymbol{\xi}$ en un tiempo inicial $t_0$, encontrar la pose para un tiempo futuro $t_0 + \Delta t$
+
+$$
+\boldsymbol{\xi}(t_0) = \begin{bmatrix} x_0 \\ y_0 \\ \theta_0 \end{bmatrix} \quad \textsf{Encontrar: } \, \boldsymbol{\xi}(t_0 + \Delta t) \; \forall \; \Delta t > 0
+$$
+
+- Cuando $\Delta t$ es lo suficientemente chico, se puede considerar que la velocidad es constante en el intervalo
+
+- Por lo tanto se puede aproximar en un proceso iterativo usando ecuaciones de movimiento uniforme
+
+$$
+\boldsymbol{\xi}(t_{k+1}) \approx \boldsymbol{\xi}(t_k) + \dot{\boldsymbol{\xi}}(t_k)(t_{k+1}-t_{k})
+$$
+
+## Implementación {.smaller}
+
+- La más clásica es a través de encoders en las ruedas para obtener la velocidad de las mismas
+
+- Usando el modelo cinemático directo (que relaciona la velocidad de las ruedas con la pose del vehículo):
+
+$$
+\require{color}
+{}^{O} \boldsymbol{\dot\xi}_{R} (t_{k}) =
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}_k} \\
+    \textcolor{ForestGreen}{\dot{y}_k} \\
+    \textcolor{Orange}{\dot\theta_k}
+\end{bmatrix}_{R}} = 
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta_k}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta_k}} & 0 \\ 
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_{R_k}} \\ \textcolor{Plum}{\dot\phi_{L_k}} \end{bmatrix}
+$$
+
+$$
+{}^{O} \boldsymbol{\xi}_{R} (t_{k+1}) =
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k+1}} \\
+    \textcolor{ForestGreen}{{y}_{k+1}} \\
+    \textcolor{Orange}{\theta_{k+1}}
+\end{bmatrix}_{R}} \approx
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}} \\
+    \textcolor{ForestGreen}{{y}_{k}} \\
+    \textcolor{Orange}{\theta_{k}}
+\end{bmatrix}_{R}} + 
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{\dot{x}_k} \\
+    \textcolor{ForestGreen}{\dot{y}_k} \\
+    \textcolor{Orange}{\dot\theta_k}
+\end{bmatrix}_{R}}
+(t_{k+1}-t_{k})
+$$
+
+## [Calculo de odometría para un robot diferencial]{style="font-size: 75%;"} {.smaller}
+
+- Sea $\Delta t_k = t_{k+1} - t_k$ el intervalo de tiempo entre $t_k$ y $t_{k+1}$
+- Sea $\textcolor{Plum}{\dot\phi_{{R|L},k}}$ la velocidad de las ruedas der. e izq. en $k$, puede aproximarse:
+$$
+\textcolor{Plum}{\dot\phi_{R_k}} \approx \frac{\textcolor{Plum}{\Delta \phi_{R_k}}}{\Delta t_k} \qquad \textcolor{Plum}{\dot\phi_{L_k}} \approx \frac{\textcolor{Plum}{\Delta \phi_{L_k}}}{\Delta t_k}
+$$
+
+## [Calculo de odometría para un robot diferencial]{style="font-size: 75%;"} {.smaller}
+
+- Reemplazando en el modelo cinemático:
+
+$$
+\begin{align}
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k+1}} \\
+    \textcolor{ForestGreen}{{y}_{k+1}} \\
+    \textcolor{Orange}{\theta_{k+1}}
+\end{bmatrix}_{R}} &\approx
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}} \\
+    \textcolor{ForestGreen}{{y}_{k}} \\
+    \textcolor{Orange}{\theta_{k}}
+\end{bmatrix}_{R}} + 
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta_k}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta_k}} & 0 \\ 
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\dot\phi_{R_k}} \\ \textcolor{Plum}{\dot\phi_{L_k}} \end{bmatrix}
+(t_{k+1}-t_{k}) \\[1em]
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k+1}} \\
+    \textcolor{ForestGreen}{{y}_{k+1}} \\
+    \textcolor{Orange}{\theta_{k+1}}
+\end{bmatrix}_{R}} &\approx
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}} \\
+    \textcolor{ForestGreen}{{y}_{k}} \\
+    \textcolor{Orange}{\theta_{k}}
+\end{bmatrix}_{R}} + 
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta_k}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta_k}} & 0 \\ 
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \frac{\textcolor{Plum}{\Delta \phi_{R_k}}}{\Delta t_k} \\ \frac{\textcolor{Plum}{\Delta \phi_{L_k}}}{\Delta t_k} \end{bmatrix}
+(\Delta t_k)
+\end{align}
+$$
+
+## [Calculo de odometría para un robot diferencial]{style="font-size: 75%;"} {.smaller}
+
+- $\Delta t_k$ se simplifica en el cálculo de $\Delta \phi$ para cada rueda, por lo que el cálculo de odometría a través de estas ecuaciones no depede de $\Delta t$
+
+$$
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k+1}} \\
+    \textcolor{ForestGreen}{{y}_{k+1}} \\
+    \textcolor{Orange}{\theta_{k+1}}
+\end{bmatrix}_{R}} \approx
+\sideset{^{O}}{}{\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}} \\
+    \textcolor{ForestGreen}{{y}_{k}} \\
+    \textcolor{Orange}{\theta_{k}}
+\end{bmatrix}_{R}} + 
+\begin{bmatrix}
+\cos{\textcolor{Orange}{\theta_k}} & 0 \\ 
+\sin{\textcolor{Orange}{\theta_k}} & 0 \\ 
+0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    \frac{r}{2} & \frac{r}{2}\\
+    \frac{r}{\textcolor{Gray}{b}} & - \frac{r}{\textcolor{Gray}{b}}
+\end{bmatrix} \begin{bmatrix} \textcolor{Plum}{\phi_{R_k}} \\ \textcolor{Plum}{\phi_{L_k}} \end{bmatrix}
+$$
+
+<br>
+
+$$
+\begin{cases}
+\textcolor{ForestGreen}{{x}_{k+1}} \approx \textcolor{ForestGreen}{{x}_{k}} + \frac{r}{2}                   (\textcolor{Plum}{\phi_{R_k}} + \textcolor{Plum}{\phi_{L_k}}) \cos{\textcolor{Orange}{\theta_k}} \\[.5em]
+\textcolor{ForestGreen}{{y}_{k+1}} \approx \textcolor{ForestGreen}{{y}_{k}} + \frac{r}{2}                   (\textcolor{Plum}{\phi_{R_k}} + \textcolor{Plum}{\phi_{L_k}}) \sin{\textcolor{Orange}{\theta_k}} \\[.5em]
+\textcolor{Orange}{\theta_{k+1}}   \approx \textcolor{Orange}{\theta_{k}}   + \frac{r}{\textcolor{Gray}{b}} (\textcolor{Plum}{\phi_{R_k}} - \textcolor{Plum}{\phi_{L_k}})
+\end{cases}
+$$
+
+## [Calculo de odometría para un robot diferencial]{style="font-size: 75%;"} {.smaller}
+
+- Distancia recorrida por la rueda derecha: $d_{R_k} = (\textcolor{Plum}{\phi_{R_k}} - \textcolor{Plum}{\phi_{R_{k-1}}}) r$
+- Distancia recorrida por la rueda izquierda: $d_{L_k} = (\textcolor{Plum}{\phi_{L_k}} - \textcolor{Plum}{\phi_{L_{k-1}}}) r$
+- Distancia recorrida por el robot: $\textcolor{Blue}{\Delta d_{k}} = \frac{d_{R_k} + d_{L_k}}{2}$
+- Desplazamiento angular del robot: $\textcolor{Blue}{\Delta \theta_k} = \frac{d_{R_k} - d_{L_k}}{b}$
+
+$$
+{}^{O} \boldsymbol{\xi}_{R} (t_{k+1}) =
+\begin{bmatrix}
+\textcolor{ForestGreen}{{x}_{k+1}}\\[.5em]
+\textcolor{ForestGreen}{{y}_{k+1}}\\[.5em]
+\textcolor{Orange}{\theta_{k+1}}  
+\end{bmatrix} \approx
+\begin{bmatrix}
+    \textcolor{ForestGreen}{{x}_{k}} + \textcolor{Blue}{\Delta d_{k}}     \cos{\textcolor{Orange}{\theta_k}} \\[.5em]
+    \textcolor{ForestGreen}{{y}_{k}} + \textcolor{Blue}{\Delta d_{k}}     \sin{\textcolor{Orange}{\theta_k}} \\[.5em]
+    \textcolor{Orange}{\theta_{k}}   + \textcolor{Blue}{\Delta \theta_k}
+\end{bmatrix}
+$$
+
+## [Calculo de odometría para un robot diferencial]{style="font-size: 75%;"} {.smaller}
+
+> Problemas
+
+::: {.incremental}
+- "[*Dead reconing*]{.underline}": Siempre se suma un incremento a una estimación anterior, ambos con cierto error, por lo que este se acumula (y nunca se corrige). Si bien funciona para cortas distancias, al tiempo la estimación se desvía del valor real (generalmente mucho).
+- [El modelo]{.underline}: por naturaleza el modelo no es exactamente lo que sucede en la realidad, sobre todo cuando los supuestos no se cumplen.
+- [Deslizamiento]{.underline}: La condición de no deslizamiento utilizada en el modelo difícilmente se cumpla siempre, y el error producido nunca se elimina.
+- [Calibración de parámetros]{.underline}: Además de las mediciones, el modelo tiene dos parámetros $r$ y $b$. La medición imperfecta de estos parámetros introduce un error en cada iteración. Se puede corregir con un re-ajuste.
+:::
+
+# Taller de resolución {visibility="hidden"}
+
+## [Taller de resolución](tres.qmd) {.center}
+
+Ejercicios 9 al 12

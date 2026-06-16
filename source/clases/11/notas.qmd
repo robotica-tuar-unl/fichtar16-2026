@@ -1,0 +1,49 @@
+---
+metadata-files:
+  - _variables.yml
+title: "Clase {{< meta clase_nro >}} ({{< meta fecha >}})"
+format:
+  pdf:
+    engine: pdflatex
+    documentclass: article
+    classoption: a4paper,oneside,final,onecolumn
+    lang: es
+    geometry:
+        - left=25mm
+        - top=20mm
+    toc: false
+    number-sections: true
+    number-depth: 2
+    colorlinks: true
+---
+
+\section{Odometría}
+\begin{itemize}
+    \item Definición y aplicación en robótica móvil. Expresión matemática: $$\boldsymbol{\xi}(t_0 + \Delta t) \, \forall \Delta t > 0 \quad \boldsymbol{\xi}(t_0) = \begin{bmatrix} x_0 & y_0 & \theta_0 \end{bmatrix} $$
+    \item Para $\Delta t$ lo suficientemente chico: $\boldsymbol{\xi}(t_{k+1}) \approx \boldsymbol{\xi}(t_k) + \dot{\boldsymbol{\xi}}(t_k)(t_{k+1}-t_{k})$
+    \item Relación con el modelo cinemático directo.
+    \item Cálculo de odometría para un robot diferencial:
+    \begin{itemize}
+        \item $d_{R_k} = (\phi_{R_k} - \phi_{R_{k-1}}) r \rightarrow$ Distancia recorrida por la rueda derecha
+        \item $d_{L_k} = (\phi_{L_k} - \phi_{L_{k-1}}) r \rightarrow$ Distancia recorrida por la rueda izquierda
+        \item $d_{A_k} = \frac{d_{R_k} + d_{L_k}}{2} \rightarrow$ Distancia recorrida por el robot
+        \item $\Delta \theta_k = \frac{d_{R_k} - d_{L_k}}{b} \rightarrow$ Desplazamiento angular del robot
+    \end{itemize}
+    \begin{equation*}
+        \left[
+        \begin{aligned}
+            x_{k+1} &\approx x_k + d_{A_k} \cos{\omega_k} \\
+            y_{k+1} &\approx y_k + d_{A_k} \sin{\omega_k} \\
+            \theta_{k+1} &\approx \omega_k + \Delta \theta_k
+        \end{aligned}
+        \right.
+    \end{equation*}
+    \item Problemas que afectan al cálculo de la odometría de la forma presentada:
+    \begin{itemize}
+        \item "Dead reconing": Se determina la posición a partir de la anterior (que posee cierto error). A corto plazo no es un problema, pero en el tiempo este error solo se incrementa cada vez más y nunca se corrige.
+        \item El modelo: Los supuestos generalmente no se cumplen, por lo que el modelo difiere de la realidad.
+        \item Deslizamiento: La condición de no deslizamiento utilizada en el modelo difícilmente se cumpla siempre.
+        \item Calibración de parámetros: El valor erróneo de los parámetros $b$ y $r$ introduce error en todas las iteraciones.
+        \item $\Delta t$ grande: Variaciones de velocidad de las ruedas más rápidas que el período de tiempo que se utiliza para calcular la odometría hacen que el supuesto de velocidad constante en el intervalo no se cumpla.
+\end{itemize}
+\end{itemize}
