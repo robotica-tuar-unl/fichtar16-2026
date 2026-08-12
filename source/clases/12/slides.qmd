@@ -1,0 +1,1331 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+  revealjs:
+        theme: dark
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+output-file: index.html
+---
+
+# Entregable 1 {visibility="hidden"}
+
+# Ejercicio 1 {visibility="hidden"}
+
+## Ejercicio 1 - URDF {.smaller}
+
+> Debe estar parametrizado al menos el radio de las ruedas de tracción y la separación de las mismas
+
+```xml {code-line-numbers="4,12|10,17"}
+<?xml version="1.0"?>
+<robot name="diffbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- ... -->
+    <xacro:property name="wheel_radius" value="0.035"/>
+    <xacro:property name="wheel_sep" value="0.135"/> 
+    <!-- ... -->
+    <link name="left_wheel">
+        <!-- ... -->
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+            </geometry>
+        </collision>
+
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_width}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="${pi/2.0} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+</robot>
+```
+
+::: {.notes}
+- Declaración de parámetros en el URDF no utilizados
+- No aprovecha las constantes definidas por XACRO
+:::
+
+## Ejercicio 1 - URDF {.smaller visibility="hidden"}
+
+>  Crear un archivo de definición del robot en formato *XACRO* respetando la geometría representada en las vistas del anexo ..
+
+```xml {code-line-numbers="4,12"}
+<?xml version="1.0"?>
+<robot name="diffbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+     <!-- caster base (fijo) -->
+    <link name="caster_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find diffbot_description)/meshes/caster_base_origin_fixed.stl" />
+            </geometry>
+            <material name="silver"/>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 ${-0.015/2.0}" rpy="0 0 0" />
+            <geometry>
+                <box size="0.032 0.038 0.015" />
+            </geometry>
+        </collision>
+
+        <xacro:inertial_box mass="0.02" x="0.032" y="0.038" z="0.015">
+            <origin xyz="0 0 ${-0.015/2.0}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <joint name="caster_base_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="caster_base_link" />
+        <origin xyz="-0.076 0.0 -${chassis_thickness/2}" rpy="0 0 0" />
+    </joint>
+</robot>
+```
+
+::: {.notes}
+- No respeta dimensionalidad para las geometrías de colisión, joints, etc
+- Ubicación incorrecta de geometrías de colisión
+:::
+
+## Ejercicio 1 - URDF {.smaller}
+
+> Ventajas de *XACRO*
+
+- Operaciones matemáticas: `${..}` y constantes como `pi`
+- Propiedades `xacro:property` y argumentos `xacro:args`
+
+```xml {filename="Ejemplo" code-line-numbers="3,4,10"}
+<?xml version="1.0"?>
+<robot name="diffbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="wheel_radius" value="0.035"/>
+    <xacro:property name="wheel_width" value="0.025"/>
+    <!-- ... -->
+    <link name="left_wheel">
+        <!-- ... -->
+        <collision>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+            </geometry>
+        </collision>
+    </link>
+    <!-- ... -->
+</robot>
+```
+
+::: {.notes}
+- No aplica ayudas de XACRO como pi para las rotaciones
+- No aplica propiedades (solo las define)
+<!-- No se pudo lanzar el archivo como URDF, bloques gazebo desconocidos. Se recomienda revisar el código al utilizar fuentes externas. -->
+:::
+
+## Ejercicio 1 - URDF {.smaller}
+
+> Ventajas de *XACRO*
+
+- Uso de macros
+
+```xml {filename="Ejemplo" code-line-numbers="1,16"}
+    <xacro:macro name="rueda" params="prefijo radio ancho">
+        <link name="${prefijo}_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${radio}" length="${ancho}" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${radio}" length="${ancho}" />
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+    <!-- ... -->
+    <xacro:rueda prefix="rueda_derecha" radio="${wheel_radius}" ancho="${wheel_width}" /> 
+```
+
+::: {.notes}
+- No aplica macro de inercia
+:::
+
+
+## Ejercicio 1 - URDF {.smaller}
+
+> Definición de la ubicación de las mallas
+
+- Buscar paquetes en *XACRO* `$(find [nombre_paquete])`:
+
+<!-- 
+```xml {code-line-numbers="false"}
+    <mesh filename="$(find [nombre_paquete])/[nombre_archivo].xacro" />
+```
+
+<br> -->
+
+```xml {filename="Ejemplo con 'diffbot_description'" code-line-numbers="8"}
+<?xml version="1.0"?>
+<robot name="diffbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- caster base (fijo) -->
+    <link name="caster_base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find diffbot_description)/meshes/caster_base.stl" />
+            </geometry>
+            <material name="silver"/>
+        </visual>
+        <!-- ... -->
+    </link>
+</robot>
+```
+
+
+::: {.notes}
+-  El PATH de las mallas está definido de forma incorrecta
+:::
+
+
+## Ejercicio 1 y 2 {.smaller}
+
+> Estructura del *Workspace*
+
+<br>
+
+```default {filename="Estructura 'robot_description'" code-line-numbers="false"}
+📂 ros_ws
+├── 📁 build      ⚠️
+├── 📁 install    ⚠️
+├── 📁 log        ⚠️
+└── 📂 src
+    └── 📂 robot_description
+        ├── 📁 robot_description
+        ├── 📁 launch                   ➡️ Archivos launch
+        ├── 📂 urdf                     ➡️ URDF y demás
+        │   ├── 📄 robot.urdf.xacro     
+        │   └── ...
+        ├── 📂 resource
+        ├── 📂 test
+        ├── 📦 package.xml
+        ├── ⚙️ setup.cfg
+        └── 🛠️ setup.py
+```
+
+
+
+::: {.notes}
+- Dentro de la carpeta `(*)_description/urdf` había `build`, `install` y `log`
+:::
+
+
+## Ejercicio 1 y 2 - Dependencias {.smaller}
+
+```py {filename="Ejemplo 'description.launch.py'" code-line-numbers="true" code-line-numbers="|16|20|37|47"}
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
+from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration, EqualsSubstitution
+
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
+def generate_launch_description():
+    # Ubicación del paquete y del archivo URDF
+    urdf_path = PathJoinSubstitution(
+        [FindPackageShare("diffbot_description"), "urdf", "diffbot_description.urdf.xacro"]
+    )
+    
+    # Procesar archivo URDF
+    urdf = Command(['xacro ', urdf_path])
+
+    # Publicar el 'robot description'
+    node_robot_state_publisher = Node(
+        package = 'robot_state_publisher',
+        executable = 'robot_state_publisher',
+        output = 'screen',
+        parameters=[{
+            'robot_description': urdf
+        }]
+    )
+
+    # Parámetro para ejecutar el 'joint_state_publisher_gui' 
+    testing_arg = DeclareLaunchArgument(
+        'testing', default_value='true'
+    )
+    
+    node_joint_state_publisher_gui = Node(
+        condition = IfCondition(
+            EqualsSubstitution(LaunchConfiguration('testing'), 'true')
+        ),
+        package = 'joint_state_publisher_gui',
+        executable = 'joint_state_publisher_gui',
+        output = 'screen'
+    )
+
+    # RViz
+    node_rviz2 = Node(
+        condition=IfCondition(
+            EqualsSubstitution(LaunchConfiguration('testing'), 'true')
+        ),
+        package = 'rviz2',
+        executable = 'rviz2',
+    )
+
+    return LaunchDescription([
+        testing_arg,
+        node_robot_state_publisher,
+        node_joint_state_publisher_gui,
+        node_rviz2,
+    ])
+```
+
+## Ejercicio 1 y 2 - Dependencias {.smaller}
+
+> Dependencias: `xacro`, `robot_state_publisher`, `joint_state_publisher`, `rviz2`
+
+```xml {filename="Ejemplo 'package.xml'" code-line-numbers="false" code-line-numbers="6-10"}
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+    schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+    <!-- ... -->
+    <exec_depend>xacro</exec_depend>
+    <exec_depend>robot_state_publisher</exec_depend>
+
+    <exec_depend>joint_state_publisher_gui</exec_depend>
+    <exec_depend>rviz2</exec_depend>
+    <!-- ... -->
+</package>
+```
+
+::: {.notes}
+- Dependencias no utilizadas por el paquete
+:::
+
+
+<!-- # Ejercicio 3 {visibility="hidden"} -->
+
+## Ejercicio 3 - *Gazebo*  {.smaller visibility="hidden"}
+
+- `ros_gz_bridge` y `use_sim_time`
+
+::: {.fragment}
+- Carga del robot:
+```py {filename="Ejemplo 'gazebo.launch.py'" code-line-numbers="false" code-line-numbers="10"}
+    # ...
+    spawn_entity = Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-entity", "diffbot",
+            "-topic", "robot_description",
+            # "-x", "0.0",
+            # "-y", "0.0",
+            "-z", "0.05",   # Al menos media rueda por encima del suelo
+            # "-Y", "0.0",
+        ],
+        output="screen",
+    )
+    # ...
+```
+:::
+
+::: {.notes}
+- Dependencias no utilizadas por el paquete
+- Uso de `ros_gz_bridge` no solicitado
+- Parámetros adicionales no solicitados, ej `use_sim_time`
+- El robot inicia a la altura z=0 con referencia al base link
+:::
+
+<!-- # Ejercicio 4 {visibility="hidden"} -->
+
+## Ejercicio 4a - `ros2_control` {.smaller visibility="hidden"}
+
+:::: {.columns}
+::: {.column width="40%"}
+> Editar el archivo de definición del robot [..] de forma tal que las juntas correspondientes a las ruedas de tracción reciban comandos de velocidad y devuelvan el estado de posición y velocidad
+:::
+::: {.column width="60%"}
+```xml {filename="Ejemplo 'ros2_control.xacro'" code-line-numbers="|7-8,13-14|10-11,16-17|19-24|27-34"}
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="front_left_wheel_joint">
+      <command_interface name="velocity" />
+      
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="front_right_wheel_joint">
+      <command_interface name="velocity" />
+      
+      <state_interface name="velocity" />
+      <state_interface name="position" />
+    </joint>
+    <joint name="caster_rotation_joint">
+      <state_interface name="position" />
+    </joint>
+    <joint name="caster_wheel_joint">
+      <state_interface name="position" />
+    </joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system"
+      name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>
+        $(find diffbot_control)/config/controllers.yaml
+      </parameters>
+    </plugin>
+  </gazebo>
+</robot>
+```
+:::
+:::
+
+::: {.notes}
+- Faltan dependencias para el paquete 'robot_control'
+- No respeta estructura solicitada
+- Límites de velocidad a las ruedas no solicitado
+- Configuración de interfaces de estado incorrecta para las juntas
+:::
+
+## Ejercicio 4b - `ros2_control` {.smaller visibility="hidden"}
+
+:::: {.columns}
+::: {.column width="50%"}
+> Crear un paquete [..] con los parámetros necesarios para que el `controller_manager` de *ROS2 control* cargue un `JointStateBroadcaster` y dos controladores de velocidad de tipo `JointGroupVelocityController`, uno para cada rueda de tracción.
+:::
+::: {.column width="50%"}
+```yaml {filename="Ejemplo 'controllers.yaml'" code-line-numbers="|5-6|8-12|14-24|26-36"}
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    left_wheel_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+    
+    right_wheel_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+left_wheel_velocity_controller:
+  ros__parameters:
+    joints:
+      - front_left_wheel_joint
+
+    command_interfaces:
+      - velocity
+
+    state_interfaces:
+      - position
+      - velocity
+
+right_wheel_velocity_controller:
+  ros__parameters:
+    joints:
+      - front_right_wheel_joint
+
+    command_interfaces:
+      - velocity
+
+    state_interfaces:
+      - position
+      - velocity
+```
+:::
+:::
+
+::: {.notes}
+- La configuración de los controladores no responde a la consigna
+:::
+
+## Ejercicio 4c - `ros2_control` {.smaller visibility="hidden"}
+
+>  Editar el archivo *launch* del ejercicio 3 para invocar al comando `load_controller` de `ros2_control` y cargar los controladores del inciso anterior.
+
+<br>
+
+```py {filename="Ejemplo 'gazebo.launch.py'" code-line-numbers="|"}
+    # ...
+    load_joint_state_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', '--use-sim-time', 
+             'joint_state_broadcaster'],
+        output='screen'
+    )
+    load_left_wheel_velocity_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', '--use-sim-time', 
+             'left_wheel_velocity_controller'],
+        output='screen'
+    )
+    load_right_wheel_velocity_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', '--use-sim-time',
+             'right_wheel_velocity_controller'],
+        output='screen'
+    )
+    # ...
+```
+
+::: {.notes}
+- El archivo *launch* debía ser el mismo que el ejercicio 3
+- Delay con acciones de tipo `timer` no solicitadas
+- No sigue la consigna respecto a la inicialización de los controladores
+:::
+
+# Ejercicio 5 {visibility="hidden"}
+
+## Ejercicio 5
+
+::: { style="font-size: 70%;"}
+
+>  Calcular la velocidad lineal y angular del robot y de las ruedas para que se complete:
+>
+>   - una trayectoria recta de 1[m] en 10 [s].
+>   - una trayectoria circular con un radio de 0.5 [m] en sentido horario en 20 [s].
+
+#### [Datos del anexo]{.underline}
+
+- Radio de las ruedas: $0.035 \textrm{[m]}$
+- Separación de las ruedas: $0.135 \textrm{[m]}$
+
+:::
+
+::: {.notes}
+- El radio de las ruedas es de 35 [mm]
+:::
+
+## Ejercicio 5 - Trayectoria recta
+
+::: { style="font-size: 70%;"}
+
+> Una trayectoria recta de 1[m] en 10 [s].
+
+::: {.incremental}
+- V lineal del robot: $v = \frac{1 \mathrm{[m]}}{10 \mathrm{[s]}} = 0.1 \mathrm{\left[\frac{m}{s}\right]}$
+
+- V angular del robot: $\dot{\theta} = 0$ (linea recta)
+
+- V lineal rueda derecha = V lineal rueda izquierda (linea recta): $$\upsilon_{L|R} = 0.1 \mathrm{\left[\frac{m}{s}\right]}$$
+
+- V angular rueda derecha = V angular rueda izquierda: 
+$$\dot\phi_{L|R} = \frac{v}{r} = \frac{0.1 \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 2.857 \mathrm{\left[\frac{rad}{s}\right]}$$
+:::
+
+:::
+
+## Ejercicio 5 - Trayectoria circular
+
+::: { style="font-size: 70%;"}
+
+> Una trayectoria circular con un radio de 0.5 [m] en sentido horario en 20 [s].
+
+::: {.incremental}
+- V angular del robot: $\require{color} \dot{\theta} = \textcolor{Maroon}{-} \frac{2 \pi \mathrm{[rad]}}{20 \mathrm{[s]}} \approx \textcolor{Maroon}{-}0.314 \mathrm{\left[\frac{rad}{s}\right]}$
+
+- V lineal del robot: $v = \dot{\theta} \times \mathcal{R} = \textcolor{Maroon}{-} 0.314 \mathrm{\left[\frac{rad}{s}\right]} \times \textcolor{Maroon}{-} 0.5 \mathrm{\left[\frac{m}{rad}\right]}  = 0.157 \mathrm{\left[\frac{m}{s}\right]}$
+
+- V lineal rueda izquierda: $\upsilon_L = \dot{\theta}(\mathcal{R}-\frac{b}{2}) = -0.314 (-0.5 - \frac{0.135}{2}) \approx 0.178 \mathrm{\left[\frac{m}{s}\right]}$
+
+- V lineal rueda derecha: $\upsilon_R = \dot{\theta}(\mathcal{R}+\frac{b}{2}) = -0.314 (-0.5 + \frac{0.135}{2}) \approx 0.135 \mathrm{\left[\frac{m}{s}\right]}$
+
+- V angular rueda izquierda: $\dot\phi_{L} = \frac{\upsilon_L}{r} = \frac{0.178 \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 5.09 \mathrm{\left[\frac{rad}{s}\right]}$
+
+- V angular rueda derecha: $\dot\phi_{R} = \frac{\upsilon_R}{r} = \frac{0.136 \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 3.88 \mathrm{\left[\frac{rad}{s}\right]}$
+:::
+
+:::
+
+::: {.notes}
+- La velocidad angular debe ser negativa para la trayectoria circular (regla de la mano derecha)
+- Falta la velocidad angular de las ruedas para la trayectoria circular
+:::
+
+# Ejercicio 6 {visibility="hidden"}
+
+## Ejercicio 6 {.smaller}
+
+>  Examinar la definición de los mensajes de tipo `geometry_msgs/Twist` y describir cuál sería la secuencia de comandos de velocidad a aplicar al robot para seguir la trayectoria mostrada en la Figura 1 utilizando dichos mensajes. La velocidad máxima de giro de los motores es de 50 [rpm]
+
+![](../10/tres_files/mediabag/camino.svg){fig-align="center" style="filter: invert(1);"}
+
+## Ejercicio 6 {.smaller}
+
+
+::: {.columns}
+
+::: {.column}
+
+#### [Trayectoria A]{.underline}: punto inicial $\blacksquare$ y final $\bullet$
+
+- Giro antihorario con $\mathcal{R} = 0.25 \mathrm{[m]}$
+- Linea recta  $1 \mathrm{[m]}$
+- Giro horario con $\mathcal{R} = 0.25 \mathrm{[m]}$
+- Linea recta  $1 \mathrm{[m]}$
+
+#### [Trayectoria B]{.underline}: punto inicial $\bullet$ y final $\blacksquare$:
+
+- Linea recta  $1 \mathrm{[m]}$
+- Giro antihorario con $\mathcal{R} = 0.25 \mathrm{[m]}$
+- Linea recta  $1 \mathrm{[m]}$
+- Giro horario con $\mathcal{R} = 0.25 \mathrm{[m]}$
+
+:::
+
+::: {.column}
+
+<br>
+
+![](../10/tres_files/mediabag/camino.svg){fig-align="center" style="filter: invert(1);"}
+
+:::
+
+:::
+
+## Ejercicio 6 - Segmento recto
+
+::: { style="font-size: 70%;"}
+
+- Por el **Ejercicio 5**, la velocidad de rotación de las ruedas para una velocidad lineal de $0.1 \mathrm{\left[\frac{m}{s}\right]}$ y una velocidad angular de $0 \mathrm{\left[\frac{rad}{s}\right]}$ es aproximadamente $2.86 \mathrm{\left[\frac{rad}{s}\right]}$:
+
+$$ 2.86 \mathrm{\left[\frac{rad}{s}\right]} \approx 0.455 \mathrm{[rps]} \approx 27.3 \mathrm{[rpm]} < 50 \mathrm{[rpm]}$$
+
+<br>
+
+#### [Por lo tanto]{.underline}: un comando de $v = 0.1 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+:::
+
+::: {.notes}
+- El radio de las ruedas es de 35 [mm]
+:::
+
+## Ejercicio 6 - Giro horario
+
+::: { style="font-size: 70%;"}
+
+- Por el **Ejercicio 5**, la velocidad de rotación de las ruedas para una velocidad angular de $-0.314 \mathrm{\left[\frac{rad}{s}\right]}$ y una velocidad lineal de $\textcolor{Maroon}{-} 0.314 \mathrm{\left[\frac{rad}{s}\right]} \times \textcolor{Maroon}{-} 0.25 \mathrm{\left[\frac{m}{rad}\right]} = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ es:
+
+$$\dot\phi_{L} = \frac{\dot{x} - \frac{b}{2} \dot\theta}{r} = \frac{0.0785 - \frac{0.135}{2} (-0.314) \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 2.848 \mathrm{\left[\frac{rad}{s}\right]}$$
+
+$$\dot\phi_{R} = \frac{\dot{x} + \frac{b}{2} \dot\theta}{r} = \frac{0.0785 + \frac{0.135}{2} (-0.314) \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 1.637 \mathrm{\left[\frac{rad}{s}\right]}$$
+
+$2.848 \mathrm{\left[\frac{rad}{s}\right]} \approx 27.2 \mathrm{[rpm]} < 50 \mathrm{[rpm]}$ y $1.637 \mathrm{\left[\frac{rad}{s}\right]} \approx 15.6 \mathrm{[rpm]} < 50 \mathrm{[rpm]}$
+
+<br>
+
+#### [Por lo tanto]{.underline}: un comando de $\dot\theta = -0.314 \mathrm{\left[\frac{rad}{s}\right]}$ y $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ por 10 [s]
+
+:::
+
+::: {.notes}
+- Falta el cálculo de la velocidad lineal y angular de la rueda izquierda
+:::
+
+## Ejercicio 6 - Giro anti-horario
+
+::: { style="font-size: 70%;"}
+
+- Utilizando la misma magnitud que el giro horario, las velocidades angulares de las ruedas son las mismas pero intercambiadas: $\dot\theta = 0.314 \mathrm{\left[\frac{rad}{s}\right]}$ y $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$
+
+$$\dot\phi_{L} = \frac{\dot{x} - \frac{b}{2} \dot\theta}{r} = \frac{0.0785 - \frac{0.135}{2} (0.314) \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 1.637 \mathrm{\left[\frac{rad}{s}\right]}$$
+
+$$\dot\phi_{R} = \frac{\dot{x} + \frac{b}{2} \dot\theta}{r} = \frac{0.0785 + \frac{0.135}{2} (0.314) \mathrm{\left[\frac{m}{s}\right]}}{0.035 \mathrm{\left[\frac{m}{rad}\right]}} \approx 2.848 \mathrm{\left[\frac{rad}{s}\right]}$$
+
+<br>
+
+#### [Por lo tanto]{.underline}: un comando de $\dot\theta = 0.314 \mathrm{\left[\frac{rad}{s}\right]}$ y $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ por 10 [s]
+
+::: {.notes}
+- Falta el cálculo de la velocidad lineal y angular de la rueda izquierda
+:::
+
+:::
+
+## Ejercicio 6 - `geometry_msgs/Twist` {.smaller}
+
+> Definición del mensaje
+
+```{.bash code-line-numbers="false"}
+$ ros2 interface show geometry_msgs/msg/Twist
+```
+
+<br>
+
+```{.default code-line-numbers="false"}
+# This expresses velocity in free space broken into its linear and
+angular parts.
+
+Vector3  linear
+        float64 x     ⬅️
+        float64 y
+        float64 z
+Vector3  angular
+        float64 x
+        float64 y
+        float64 z     ⬅️
+```
+
+## Ejercicio 6 - Respuesta {.smaller}
+
+#### [Trayectoria A]{.underline}: punto inicial $\blacksquare$ y punto final $\bullet$
+
+- Giro antihorario: $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0.314 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.0785 }, angular: { z: 0.314 }}
+```
+
+- Linea recta: $v = 0.1 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.1 }, angular: { z: 0.0 }}
+```
+
+- Giro horario: $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = -0.314 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.0785 }, angular: { z: -0.314 }}
+```
+
+- Linea recta: $v = 0.1 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.1 }, angular: { z: 0.0 }}
+```
+
+::: {.notes}
+- No hay claridad en la secuencia a seguir para completar la trayectoria
+:::
+
+## Ejercicio 6 - Respuesta {.smaller}
+
+#### [Trayectoria B]{.underline}: punto inicial $\bullet$ y punto final $\blacksquare$:
+
+- Linea recta: $v = 0.1 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.1 }, angular: { z: 0.0 }}
+```
+
+- Giro antihorario: $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ y  $\dot\theta = 0.314 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.0785 }, angular: { z: 0.314 }}
+```
+
+- Linea recta: $v = 0.1 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = 0 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.1 }, angular: { z: 0.0 }}
+```
+
+- Giro horario: $v = 0.0785 \mathrm{\left[\frac{m}{s}\right]}$ y $\dot\theta = -0.314 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```default
+{linear: { x: 0.0785 }, angular: { z: -0.314 }}
+```
+
+::: {.notes}
+- No hay claridad en la secuencia a seguir para completar la trayectoria
+:::
+
+# Ejercicio 7 {visibility="hidden"}
+
+## Ejercicio 7 {.smaller}
+
+> Examinar la definición de los mensajes del topic suscripto por el `JointGroupVelocityController`. Calcule las velocidades angulares de las ruedas para cada comando del ejercicio 6 y construya la secuencia de mensajes de comando correspondientes.
+
+- Segmento recto:
+
+$\dot\phi_{L|R} = 2.857 \mathrm{\left[\frac{rad}{s}\right]}$
+
+- Giro horario:
+
+$\dot\phi_{L} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$, $\dot\phi_{R} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$
+
+- Giro anti-horario:
+
+$\dot\phi_{L} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$, $\dot\phi_{R} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$
+
+## Ejercicio 7 - [`std_msgs/Float64MultiArray`]{style="font-size: 80%;"}
+
+> Definición del mensaje
+
+```{.bash code-line-numbers="false"}
+$ ros2 interface show std_msgs/msg/Float64MultiArray 
+```
+
+<br>
+
+```{.default code-line-numbers="false"}
+...
+# Please look at the MultiArrayLayout message definition for
+# documentation on all multiarrays.
+
+MultiArrayLayout  layout
+float64[]         data     ⬅️
+```
+
+## Ejercicio 7 - Respuesta {.smaller}
+
+#### [Trayectoria A]{.underline}: punto inicial $\blacksquare$ y punto final $\bullet$
+
+- Giro antihorario: $\dot\phi_{L} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$ y $\dot\phi_{R} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [1.64]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.85]}
+```
+
+- Linea recta: $\dot\phi_{L|R} = 2.857 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+
+- Giro horario: $\dot\phi_{L} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$, $\dot\phi_{R} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.85]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [1.64]}
+```
+
+- Linea recta: $\dot\phi_{L|R} = 2.857 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+
+::: {.notes}
+- No indica por cuanto tiempo debe enviar cada mensaje
+:::
+
+## Ejercicio 7 - Respuesta {.smaller}
+
+#### [Trayectoria B]{.underline}: punto inicial $\bullet$ y punto final $\blacksquare$
+
+- Linea recta: $\dot\phi_{L|R} = 2.857 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+
+- Giro antihorario: $\dot\phi_{L} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$ y $\dot\phi_{R} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [1.64]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.85]}
+```
+
+- Linea recta: $\dot\phi_{L|R} = 2.857 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.86]}
+```
+
+- Giro horario: $\dot\phi_{L} = 2.848 \mathrm{\left[\frac{rad}{s}\right]}$, $\dot\phi_{R} = 1.637 \mathrm{\left[\frac{rad}{s}\right]}$ por 10 [s]
+
+```{.default code-line-numbers="false"}
+ros2 topic pub /left_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [2.85]}
+```
+```{.default code-line-numbers="false"}
+ros2 topic pub /right_wheel_velocity_controller/commands std_msgs/msg/Float64MultiArray {data: [1.64]}
+```
+
+::: {.notes}
+- No indica por cuanto tiempo debe enviar cada mensaje
+:::
+
+# Ejercicio 8 {visibility="hidden"}
+
+## Ejercicio 8 - Cinemática inversa {.smaller visibility="hidden"}
+
+> Dentro del paquete `(*)_control`, cree un nodo que reciba comandos de tipo `geometry_msgs/Twist` a través de un *topic* llamado `/cmd_vel` [..]
+
+```py {filename="Ejemplo 'control_node.py'" code-line-numbers="16-26|5-14|3,9-10"}
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+
+class DiffbotControl(Node):
+    def __init__(self):
+        super().__init__('diffbot_control_node')
+        
+        # Creación de suscriptor
+        self.sub = self.create_subscription(Twist, 'cmd_vel', self.sub_callback, 10)
+
+        
+    def sub_callback(self, msg: Twist):
+        # ...
+
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+    # 2. Creación de nodo
+    nodo = DiffbotControl()
+    try:
+        # 3. Procesamiento de mensajes y callback
+        rclpy.spin(nodo)
+    else:
+        # 4. Finalización 
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+::: {.notes}
+- No respeta nombres solicitados
+- Estructura incompleta para la función 'main'
+:::
+
+
+## Ejercicio 8 - Cinemática inversa {.smaller visibility="hidden"}
+
+> [..] calcule las velocidades angulares en base al modelo cinemático inverso del robot y escriba los comandos de velocidad de cada rueda de tracción en los *topics* `left_wheel_cmd` y  `right_wheel_cmd` [..]
+
+<br>
+
+#### [Modelo cinemático inverso de un robot diferencial]{.underline}
+
+$$
+\begin{cases}
+    \textcolor{Plum}{\dot\phi_R} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} + \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta}) \\[0.5em]
+    \textcolor{Plum}{\dot\phi_L} = \frac{1}{r} (\textcolor{ForestGreen}{\dot{x}} - \frac{\textcolor{Gray}{b}}{2} \textcolor{Orange}{\dot\theta})
+\end{cases}
+$$
+
+::: {.notes}
+- Modelo cinemático mal aplicado, calcula las velocidades lineales de las ruedas, no las angulares
+- No respeta nombre de topics solicitados
+:::
+
+## Ejercicio 8 - Cinemática inversa {.smaller visibility="hidden"}
+
+> [..] calcule las velocidades angulares en base al modelo cinemático inverso del robot y escriba los comandos de velocidad de cada rueda de tracción en los *topics* `left_wheel_cmd` y  `right_wheel_cmd` [..]
+
+```py {filename="Ejemplo 'control_node.py'" code-line-numbers="8-12|15-21|23-30"}
+# ..
+from std_msgs.msg import Float64MultiArray
+
+class DiffbotControl(Node):
+    def __init__(self):
+        # ..
+
+        # Crear los dos publisher a los topics de cada rueda
+        self.pub_lwheel = self.create_publisher(Float64MultiArray,
+            'left_wheel_velocity_controller/commands', 10)
+        self.pub_rwheel = self.create_publisher(Float64MultiArray,
+            'right_wheel_velocity_controller/commands', 10)
+        
+    def sub_callback(self, msg: Twist):
+        # Obtengo la velocidad lineal y angular deseada
+        x_dot = msg.linear.x
+        w_dot = msg.angular.z
+        
+        # Modelo cinemático inverso
+        phi_dot_lwheel = (x_dot - ((self.wheel_sep/2) * w_dot)) / self.wheel_r
+        phi_dot_rwheel = (x_dot + ((self.wheel_sep/2) * w_dot)) / self.wheel_r
+
+        # Crear los mensajes y publicar
+        lwheel_msg = Float64MultiArray()
+        lwheel_msg.data = [phi_dot_lwheel]
+        self.pub_lwheel.publish(lwheel_msg)
+
+        rwheel_msg = Float64MultiArray()
+        rwheel_msg.data = [phi_dot_rwheel]
+        self.pub_rwheel.publish(rwheel_msg)
+
+# ..
+```
+
+::: {.notes}
+- Modelo cinemático mal aplicado, calcula las velocidades lineales de las ruedas, no las angulares
+- No respeta nombre de topics solicitados
+:::
+
+## Ejercicio 8 - Cinemática inversa {.smaller}
+
+> [..] Tenga en cuenta que los parámetros del robot se encuentran en el *robot description*.
+
+```py {filename="Ejemplo 'control_node.py'" code-line-numbers="8-11|13-15"}
+# ..
+from std_msgs.msg import Float64MultiArray
+
+class DiffbotControl(Node):
+    def __init__(self):
+        # ..
+
+        # Parámetro de separación de ruedas
+        self.declare_parameter('wheel_separation', 0.135)
+        # Parámetro de radio de rueda
+        self.declare_parameter('wheel_radius', 0.07/2)
+
+        # Obtener los parámetros
+        self.wheel_sep = self.get_parameter('wheel_separation').get_parameter_value().double_value
+        self.wheel_r = self.get_parameter('wheel_radius').get_parameter_value().double_value
+
+        # ..
+
+    def sub_callback(self, msg: Twist):
+        # ...
+
+def main(args=None):
+    # 1. Inicialización
+    rclpy.init(args=args)
+    # 2. Creación de nodo
+    nodo = DiffbotControl()
+    try:
+        # 3. Procesamiento de mensajes y callback
+        rclpy.spin(nodo)
+    else:
+        # 4. Finalización 
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+::: {.notes}
+- Parámetros geométricos del robot programados dentro de la clase
+- La distancia entre ruedas obtenidas de la descripción del robot no coincide con la utilizada por el modelo cinemático visto en clases
+:::
+
+<!-- # Ejercicio 9 {visibility="hidden"} -->
+
+## Ejercicio 9 - Odometría  {.smaller visibility="hidden"}
+
+> Crear un nodo que lea el o los *topics* de posición de las juntas de las ruedas (publicados por el `JointStateBroadcaster`) [..] El nodo debe recibir como parámetro las dimensiones geométricas del modelo cinemático y los nombres correspondientes a las juntas de las ruedas de tracción.
+
+
+```py {filename="Ejemplo 'odom_node.py'" code-line-numbers="3,17-18|9-15"}
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import JointState
+
+class DiffbotOdometry(Node):
+    def __init__(self):
+        super().__init__('diffbot_odometry_node')
+
+        # Parámetro de radio y separación de ruedas
+        self.declare_parameter('wheel_separation', 0.135)
+        self.declare_parameter('wheel_radius', 0.07/2)
+
+        # Parámetro para el nombre de las juntas
+        self.declare_parameter('left_wheel_name', 'front_left_wheel_joint')
+        self.declare_parameter('right_wheel_name', 'front_right_wheel_joint')
+               
+        # Crear el suscriptor al topic joint_states
+        self.sub = self.create_subscription(JointState, 'joint_states', self.sub_callback, 10)
+
+        # ..
+        
+    def sub_callback(self, msg: JointState):
+        # ...
+
+# ..
+```
+
+::: {.notes}
+- Estructura incompleta para la función 'main'
+:::
+
+## Ejercicio 9 - Odometría  {.smaller visibility="hidden"}
+
+> [..] calcule la odometría basado en el modelo cinemático directo del robot y publique la misma en el *topic* `/odom` con mensajes de tipo `nav_msgs/Odometry`. [..]
+
+```py {filename="Ejemplo 'odom_node.py'" code-line-numbers="2,8-9|14-21|23-33|35-45|47-52"}
+# ..
+from nav_msgs.msg import Odometry
+
+class DiffbotOdometry(Node):
+    def __init__(self):
+        super().__init__('diffbot_odometry_node')
+
+        # Crear el publisher de la odometría
+        self.pub_odom = self.create_publisher(Odometry, 'odom', 10)
+
+        # ..
+        
+    def sub_callback(self, msg: JointState):
+        # Chequear si el primer elemento es el joint
+        # de la rueda izquierda o derecha
+        lwheel_ang, rwheel_ang = 0.0, 0.0
+        for name, position in zip(msg.name, msg.position):
+            if name == self.left_wheel_name:
+                lwheel_ang = position
+            if name == self.right_wheel_name:
+                rwheel_ang = position
+        
+        # Cálculo de la distancia recorrida
+        dl_k = (lwheel_ang - self.lwheel_ang_old) * self.wheel_r
+        dr_k = (rwheel_ang - self.rwheel_ang_old) * self.wheel_r
+        
+        dA_k = (dr_k + dl_k) / 2
+        Dw_k = (dr_k - dl_k) / self.wheel_sep
+
+        # Cálculo de la odometría (pose)
+        x_k_new = self.x_k + dA_k * np.cos(self.w_k)
+        y_k_new = self.y_k + dA_k * np.sin(self.w_k)
+        w_k_new = self.w_k + Dw_k
+
+        odom_msg = Odometry()
+        odom_msg.pose.pose.position.x = x_k_new
+        odom_msg.pose.pose.position.y = y_k_new
+        
+        odom_msg.pose.pose.orientation.x = 0.0
+        odom_msg.pose.pose.orientation.y = 0.0
+        odom_msg.pose.pose.orientation.z = np.sin(w_k_new/2)
+        odom_msg.pose.pose.orientation.w = np.cos(w_k_new/2)
+        
+        # Publicar
+        self.pub_odom.publish(odom_msg)
+
+        # Actualizar valores
+        self.lwheel_ang_old = lwheel_ang
+        self.rwheel_ang_old = rwheel_ang
+        self.x_k = x_k_new
+        self.y_k = y_k_new
+        self.w_k = w_k_new
+
+# ..
+```
+
+::: {.notes}
+- La actualización del ángulo 'theta' está en el orden incorrecto
+- No respeta campos solicitados para el mensaje 'odom'
+- El modelo de odometría no es el solicitado
+:::
+
+
+<!-- # Ejercicio 10 {visibility="hidden"} -->
+
+## Ejercicio 10 {.smaller visibility="hidden"}
+
+> Cree un nuevo paquete `(*)_bringup` con un archivo *launch* en el cual se cargue todo el sistema desarrollado [..] 
+
+```py {filename="Ejemplo 'bringup.launch.py'" code-line-numbers="4-10|12-22" filename="bringup.launch.py"}
+# ..
+def generate_launch_description():
+    # Launch simulation
+    simulation = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [FindPackageShare('diffbot_gazebo'), 'launch', 'gazebo.launch.py']
+            ),
+        ),
+    )
+
+    node_diffbot_controller = Node(
+        package = 'diffbot_control',
+        executable = 'run_controller',
+        output = 'screen',
+    )
+    
+    node_diffbot_odometry = Node(
+        package = 'diffbot_control',
+        executable = 'run_odometry',
+        output = 'screen',
+    )
+
+    return LaunchDescription([
+        simulation,
+        node_diffbot_controller,
+        node_diffbot_odometry,
+    ])
+
+
+```
+
+::: {.notes}
+- Dependencias no utilizadas por el paquete
+- No incluye los archivos 'launch' ya desarrollados
+- Parámetros adicionales no solicitados, ej 'use_sim_time'
+- Nodos adicionales no solicitados, ej 'go_to_pose_controller_node' o 'ros_gz_bridge'
+- Incluye un ejecutable incorrecto 'odometry_publisher'
+:::
+
+<!-- # Ejercicio 11 {visibility="hidden"} -->
+
+## Ejercicio 11 - `tf2` {.smaller visibility="hidden"}
+
+> **(Opción B)** Modificar el nodo del ejercicio 9 para que que publique la transformación entre los *frames* `odom` y `base_link`. Agregar un parámetro para que cuando no se requiera esta transformación, no se publique.
+
+```py {filename="Ejemplo 'odom_node.py'" code-line-numbers="5-12|15,17-18|20-41"}
+# ..
+class DiffbotOdometry(Node):
+    def __init__(self):
+        # ..      
+        # Parámetro para activar la publicación de las transformaciones
+        self.declare_parameter('publish_tf', True)
+
+        # ..
+        self.publish_tf = self.get_parameter('publish_tf').get_parameter_value().bool_value
+        if self.publish_tf:
+          # Inicializar el broadcaster
+          self.tf_broadcaster = TransformBroadcaster(self)
+        # ..
+
+    def sub_callback(self, msg: JointState):
+      # ..
+      if self.publish_tf:
+        self.send_tf()
+        
+    def send_tf(self):
+        tf = TransformStamped()
+
+        tf.header.stamp = self.get_clock().now().to_msg()
+        # Marco de referencia (padre)
+        tf.header.frame_id = 'odom'  
+        # Marco objetivo (hijo)                      
+        tf.child_frame_id = 'base_link'                 
+
+        # Traslación
+        tf.transform.translation.x = self.x_k
+        tf.transform.translation.y = self.y_k
+        tf.transform.translation.z = 0.0
+
+        # Rotación
+        tf.transform.rotation.x = 0.0
+        tf.transform.rotation.y = 0.0
+        tf.transform.rotation.z = np.sin(self.w_k/2)
+        tf.transform.rotation.w = np.cos(self.w_k/2)
+        
+        # Enviar la transformación
+        self.tf_broadcaster.sendTransform(tf)
+
+# ..
+```
+
+::: {.notes}
+- Se supone elección de la Opcion B, pero no agrega parámetro para desactivar transformación
+- Cálculo de cuaternion en 3D no solicitado
+:::
+
+# Ejercicio 12 {visibility="hidden"}
+
+## Ejercicio 12 {.smaller visibility="hidden"}
+
+> Cree un archivo *launch* en el paquete `(*)_bringup` que extienda (inclusión o copia) al del ejercicio 10 y añada la ejecución de `RViz` junto con su respectivo archivo de configuración, el cual muestre el robot en el *frame* `odom` y las transformaciones de todos los *links* definidos en el *URDF*.
+
+```py {filename="Ejemplo 'odom_tf.launch.py'" code-line-numbers="4-23|25-32"}
+# ..
+def generate_launch_description():
+    # Launch simulation
+    simulation = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution(
+                [FindPackageShare('diffbot_gazebo'), 'launch', 'gazebo.launch.py']
+            ),
+        ),
+    )
+
+    node_diffbot_controller = Node(
+        package = 'diffbot_control',
+        executable = 'run_controller',
+        output = 'screen',
+    )
+    
+    node_diffbot_odometry = Node(
+        package = 'diffbot_control',
+        executable = 'run_odometry',
+        output = 'screen',
+        parameters = [{ 'publish_tf': True }]
+    )
+    
+    node_rviz =  Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=['-d', PathJoinSubstitution(
+                [FindPackageShare('diffbot_bringup'), 'rviz', 'odom.rviz']
+            )
+        ]
+    )
+
+    return LaunchDescription([
+        simulation,
+        node_diffbot_controller,
+        node_diffbot_odometry,
+        node_odom_view,
+        node_odom_view_gt,
+        node_rviz
+    ])
+
+# ..
+```
+
+::: {.notes}
+- Parámetros adicionales no solicitados, ej 'use_sim_time'
+- Delay con acciones de tipo 'timer' no solicitadas
+:::
+
+
+## Ejercicio 12 {.smaller}
+
+> Configuración `setup.py` para archivos de configuración de *RViz*
+
+```py {filename="setup.py" code-line-numbers="16-17"}
+from setuptools import setup
+
+package_name = 'nombre_paquete'
+
+setup(
+  name=package_name,
+  version='0.0.0',
+  packages=[package_name],
+  # Files we want to install, specifically launch files
+  data_files=[
+      # Install marker file in the package index
+      ('share/ament_index/resource_index/packages',
+          ['resource/' + package_name]),
+      # Include our package.xml file
+      ('share/' + package_name, ['package.xml']),
+      # Instalar archivos 'launch'
+      (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*.launch.py'))),
+      # Instalar archivos de configuración de RViz
+      (os.path.join('share', package_name, 'rviz'), glob(os.path.join('rviz', '*.rviz'))),
+    ],
+  # ..
+)
+```
+
+
+::: {.notes}
+- Faltó la configuración del `setup.py` para la instalación del archivo de configuración del *RViz*
+:::

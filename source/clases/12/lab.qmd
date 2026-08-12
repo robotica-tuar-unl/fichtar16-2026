@@ -1,0 +1,67 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Revisión de *ROS 2*
+
+#### [Objetivos]{.underline}:
+
+* Repasar los contenidos de la primera mitad
+* Refrescar los conceptos de *nodos*, *parámetros*, *topics*, *mensajes*, entre otros
+* Modificar el nodo de control del robot *differential drive* para agregar la funcionalidad "*dead man's switch*"
+
+> Se denomina **«dispositivo de hombre muerto»**, **«dispositivo de presencia»** o **«dispositivo HM»** a un sistema de seguridad, originalmente empleado en ferrocarriles, cuyo fin es detener el tren en caso de que el conductor se desvanezca o se ausente de la cabina. 
+> -- [Wikipedia en español](https://es.wikipedia.org/wiki/Hombre_muerto){target="_blank"}
+
+## Modificar el nodo de control
+
+#### Modificar el nodo del [ejercicio 8 del entregable 1](../10/tres.qmd#cinemática){target="_blank"} para añadir una funcionalidad de seguridad con el siguiente esquema:
+
+1. Al recibir un mensaje de tipo `geometry_msgs/Twist` a través de un *topic* llamado `cmd_vel` almacena el valor del *clock* utilizando la función de `rclpy`
+
+```py
+# Estampa de tiempo en segundos (con decimales)
+t = self.get_clock().now().nanoseconds / 1e9
+```
+
+2. Si luego de una cantidad de [milisegundos]{.underline} determinada por el parámetro `timeout` no recibe un nuevo comando, envía un comando de detención a las ruedas (velocidad angular igual a cero).
+
+```py
+# Obtener el tiempo actual
+t_now = self.get_clock().now().nanoseconds / 1e9
+
+if t_now > (t + timeout):
+  # Detenerse
+  # ..
+```
+
+3. Si recibe un nuevo mensaje de `Twist`, refresca el valor del *clock* volviendo al paso 2.
+
+::: {.callout-note appearance="simple"}
+
+La comprobación del *timeout* debe ser asincrónica del procesamiento de los mensajes recibidos, por lo que se debe implementar al menos un *Timer*
+
+:::
+
+
+#### Probar la modificación del nodo utilizando la simulación
+
+- Enviar comandos de `Twist` desde consola con valores distinto de cero.
+- Utilice la opción `--once` o termine la ejecución mediante `Ctrl+C`.
+- El robot debería deternerse luego de cumplido el *timeout*.
