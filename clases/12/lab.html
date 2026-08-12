@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index – Robótica 2026</title>
+<title>Clase 12 - Laboratorio – Robótica 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,26 +23,60 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../sh-highlight.css">
+<link rel="stylesheet" href="../../sh-highlight.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light">
@@ -108,214 +142,107 @@ ul.task-list li input[type="checkbox"] {
 </div></div>
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Robótica 2026</a> 
+      <a href="../../">Robótica 2026</a> 
     </div>
       </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#revisión-de-ros-2" id="toc-revisión-de-ros-2" class="nav-link active" data-scroll-target="#revisión-de-ros-2"><span class="header-section-number">1</span> Revisión de <em>ROS 2</em></a>
+  <ul class="collapse">
+  <li><a href="#modificar-el-nodo-de-control" id="toc-modificar-el-nodo-de-control" class="nav-link" data-scroll-target="#modificar-el-nodo-de-control"><span class="header-section-number">1.1</span> Modificar el nodo de control</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clase 12 - Laboratorio</h1>
+</div>
 
 
 
+<div class="quarto-title-meta column-body">
 
-<section id="clases" class="level1">
-<h1>Clases</h1>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="revisión-de-ros-2" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Revisión de <em>ROS 2</em></h1>
+<section id="objetivos" class="level4">
+<h4 data-anchor-id="objetivos"><u>Objetivos</u>:</h4>
+<ul>
+<li>Repasar los contenidos de la primera mitad</li>
+<li>Refrescar los conceptos de <em>nodos</em>, <em>parámetros</em>, <em>topics</em>, <em>mensajes</em>, entre otros</li>
+<li>Modificar el nodo de control del robot <em>differential drive</em> para agregar la funcionalidad “<em>dead man’s switch</em>”</li>
+</ul>
+<blockquote class="blockquote">
+<p>Se denomina <strong>«dispositivo de hombre muerto»</strong>, <strong>«dispositivo de presencia»</strong> o <strong>«dispositivo HM»</strong> a un sistema de seguridad, originalmente empleado en ferrocarriles, cuyo fin es detener el tren en caso de que el conductor se desvanezca o se ausente de la cabina. – <a href="https://es.wikipedia.org/wiki/Hombre_muerto" target="_blank">Wikipedia en español</a></p>
+</blockquote>
+</section>
+<section id="modificar-el-nodo-de-control" class="level2" data-number="1.1">
+<h2 data-number="1.1" data-anchor-id="modificar-el-nodo-de-control"><span class="header-section-number">1.1</span> Modificar el nodo de control</h2>
+<section id="modificar-el-nodo-del-ejercicio-8-del-entregable-1-para-añadir-una-funcionalidad-de-seguridad-con-el-siguiente-esquema" class="level4">
+<h4 data-anchor-id="modificar-el-nodo-del-ejercicio-8-del-entregable-1-para-añadir-una-funcionalidad-de-seguridad-con-el-siguiente-esquema">Modificar el nodo del <a href="../../clases/10/tres.html#cinemática" target="_blank">ejercicio 8 del entregable 1</a> para añadir una funcionalidad de seguridad con el siguiente esquema:</h4>
+<ol type="1">
+<li>Al recibir un mensaje de tipo <code>geometry_msgs/Twist</code> a través de un <em>topic</em> llamado <code>cmd_vel</code> almacena el valor del <em>clock</em> utilizando la función de <code>rclpy</code></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estampa de tiempo en segundos (con decimales)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="va">self</span>.get_clock().now().nanoseconds <span class="op">/</span> <span class="fl">1e9</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>Si luego de una cantidad de <u>milisegundos</u> determinada por el parámetro <code>timeout</code> no recibe un nuevo comando, envía un comando de detención a las ruedas (velocidad angular igual a cero).</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener el tiempo actual</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>t_now <span class="op">=</span> <span class="va">self</span>.get_clock().now().nanoseconds <span class="op">/</span> <span class="fl">1e9</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> t_now <span class="op">&gt;</span> (t <span class="op">+</span> timeout):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Detenerse</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ..</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>Si recibe un nuevo mensaje de <code>Twist</code>, refresca el valor del <em>clock</em> volviendo al paso 2.</li>
+</ol>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Nota
+<div class="callout-body-container">
+<p>La comprobación del <em>timeout</em> debe ser asincrónica del procesamiento de los mensajes recibidos, por lo que se debe implementar al menos un <em>Timer</em></p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>El siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado</p>
 </div>
-</div>
-<table class="table-striped table-hover caption-top table">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 52%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: center;">Semana</th>
-<th>Fecha</th>
-<th>Tema</th>
-<th style="text-align: center;"><span title="Slides">Slides</span></th>
-<th style="text-align: center;"><span title="Notas">Notas</span></th>
-<th style="text-align: center;"><span title="Teórico">T.</span></th>
-<th style="text-align: center;"><span title="Laboratorio">Lab.</span></th>
-<th style="text-align: center;"><span title="Taller de resolución">T.R.</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td>17/03</td>
-<td>Introducción a la Robótica. Organización de la materia. Herramientas de trabajo.</td>
-<td style="text-align: center;"><a href="../clases/01/index.html" aria-label="Clase 1 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/01/notas.pdf" aria-label="Clase 1 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">2</td>
-<td>24/03</td>
-<td><strong>Feriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia</strong></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">3</td>
-<td>31/03</td>
-<td>ROS2: Definición y propósito. Conceptos básicos (nodos, <em>topics</em>, mensajes, contexto). Instalación y ejemplos básicos.</td>
-<td style="text-align: center;"><a href="../clases/02/index.html" aria-label="Clase 2 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/02/notas.pdf" aria-label="Clase 2 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/02/lab.html" aria-label="Clase 2 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">4</td>
-<td>07/04</td>
-<td>ROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.</td>
-<td style="text-align: center;"><a href="../clases/03/index.html" aria-label="Clase 3 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/03/notas.pdf" aria-label="Clase 3 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/03/lab.html" aria-label="Clase 3 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">5</td>
-<td>14/04</td>
-<td>ROS2 <em>R.E.P.</em>’s. Entorno y <em>workspace</em>. Paquetes y librería <code>rclpy</code>: programación de nodos. Callbacks. Compilación y ejecución.</td>
-<td style="text-align: center;"><a href="../clases/04/index.html" aria-label="Clase 4 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/04/notas.pdf" aria-label="Clase 4 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/04/lab.html" aria-label="Clase 4 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">6</td>
-<td>21/04</td>
-<td>Programación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. <em>Logging</em>.</td>
-<td style="text-align: center;"><a href="../clases/05/index.html" aria-label="Clase 5 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/05/notas.pdf" aria-label="Clase 5 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/05/lab.html" aria-label="Clase 5 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">7</td>
-<td>28/04</td>
-<td>Sistema <code>roslaunch</code>, aplicación en proyectos de ROS2. Argumentos. Práctica integradora <em>unidad 1</em>.</td>
-<td style="text-align: center;"><a href="../clases/06/index.html" aria-label="Clase 6 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/06/notas.pdf" aria-label="Clase 6 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/06/lab.html" aria-label="Clase 6 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">8</td>
-<td>05/05</td>
-<td>Traslación y rotación 2D. Pose y orientación 3D en ROS. Librería <code>tf2</code> y publicación de transformaciones.</td>
-<td style="text-align: center;"><a href="../clases/07/index.html" aria-label="Clase 7 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/07/notas.pdf" aria-label="Clase 7 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/07/lab.html" aria-label="Clase 7 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">9</td>
-<td>12/05</td>
-<td><em>U.R.D.F.</em>: Representación de geometría de un robot. Uso de <em>XACRO</em>, <code>robot_state_publisher</code> y <code>tf2</code>.</td>
-<td style="text-align: center;"><a href="../clases/08/index.html" aria-label="Clase 8 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/08/notas.pdf" aria-label="Clase 8 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/08/tres.html" aria-label="Clase 8 Taller de resolución" title="Taller de resolución">🛠️</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">10</td>
-<td>19/05</td>
-<td><em>Gazebo</em>: Entorno de simulación. Paquete <code>ros2_control</code> y <code>gz_ros2_contol</code>. <em>Hardware interface</em> y controladores.</td>
-<td style="text-align: center;"><a href="../clases/09/index.html" aria-label="Clase 9 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/09/notas.pdf" aria-label="Clase 9 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/09/tres.html" aria-label="Clase 9 Taller de resolución" title="Taller de resolución">🛠️</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">11</td>
-<td>26/05</td>
-<td>Cinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.</td>
-<td style="text-align: center;"><a href="../clases/10/index.html" aria-label="Clase 10 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/10/notas.pdf" aria-label="Clase 10 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/10/tres.html" aria-label="Clase 10 Taller de resolución" title="Taller de resolución">🛠️</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">12</td>
-<td>02/06</td>
-<td>Odometría: Cálculo de posición en base al modelo cinemático directo.</td>
-<td style="text-align: center;"><a href="../clases/11/index.html" aria-label="Clase 11 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"><a href="../clases/11/notas.pdf" aria-label="Clase 11 notas" title="Notas">📝</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/11/tres.html" aria-label="Clase 11 Taller de resolución" title="Taller de resolución">🛠️</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">15</td>
-<td>23/06</td>
-<td>Presentación entregable 1</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">16</td>
-<td>12/08</td>
-<td>Revisión entregable 1</td>
-<td style="text-align: center;"><a href="../clases/12/index.html" aria-label="Clase 12 slides" title="Slides">🖥️</a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"><a href="../clases/12/lab.html" aria-label="Clase 12 lab" title="Lab">🧪</a></td>
-<td style="text-align: center;"></td>
-</tr>
-</tbody>
-</table>
+</section>
+<section id="probar-la-modificación-del-nodo-utilizando-la-simulación" class="level4">
+<h4 data-anchor-id="probar-la-modificación-del-nodo-utilizando-la-simulación">Probar la modificación del nodo utilizando la simulación</h4>
+<ul>
+<li>Enviar comandos de <code>Twist</code> desde consola con valores distinto de cero.</li>
+<li>Utilice la opción <code>--once</code> o termine la ejecución mediante <code>Ctrl+C</code>.</li>
+<li>El robot debería deternerse luego de cumplido el <em>timeout</em>.</li>
+</ul>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
@@ -648,25 +575,64 @@ Nota
           }
         };
       }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
             }
-          });
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
         }
     const findCites = (el) => {
       const parentEl = el.parentElement;
