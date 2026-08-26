@@ -1,0 +1,161 @@
+## Percepción 
+
+::: {.columns}
+::: {.column}
+
+Una de las tareas más importantes en sistemas autónomos es la de adquirir información acerca del entorno a través de **Sensores**
+
+:::
+::: {.column}
+
+::: {layout-ncol=1}
+[![[Fuente: Clearpath (<a href="https://clearpathrobotics.com/" target="_blank">clearpathrobotics.com</a>)]{style="font-size: 70%;"}](https://s3.amazonaws.com/assets.clearpathrobotics.com/wp-content/uploads/2023/10/08224611/Husky-Observer-web-1-2048x1368.jpg "Husky Observer"){fig-align="center" fig-env="figure*"} ](https://clearpathrobotics.com/husky-observer/){target=_blank}
+:::
+
+:::
+:::
+
+## Sensores: algunas clasificaciones {.smaller}
+
+> [Propioceptivos]{.underline}: Miden variables internas del robot
+
+- Velocidad de una rueda/motor
+- Ángulo de articulación de un brazo
+- Voltaje de la batería
+
+>[Exteroceptivos]{.underline}: Adquieren información del entorno del robot <!--que se procesan para extraer características ambientales significativas -->
+
+- Medida de distancia
+- Intensidad de la luz
+- Amplitud de sonido
+
+## Sensores: algunas clasificaciones {.smaller}
+
+> [Pasivos]{.underline}: Miden la energía que ingresa del medio que los rodea
+
+- Sondas de temperatura
+- Micrófonos
+- Cámaras
+
+>[Activos]{.underline}: Emiten energía y luego miden la reacción del medio ambiente
+
+- Encoders ópticos o magnéticos
+- Sonares o ultrasónicos
+- Cámaras de luz estructurada
+
+# Caracterización {visibility="hidden"}
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Sensibilidad]{.underline}: Cambio en la salida según la variación de la magnitud física de entrada
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#sensivity-ideal-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Rango]{.underline}: Valor máximo y mínimo
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#range-ideal-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Exactitud]{.underline}: Diferencia entre la salida del sensor y el valor real
+  - Error de sensibilidad: desviación a la pendiente de la curva ideal
+  - Error de corrimiento: desviación de la medida 0
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#accuracy-ideal-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Resolución]{.underline}: Mínima diferencia que puede detectarse entre dos valores
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#resolution-real-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+::: {.columns}
+::: {.column}
+
+- [Presición]{.underline}: Grado de reproducibilidad de la medida
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#precision-real-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Linealidad]{.underline}: Comportamiento lineal del sensor
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#precision-nonlinear-sensor >}}
+
+:::
+:::
+
+## Caracterización
+
+
+::: {.columns}
+::: {.column}
+
+- [Tiempo de respuesta]{.underline}: Tiempo que tarda la salida de un sensor en cambiar a un valor final
+
+- [Ancho de banda]{.underline}: Rango de frecuencia que puede detectar adecuadamente
+
+:::
+::: {.column}
+
+{{< embed slides/_graficos.ipynb#response-time-sensor >}}
+
+:::
+:::

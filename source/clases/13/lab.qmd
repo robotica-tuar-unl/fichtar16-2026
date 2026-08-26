@@ -1,0 +1,242 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Simulación de sensores con *Gazebo*
+
+## Sensor de tipo IMU
+
+- #### Descripción del sensor
+
+```{.xml code-line-numbers="false"}
+<gazebo reference="{nombre_link}">
+    <sensor name="{nombre_sensor}" type="imu">
+        <plugin
+            filename="gz-sim-imu-system" 
+            name="gz::sim::systems::Imu">
+        </plugin>
+
+        <!-- Atributos -->
+        <update_rate>{freq_hz}</update_rate>
+        <topic>{nombre_topic}</topic>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+    </sensor>
+</gazebo>
+```
+
+::: {.callout-note appearance="simple"}
+Recuerda modificar el *URDF* para añadir el `link` y la `joint` correspondiente
+
+>        <link name="{nombre_link}">
+>            <xacro:dummy_inertial />
+>        </link>
+>
+>        <joint name="{nombre_joint}" type="fixed">
+>            <parent link="base_link" />
+>            <child link="{nombre_link}" />
+>            <origin xyz="{x} {y} {z}" rpy="{r} {p} {y}" />
+>        </joint>
+:::
+
+::: {.callout-tip appearance="simple"}
+Puedes crear un archivo aparte para separar los sensores del resto de la descripción, por ej. `sensors.xacro`
+:::
+
+- #### Modelo de ruido gaussiano
+
+```{.xml code-line-numbers="false"}
+<noise type="gaussian">
+    <!-- Media -->
+    <mean>{media}</mean>
+    <!-- Desviación estándar -->      
+    <stddev>{desviacion_estandar}</stddev>
+</noise>
+```
+
+- #### Parámetros de ejemplo
+
+> **Acelerómetro**:
+>
+>   - Frecuencia de actualización: 100 [Hz]
+>   - Ruido estándar: 0.0016 [m/s<sup>2</sup>] (X-Y), 0.0019 [m/s<sup>2</sup>] (Z)
+>   - Bias: 0.020 [m/s<sup>2</sup>]
+
+> **Giroscopo**:
+>
+>   - Frecuencia de actualización: 100 [Hz]
+>   - Ruido estándar: 0.15 [rad/s]
+>   - Bias:0.0015 [rad/s]
+
+```{.xml code-line-numbers="true"}
+<sensor name="imu" type="imu">
+    <plugin
+        filename="gz-sim-imu-system" 
+        name="gz::sim::systems::Imu">
+    </plugin>
+
+    <always_on>1</always_on>
+    <update_rate>100</update_rate>
+    <topic>/imu/data</topic>
+    <visualize>true</visualize>
+
+    <imu>
+        <linear_acceleration>
+            <x>
+            <noise type="gaussian">
+                <mean>0.020</mean>
+                <stddev>0.0016</stddev>
+            </noise>
+            </x>
+            <!-- 'y' repite los parámetros de 'x' -->
+            <z>
+            <noise type="gaussian">
+                <mean>0.020</mean>
+                <stddev>0.0019</stddev>
+            </noise>
+            </z>
+        </linear_acceleration>
+        <angular_velocity>
+            <x>
+            <noise type="gaussian">
+                <mean>0.15</mean>
+                <stddev>0.0015</stddev>
+            </noise>
+            </x>
+            <!-- 'y' y 'z' repiten los parámetros de 'x'  -->
+        </angular_velocity>
+    </imu>
+</sensor>
+```
+
+## Configuración del `ros_gz_bridge`
+
+::: {.aside}
+::: {.callout-note appearance="simple"}
+Recuerda crear la carpeta `config`, el archivo `.yaml` correspondiente y configurar correctamente el archivo `setup.py`
+:::
+:::
+
+```{.yaml filename="gz_bridge.yaml" code-line-numbers=""}
+- topic_name: "<nombre_topic>"
+  ros_type_name: "<tipo_topic_ROS>"
+  gz_type_name: "<tipo_topic_Gazebo>"
+  direction: <direccion> # GZ_TO_ROS | ROS_TO_GZ | BIDIRECTIONAL
+  lazy: true
+
+- # Siguiente ..
+```
+
+- #### Ejemplo con topic `cmd_vel` con sentido *Gazebo* hacia *ROS2*
+
+```{.yaml code-line-numbers="false"}
+- topic_name: "/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: GZ_TO_ROS
+  lazy: true
+```
+
+## Modificación del `.launch.py`
+
+- #### Iniciar el `ros_gz_bridge`
+
+```{.py code-line-numbers="false"}
+    # ...
+    bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        parameters=[{
+            "config_file": PathJoinSubstitution(
+                [FindPackageShare("<nombre_paquete>"), "config", "gz_bridge.yaml"]
+            ),
+        }],
+    )
+    # ...
+```
+
+# Experimentos con la *IMU* y encoders
+
+## Ejecutar la simulación
+
+- Una vez configurado el sensor de tipo *IMU*, el `ros_gz_bridge` y el archivo *launch*, lanzar la simulación con el vehículo y realizar la comprobación del sistema:
+    - Comprobar los nodos funcionando
+    - Comprobar que los *topics* estén del bridge estén activos
+    - Comprobar que el vehículo se mueve utilizando el paquete `rqt_robot_steering`
+    - Visualizar las mediciones de la *IMU* mediante el paquete `rqt_plot` o `plotjuggler`
+
+## Experimentos
+
+- #### A. Vehículo detenido
+    - [Encoders]{.underline}: ¿Qué valor deberían entregar las ruedas si el robot no se mueve?
+    - [Giróscopo]{.underline}: ¿Qué deberían medir los tres ejes?
+    - [Acelerómetro]{.underline}: ¿Por qué el acelerómetro no mide 0 en todos los ejes?
+
+- #### B. Traslación en línea recta
+    - [Encoders]{.underline}: Las ruedas deberían girar a una velocidad aproximadamente constante
+    - [Acelerómetro]{.underline}: Si el robot se está moviendo, ¿el acelerómetro debería medir una aceleración?
+    - [Giróscopo]{.underline}: ¿Qué se espera que suceda con la medición de los tres ejes?
+
+- #### C. Arranque y frenado
+    - [Encoders]{.underline}: Notar el cambio de velocidad positivo y negativo
+    - [Acelerómetro]{.underline}: ¿Podemos identificar cuándo el robot está en movimiento mirando solamente el acelerómetro?
+
+- #### D. Rotación en el lugar
+    - [Encoders]{.underline}: Las ruedas deberían girar a una velocidad aproximadamente constante
+    - [Giróscopo]{.underline}: ¿Qué se espera que suceda con la medición de los tres ejes?
+
+# Estimación del *bias* del giróscopo
+
+## Crear un nodo de calibración
+
+- Programe un nodo que suscriba al *topic* de la *IMU* y reciba mensajes de tipo `sensor_msgs/msg/Imu`
+- El nodo deberá almacenar las velocidades angulares de cada mensaje recibido utilizando el campo `angular_velocity`
+$$
+\begin{matrix}
+\omega_x, & \omega_y, & \omega_z
+\end{matrix}
+$$
+y una vez transcurrido el tiempo de calibración, calcular el *bias* estimado para cada eje utilizando la media de las mediciones:
+$$
+\begin{matrix}
+\hat b_x =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{x,k}, &
+\hat b_y =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{y,k}, &
+\hat b_z =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{z,k}
+\end{matrix}
+$$
+donde $N$ es la cantidad de mediciones recibidas.
+
+- Se deberán imprimir los tres valores estimados utilizando $\mathrm{[^\circ/s]}$
+- Agregar un parámetro `calibration_samples` que indique la cantidad de muestras utilizadas para la calibración
+- Una vez estimado el *bias*, publicar un mensaje de tipo `sensor_msgs/msg/Imu` en el *topic* `/imu/data_corrected` con la medición corregida:
+$$
+\begin{matrix}
+\omega_x-\hat b_x, &
+\omega_y-\hat b_y, &
+\omega_z-\hat b_z
+\end{matrix}
+$$
+
+::: {.callout-note title="El resto de los datos del mensaje deberá mantenerse sin modificaciones" appearance="simple"}
+:::
+
+- #### Utilizar `rqt_plot` o `plotjuggler` para comparar las mediciones antes y después de la corrección

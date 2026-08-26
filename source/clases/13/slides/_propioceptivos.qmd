@@ -1,0 +1,190 @@
+## Encoders {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Dispositivos que pueden detectar o medir desplazamiento angular (o lineal)
+
+- Propioceptivos
+- Clasificación primaria: Incrementales y Absolutos
+- Principios de funcionamiento:
+    - Mecánico (Pasivo)
+    - Óptico (Activo)
+    - Magnético (Activo)
+
+:::
+::: {.column}
+
+![](https://www.akm.com/content/www/akm/global/en/products/rotation-angle-sensor/tutorial/type-mechanism-2/_jcr_content/root/responsivegrid/layoutcontainer_1876/akm_core_image_copy_2108379062.coreimg.gif/1636443807708/r900-mvcw-encoder-base-fig3-2.gif "Encoder incremental"){width="60%" fig-align="center" alt="slides/figs/fig3-2.gif"}
+
+![Fuente: AsahiKASEI (<a href="https://www.akm.com/global/en" target="_blank">www.akm.com</a>) ](https://www.akm.com/content/www/akm/global/en/products/rotation-angle-sensor/tutorial/type-mechanism-2/_jcr_content/root/responsivegrid/layoutcontainer_6205/akm_core_image_copy_1344415738.coreimg.gif/1636443808110/r1000-mv-encoder-base-fig3-6.gif "Encoder absoluto"){width="60%" fig-align="center" fig-alt="slides/figs/fig3-2.gif"}
+
+:::
+:::
+
+## Encoders de cuadratura {.smaller}
+
+> Encoder magnético montado en motor DC con escobilla
+
+::: {.columns}
+::: {.column}
+
+![Fuente: Pololu (<a href="https://www.pololu.com" target="_blank">www.pololu.com</a>)](https://a.pololu-files.com/picture/0J6852.1200.jpg?7327e7dca0d965a95aa0f700b51a9bbe){width="80%" fig-align="center" fig-alt="slides/figs/0J6852.1200.jpg"}
+
+:::
+::: {.column}
+
+![](https://a.pololu-files.com/picture/0J2643.1200.png?954dd7f1ce65b04b95900587e35eaf20){width="80%" fig-align="center" fig-alt="slides/figs/0J2643.1200.png"}
+
+:::
+:::
+
+## Características de los encoders {.smaller}
+
+- [Rango]{.underline}: Ángulo o cantidad de vueltas (absolutos)
+- [Resolución]{.underline}: Angular (absolutos) - CPR (incrementales)
+- [Linealidad]{.underline}: (no aplica)
+- [Ancho de banda]{.underline}: Tiempo de conmutación, max RPM <!-- (generalemente sobredimensionada) -->
+- [Error]{.underline}:
+  - Error angular para los absolutos
+  - En los incrementales depende del sistema de decodificación
+- [Otros parámetros]{.underline}: Tipo de salida (NPN, PushPull, protocolo, etc). Velocidad máxima. Voltaje/Corriente de trabajo.
+
+
+## Acelerómetro {.smaller}
+
+> Dispositivos electromecánicos que miden la aceleración a la que se encuentran afectados (propioceptivos y pasivos)
+
+::: {.columns}
+::: {.column}
+
+**ADXL362**: Accelerómetro de 3 ejes (3DoF)
+
+![Fuente: Sparkfun (<a href="https://www.sparkfun.com" target="_blank">www.sparkfun.com</a>)](https://www.sparkfun.com/media/catalog/product/cache/a793f13fd3d678cea13d28206895ba0c/1/1/11446-04a.jpg){width="60%" fig-align="center"}
+
+:::
+::: {.column}
+
+Micro-Electro-Mechanical Systems (MEMS): Medición de la aceleración asociada a una masa en movimiento
+
+![Fuente: Analog Devices (<a href="https://www.analog.com" target="_blank">www.analog.com</a>)](https://www.analog.com/en/_/media/analog/en/landing-pages/technical-articles/accelerometer-and-gyroscopes-sensors-operation-sensing-and-applications/5830fig03.png?rev=42070923190f41b286539ce7ee916431){width="80%" fig-align="center"}
+
+:::
+:::
+
+## Características de los acelerómetros {.smaller}
+
+- [Rango]{.underline}: Aceleración máxima (en múltiplos de gravedad, ej: $\pm2 g$, $\pm4 g$)
+- [Resolución]{.underline}: en mV/g (analógicos) o en LSB/g (digitales)
+<!-- - [Linealidad]{.underline}:  -->
+- [Ancho de banda]{.underline}: Rango de vibraciones al que puede responder
+- [Error]{.underline}: Densidad de ruido y salida para 0-g
+- [Otros parámetros]{.underline}: Tipo de salida (analógico o digital y el protocolo), cantidad de ejes
+- [Problemas asociados]{.underline}: Ruido de alta frecuencia. Vector gravedad.
+
+{{< embed slides/_imu-simulated.ipynb#imu-simulated >}}
+
+## Características de los acelerómetros {.smaller}
+
+> Problemas con el vector gravedad
+
+::: {.hidden}
+$\require{color}$
+:::
+
+
+::: {.columns}
+::: {.column width="55%"}
+
+- Cuando se utilizan 3 acelerómetros ortogonales, uno por cada eje $\textcolor{red}{X}$, $\textcolor{green}{Y}$, $\textcolor{blue}{Z}$ por lo general se orienta el eje $\textcolor{blue}{Z}$ paralelo al vector gravedad
+- El vector gravedad $\vec{g}$ queda perpendicular al eje $\textcolor{red}{X}$ e $\textcolor{green}{Y}$, lo que produce un valor $0 [m/s^2]$ en ambos ejes (para el caso estático)
+- Si el acelerómetro se rota ligeramente un ángulo $\theta$ en el eje $\textcolor{green}{Y}$, se genera una proyección del vector gravedad sobre el eje $\textcolor{red}{X}$
+
+
+::: {.callout-note title="Esto puede ser útil para medir inclinación pero es un problema para aceleraciones en el plano 2D" appearance="simple"}
+:::
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="40%"}
+
+![](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-52/number-1/articles/how-to-improve-the-accuracy-of-inclination-measurement-using-accelerometer/140913_fig_02.png){width="100%" fig-align="center"}
+
+![Fuente: Analog Devices (<a href="https://www.analog.com/" target="_blank">www.analog.com</a>)](https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-52/number-1/articles/how-to-improve-the-accuracy-of-inclination-measurement-using-accelerometer/140913_fig_01.png){width="100%" fig-align="center"}
+
+:::
+:::
+
+
+## Características de los acelerómetros {.smaller}
+
+> Ejemplo con inclinación $\theta = 0°$ y  $\theta = 5°$
+
+{{< embed slides/_imu-simulated.ipynb#imu-horizontal >}}
+
+{{< embed slides/_imu-simulated.ipynb#imu-tilted >}}
+
+
+## Giróscopos {.smaller}
+
+> Dispositivos electromecánicos que miden la velocidad angular a la que se encuentran afectados (propioceptivos y pasivos)
+
+::: {.columns}
+::: {.column}
+
+**LPY503AL**: Giróscopo de 2 ejes (2DoF)
+
+![Fuente: Sparkfun (<a href="https://www.sparkfun.com" target="_blank">www.sparkfun.com</a>)](https://cdn.sparkfun.com/assets/0/1/5/c/f/5112d377ce395ffd27000002.jpg){width="60%" fig-align="center"}
+
+:::
+::: {.column}
+
+Medición de la velocidad angular
+
+![Fuente: Analog Devices (<a href="https://www.analog.com" target="_blank">www.analog.com</a>)](https://www.analog.com/en/_/media/analog/en/landing-pages/technical-articles/accelerometer-and-gyroscopes-sensors-operation-sensing-and-applications/5830fig09.png?rev=630b2c22fc3648fba2818861493ae61f){width="60%" fig-align="center"}
+
+:::
+:::
+
+## Características de los giróscopos {.smaller}
+
+- [Rango]{.underline}: Velocidad máxima (en °/s o rad/s)
+- [Resolución]{.underline}: Resolución: en mV/°/s (analógicos) o en LSB/°/s (digitales)
+<!-- - [Linealidad]{.underline}:  -->
+- [Ancho de banda]{.underline}: Rango de variación al que puede responder
+- [Error]{.underline}: Densidad de ruido
+- [Otros parámetros]{.underline}: Tipo de salida (analógico o digital y el protocolo)
+- [Problemas asociados]{.underline}: Bias (valor a velocidad angular 0)
+
+{{< embed slides/_gyro-simulated.ipynb#gyro-simulated >}}
+
+
+
+## IMU (Inertial Measurement Unit) {.smaller}
+
+- 6 grados de libertad (6-DoF): 3 giróscopos y 3 acelerómetros ortogonales
+- Permite estimar:
+
+| Sensor       | Medición          | Primera integral ($\int$) | Segunda integral ($\int\int$) |
+| :----------- | :---------------: | :----------------: | :------------------: |
+| Acelerómetro | Aceleración ($\frac{d^2 x}{dt}$)      | Velocidad  ($\frac{dx}{dt}$) | Posición ($x$)             |
+| Giróscopo    | Vel. angular ($\frac{d\theta}{dt}$) | Orientación ($\theta$)        |                      |
+
+<br>
+
+::: {.callout-warning title="Problema: Errores cuadráticos y acumulados" appearance="simple"}
+Se debe recurrir a otro tipo de mediciones para disminuir el error
+:::
+
+
+::: {.notes}
+- Directamente: aceleración (A), velocidad angular (G)
+- Primera integral: velocidad lineal (A), orientación (G)
+- Segunda integral: posición (A)
+
+- Problemas:
+  - Ruido → deriva creciente
+  - Bias del giróscopo → error creciente en la orientación
+  - Gravedad en el acelerómetro → error en la aceleración si no se conoce la orientación
+:::

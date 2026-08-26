@@ -1,0 +1,314 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+  revealjs:
+        theme: default
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+output-file: index.html
+jupyter: python3
+---
+
+# Percepción {visibility="hidden"}
+
+{{< include slides/_intro-percepcion.qmd >}}
+
+
+
+
+# Propioceptivos {visibility="hidden"}
+
+{{< include slides/_propioceptivos.qmd >}}
+
+
+
+# Simulación de sensores {visibility="hidden"} 
+
+## Simulación de sensores en *Gazebo* {.smaller}
+
+> **Gazebo** tiene la capacidad de simular sensores y publicar su salida en topics
+
+- Se utiliza el *tag* `<sensor></sensor>` en el *URDF*
+
+```{.xml code-line-numbers="false"}
+<gazebo reference="{nombre_link}">
+    <sensor name="{nombre}" type="{tipo}">
+        <!-- Atributos -->
+    </sensor>
+</gazebo>
+```
+
+- Cada sensor tiene que estar referenciado a un link
+
+- Cada tipo de sensor tiene su implementación específica
+
+## Sensor tipo IMU {.smaller}
+
+::: {.columns}
+::: {.column}
+
+> Parámetros
+
+- Tipo: `imu`
+- Plugin: `gz::sim::systems::Imu`
+- Iniciar encendido (`always_on`)
+- Frecuencia de datos en [Hz]
+- Topic (de tipo `gz.msgs.IMU`)
+
+:::
+::: {.column}
+
+<br>
+
+```{.xml code-line-numbers="|1,2,12,13|3-6|8-11"}
+<gazebo reference="imu_link">
+  <sensor name="imu" type="imu">
+    <plugin
+      filename="gz-sim-imu-system" 
+      name="gz::sim::systems::Imu">
+    </plugin>
+
+    <always_on>true</always_on>
+    <update_rate>{freq_hz}</update_rate>
+    <topic>{nombre_topic}</topic>
+    <visualize>true</visualize>
+  </sensor>
+</gazebo>
+```
+
+:::
+:::
+
+<br>
+
+::: {.fragment}
+::: {.callout-note appearance="simple"}
+Con esa definición la IMU se comporta como un sensor ideal con mediciones casi perfectas
+:::
+:::
+
+## Simulando ruido {.smaller}
+
+> **Gazebo** provee un motor de ruido para simular sensores reales
+
+- Ejemplo de ruido *gaussiano*
+
+```{.xml code-line-numbers="|1,4|2,3"}
+<noise type="gaussian">
+  <mean>{media}</mean>                        <!-- Media -->
+  <stddev>{desviacion_estandar}</stddev>      <!-- Desviación estándar -->
+</noise>
+```
+
+<br>
+
+{{< embed slides/_gaussian-noise.ipynb#gaussian-noise >}}
+
+::: {.notes}
+- También existe:
+  - `bias_mean`
+  - `bias_stddev`
+  - `dynamic_bias_stddev`
+  - `dynamic_bias_correlation_time`
+:::
+
+## Ejemplo: *BMI088* {.smaller}
+
+::: {.columns}
+::: {.column width="60%"}
+
+- #### Table 4: Accelerometer specifications
+  - `Zero-g Offset` ($\mathrm{Off}$): $20 \mathrm{[mg]}$
+  - `Output Data Rate` ($\mathrm{ODR}$): $12.5 - 1600 \mathrm{[Hz]}$
+  - `Output Noise Density` ($\mathrm{n_{rms}}$): $190$ (Z-axis)   $160$ (X- & Y-axis) $\mathrm{[\mu g / \surd Hz]}$
+
+- #### Table 5: Gyroscope specifications
+  - `Zero-rate Offset` ($\mathrm{Off \, \Omega_x \Omega_y \Omega_z}$): $\pm 1 \mathrm{[°/s]}$
+  - `Data rate`: $2000, 1000, 400, 200, 100 \mathrm{[Hz]}$
+  - `Output Noise` ($\mathrm{n_{rms}}$): $0.1 \mathrm{[°/s]}$
+
+:::
+::: {.column width="40%"}
+
+[![Fuente: Bosch (<a href="https://www.bosch-sensortec.com" target="_blank">www.bosch-sensortec.com</a>)](https://www.bosch-sensortec.com/media/boschsensortec/products/motion_sensors/imus/bmi088/bosch-sensortec_website-relaunch_stage_bmi088-16-9_res_1200x1200.jpg "BMI088"){fig-align="center" fig-env="figure*" style="object-fit: cover; width: 800px; height: 500px;"} ](https://www.bosch-sensortec.com/products/motion-sensors/imus/bmi088/){target="_blank"}
+
+:::
+:::
+
+::: {.aside}
+[Datasheet BMI088 (www.bosch-sensortec.com)](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf){target="_blank"}
+:::
+
+## Definición de los parámetros {.smaller}
+
+> Ejemplo *BMI088*
+
+```{.xml code-line-numbers="|2-10|13-29|30-43"}
+<sensor name="imu" type="imu">
+  <plugin
+    filename="gz-sim-imu-system" 
+    name="gz::sim::systems::Imu">
+  </plugin>
+
+  <always_on>1</always_on>
+  <update_rate>100</update_rate>
+  <topic>/imu/data</topic>
+  <visualize>true</visualize>
+
+  <imu>
+    <linear_acceleration>
+      <x>
+      <noise type="gaussian">
+        <mean>0.020</mean>
+        <stddev>0.0016</stddev>
+      </noise>
+      </x>
+      <y>
+        <!-- Repite los parámetros de X -->
+      </y>
+      <z>
+      <noise type="gaussian">
+        <mean>0.020</mean>
+        <stddev>0.0019</stddev>
+      </noise>
+      </z>
+    </linear_acceleration>
+    <angular_velocity>
+      <x>
+      <noise type="gaussian">
+        <mean>0.0174533</mean>          <!-- 1° en rad -->
+        <stddev>0.00174533</stddev>     <!-- 0.1° en rad -->
+      </noise>
+      </x>
+      <y>
+        <!-- Repite los parámetros de X  -->
+      </y>
+      <z>
+        <!-- Repite los parámetros de X -->
+      </z>
+    </angular_velocity>
+  </imu>
+</sensor>
+```
+
+## "Sensores" para las ruedas {.smaller}
+
+> Para el caso de los encoders nos basamos en la medición que realiza el `joint_state_publisher` de las juntas asociadas a las ruedas
+
+- El topic utilizado es `/joint_states` de tipo `sensor_msgs/msg/JointState`
+
+
+```default {filename="sensor_msgs/JointState.msg" code-line-numbers="false"}
+# El estado de cada junta (revolución o prismática) se define por:
+# * la posición de la junta (rad o m),
+# * la velocidad de la junta (rad/s o m/s) y 
+# * el esfuerzo que se aplica en la junta (Nm o N).
+#
+# Cada junta se identifica de manera única por su nombre
+#
+# Todos los arrays en este mensaje deben tener el mismo tamaño, o estar vacíos.
+# Esta es la única manera de asociar de manera única el nombre conjunto con el correcto estado
+
+std_msgs/Header header
+string[] name
+float64[] position
+float64[] velocity
+float64[] effort
+```
+
+# *Gazebo* Bridge {visibility="hidden"}
+
+## Topics de *Gazebo* {.smaller}
+
+> Los sensores son simulados por *Gazebo* por lo tanto publicarán topics dentro del simulador
+
+::: {.callout-note appearance="simple" title="Será necesario \"puentearlos\" hacia *ROS2* utilizando el paquete `ros_gz_bridge`"}
+:::
+
+. . .
+
+- Se lanza un *bridge* con un archivo de configuración asociado:
+
+```py {filename="gazebo.launch.py" code-line-numbers=""}
+    Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        parameters=[{
+            "config_file": PathJoinSubstitution(
+                [FindPackageShare("<nombre_paquete>"), "config", "gz_bridge.yaml"]
+            ),
+        }],
+    )
+```
+
+## Topics de *Gazebo* {.smaller}
+
+> Los sensores son simulados por *Gazebo* por lo tanto publicarán topics dentro del simulador
+
+::: {.callout-note appearance="simple" title="Será necesario \"puentearlos\" hacia *ROS2* utilizando el paquete `ros_gz_bridge`"}
+:::
+
+- El archivo de configuración define: nombre, tipo y dirección
+
+```yaml {filename="gz_bridge.yaml" code-line-numbers=""}
+- topic_name: "<nombre_topic>"
+  ros_type_name: "<tipo_topic_ROS>"
+  gz_type_name: "<tipo_topic_Gazebo>"
+  direction: <direccion> # GZ_TO_ROS | ROS_TO_GZ | BIDIRECTIONAL
+  lazy: true
+
+- # Siguiente ..
+```
+
+## Mensajes de IMU {.smaller}
+
+- *Gazebo*: `gz.msgs.IMU`
+- *ROS2*: `sensor_msgs/msg/Imu`
+
+```{.default filename="sensor_msgs/Imu.msg" code-line-numbers="false"}
+std_msgs/Header header
+geometry_msgs/Quaternion
+├── float64 x
+├── float64 y
+├── float64 z
+└── float64 w
+float64[9] orientation_covariance
+
+geometry_msgs/Vector3 angular_velocity      # Velocidad rotacional en rad/s
+├── float64 x
+├── float64 y
+└── float64 z
+float64[9] orientation_covariance
+
+geometry_msgs/Vector3 linear_acceleration   # Aceleraciones en m/s^2
+├── float64 x
+├── float64 y
+└── float64 z
+float64[9] orientation_covariance
+```
+
+::: {.aside}
+[Definición del mensaje (docs.ros.org)](https://docs.ros.org/en/latest/api/sensor_msgs/html/msg/Imu.html){target="_blank"}
+:::
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+Simulación de sensores en *Gazebo*
