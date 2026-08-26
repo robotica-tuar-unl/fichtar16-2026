@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clase 13 - Laboratorio – Robótica 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d188491874d8bb9ec47b934c99596b91.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../sh-highlight.css">
+</head>
+
+<body class="nav-sidebar floating slimcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Robótica 2026
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="quarto-sidebar-header"><div class="sidebar-header-item">
+<h2>
+<a href="https://www.unl.edu.ar/">Universidad Nacional del Litoral</a> (UNL) <br>
+</h2>
+<h3>
+<a href="https://www.fich.unl.edu.ar/">Facultad de Ingeniería y Ciencias Hídricas</a> (FICH)
+</h3>
+<p><br><br>
+<strong>Tecnicatura Universitaria en Automatización y Robótica (TUAR)</strong> <br><br>
+<img src="https://sinc.unl.edu.ar/wp-content/themes/sinci/img/sinc-logo.png" class="img-fluid"></p>
+</div></div>
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Robótica 2026</a> 
+    </div>
+      </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#simulación-de-sensores-con-gazebo" id="toc-simulación-de-sensores-con-gazebo" class="nav-link active" data-scroll-target="#simulación-de-sensores-con-gazebo"><span class="header-section-number">1</span> Simulación de sensores con <em>Gazebo</em></a>
+  <ul class="collapse">
+  <li><a href="#sensor-de-tipo-imu" id="toc-sensor-de-tipo-imu" class="nav-link" data-scroll-target="#sensor-de-tipo-imu"><span class="header-section-number">1.1</span> Sensor de tipo IMU</a></li>
+  <li><a href="#configuración-del-ros_gz_bridge" id="toc-configuración-del-ros_gz_bridge" class="nav-link" data-scroll-target="#configuración-del-ros_gz_bridge"><span class="header-section-number">1.2</span> Configuración del <code>ros_gz_bridge</code></a></li>
+  <li><a href="#modificación-del-.launch.py" id="toc-modificación-del-.launch.py" class="nav-link" data-scroll-target="#modificación-del-.launch.py"><span class="header-section-number">1.3</span> Modificación del <code>.launch.py</code></a></li>
+  </ul></li>
+  <li><a href="#experimentos-con-la-imu-y-encoders" id="toc-experimentos-con-la-imu-y-encoders" class="nav-link" data-scroll-target="#experimentos-con-la-imu-y-encoders"><span class="header-section-number">2</span> Experimentos con la <em>IMU</em> y encoders</a>
+  <ul class="collapse">
+  <li><a href="#ejecutar-la-simulación" id="toc-ejecutar-la-simulación" class="nav-link" data-scroll-target="#ejecutar-la-simulación"><span class="header-section-number">2.1</span> Ejecutar la simulación</a></li>
+  <li><a href="#experimentos" id="toc-experimentos" class="nav-link" data-scroll-target="#experimentos"><span class="header-section-number">2.2</span> Experimentos</a></li>
+  </ul></li>
+  <li><a href="#estimación-del-bias-del-giróscopo" id="toc-estimación-del-bias-del-giróscopo" class="nav-link" data-scroll-target="#estimación-del-bias-del-giróscopo"><span class="header-section-number">3</span> Estimación del <em>bias</em> del giróscopo</a>
+  <ul class="collapse">
+  <li><a href="#crear-un-nodo-de-calibración" id="toc-crear-un-nodo-de-calibración" class="nav-link" data-scroll-target="#crear-un-nodo-de-calibración"><span class="header-section-number">3.1</span> Crear un nodo de calibración</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clase 13 - Laboratorio</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="simulación-de-sensores-con-gazebo" class="level1 page-columns page-full" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Simulación de sensores con <em>Gazebo</em></h1>
+<section id="sensor-de-tipo-imu" class="level2" data-number="1.1">
+<h2 data-number="1.1" data-anchor-id="sensor-de-tipo-imu"><span class="header-section-number">1.1</span> Sensor de tipo IMU</h2>
+<ul>
+<li><h4 id="descripción-del-sensor">Descripción del sensor</h4></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">gazebo</span> <span class="ot">reference=</span><span class="st">"{nombre_link}"</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">sensor</span> <span class="ot">name=</span><span class="st">"{nombre_sensor}"</span> <span class="ot">type=</span><span class="st">"imu"</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">plugin</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="ot">filename=</span><span class="st">"gz-sim-imu-system"</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="ot">name=</span><span class="st">"gz::sim::systems::Imu"</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">plugin</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Atributos --&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">update_rate</span>&gt;{freq_hz}&lt;/<span class="kw">update_rate</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">topic</span>&gt;{nombre_topic}&lt;/<span class="kw">topic</span>&gt;</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">always_on</span>&gt;true&lt;/<span class="kw">always_on</span>&gt;</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">visualize</span>&gt;true&lt;/<span class="kw">visualize</span>&gt;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">sensor</span>&gt;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">gazebo</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Recuerda modificar el <em>URDF</em> para añadir el <code>link</code> y la <code>joint</code> correspondiente</p>
+<blockquote class="blockquote">
+<pre><code>   &lt;link name="{nombre_link}"&gt;
+       &lt;xacro:dummy_inertial /&gt;
+   &lt;/link&gt;
+
+   &lt;joint name="{nombre_joint}" type="fixed"&gt;
+       &lt;parent link="base_link" /&gt;
+       &lt;child link="{nombre_link}" /&gt;
+       &lt;origin xyz="{x} {y} {z}" rpy="{r} {p} {y}" /&gt;
+   &lt;/joint&gt;</code></pre>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Puedes crear un archivo aparte para separar los sensores del resto de la descripción, por ej. <code>sensors.xacro</code></p>
+</div>
+</div>
+</div>
+<ul>
+<li><h4 id="modelo-de-ruido-gaussiano">Modelo de ruido gaussiano</h4></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Media --&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">mean</span>&gt;{media}&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">&lt;!-- Desviación estándar --&gt;</span>      </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">stddev</span>&gt;{desviacion_estandar}&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">noise</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><h4 id="parámetros-de-ejemplo">Parámetros de ejemplo</h4></li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Acelerómetro</strong>:</p>
+<ul>
+<li>Frecuencia de actualización: 100 [Hz]</li>
+<li>Ruido estándar: 0.0016 [m/s<sup>2</sup>] (X-Y), 0.0019 [m/s<sup>2</sup>] (Z)</li>
+<li>Bias: 0.020 [m/s<sup>2</sup>]</li>
+</ul>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Giroscopo</strong>:</p>
+<ul>
+<li>Frecuencia de actualización: 100 [Hz]</li>
+<li>Ruido estándar: 0.15 [rad/s]</li>
+<li>Bias:0.0015 [rad/s]</li>
+</ul>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource xml number-lines code-with-copy"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1"></a>&lt;<span class="kw">sensor</span> <span class="ot">name=</span><span class="st">"imu"</span> <span class="ot">type=</span><span class="st">"imu"</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    &lt;<span class="kw">plugin</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>        <span class="ot">filename=</span><span class="st">"gz-sim-imu-system"</span> </span>
+<span id="cb4-4"><a href="#cb4-4"></a>        <span class="ot">name=</span><span class="st">"gz::sim::systems::Imu"</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    &lt;/<span class="kw">plugin</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a>    &lt;<span class="kw">always_on</span>&gt;1&lt;/<span class="kw">always_on</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8"></a>    &lt;<span class="kw">update_rate</span>&gt;100&lt;/<span class="kw">update_rate</span>&gt;</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    &lt;<span class="kw">topic</span>&gt;/imu/data&lt;/<span class="kw">topic</span>&gt;</span>
+<span id="cb4-10"><a href="#cb4-10"></a>    &lt;<span class="kw">visualize</span>&gt;true&lt;/<span class="kw">visualize</span>&gt;</span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a>    &lt;<span class="kw">imu</span>&gt;</span>
+<span id="cb4-13"><a href="#cb4-13"></a>        &lt;<span class="kw">linear_acceleration</span>&gt;</span>
+<span id="cb4-14"><a href="#cb4-14"></a>            &lt;<span class="kw">x</span>&gt;</span>
+<span id="cb4-15"><a href="#cb4-15"></a>            &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-16"><a href="#cb4-16"></a>                &lt;<span class="kw">mean</span>&gt;0.020&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb4-17"><a href="#cb4-17"></a>                &lt;<span class="kw">stddev</span>&gt;0.0016&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb4-18"><a href="#cb4-18"></a>            &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-19"><a href="#cb4-19"></a>            &lt;/<span class="kw">x</span>&gt;</span>
+<span id="cb4-20"><a href="#cb4-20"></a>            <span class="co">&lt;!-- 'y' repite los parámetros de 'x' --&gt;</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a>            &lt;<span class="kw">z</span>&gt;</span>
+<span id="cb4-22"><a href="#cb4-22"></a>            &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-23"><a href="#cb4-23"></a>                &lt;<span class="kw">mean</span>&gt;0.020&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb4-24"><a href="#cb4-24"></a>                &lt;<span class="kw">stddev</span>&gt;0.0019&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb4-25"><a href="#cb4-25"></a>            &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-26"><a href="#cb4-26"></a>            &lt;/<span class="kw">z</span>&gt;</span>
+<span id="cb4-27"><a href="#cb4-27"></a>        &lt;/<span class="kw">linear_acceleration</span>&gt;</span>
+<span id="cb4-28"><a href="#cb4-28"></a>        &lt;<span class="kw">angular_velocity</span>&gt;</span>
+<span id="cb4-29"><a href="#cb4-29"></a>            &lt;<span class="kw">x</span>&gt;</span>
+<span id="cb4-30"><a href="#cb4-30"></a>            &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-31"><a href="#cb4-31"></a>                &lt;<span class="kw">mean</span>&gt;0.15&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb4-32"><a href="#cb4-32"></a>                &lt;<span class="kw">stddev</span>&gt;0.0015&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb4-33"><a href="#cb4-33"></a>            &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-34"><a href="#cb4-34"></a>            &lt;/<span class="kw">x</span>&gt;</span>
+<span id="cb4-35"><a href="#cb4-35"></a>            <span class="co">&lt;!-- 'y' y 'z' repiten los parámetros de 'x'  --&gt;</span></span>
+<span id="cb4-36"><a href="#cb4-36"></a>        &lt;/<span class="kw">angular_velocity</span>&gt;</span>
+<span id="cb4-37"><a href="#cb4-37"></a>    &lt;/<span class="kw">imu</span>&gt;</span>
+<span id="cb4-38"><a href="#cb4-38"></a>&lt;/<span class="kw">sensor</span>&gt;</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="configuración-del-ros_gz_bridge" class="level2 page-columns page-full" data-number="1.2">
+<h2 data-number="1.2" data-anchor-id="configuración-del-ros_gz_bridge"><span class="header-section-number">1.2</span> Configuración del <code>ros_gz_bridge</code></h2>
+
+<div class="no-row-height column-margin column-container"><div class="margin-aside">
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Recuerda crear la carpeta <code>config</code>, el archivo <code>.yaml</code> correspondiente y configurar correctamente el archivo <code>setup.py</code></p>
+</div>
+</div>
+</div>
+</div></div><div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>gz_bridge.yaml</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="gz_bridge.yaml"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">topic_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;nombre_topic&gt;"</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="at">  </span><span class="fu">ros_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;tipo_topic_ROS&gt;"</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="at">  </span><span class="fu">gz_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;tipo_topic_Gazebo&gt;"</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="at">  </span><span class="fu">direction</span><span class="kw">:</span><span class="at"> &lt;direccion&gt;</span><span class="co"> # GZ_TO_ROS | ROS_TO_GZ | BIDIRECTIONAL</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="at">  </span><span class="fu">lazy</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="kw">-</span><span class="co"> # Siguiente ..</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><h4 id="ejemplo-con-topic-cmd_vel-con-sentido-gazebo-hacia-ros2">Ejemplo con topic <code>cmd_vel</code> con sentido <em>Gazebo</em> hacia <em>ROS2</em></h4></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">topic_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"/cmd_vel"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ros_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"geometry_msgs/msg/Twist"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">gz_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"gz.msgs.Twist"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">direction</span><span class="kw">:</span><span class="at"> GZ_TO_ROS</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">lazy</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="modificación-del-.launch.py" class="level2" data-number="1.3">
+<h2 data-number="1.3" data-anchor-id="modificación-del-.launch.py"><span class="header-section-number">1.3</span> Modificación del <code>.launch.py</code></h2>
+<ul>
+<li><h4 id="iniciar-el-ros_gz_bridge">Iniciar el <code>ros_gz_bridge</code></h4></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    bridge <span class="op">=</span> Node(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        package<span class="op">=</span><span class="st">"ros_gz_bridge"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        executable<span class="op">=</span><span class="st">"parameter_bridge"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        parameters<span class="op">=</span>[{</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"config_file"</span>: PathJoinSubstitution(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                [FindPackageShare(<span class="st">"&lt;nombre_paquete&gt;"</span>), <span class="st">"config"</span>, <span class="st">"gz_bridge.yaml"</span>]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            ),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        }],</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ...</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="experimentos-con-la-imu-y-encoders" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Experimentos con la <em>IMU</em> y encoders</h1>
+<section id="ejecutar-la-simulación" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="ejecutar-la-simulación"><span class="header-section-number">2.1</span> Ejecutar la simulación</h2>
+<ul>
+<li>Una vez configurado el sensor de tipo <em>IMU</em>, el <code>ros_gz_bridge</code> y el archivo <em>launch</em>, lanzar la simulación con el vehículo y realizar la comprobación del sistema:
+<ul>
+<li>Comprobar los nodos funcionando</li>
+<li>Comprobar que los <em>topics</em> estén del bridge estén activos</li>
+<li>Comprobar que el vehículo se mueve utilizando el paquete <code>rqt_robot_steering</code></li>
+<li>Visualizar las mediciones de la <em>IMU</em> mediante el paquete <code>rqt_plot</code> o <code>plotjuggler</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="experimentos" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="experimentos"><span class="header-section-number">2.2</span> Experimentos</h2>
+<ul>
+<li><h4 id="a.-vehículo-detenido">A. Vehículo detenido</h4>
+<ul>
+<li><u>Encoders</u>: ¿Qué valor deberían entregar las ruedas si el robot no se mueve?</li>
+<li><u>Giróscopo</u>: ¿Qué deberían medir los tres ejes?</li>
+<li><u>Acelerómetro</u>: ¿Por qué el acelerómetro no mide 0 en todos los ejes?</li>
+</ul></li>
+<li><h4 id="b.-traslación-en-línea-recta">B. Traslación en línea recta</h4>
+<ul>
+<li><u>Encoders</u>: Las ruedas deberían girar a una velocidad aproximadamente constante</li>
+<li><u>Acelerómetro</u>: Si el robot se está moviendo, ¿el acelerómetro debería medir una aceleración?</li>
+<li><u>Giróscopo</u>: ¿Qué se espera que suceda con la medición de los tres ejes?</li>
+</ul></li>
+<li><h4 id="c.-arranque-y-frenado">C. Arranque y frenado</h4>
+<ul>
+<li><u>Encoders</u>: Notar el cambio de velocidad positivo y negativo</li>
+<li><u>Acelerómetro</u>: ¿Podemos identificar cuándo el robot está en movimiento mirando solamente el acelerómetro?</li>
+</ul></li>
+<li><h4 id="d.-rotación-en-el-lugar">D. Rotación en el lugar</h4>
+<ul>
+<li><u>Encoders</u>: Las ruedas deberían girar a una velocidad aproximadamente constante</li>
+<li><u>Giróscopo</u>: ¿Qué se espera que suceda con la medición de los tres ejes?</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="estimación-del-bias-del-giróscopo" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Estimación del <em>bias</em> del giróscopo</h1>
+<section id="crear-un-nodo-de-calibración" class="level2" data-number="3.1">
+<h2 data-number="3.1" data-anchor-id="crear-un-nodo-de-calibración"><span class="header-section-number">3.1</span> Crear un nodo de calibración</h2>
+<ul>
+<li><p>Programe un nodo que suscriba al <em>topic</em> de la <em>IMU</em> y reciba mensajes de tipo <code>sensor_msgs/msg/Imu</code></p></li>
+<li><p>El nodo deberá almacenar las velocidades angulares de cada mensaje recibido utilizando el campo <code>angular_velocity</code> <span class="math display">\[
+\begin{matrix}
+\omega_x, &amp; \omega_y, &amp; \omega_z
+\end{matrix}
+\]</span> y una vez transcurrido el tiempo de calibración, calcular el <em>bias</em> estimado para cada eje utilizando la media de las mediciones: <span class="math display">\[
+\begin{matrix}
+\hat b_x =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{x,k}, &amp;
+\hat b_y =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{y,k}, &amp;
+\hat b_z =
+\frac{1}{N}\sum_{k=1}^{N}\omega_{z,k}
+\end{matrix}
+\]</span> donde <span class="math inline">\(N\)</span> es la cantidad de mediciones recibidas.</p></li>
+<li><p>Se deberán imprimir los tres valores estimados utilizando <span class="math inline">\(\mathrm{[^\circ/s]}\)</span></p></li>
+<li><p>Agregar un parámetro <code>calibration_samples</code> que indique la cantidad de muestras utilizadas para la calibración</p></li>
+<li><p>Una vez estimado el <em>bias</em>, publicar un mensaje de tipo <code>sensor_msgs/msg/Imu</code> en el <em>topic</em> <code>/imu/data_corrected</code> con la medición corregida: <span class="math display">\[
+\begin{matrix}
+\omega_x-\hat b_x, &amp;
+\omega_y-\hat b_y, &amp;
+\omega_z-\hat b_z
+\end{matrix}
+\]</span></p></li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-empty-content callout-titled" title="El resto de los datos del mensaje deberá mantenerse sin modificaciones">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>El resto de los datos del mensaje deberá mantenerse sin modificaciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<ul>
+<li><h4 id="utilizar-rqt_plot-o-plotjuggler-para-comparar-las-mediciones-antes-y-después-de-la-corrección">Utilizar <code>rqt_plot</code> o <code>plotjuggler</code> para comparar las mediciones antes y después de la corrección</h4></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
+            }
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

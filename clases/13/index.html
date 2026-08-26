@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.30">
+
+  <title>Robótica 2026 – Clase 13</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-7a2228716d3390c2d9f9ac68278f7f70.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>.mjx-chtml{ font-size: 100% !important; }</style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Robótica</h1>
+  <p class="subtitle">Clase 13</p>
+
+<div class="quarto-title-authors">
+</div>
+
+  <p class="date">Semana 18 - 08/26/2026</p>
+</section>
+<section>
+
+<section id="percepción-1" class="slide level2">
+<h2>Percepción</h2>
+<div class="columns">
+<div class="column">
+<p>Una de las tareas más importantes en sistemas autónomos es la de adquirir información acerca del entorno a través de <strong>Sensores</strong></p>
+</div><div class="column">
+<div class="quarto-layout-panel" data-layout-ncol="1">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://clearpathrobotics.com/husky-observer/" target="_blank"><img data-src="https://s3.amazonaws.com/assets.clearpathrobotics.com/wp-content/uploads/2023/10/08224611/Husky-Observer-web-1-2048x1368.jpg" title="Husky Observer" class="quarto-figure quarto-figure-center" data-fig-env="figure*"></a></p>
+</figure>
+</div>
+<figcaption><span style="font-size: 70%;">Fuente: Clearpath (<a href="https://clearpathrobotics.com/" target="_blank">clearpathrobotics.com</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="sensores-algunas-clasificaciones" class="slide level2 smaller">
+<h2>Sensores: algunas clasificaciones</h2>
+<blockquote>
+<p><u>Propioceptivos</u>: Miden variables internas del robot</p>
+</blockquote>
+<ul>
+<li>Velocidad de una rueda/motor</li>
+<li>Ángulo de articulación de un brazo</li>
+<li>Voltaje de la batería</li>
+</ul>
+<blockquote>
+<p><u>Exteroceptivos</u>: Adquieren información del entorno del robot <!--que se procesan para extraer características ambientales significativas --></p>
+</blockquote>
+<ul>
+<li>Medida de distancia</li>
+<li>Intensidad de la luz</li>
+<li>Amplitud de sonido</li>
+</ul>
+</section>
+<section id="sensores-algunas-clasificaciones-1" class="slide level2 smaller">
+<h2>Sensores: algunas clasificaciones</h2>
+<blockquote>
+<p><u>Pasivos</u>: Miden la energía que ingresa del medio que los rodea</p>
+</blockquote>
+<ul>
+<li>Sondas de temperatura</li>
+<li>Micrófonos</li>
+<li>Cámaras</li>
+</ul>
+<blockquote>
+<p><u>Activos</u>: Emiten energía y luego miden la reacción del medio ambiente</p>
+</blockquote>
+<ul>
+<li>Encoders ópticos o magnéticos</li>
+<li>Sonares o ultrasónicos</li>
+<li>Cámaras de luz estructurada</li>
+</ul>
+</section></section>
+<section>
+
+<section id="caracterización-1" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Sensibilidad</u>: Cambio en la salida según la variación de la magnitud física de entrada</li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-sensivity-ideal-sensor">
+<div id="cell-sensivity-ideal-sensor" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-sensivity-ideal-sensor-output-1.svg" id="sensivity-ideal-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-2" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Rango</u>: Valor máximo y mínimo</li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-range-ideal-sensor">
+<div id="cell-range-ideal-sensor" class="cell">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-range-ideal-sensor-output-1.svg" id="range-ideal-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-3" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Exactitud</u>: Diferencia entre la salida del sensor y el valor real
+<ul>
+<li>Error de sensibilidad: desviación a la pendiente de la curva ideal</li>
+<li>Error de corrimiento: desviación de la medida 0</li>
+</ul></li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-accuracy-ideal-sensor">
+<div id="cell-accuracy-ideal-sensor" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-accuracy-ideal-sensor-output-1.svg" id="accuracy-ideal-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-4" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Resolución</u>: Mínima diferencia que puede detectarse entre dos valores</li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-resolution-real-sensor">
+<div id="cell-resolution-real-sensor" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-resolution-real-sensor-output-1.svg" id="resolution-real-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-5" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Presición</u>: Grado de reproducibilidad de la medida</li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-precision-real-sensor">
+<div id="cell-precision-real-sensor" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-precision-real-sensor-output-1.svg" id="precision-real-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-6" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><u>Linealidad</u>: Comportamiento lineal del sensor</li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-precision-nonlinear-sensor">
+<div id="cell-precision-nonlinear-sensor" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-precision-nonlinear-sensor-output-1.svg" id="precision-nonlinear-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="caracterización-7" class="slide level2">
+<h2>Caracterización</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p><u>Tiempo de respuesta</u>: Tiempo que tarda la salida de un sensor en cambiar a un valor final</p></li>
+<li><p><u>Ancho de banda</u>: Rango de frecuencia que puede detectar adecuadamente</p></li>
+</ul>
+</div><div class="column">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_graficos.ipynb" data-notebook-cellid="cell-response-time-sensor">
+<div id="cell-response-time-sensor" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_graficos-response-time-sensor-output-1.svg" id="response-time-sensor"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section></section>
+<section>
+
+<section id="encoders" class="slide level2 smaller">
+<h2>Encoders</h2>
+<div class="columns">
+<div class="column">
+<blockquote>
+<p>Dispositivos que pueden detectar o medir desplazamiento angular (o lineal)</p>
+</blockquote>
+<ul>
+<li>Propioceptivos</li>
+<li>Clasificación primaria: Incrementales y Absolutos</li>
+<li>Principios de funcionamiento:
+<ul>
+<li>Mecánico (Pasivo)</li>
+<li>Óptico (Activo)</li>
+<li>Magnético (Activo)</li>
+</ul></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.akm.com/content/www/akm/global/en/products/rotation-angle-sensor/tutorial/type-mechanism-2/_jcr_content/root/responsivegrid/layoutcontainer_1876/akm_core_image_copy_2108379062.coreimg.gif/1636443807708/r900-mvcw-encoder-base-fig3-2.gif" title="Encoder incremental" class="quarto-figure quarto-figure-center" style="width:60.0%" alt="slides/figs/fig3-2.gif"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.akm.com/content/www/akm/global/en/products/rotation-angle-sensor/tutorial/type-mechanism-2/_jcr_content/root/responsivegrid/layoutcontainer_6205/akm_core_image_copy_1344415738.coreimg.gif/1636443808110/r1000-mv-encoder-base-fig3-6.gif" title="Encoder absoluto" style="width:60.0%" alt="slides/figs/fig3-2.gif"></p>
+<figcaption>Fuente: AsahiKASEI (<a href="https://www.akm.com/global/en" target="_blank">www.akm.com</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="encoders-de-cuadratura" class="slide level2 smaller">
+<h2>Encoders de cuadratura</h2>
+<blockquote>
+<p>Encoder magnético montado en motor DC con escobilla</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://a.pololu-files.com/picture/0J6852.1200.jpg?7327e7dca0d965a95aa0f700b51a9bbe" style="width:80.0%" alt="slides/figs/0J6852.1200.jpg"></p>
+<figcaption>Fuente: Pololu (<a href="https://www.pololu.com" target="_blank">www.pololu.com</a>)</figcaption>
+</figure>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://a.pololu-files.com/picture/0J2643.1200.png?954dd7f1ce65b04b95900587e35eaf20" class="quarto-figure quarto-figure-center" style="width:80.0%" alt="slides/figs/0J2643.1200.png"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="características-de-los-encoders" class="slide level2 smaller">
+<h2>Características de los encoders</h2>
+<ul>
+<li><u>Rango</u>: Ángulo o cantidad de vueltas (absolutos)</li>
+<li><u>Resolución</u>: Angular (absolutos) - CPR (incrementales)</li>
+<li><u>Linealidad</u>: (no aplica)</li>
+<li><u>Ancho de banda</u>: Tiempo de conmutación, max RPM <!-- (generalemente sobredimensionada) --></li>
+<li><u>Error</u>:
+<ul>
+<li>Error angular para los absolutos</li>
+<li>En los incrementales depende del sistema de decodificación</li>
+</ul></li>
+<li><u>Otros parámetros</u>: Tipo de salida (NPN, PushPull, protocolo, etc). Velocidad máxima. Voltaje/Corriente de trabajo.</li>
+</ul>
+</section>
+<section id="acelerómetro" class="slide level2 smaller">
+<h2>Acelerómetro</h2>
+<blockquote>
+<p>Dispositivos electromecánicos que miden la aceleración a la que se encuentran afectados (propioceptivos y pasivos)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<p><strong>ADXL362</strong>: Accelerómetro de 3 ejes (3DoF)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.sparkfun.com/media/catalog/product/cache/a793f13fd3d678cea13d28206895ba0c/1/1/11446-04a.jpg" style="width:60.0%"></p>
+<figcaption>Fuente: Sparkfun (<a href="https://www.sparkfun.com" target="_blank">www.sparkfun.com</a>)</figcaption>
+</figure>
+</div>
+</div><div class="column">
+<p>Micro-Electro-Mechanical Systems (MEMS): Medición de la aceleración asociada a una masa en movimiento</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.analog.com/en/_/media/analog/en/landing-pages/technical-articles/accelerometer-and-gyroscopes-sensors-operation-sensing-and-applications/5830fig03.png?rev=42070923190f41b286539ce7ee916431" style="width:80.0%"></p>
+<figcaption>Fuente: Analog Devices (<a href="https://www.analog.com" target="_blank">www.analog.com</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="características-de-los-acelerómetros" class="slide level2 smaller">
+<h2>Características de los acelerómetros</h2>
+<ul>
+<li><u>Rango</u>: Aceleración máxima (en múltiplos de gravedad, ej: <span class="math inline">\(\pm2 g\)</span>, <span class="math inline">\(\pm4 g\)</span>)</li>
+<li><u>Resolución</u>: en mV/g (analógicos) o en LSB/g (digitales) <!-- - [Linealidad]{.underline}:  --></li>
+<li><u>Ancho de banda</u>: Rango de vibraciones al que puede responder</li>
+<li><u>Error</u>: Densidad de ruido y salida para 0-g</li>
+<li><u>Otros parámetros</u>: Tipo de salida (analógico o digital y el protocolo), cantidad de ejes</li>
+<li><u>Problemas asociados</u>: Ruido de alta frecuencia. Vector gravedad.</li>
+</ul>
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_imu-simulated.ipynb" data-notebook-cellid="cell-imu-simulated">
+<div id="cell-imu-simulated" class="cell" data-execution_count="35">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_imu-simulated-imu-simulated-output-1.svg" id="imu-simulated" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="características-de-los-acelerómetros-1" class="slide level2 smaller">
+<h2>Características de los acelerómetros</h2>
+<blockquote>
+<p>Problemas con el vector gravedad</p>
+</blockquote>
+<div class="hidden">
+<p><span class="math inline">\(\require{color}\)</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>Cuando se utilizan 3 acelerómetros ortogonales, uno por cada eje <span class="math inline">\(\textcolor{red}{X}\)</span>, <span class="math inline">\(\textcolor{green}{Y}\)</span>, <span class="math inline">\(\textcolor{blue}{Z}\)</span> por lo general se orienta el eje <span class="math inline">\(\textcolor{blue}{Z}\)</span> paralelo al vector gravedad</li>
+<li>El vector gravedad <span class="math inline">\(\vec{g}\)</span> queda perpendicular al eje <span class="math inline">\(\textcolor{red}{X}\)</span> e <span class="math inline">\(\textcolor{green}{Y}\)</span>, lo que produce un valor <span class="math inline">\(0 [m/s^2]\)</span> en ambos ejes (para el caso estático)</li>
+<li>Si el acelerómetro se rota ligeramente un ángulo <span class="math inline">\(\theta\)</span> en el eje <span class="math inline">\(\textcolor{green}{Y}\)</span>, se genera una proyección del vector gravedad sobre el eje <span class="math inline">\(\textcolor{red}{X}\)</span></li>
+</ul>
+<div title="Esto puede ser útil para medir inclinación pero es un problema para aceleraciones en el plano 2D">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Esto puede ser útil para medir inclinación pero es un problema para aceleraciones en el plano 2D</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:5%;">
+
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-52/number-1/articles/how-to-improve-the-accuracy-of-inclination-measurement-using-accelerometer/140913_fig_02.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.analog.com/en/_/media/images/analog-dialogue/en/volume-52/number-1/articles/how-to-improve-the-accuracy-of-inclination-measurement-using-accelerometer/140913_fig_01.png" style="width:100.0%"></p>
+<figcaption>Fuente: Analog Devices (<a href="https://www.analog.com/" target="_blank">www.analog.com</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="características-de-los-acelerómetros-2" class="slide level2 smaller">
+<h2>Características de los acelerómetros</h2>
+<blockquote>
+<p>Ejemplo con inclinación <span class="math inline">\(\theta = 0°\)</span> y <span class="math inline">\(\theta = 5°\)</span></p>
+</blockquote>
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_imu-simulated.ipynb" data-notebook-cellid="cell-imu-horizontal">
+<div id="cell-imu-horizontal" class="cell" data-execution_count="36">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_imu-simulated-imu-horizontal-output-1.svg" id="imu-horizontal" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_imu-simulated.ipynb" data-notebook-cellid="cell-imu-tilted">
+<div id="cell-imu-tilted" class="cell" data-execution_count="37">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_imu-simulated-imu-tilted-output-1.svg" id="imu-tilted" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="giróscopos" class="slide level2 smaller">
+<h2>Giróscopos</h2>
+<blockquote>
+<p>Dispositivos electromecánicos que miden la velocidad angular a la que se encuentran afectados (propioceptivos y pasivos)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<p><strong>LPY503AL</strong>: Giróscopo de 2 ejes (2DoF)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://cdn.sparkfun.com/assets/0/1/5/c/f/5112d377ce395ffd27000002.jpg" style="width:60.0%"></p>
+<figcaption>Fuente: Sparkfun (<a href="https://www.sparkfun.com" target="_blank">www.sparkfun.com</a>)</figcaption>
+</figure>
+</div>
+</div><div class="column">
+<p>Medición de la velocidad angular</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://www.analog.com/en/_/media/analog/en/landing-pages/technical-articles/accelerometer-and-gyroscopes-sensors-operation-sensing-and-applications/5830fig09.png?rev=630b2c22fc3648fba2818861493ae61f" style="width:60.0%"></p>
+<figcaption>Fuente: Analog Devices (<a href="https://www.analog.com" target="_blank">www.analog.com</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="características-de-los-giróscopos" class="slide level2 smaller">
+<h2>Características de los giróscopos</h2>
+<ul>
+<li><u>Rango</u>: Velocidad máxima (en °/s o rad/s)</li>
+<li><u>Resolución</u>: Resolución: en mV/°/s (analógicos) o en LSB/°/s (digitales) <!-- - [Linealidad]{.underline}:  --></li>
+<li><u>Ancho de banda</u>: Rango de variación al que puede responder</li>
+<li><u>Error</u>: Densidad de ruido</li>
+<li><u>Otros parámetros</u>: Tipo de salida (analógico o digital y el protocolo)</li>
+<li><u>Problemas asociados</u>: Bias (valor a velocidad angular 0)</li>
+</ul>
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_gyro-simulated.ipynb" data-notebook-cellid="cell-gyro-simulated">
+<div id="cell-gyro-simulated" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_gyro-simulated-gyro-simulated-output-1.svg" id="gyro-simulated" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="imu-inertial-measurement-unit" class="slide level2 smaller">
+<h2>IMU (Inertial Measurement Unit)</h2>
+<ul>
+<li>6 grados de libertad (6-DoF): 3 giróscopos y 3 acelerómetros ortogonales</li>
+<li>Permite estimar:</li>
+</ul>
+<table class="caption-top">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 25%">
+<col style="width: 26%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sensor</th>
+<th style="text-align: center;">Medición</th>
+<th style="text-align: center;">Primera integral (<span class="math inline">\(\int\)</span>)</th>
+<th style="text-align: center;">Segunda integral (<span class="math inline">\(\int\int\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Acelerómetro</td>
+<td style="text-align: center;">Aceleración (<span class="math inline">\(\frac{d^2 x}{dt}\)</span>)</td>
+<td style="text-align: center;">Velocidad (<span class="math inline">\(\frac{dx}{dt}\)</span>)</td>
+<td style="text-align: center;">Posición (<span class="math inline">\(x\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Giróscopo</td>
+<td style="text-align: center;">Vel. angular (<span class="math inline">\(\frac{d\theta}{dt}\)</span>)</td>
+<td style="text-align: center;">Orientación (<span class="math inline">\(\theta\)</span>)</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<div title="Problema: Errores cuadráticos y acumulados">
+<div class="callout callout-warning callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Problema: Errores cuadráticos y acumulados</strong></p>
+</div>
+<div class="callout-content">
+<p>Se debe recurrir a otro tipo de mediciones para disminuir el error</p>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li><p>Directamente: aceleración (A), velocidad angular (G)</p></li>
+<li><p>Primera integral: velocidad lineal (A), orientación (G)</p></li>
+<li><p>Segunda integral: posición (A)</p></li>
+<li><p>Problemas:</p>
+<ul>
+<li>Ruido → deriva creciente</li>
+<li>Bias del giróscopo → error creciente en la orientación</li>
+<li>Gravedad en el acelerómetro → error en la aceleración si no se conoce la orientación</li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+
+<section id="simulación-de-sensores-en-gazebo" class="slide level2 smaller">
+<h2>Simulación de sensores en <em>Gazebo</em></h2>
+<blockquote>
+<p><strong>Gazebo</strong> tiene la capacidad de simular sensores y publicar su salida en topics</p>
+</blockquote>
+<ul>
+<li>Se utiliza el <em>tag</em> <code>&lt;sensor&gt;&lt;/sensor&gt;</code> en el <em>URDF</em></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">gazebo</span> <span class="ot">reference=</span><span class="st">"{nombre_link}"</span>&gt;</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">sensor</span> <span class="ot">name=</span><span class="st">"{nombre}"</span> <span class="ot">type=</span><span class="st">"{tipo}"</span>&gt;</span>
+<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="co">&lt;!-- Atributos --&gt;</span></span>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">sensor</span>&gt;</span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">gazebo</span>&gt;</span></code></pre></div>
+<ul>
+<li><p>Cada sensor tiene que estar referenciado a un link</p></li>
+<li><p>Cada tipo de sensor tiene su implementación específica</p></li>
+</ul>
+</section>
+<section id="sensor-tipo-imu" class="slide level2 smaller">
+<h2>Sensor tipo IMU</h2>
+<div class="columns">
+<div class="column">
+<blockquote>
+<p>Parámetros</p>
+</blockquote>
+<ul>
+<li>Tipo: <code>imu</code></li>
+<li>Plugin: <code>gz::sim::systems::Imu</code></li>
+<li>Iniciar encendido (<code>always_on</code>)</li>
+<li>Frecuencia de datos en [Hz]</li>
+<li>Topic (de tipo <code>gz.msgs.IMU</code>)</li>
+</ul>
+</div><div class="column">
+<p><br></p>
+<div class="sourceCode" id="cb2" data-code-line-numbers="|1,2,12,13|3-6|8-11"><pre class="sourceCode numberSource xml number-lines"><code class="sourceCode xml"><span id="cb2-1"><a></a>&lt;<span class="kw">gazebo</span> <span class="ot">reference=</span><span class="st">"imu_link"</span>&gt;</span>
+<span id="cb2-2"><a></a>  &lt;<span class="kw">sensor</span> <span class="ot">name=</span><span class="st">"imu"</span> <span class="ot">type=</span><span class="st">"imu"</span>&gt;</span>
+<span id="cb2-3"><a></a>    &lt;<span class="kw">plugin</span></span>
+<span id="cb2-4"><a></a>      <span class="ot">filename=</span><span class="st">"gz-sim-imu-system"</span> </span>
+<span id="cb2-5"><a></a>      <span class="ot">name=</span><span class="st">"gz::sim::systems::Imu"</span>&gt;</span>
+<span id="cb2-6"><a></a>    &lt;/<span class="kw">plugin</span>&gt;</span>
+<span id="cb2-7"><a></a></span>
+<span id="cb2-8"><a></a>    &lt;<span class="kw">always_on</span>&gt;true&lt;/<span class="kw">always_on</span>&gt;</span>
+<span id="cb2-9"><a></a>    &lt;<span class="kw">update_rate</span>&gt;{freq_hz}&lt;/<span class="kw">update_rate</span>&gt;</span>
+<span id="cb2-10"><a></a>    &lt;<span class="kw">topic</span>&gt;{nombre_topic}&lt;/<span class="kw">topic</span>&gt;</span>
+<span id="cb2-11"><a></a>    &lt;<span class="kw">visualize</span>&gt;true&lt;/<span class="kw">visualize</span>&gt;</span>
+<span id="cb2-12"><a></a>  &lt;/<span class="kw">sensor</span>&gt;</span>
+<span id="cb2-13"><a></a>&lt;/<span class="kw">gazebo</span>&gt;</span></code></pre></div>
+</div></div>
+<p><br></p>
+<div class="fragment">
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Con esa definición la IMU se comporta como un sensor ideal con mediciones casi perfectas</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulando-ruido" class="slide level2 smaller">
+<h2>Simulando ruido</h2>
+<blockquote>
+<p><strong>Gazebo</strong> provee un motor de ruido para simular sensores reales</p>
+</blockquote>
+<ul>
+<li>Ejemplo de ruido <em>gaussiano</em></li>
+</ul>
+<div class="sourceCode" id="cb3" data-code-line-numbers="|1,4|2,3"><pre class="sourceCode numberSource xml number-lines"><code class="sourceCode xml"><span id="cb3-1"><a></a>&lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb3-2"><a></a>  &lt;<span class="kw">mean</span>&gt;{media}&lt;/<span class="kw">mean</span>&gt;                        <span class="co">&lt;!-- Media --&gt;</span></span>
+<span id="cb3-3"><a></a>  &lt;<span class="kw">stddev</span>&gt;{desviacion_estandar}&lt;/<span class="kw">stddev</span>&gt;      <span class="co">&lt;!-- Desviación estándar --&gt;</span></span>
+<span id="cb3-4"><a></a>&lt;/<span class="kw">noise</span>&gt;</span></code></pre></div>
+<p><br></p>
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/13/slides/_gaussian-noise.ipynb" data-notebook-cellid="cell-gaussian-noise">
+<div id="cell-gaussian-noise" class="cell" data-execution_count="46">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_gaussian-noise-gaussian-noise-output-1.svg" id="gaussian-noise" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li>También existe:
+<ul>
+<li><code>bias_mean</code></li>
+<li><code>bias_stddev</code></li>
+<li><code>dynamic_bias_stddev</code></li>
+<li><code>dynamic_bias_correlation_time</code></li>
+</ul></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ejemplo-bmi088" class="slide level2 smaller">
+<h2>Ejemplo: <em>BMI088</em></h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li><h4 id="table-4-accelerometer-specifications">Table 4: Accelerometer specifications</h4>
+<ul>
+<li><code>Zero-g Offset</code> (<span class="math inline">\(\mathrm{Off}\)</span>): <span class="math inline">\(20 \mathrm{[mg]}\)</span></li>
+<li><code>Output Data Rate</code> (<span class="math inline">\(\mathrm{ODR}\)</span>): <span class="math inline">\(12.5 - 1600 \mathrm{[Hz]}\)</span></li>
+<li><code>Output Noise Density</code> (<span class="math inline">\(\mathrm{n_{rms}}\)</span>): <span class="math inline">\(190\)</span> (Z-axis) <span class="math inline">\(160\)</span> (X- &amp; Y-axis) <span class="math inline">\(\mathrm{[\mu g / \surd Hz]}\)</span></li>
+</ul></li>
+<li><h4 id="table-5-gyroscope-specifications">Table 5: Gyroscope specifications</h4>
+<ul>
+<li><code>Zero-rate Offset</code> (<span class="math inline">\(\mathrm{Off \, \Omega_x \Omega_y \Omega_z}\)</span>): <span class="math inline">\(\pm 1 \mathrm{[°/s]}\)</span></li>
+<li><code>Data rate</code>: <span class="math inline">\(2000, 1000, 400, 200, 100 \mathrm{[Hz]}\)</span></li>
+<li><code>Output Noise</code> (<span class="math inline">\(\mathrm{n_{rms}}\)</span>): <span class="math inline">\(0.1 \mathrm{[°/s]}\)</span></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://www.bosch-sensortec.com/products/motion-sensors/imus/bmi088/" target="_blank"><img data-src="https://www.bosch-sensortec.com/media/boschsensortec/products/motion_sensors/imus/bmi088/bosch-sensortec_website-relaunch_stage_bmi088-16-9_res_1200x1200.jpg" title="BMI088" class="quarto-figure quarto-figure-center" style="object-fit: cover; width: 800px; height: 500px;" data-fig-env="figure*"></a></p>
+</figure>
+</div>
+<figcaption>Fuente: Bosch (<a href="https://www.bosch-sensortec.com" target="_blank">www.bosch-sensortec.com</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+
+<aside><div>
+<p><a href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi088-ds001.pdf" target="_blank">Datasheet BMI088 (www.bosch-sensortec.com)</a></p>
+</div></aside></section>
+<section id="definición-de-los-parámetros" class="slide level2 smaller">
+<h2>Definición de los parámetros</h2>
+<blockquote>
+<p>Ejemplo <em>BMI088</em></p>
+</blockquote>
+<div class="sourceCode" id="cb4" data-code-line-numbers="|2-10|13-29|30-43"><pre class="sourceCode numberSource xml number-lines"><code class="sourceCode xml"><span id="cb4-1"><a></a>&lt;<span class="kw">sensor</span> <span class="ot">name=</span><span class="st">"imu"</span> <span class="ot">type=</span><span class="st">"imu"</span>&gt;</span>
+<span id="cb4-2"><a></a>  &lt;<span class="kw">plugin</span></span>
+<span id="cb4-3"><a></a>    <span class="ot">filename=</span><span class="st">"gz-sim-imu-system"</span> </span>
+<span id="cb4-4"><a></a>    <span class="ot">name=</span><span class="st">"gz::sim::systems::Imu"</span>&gt;</span>
+<span id="cb4-5"><a></a>  &lt;/<span class="kw">plugin</span>&gt;</span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a>  &lt;<span class="kw">always_on</span>&gt;1&lt;/<span class="kw">always_on</span>&gt;</span>
+<span id="cb4-8"><a></a>  &lt;<span class="kw">update_rate</span>&gt;100&lt;/<span class="kw">update_rate</span>&gt;</span>
+<span id="cb4-9"><a></a>  &lt;<span class="kw">topic</span>&gt;/imu/data&lt;/<span class="kw">topic</span>&gt;</span>
+<span id="cb4-10"><a></a>  &lt;<span class="kw">visualize</span>&gt;true&lt;/<span class="kw">visualize</span>&gt;</span>
+<span id="cb4-11"><a></a></span>
+<span id="cb4-12"><a></a>  &lt;<span class="kw">imu</span>&gt;</span>
+<span id="cb4-13"><a></a>    &lt;<span class="kw">linear_acceleration</span>&gt;</span>
+<span id="cb4-14"><a></a>      &lt;<span class="kw">x</span>&gt;</span>
+<span id="cb4-15"><a></a>      &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-16"><a></a>        &lt;<span class="kw">mean</span>&gt;0.020&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb4-17"><a></a>        &lt;<span class="kw">stddev</span>&gt;0.0016&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb4-18"><a></a>      &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-19"><a></a>      &lt;/<span class="kw">x</span>&gt;</span>
+<span id="cb4-20"><a></a>      &lt;<span class="kw">y</span>&gt;</span>
+<span id="cb4-21"><a></a>        <span class="co">&lt;!-- Repite los parámetros de X --&gt;</span></span>
+<span id="cb4-22"><a></a>      &lt;/<span class="kw">y</span>&gt;</span>
+<span id="cb4-23"><a></a>      &lt;<span class="kw">z</span>&gt;</span>
+<span id="cb4-24"><a></a>      &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-25"><a></a>        &lt;<span class="kw">mean</span>&gt;0.020&lt;/<span class="kw">mean</span>&gt;</span>
+<span id="cb4-26"><a></a>        &lt;<span class="kw">stddev</span>&gt;0.0019&lt;/<span class="kw">stddev</span>&gt;</span>
+<span id="cb4-27"><a></a>      &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-28"><a></a>      &lt;/<span class="kw">z</span>&gt;</span>
+<span id="cb4-29"><a></a>    &lt;/<span class="kw">linear_acceleration</span>&gt;</span>
+<span id="cb4-30"><a></a>    &lt;<span class="kw">angular_velocity</span>&gt;</span>
+<span id="cb4-31"><a></a>      &lt;<span class="kw">x</span>&gt;</span>
+<span id="cb4-32"><a></a>      &lt;<span class="kw">noise</span> <span class="ot">type=</span><span class="st">"gaussian"</span>&gt;</span>
+<span id="cb4-33"><a></a>        &lt;<span class="kw">mean</span>&gt;0.0174533&lt;/<span class="kw">mean</span>&gt;          <span class="co">&lt;!-- 1° en rad --&gt;</span></span>
+<span id="cb4-34"><a></a>        &lt;<span class="kw">stddev</span>&gt;0.00174533&lt;/<span class="kw">stddev</span>&gt;     <span class="co">&lt;!-- 0.1° en rad --&gt;</span></span>
+<span id="cb4-35"><a></a>      &lt;/<span class="kw">noise</span>&gt;</span>
+<span id="cb4-36"><a></a>      &lt;/<span class="kw">x</span>&gt;</span>
+<span id="cb4-37"><a></a>      &lt;<span class="kw">y</span>&gt;</span>
+<span id="cb4-38"><a></a>        <span class="co">&lt;!-- Repite los parámetros de X  --&gt;</span></span>
+<span id="cb4-39"><a></a>      &lt;/<span class="kw">y</span>&gt;</span>
+<span id="cb4-40"><a></a>      &lt;<span class="kw">z</span>&gt;</span>
+<span id="cb4-41"><a></a>        <span class="co">&lt;!-- Repite los parámetros de X --&gt;</span></span>
+<span id="cb4-42"><a></a>      &lt;/<span class="kw">z</span>&gt;</span>
+<span id="cb4-43"><a></a>    &lt;/<span class="kw">angular_velocity</span>&gt;</span>
+<span id="cb4-44"><a></a>  &lt;/<span class="kw">imu</span>&gt;</span>
+<span id="cb4-45"><a></a>&lt;/<span class="kw">sensor</span>&gt;</span></code></pre></div>
+</section>
+<section id="sensores-para-las-ruedas" class="slide level2 smaller">
+<h2>“Sensores” para las ruedas</h2>
+<blockquote>
+<p>Para el caso de los encoders nos basamos en la medición que realiza el <code>joint_state_publisher</code> de las juntas asociadas a las ruedas</p>
+</blockquote>
+<ul>
+<li>El topic utilizado es <code>/joint_states</code> de tipo <code>sensor_msgs/msg/JointState</code></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>sensor_msgs/JointState.msg</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="sensor_msgs/JointState.msg"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a># El estado de cada junta (revolución o prismática) se define por:</span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a># * la posición de la junta (rad o m),</span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a># * la velocidad de la junta (rad/s o m/s) y </span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a># * el esfuerzo que se aplica en la junta (Nm o N).</span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a>#</span>
+<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a># Cada junta se identifica de manera única por su nombre</span>
+<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>#</span>
+<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a># Todos los arrays en este mensaje deben tener el mismo tamaño, o estar vacíos.</span>
+<span id="cb5-9"><a aria-hidden="true" tabindex="-1"></a># Esta es la única manera de asociar de manera única el nombre conjunto con el correcto estado</span>
+<span id="cb5-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a aria-hidden="true" tabindex="-1"></a>std_msgs/Header header</span>
+<span id="cb5-12"><a aria-hidden="true" tabindex="-1"></a>string[] name</span>
+<span id="cb5-13"><a aria-hidden="true" tabindex="-1"></a>float64[] position</span>
+<span id="cb5-14"><a aria-hidden="true" tabindex="-1"></a>float64[] velocity</span>
+<span id="cb5-15"><a aria-hidden="true" tabindex="-1"></a>float64[] effort</span></code></pre></div>
+</div>
+</section></section>
+<section>
+
+<section id="topics-de-gazebo" class="slide level2 smaller">
+<h2>Topics de <em>Gazebo</em></h2>
+<blockquote>
+<p>Los sensores son simulados por <em>Gazebo</em> por lo tanto publicarán topics dentro del simulador</p>
+</blockquote>
+<div title="Será necesario &quot;puentearlos&quot; hacia *ROS2* utilizando el paquete `ros_gz_bridge`">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Será necesario “puentearlos” hacia <em>ROS2</em> utilizando el paquete <code>ros_gz_bridge</code></strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>Se lanza un <em>bridge</em> con un archivo de configuración asociado:</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>gazebo.launch.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="gazebo.launch.py" data-code-line-numbers=""><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb6-1"><a></a>    Node(</span>
+<span id="cb6-2"><a></a>        package<span class="op">=</span><span class="st">"ros_gz_bridge"</span>,</span>
+<span id="cb6-3"><a></a>        executable<span class="op">=</span><span class="st">"parameter_bridge"</span>,</span>
+<span id="cb6-4"><a></a>        parameters<span class="op">=</span>[{</span>
+<span id="cb6-5"><a></a>            <span class="st">"config_file"</span>: PathJoinSubstitution(</span>
+<span id="cb6-6"><a></a>                [FindPackageShare(<span class="st">"&lt;nombre_paquete&gt;"</span>), <span class="st">"config"</span>, <span class="st">"gz_bridge.yaml"</span>]</span>
+<span id="cb6-7"><a></a>            ),</span>
+<span id="cb6-8"><a></a>        }],</span>
+<span id="cb6-9"><a></a>    )</span></code></pre></div>
+</div>
+</div>
+</section>
+<section id="topics-de-gazebo-1" class="slide level2 smaller">
+<h2>Topics de <em>Gazebo</em></h2>
+<blockquote>
+<p>Los sensores son simulados por <em>Gazebo</em> por lo tanto publicarán topics dentro del simulador</p>
+</blockquote>
+<div title="Será necesario &quot;puentearlos&quot; hacia *ROS2* utilizando el paquete `ros_gz_bridge`">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Será necesario “puentearlos” hacia <em>ROS2</em> utilizando el paquete <code>ros_gz_bridge</code></strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>El archivo de configuración define: nombre, tipo y dirección</li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>gz_bridge.yaml</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="gz_bridge.yaml" data-code-line-numbers=""><pre class="sourceCode numberSource yaml number-lines"><code class="sourceCode yaml"><span id="cb7-1"><a></a><span class="kw">-</span><span class="at"> </span><span class="fu">topic_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;nombre_topic&gt;"</span></span>
+<span id="cb7-2"><a></a><span class="at">  </span><span class="fu">ros_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;tipo_topic_ROS&gt;"</span></span>
+<span id="cb7-3"><a></a><span class="at">  </span><span class="fu">gz_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"&lt;tipo_topic_Gazebo&gt;"</span></span>
+<span id="cb7-4"><a></a><span class="at">  </span><span class="fu">direction</span><span class="kw">:</span><span class="at"> &lt;direccion&gt;</span><span class="co"> # GZ_TO_ROS | ROS_TO_GZ | BIDIRECTIONAL</span></span>
+<span id="cb7-5"><a></a><span class="at">  </span><span class="fu">lazy</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a><span class="kw">-</span><span class="co"> # Siguiente ..</span></span></code></pre></div>
+</div>
+</section>
+<section id="mensajes-de-imu" class="slide level2 smaller">
+<h2>Mensajes de IMU</h2>
+<ul>
+<li><em>Gazebo</em>: <code>gz.msgs.IMU</code></li>
+<li><em>ROS2</em>: <code>sensor_msgs/msg/Imu</code></li>
+</ul>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>sensor_msgs/Imu.msg</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-filename="sensor_msgs/Imu.msg"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>std_msgs/Header header</span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>geometry_msgs/Quaternion</span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>├── float64 x</span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>├── float64 y</span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>├── float64 z</span>
+<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>└── float64 w</span>
+<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>float64[9] orientation_covariance</span>
+<span id="cb8-8"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a aria-hidden="true" tabindex="-1"></a>geometry_msgs/Vector3 angular_velocity      # Velocidad rotacional en rad/s</span>
+<span id="cb8-10"><a aria-hidden="true" tabindex="-1"></a>├── float64 x</span>
+<span id="cb8-11"><a aria-hidden="true" tabindex="-1"></a>├── float64 y</span>
+<span id="cb8-12"><a aria-hidden="true" tabindex="-1"></a>└── float64 z</span>
+<span id="cb8-13"><a aria-hidden="true" tabindex="-1"></a>float64[9] orientation_covariance</span>
+<span id="cb8-14"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a aria-hidden="true" tabindex="-1"></a>geometry_msgs/Vector3 linear_acceleration   # Aceleraciones en m/s^2</span>
+<span id="cb8-16"><a aria-hidden="true" tabindex="-1"></a>├── float64 x</span>
+<span id="cb8-17"><a aria-hidden="true" tabindex="-1"></a>├── float64 y</span>
+<span id="cb8-18"><a aria-hidden="true" tabindex="-1"></a>└── float64 z</span>
+<span id="cb8-19"><a aria-hidden="true" tabindex="-1"></a>float64[9] orientation_covariance</span></code></pre></div>
+</div>
+
+<aside><div>
+<p><a href="https://docs.ros.org/en/latest/api/sensor_msgs/html/msg/Imu.html" target="_blank">Definición del mensaje (docs.ros.org)</a></p>
+</div></aside></section></section>
+<section>
+
+<section id="laboratorio-1" class="slide level2 center">
+<h2><a href="../../clases/13/lab.html">Laboratorio</a></h2>
+<p>Simulación de sensores en <em>Gazebo</em></p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="../../">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
