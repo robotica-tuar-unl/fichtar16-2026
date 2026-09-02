@@ -1218,6 +1218,139 @@
     "text": "2.5 Probar el sistema mediante ros2 launch\n\nEjecutar el archivo launchcreado para verificar el funcionamiento de los parámetros por defecto\nProbar distintas ejecuciones variando los parámetros definidos"
   },
   {
+    "objectID": "clases/14/index.html#percepción-repaso",
+    "href": "clases/14/index.html#percepción-repaso",
+    "title": "Robótica",
+    "section": "Percepción: Repaso",
+    "text": "Percepción: Repaso\n\nClasificaciones principales:\n\n\nPropioceptivos y Exteroceptivos\n\n\nPasivos y Activos"
+  },
+  {
+    "objectID": "clases/14/index.html#exteroceptivos-1",
+    "href": "clases/14/index.html#exteroceptivos-1",
+    "title": "Robótica",
+    "section": "Exteroceptivos",
+    "text": "Exteroceptivos\n\nExteroceptivos: Adquieren información del entorno del robot \n\n\nMedida de distancia\nIntensidad de la luz\nAmplitud de sonido"
+  },
+  {
+    "objectID": "clases/14/index.html#sensores-de-rango-activo",
+    "href": "clases/14/index.html#sensores-de-rango-activo",
+    "title": "Robótica",
+    "section": "Sensores de rango activo",
+    "text": "Sensores de rango activo\n\nSensores capaces de medir directamente la distancia a un objeto en la vecindad del robot\n\n\nActivos: emiten algún tipo de energía en forma de señal y miden la señal de respuesta del entorno\nCostos proporcionales a la precisión, resolución, al rango y aplicación\nMúltiples principios de funcionamientos (con sus respectivas características)\n2 principios más usados: ToF y Triangulación"
+  },
+  {
+    "objectID": "clases/14/index.html#time-of-flight-tof",
+    "href": "clases/14/index.html#time-of-flight-tof",
+    "title": "Robótica",
+    "section": "Time of Flight (ToF)",
+    "text": "Time of Flight (ToF)\n\nPrincipio de funcionamiento basado en la velocidad del sonido o una onda electromagnética (luz)\n\n\\[\nd = \\frac{c \\cdot t}{2}\n\\]\ndonde \\(c\\) es la velocidad de la onda, \\(t\\) es el tiempo de vuelo (ToF) y \\(d\\) la distancia (generalmente se mide el recorrido completo, ida y vuelta)\n\nEjemplo con una distancia de 1.5 metros:\n\nVelocidad del sonido: \\(c \\approx 343 [\\mathrm{m/s}]\\) \\(\\to\\) \\(t = 0.0087 [\\mathrm{s}]\\)\nVelocidad de la luz: \\(c \\approx 299792 [\\mathrm{m/ms}]\\) \\(\\to\\) \\(t = 0.00001 [\\mathrm{ms}] = 0.00000001 [\\mathrm{s}]\\)"
+  },
+  {
+    "objectID": "clases/14/index.html#time-of-flight-tof-1",
+    "href": "clases/14/index.html#time-of-flight-tof-1",
+    "title": "Robótica",
+    "section": "Time of Flight (ToF)",
+    "text": "Time of Flight (ToF)\nLa calidad de estos sensores depende principalmente de:\n\nErrores de medición del \\(t\\) y el tiempo exacto de arribo de la señal reflejada\nDispersión del haz\nInteracción con el medio (absorción, reflejos, “contaminación”)\nVariaciones o valor exacto de la velocidad de propagación (afectado por temperatura, humedad, etc)\nLa velocidad relativa en objetivos dinámicos o en movimiento"
+  },
+  {
+    "objectID": "clases/14/index.html#sensor-de-ultrasonido-tof",
+    "href": "clases/14/index.html#sensor-de-ultrasonido-tof",
+    "title": "Robótica",
+    "section": "Sensor de ultrasonido ToF",
+    "text": "Sensor de ultrasonido ToF\n\n\n\nTransmite un “paquete” de ondas de presión ultrasónicas y mide el tiempo que tardan en reflejarse y volver.\n\n\nGeneralmente en robótica móvil se utilizan en rangos de 5 a 200 [cm]\nCuanto más cerrado es el ángulo de apertura del haz mejor resolución direccional\nPrincipal limitación: se obtiene la profundidad de una región constante (1D)\n\n\n\n\n\nURM09: Sensor de distancia ultrasónico\n\n\n\n\n\nFuente: DFRobot (www.dfrobot.com)"
+  },
+  {
+    "objectID": "clases/14/index.html#sensor-láser-tof",
+    "href": "clases/14/index.html#sensor-láser-tof",
+    "title": "Robótica",
+    "section": "Sensor láser ToF",
+    "text": "Sensor láser ToF\n\nEmisor que ilumina el objetivo con un láser y un receptor capaz de detectar la componente de luz reflejada alineada al haz emitido\n\n\nMejora respecto del sensor de ultrasonido al utilizar un haz de luz (pero genera problema con objetos translúcidos)\nFormas de medir el ToF para ondas electromagnéticas:\n\nEmisión de un pulso y medir el tiempo que transcurre en volver (picosegundos)\nEmitir una onda modulada y medir el cambio de fase (desfase)"
+  },
+  {
+    "objectID": "clases/14/index.html#sensor-láser-tof-1",
+    "href": "clases/14/index.html#sensor-láser-tof-1",
+    "title": "Robótica",
+    "section": "Sensor láser ToF",
+    "text": "Sensor láser ToF\n\n\nTFmini sensor de distancia 1D\n\n\n\nFuente: Adafruit (www.adafruit.com)\n\n\n\nVL53L7CX sensor de distancia 2D (8x8)\n\n\n\nFuente: Pololu (www.pololu.com)"
+  },
+  {
+    "objectID": "clases/14/index.html#triangulación",
+    "href": "clases/14/index.html#triangulación",
+    "title": "Robótica",
+    "section": "Triangulación",
+    "text": "Triangulación\n\nPrincipio de funcionamiento basado en geometría y el ángulo de reflexión\n\n\n\n\nBuena exactitud con alta precisión a un bajo costo\nGran ancho de banda y no sufre interferencia como el ultrasonido\nRango limitado por la geometría del sensor\n\n\n\n\n\nFuente: Siegwart, R. (2011). Introduction to Autonomous Mobile Robots (2nd ed.)"
+  },
+  {
+    "objectID": "clases/14/index.html#triangulación-óptica-1d",
+    "href": "clases/14/index.html#triangulación-óptica-1d",
+    "title": "Robótica",
+    "section": "Triangulación óptica 1D",
+    "text": "Triangulación óptica 1D\nGP2Y0A02YK0F (20-150cm) y GP2Y0A60SZLF (10-150cm)\n\nFuente: Pololu (www.pololu.com)"
+  },
+  {
+    "objectID": "clases/14/index.html#light-detection-and-ranging---lidar",
+    "href": "clases/14/index.html#light-detection-and-ranging---lidar",
+    "title": "Robótica",
+    "section": "Light Detection and Ranging - LiDAR",
+    "text": "Light Detection and Ranging - LiDAR\n\n\n\nMedir la distancia al objeto más próximo en un radio de 360° sobre un plano con gran precisión angular y lineal\n\n\nUtilizan triangulación (mayoría) o ToF\nExtensión a 3D mediante mecanismos mecánicos y/u ópticos\n\n\nSlamtec RPLiDAR A3M1 (2D)\n\n\n\nFuente: Seeedstudio (www.seeedstudio.com)"
+  },
+  {
+    "objectID": "clases/14/index.html#características-de-los-lidar",
+    "href": "clases/14/index.html#características-de-los-lidar",
+    "title": "Robótica",
+    "section": "Características de los LiDAR",
+    "text": "Características de los LiDAR\n\nRango: Distancia mínima y máxima (entre \\(\\times 10^{-2}\\) y \\(\\times 10^{2}\\) metros)\nVelocidad de rotación: 5, 10, 15 [Hz] (r.p.s)\nResolución: angular y lineal   \nOtros parámetros: Protocolo de comunicación (UART, Ethernet, etc)\nProblemas asociados: Apto o no para ambientes exteriores. Corriente de consumo."
+  },
+  {
+    "objectID": "clases/14/index.html#simulación-de-sensores-lidar",
+    "href": "clases/14/index.html#simulación-de-sensores-lidar",
+    "title": "Robótica",
+    "section": "Simulación de sensores: LiDAR",
+    "text": "Simulación de sensores: LiDAR\n\n\n\nParámetros\n\n\nTipo: gpu_lidar\nPlugin: gz::sim::systems::Sensors\nIniciar encendido (always_on)\nFrecuencia de datos en [Hz]\nTopic (de tipo gz.msgs.LaserScan)\n\n\n\n&lt;gazebo reference=\"lidar_link\"&gt;\n  &lt;sensor name=\"lidar\" type=\"gpu_lidar\"&gt;\n    &lt;always_on&gt;true&lt;/always_on&gt;\n    &lt;update_rate&gt;{freq_hz}&lt;/update_rate&gt;\n    &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n    &lt;visualize&gt;true&lt;/visualize&gt;\n\n      &lt;!-- .. --&gt;\n  \n  &lt;/sensor&gt;\n&lt;/gazebo&gt;"
+  },
+  {
+    "objectID": "clases/14/index.html#sensor-tipo-lidar",
+    "href": "clases/14/index.html#sensor-tipo-lidar",
+    "title": "Robótica",
+    "section": "Sensor tipo LiDAR",
+    "text": "Sensor tipo LiDAR\n\n\n\nParámetros\n\n\nParámetros angulares (scan):\n\nCantidad de rayos\nResolución (angular)\nApertura (ángulo min. y max en °)\nPara un LiDAR 3D el valor de samples en vertical debe ser \\(\\mathrm{&gt; 1}\\)\n\nParámetros lineales (range):\n\nDistancia máxima y mínima a detectar\nResolución lineal\n\nParámetros de ruido gaussiano\n\n\n\n&lt;gazebo reference=\"lidar_link\"&gt;\n  &lt;sensor name=\"lidar\" type=\"gpu_lidar\"&gt;\n    &lt;always_on&gt;true&lt;/always_on&gt;\n    &lt;update_rate&gt;{freq_hz}&lt;/update_rate&gt;\n    &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n    &lt;visualize&gt;true&lt;/visualize&gt;\n\n    &lt;lidar&gt;\n      &lt;scan&gt;\n        &lt;horizontal&gt;\n          &lt;samples&gt;{cantidad_rayos}&lt;/samples&gt;\n          &lt;resolution&gt;{res}&lt;/resolution&gt;\n          &lt;min_angle&gt;{min}&lt;/min_angle&gt;\n          &lt;max_angle&gt;{max}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;vertical&gt;\n          &lt;!-- Mismos parámetros --&gt;\n        &lt;/vertical&gt;\n      &lt;/scan&gt;\n      &lt;range&gt;\n        &lt;min&gt;{rango_min}&lt;/min&gt;\n        &lt;max&gt;{rango_max}&lt;/max&gt;\n        &lt;resolution&gt;{res_lineal}&lt;/resolution&gt;\n      &lt;/range&gt;\n      &lt;noise&gt;\n        &lt;type&gt;gaussian&lt;/type&gt;\n        &lt;mean&gt;{media}&lt;/mean&gt;\n        &lt;stddev&gt;{dev_std}&lt;/stddev&gt;\n      &lt;/noise&gt;\n    &lt;/lidar&gt;\n  &lt;/sensor&gt;\n&lt;/gazebo&gt;"
+  },
+  {
+    "objectID": "clases/14/index.html#ejemplo-2d-slamtec-s3m1-r2",
+    "href": "clases/14/index.html#ejemplo-2d-slamtec-s3m1-r2",
+    "title": "Robótica",
+    "section": "Ejemplo 2D: Slamtec S3M1-R2",
+    "text": "Ejemplo 2D: Slamtec S3M1-R2\n\n\n\nMeasurement Performance\n\nDistance Range: \\(0.05 - 15.0 \\mathrm{[m]}\\)\nScanning Frequency: Typ. \\(10 \\mathrm{[Hz]}\\)\nAngular Resolution: Typ. \\(0.1125 ^{\\circ}\\)\nAccuracy: \\(\\pm 30 \\mathrm{[mm]}\\)\nResolution: \\(10 \\mathrm{[mm]}\\)\n\n\n\n\n\n\n\n\n\n\nFuente: RobotShop (robotshop.com)\n\n\n\n\n\nDatasheet S3 (slamtec.com)"
+  },
+  {
+    "objectID": "clases/14/index.html#definición-de-los-parámetros",
+    "href": "clases/14/index.html#definición-de-los-parámetros",
+    "title": "Robótica",
+    "section": "Definición de los parámetros",
+    "text": "Definición de los parámetros\n\nEjemplo S3M1-R2\n\n&lt;sensor name=\"lidar\" type=\"gpu_lidar\"&gt;\n    &lt;always_on&gt;true&lt;/always_on&gt;\n    &lt;update_rate&gt;10&lt;/update_rate&gt;\n    &lt;topic&gt;/scan&lt;/topic&gt;\n    &lt;visualize&gt;true&lt;/visualize&gt;\n\n    &lt;lidar&gt;\n      &lt;scan&gt;\n        &lt;horizontal&gt;\n          &lt;samples&gt;3200&lt;/samples&gt;     &lt;!-- 360/0.1125 --&gt;\n          &lt;resolution&gt;1&lt;/resolution&gt;\n          &lt;min_angle&gt;${-pi}&lt;/min_angle&gt;\n          &lt;max_angle&gt;${pi}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;!-- Al ser 2D no tiene parámetros verticales --&gt;\n      &lt;/scan&gt;\n      &lt;range&gt;\n        &lt;min&gt;0.05&lt;/min&gt;                 &lt;!-- 5 cm --&gt;\n        &lt;max&gt;15&lt;/max&gt;                   &lt;!-- 15 m --&gt;\n        &lt;resolution&gt;0.010&lt;/resolution&gt;  &lt;!-- 10 mm --&gt;\n      &lt;/range&gt;\n      &lt;noise&gt;\n        &lt;type&gt;gaussian&lt;/type&gt;\n        &lt;mean&gt;0.0&lt;/mean&gt;\n        &lt;stddev&gt;0.030&lt;/stddev&gt;          &lt;!-- 30 mm --&gt;\n      &lt;/noise&gt;\n    &lt;/lidar&gt;\n  &lt;/sensor&gt;"
+  },
+  {
+    "objectID": "clases/14/index.html#topics-de-gazebo",
+    "href": "clases/14/index.html#topics-de-gazebo",
+    "title": "Robótica",
+    "section": "Topics de Gazebo",
+    "text": "Topics de Gazebo\n\nLos datos de los sensores se publican dentro de Gazebo\n\n\nActualizar el archivo de configuración del ros_gz_bridge\n\n\n\n\n\n\n\n\n\n\ngz_bridge.yaml\n\n- topic_name: \"&lt;nombre_topic&gt;\"\n  ros_type_name: \"sensor_msgs/msg/LaserScan\"\n  gz_type_name: \"gz.msgs.LaserScan\"\n  direction: GZ_TO_ROS\n  lazy: true"
+  },
+  {
+    "objectID": "clases/14/index.html#mensajes-de-lidar",
+    "href": "clases/14/index.html#mensajes-de-lidar",
+    "title": "Robótica",
+    "section": "Mensajes de LIDAR",
+    "text": "Mensajes de LIDAR\n\nGazebo: gz.msgs.LaserScan\nROS2: sensor_msgs/msg/LaserScan\n\nsensor_msgs/LaserScan\n├── std_msgs/Header header\n├── float32 angle_min           # Angulo incial [rad]\n├── float32 angle_max           # Angulo final [rad]\n├── float32 angle_increment     # Distancia angular entre mediciones [rad]\n|\n├── float32 time_increment      # Tiempo entre mediciones [seconds]\n├── float32 scan_time           # Tiempo entre scans [seconds]\n|\n├── float32 range_min           # Rango mínimo [m]\n├── float32 range_max           # Rango máximo [m]\n|\n├── float32[] ranges            # Valores de rango medidos [m]\n└── float32[] intensities       # Intensidades de luminosidad medidas\n\n\nDefinición del mensaje (docs.ros.org)"
+  },
+  {
+    "objectID": "clases/14/index.html#laboratorio-1",
+    "href": "clases/14/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nSimulación de sensores en Gazebo"
+  },
+  {
     "objectID": "clases/02/index.html#robot-operating-system-2-1",
     "href": "clases/02/index.html#robot-operating-system-2-1",
     "title": "Robótica",
@@ -1488,14 +1621,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -1545,6 +1678,27 @@
     "title": "Clase 02 - Laboratorio",
     "section": "2.5 Herramientas de visualización",
     "text": "2.5 Herramientas de visualización\n\nVer el grafo de nodos y topics\nros2 run rqt_graph rqt_graph\n\n\nVisualizar los topics y mensajes\nros2 run rqt_topic rqt_topic\n\n\n\n\n\n\nEn caso de no encontrar los paquetes, instalar ros-jazzy-rqt-graph y ros-jazzy-rqt-topic"
+  },
+  {
+    "objectID": "clases/14/lab.html",
+    "href": "clases/14/lab.html",
+    "title": "Clase 14 - Laboratorio",
+    "section": "",
+    "text": "&lt;gazebo reference=\"{nombre_link}\"&gt;\n    &lt;sensor name=\"{nombre_sensor}\" type=\"gpu_lidar\"&gt;\n        &lt;update_rate&gt;{freq_hz}&lt;/update_rate&gt;\n        &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n        &lt;always_on&gt;true&lt;/always_on&gt;\n        &lt;visualize&gt;true&lt;/visualize&gt;\n\n        &lt;lidar&gt;\n        &lt;scan&gt;\n        &lt;horizontal&gt;\n            &lt;samples&gt;{cantidad_rayos}&lt;/samples&gt;\n            &lt;resolution&gt;1&lt;/resolution&gt;\n            &lt;min_angle&gt;{min}&lt;/min_angle&gt;\n            &lt;max_angle&gt;{max}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;vertical&gt;\n            &lt;!-- Mismos parámetros que 'horizontal' --&gt;\n        &lt;/vertical&gt;\n        &lt;/scan&gt;\n        &lt;range&gt;\n            &lt;min&gt;{rango_min}&lt;/min&gt;\n            &lt;max&gt;{rango_max}&lt;/max&gt;\n            &lt;resolution&gt;{res_lineal}&lt;/resolution&gt;\n        &lt;/range&gt;\n        &lt;/lidar&gt;\n    &lt;/sensor&gt;\n&lt;/gazebo&gt;\n\n\n\n&lt;noise&gt;\n    &lt;type&gt;gaussian&lt;/type&gt;\n    &lt;!-- Media --&gt;\n    &lt;mean&gt;{media}&lt;/mean&gt;\n    &lt;!-- Desviación estándar --&gt;      \n    &lt;stddev&gt;{desviacion_estandar}&lt;/stddev&gt;\n&lt;/noise&gt;\n\n\n\n\n\nRango de distancia: 0.05 - 15.0 [m]\nFrecuencia de escaneo: 10 [Hz]\nResolución angular: 0.1125°\nPresición: ± 30 [mm]\nResolución: 10 [mm]\n\n\n&lt;sensor name=\"lidar\" type=\"gpu_lidar\"&gt;\n    &lt;always_on&gt;true&lt;/always_on&gt;\n    &lt;update_rate&gt;10&lt;/update_rate&gt;\n    &lt;topic&gt;/scan&lt;/topic&gt;\n    &lt;visualize&gt;true&lt;/visualize&gt;\n\n    &lt;lidar&gt;\n        &lt;scan&gt;\n        &lt;horizontal&gt;\n            &lt;samples&gt;3200&lt;/samples&gt;\n            &lt;resolution&gt;1&lt;/resolution&gt;\n            &lt;min_angle&gt;${-pi}&lt;/min_angle&gt;\n            &lt;max_angle&gt;${pi}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;!-- Al ser 2D no tiene parámetros verticales --&gt;\n        &lt;/scan&gt;\n        &lt;range&gt;\n            &lt;min&gt;0.05&lt;/min&gt;\n            &lt;max&gt;15&lt;/max&gt;\n            &lt;resolution&gt;0.010&lt;/resolution&gt;\n        &lt;/range&gt;\n        &lt;noise&gt;\n            &lt;type&gt;gaussian&lt;/type&gt;\n            &lt;mean&gt;0.0&lt;/mean&gt;\n            &lt;stddev&gt;0.030&lt;/stddev&gt;\n        &lt;/noise&gt;\n    &lt;/lidar&gt;\n&lt;/sensor&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\nNotaPuede mostrar la distancia mínima para cada zona o si supera cierto umbral enviar un mensaje indicando que zona/s"
+  },
+  {
+    "objectID": "clases/14/lab.html#sensor-de-tipo-lidar",
+    "href": "clases/14/lab.html#sensor-de-tipo-lidar",
+    "title": "Clase 14 - Laboratorio",
+    "section": "",
+    "text": "&lt;gazebo reference=\"{nombre_link}\"&gt;\n    &lt;sensor name=\"{nombre_sensor}\" type=\"gpu_lidar\"&gt;\n        &lt;update_rate&gt;{freq_hz}&lt;/update_rate&gt;\n        &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n        &lt;always_on&gt;true&lt;/always_on&gt;\n        &lt;visualize&gt;true&lt;/visualize&gt;\n\n        &lt;lidar&gt;\n        &lt;scan&gt;\n        &lt;horizontal&gt;\n            &lt;samples&gt;{cantidad_rayos}&lt;/samples&gt;\n            &lt;resolution&gt;1&lt;/resolution&gt;\n            &lt;min_angle&gt;{min}&lt;/min_angle&gt;\n            &lt;max_angle&gt;{max}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;vertical&gt;\n            &lt;!-- Mismos parámetros que 'horizontal' --&gt;\n        &lt;/vertical&gt;\n        &lt;/scan&gt;\n        &lt;range&gt;\n            &lt;min&gt;{rango_min}&lt;/min&gt;\n            &lt;max&gt;{rango_max}&lt;/max&gt;\n            &lt;resolution&gt;{res_lineal}&lt;/resolution&gt;\n        &lt;/range&gt;\n        &lt;/lidar&gt;\n    &lt;/sensor&gt;\n&lt;/gazebo&gt;\n\n\n\n&lt;noise&gt;\n    &lt;type&gt;gaussian&lt;/type&gt;\n    &lt;!-- Media --&gt;\n    &lt;mean&gt;{media}&lt;/mean&gt;\n    &lt;!-- Desviación estándar --&gt;      \n    &lt;stddev&gt;{desviacion_estandar}&lt;/stddev&gt;\n&lt;/noise&gt;\n\n\n\n\n\nRango de distancia: 0.05 - 15.0 [m]\nFrecuencia de escaneo: 10 [Hz]\nResolución angular: 0.1125°\nPresición: ± 30 [mm]\nResolución: 10 [mm]\n\n\n&lt;sensor name=\"lidar\" type=\"gpu_lidar\"&gt;\n    &lt;always_on&gt;true&lt;/always_on&gt;\n    &lt;update_rate&gt;10&lt;/update_rate&gt;\n    &lt;topic&gt;/scan&lt;/topic&gt;\n    &lt;visualize&gt;true&lt;/visualize&gt;\n\n    &lt;lidar&gt;\n        &lt;scan&gt;\n        &lt;horizontal&gt;\n            &lt;samples&gt;3200&lt;/samples&gt;\n            &lt;resolution&gt;1&lt;/resolution&gt;\n            &lt;min_angle&gt;${-pi}&lt;/min_angle&gt;\n            &lt;max_angle&gt;${pi}&lt;/max_angle&gt;\n        &lt;/horizontal&gt;\n        &lt;!-- Al ser 2D no tiene parámetros verticales --&gt;\n        &lt;/scan&gt;\n        &lt;range&gt;\n            &lt;min&gt;0.05&lt;/min&gt;\n            &lt;max&gt;15&lt;/max&gt;\n            &lt;resolution&gt;0.010&lt;/resolution&gt;\n        &lt;/range&gt;\n        &lt;noise&gt;\n            &lt;type&gt;gaussian&lt;/type&gt;\n            &lt;mean&gt;0.0&lt;/mean&gt;\n            &lt;stddev&gt;0.030&lt;/stddev&gt;\n        &lt;/noise&gt;\n    &lt;/lidar&gt;\n&lt;/sensor&gt;"
+  },
+  {
+    "objectID": "clases/14/lab.html#detector-de-obstáculos-con-lidar",
+    "href": "clases/14/lab.html#detector-de-obstáculos-con-lidar",
+    "title": "Clase 14 - Laboratorio",
+    "section": "",
+    "text": "NotaPuede mostrar la distancia mínima para cada zona o si supera cierto umbral enviar un mensaje indicando que zona/s"
   },
   {
     "objectID": "clases/06/index.html#argumentos-en-ros2",
