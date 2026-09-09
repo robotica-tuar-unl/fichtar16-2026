@@ -1,0 +1,215 @@
+## Seguimiento de la pista {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+> Utilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso
+
+- Sea el centro de la imagen $W/2$ y $e$ la diferencia con la coordenada $x$ del centroide, $c_x$:
+$$e = (W/2) - c_x$$
+
+- Si el centroide está a la izquierda:
+$$0 \leq c_x < W/2 \to 0 < e \leq W/2$$
+:::
+::: {.column width="50%"}
+
+![](slides/figs/left-example.svg){width="100%" fig-align="center"}
+
+:::
+:::
+
+
+## Seguimiento de la pista {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+> Utilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso
+
+- Sea el centro de la imagen $W/2$ y $e$ la diferencia con la coordenada $x$ del centroide, $c_x$:
+$$e = (W/2) - c_x$$
+
+- Si el centroide está a la derecha:
+$$W/2 < c_x \leq W \to -W/2 \leq e < 0$$
+:::
+::: {.column width="50%"}
+
+![](slides/figs/right-example.svg){width="100%" fig-align="center"}
+
+:::
+:::
+
+## Seguimiento de la pista {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+> Utilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso
+
+- Sea el centro de la imagen $W/2$ y $e$ la diferencia con la coordenada $x$ del centroide, $c_x$:
+$$e = (W/2) - c_x$$
+
+:::
+::: {.column width="50%"}
+
+![](slides/figs/right-example.svg){width="100%" fig-align="center"}
+
+:::
+:::
+
+- Por lo tanto:
+$$
+\left.
+\begin{alignat}{2}
+% c_x < W/2& \to      -W/2 &&\leq e  < 0 \\
+0 \leq c_x < W/2& \to \qquad 0 &&< e \leq W/2 \\
+%c_x > W/2& \to \qquad   0 &&< e \geq W/2
+W/2 < c_x \leq W& \to -W/2 &&\leq e < 0
+\end{alignat}\right\} -W/2 \leq e \leq W/2 
+$$
+
+## Seguimiento de la pista {.smaller}
+
+#### Comando de `Twist`
+
+::: {.incremental}
+- Velocidad lineal: puede ser constante $\to 0.25 \textrm{[m/s]}$
+- Velocidad angular: variable entre $\to (-\dot\theta_{max},\dot\theta_{max}) \textrm{[rad/s]}$
+:::
+
+::: {.fragment}
+$$
+\require{color}
+\dot\theta = \textcolor{Maroon}{\alpha} * \dot\theta_{max} \quad \textrm{con} \ \textcolor{Maroon}{\alpha} \in (-1, 1)
+$$
+
+:::
+
+::: {.fragment}
+- Dividiendo $e$ por $W/2$ se puede acotar entre $(-1, 1)$:
+
+$$
+-W/2 \leq e \leq W/2 \ \to \ -1 \leq \frac{e}{W/2} \leq 1
+$$
+<!--
+$$
+-W/2 \leq e \leq W/2 \ \to \ \frac{-W/2}{W/2} \leq \frac{e}{W/2} \leq \frac{W/2}{W/2} \ \to \ -1 \leq \frac{e}{W/2} \leq 1
+$$
+-->
+
+:::
+
+::: {.fragment}
+$$
+\textcolor{Maroon}{\alpha} = \frac{e}{W/2} = \frac{(W/2) - c_x}{W/2} = 1 - \frac{c_x}{W/2} = 1 - \frac{2 * c_x}{W}
+$$
+:::
+
+
+
+# Ejemplos {visibility="hidden"}
+
+## Ejemplo 1 {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+> Centroide a la izquierda
+
+$$
+\textcolor{Maroon}{\alpha} = 1 - \frac{2 c_x}{W} = 1 - \frac{2 * 54}{160} = 0.325
+$$
+
+$$
+\begin{aligned}
+\dot\theta &= \textcolor{Maroon}{\alpha} * \theta_{max} \\
+           &= 0.325 * 1.0 \textrm{[rad/s]} \\
+           &= 0.325 \textrm{[rad/s]}
+\end{aligned}
+$$
+
+- Comando:
+
+```default {code-line-numbers="false"}
+  { linear: { x: 0.25 }, angular: { z: 0.315 } }
+```
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides/figs/left-example.svg){width="100%" fig-align="center"}
+
+:::
+:::
+
+::: {.callout-tip appearance="simple" title="Con velocidad angular positiva el robot girará hacia su izquierda ✅"}
+
+:::
+
+## Ejemplo 2 {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+> Centroide a la derecha
+
+$$
+\textcolor{Maroon}{\alpha} = 1 - \frac{2 c_x}{W} = 1 - \frac{2 * 99}{160} = -0.2375
+$$
+
+$$
+\begin{aligned}
+\dot\theta &= \textcolor{Maroon}{\alpha} * \theta_{max} \\
+           &= -0.2375 * 1.0 \textrm{[rad/s]} \\
+           &= -0.2375 \textrm{[rad/s]}
+\end{aligned}
+$$
+
+- Comando:
+
+```default {code-line-numbers="false"}
+  { linear: { x: 0.25 }, angular: { z: -0.2375 } }
+```
+
+:::
+::: {.column width="50%"}
+
+<br>
+
+![](slides/figs/right-example.svg){width="100%" fig-align="center"}
+
+:::
+:::
+
+::: {.callout-tip appearance="simple" title="Con velocidad angular negativa el robot girará hacia su derecha ✅"}
+
+:::
+
+
+## Funciones auxiliares {.smaller}
+
+> Ver el procesamiento en tiempo real
+
+- Se crea una ventana utilizando la función `namedWindow` en el constructor del nodo
+
+```py {filename="LineDetector.py" code-line-numbers="false" code-line-numbers="4"}
+class LineDetector(Node):
+    def __init__(self):
+        # ..        
+        cv2.namedWindow("Robot_camera", 1)
+```
+
+- Luego en el *callback* se puede mostrar el resultado
+
+```py {filename="LineDetector.py" code-line-numbers="false" code-line-numbers="7,8"}
+    def sub_callback(self, msg: Image):
+        image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+        # ..
+        # Dibujar el centroide
+        cv2.circle(image, (cx, cy), 5, (0,0,255), -1)
+        
+        cv2.imshow("Robot_camera", image)
+        cv2.waitKey(3)
+```

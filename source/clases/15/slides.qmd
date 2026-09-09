@@ -1,0 +1,101 @@
+---
+metadata-files:
+  - _variables.yml
+pagetitle: "Clase {{< meta clase_nro >}}"
+title: "Robótica"
+subtitle: "Clase {{< meta clase_nro >}}"
+date: today
+date-format: "[Semana {{< meta semana >}} - {{< meta fecha >}}]"
+institute: "FICH - UNL"
+format:
+  revealjs:
+        theme: default
+        footer: <a href="/">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a>
+        menu: false
+        slide-number: c
+        history: false
+        code-overflow: wrap
+        code-copy: false
+        fig-format: svg
+        include-in-header:
+            text: |
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>.mjx-chtml{ font-size: 100% !important; }</style>
+output-file: index.html
+---
+
+# Line follower {visibility="hidden"}
+
+
+## Simulación de sensores (parte III) {.smaller}
+
+> #### Caso práctico: Seguidor de línea 
+
+- Simular una cámara en Gazebo y obtener video desde ROS2
+- Utilizar procesamiento de imágenes para detectar el camino
+- Controlar el robot para seguir la pista
+
+::: {.columns}
+::: {.column}
+
+
+![](slides/figs/gazebo_view.png){width="100%" fig-align="center" style="filter: drop-shadow(0px 0px 0.5rem hsla(0deg, 0%, 0%, 0.5));"}
+:::
+::: {.column}
+
+<!-- [Desde la cámara]{.underline}: -->
+
+![](slides/figs/start-image.png){width="70%" fig-align="center" style="filter: drop-shadow(0px 0px 0.5rem hsla(0deg, 0%, 0%, 0.5));"}
+
+<center>
+Point-of-View
+</center>
+:::
+:::
+
+
+# Simulación de cámara {visibility="hidden"}
+
+{{< include slides/_sim-camera.qmd >}}
+
+
+
+
+# Procesamiento con `cv2` {visibility="hidden"}
+
+{{< include slides/_line-detection.qmd >}}
+
+
+
+
+# Control de la velocidad angular {visibility="hidden"}
+
+{{< include slides/_line-following.qmd >}}
+
+
+
+
+
+
+
+# Demo {visibility="hidden"}
+
+## Demo
+
+![](slides/figs/line-follower.gif)
+
+
+
+
+# Ajustes de la simulación {visibility="hidden"}
+
+{{< include slides/_ajuste_simulacion.qmd >}}
+
+
+
+
+# Laboratorio {visibility="hidden"}
+
+## [Laboratorio](lab.qmd) {.center}
+
+Seguidor de lineas

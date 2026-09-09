@@ -21,6 +21,7 @@ El siguiente cronograma puede sufrir modificaciones o ser actualizado con el cor
 |15 | 23/06 | Presentación entregable 1 | |
 |16 | 12/08 | Revisión entregable 1 | [🖥️](/clases/12/slides.qmd "Slides"){aria-label="Clase 12 slides"} | | | [🧪](/clases/12/lab.html "Lab"){aria-label="Clase 12 lab"} | |
 |18 | 26/08 | Percepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo. | [🖥️](/clases/13/slides.qmd "Slides"){aria-label="Clase 13 slides"} | | | [🧪](/clases/13/lab.html "Lab"){aria-label="Clase 13 lab"} | |
-|19 | 02/09 | Sensores exteroceptivos, aplicación y simulación en Gazebo. | [🖥️](/clases/14/slides.qmd "Slides"){aria-label="Clase 14 slides"} | | [📼](https://classroom.google.com/c/Nzk2NjAxODk0OTUz/m/ODY5MzkxNjE1OTU0/details "Teórico"){aria-label="Clase 14 teórico"} | [🧪](/clases/14/lab.html "Lab"){aria-label="Clase 14 lab"} | |
+|19 | 02/09 | Sensores exteroceptivos, aplicación y simulación en *Gazebo*. | [🖥️](/clases/14/slides.qmd "Slides"){aria-label="Clase 14 slides"} | | [📼](https://classroom.google.com/c/Nzk2NjAxODk0OTUz/m/ODY5MzkxNjE1OTU0/details "Teórico"){aria-label="Clase 14 teórico"} | [🧪](/clases/14/lab.html "Lab"){aria-label="Clase 14 lab"} | |
+|20 | 09/09 | Simulación de cámara en *Gazebo*, caso práctico: seguidor de línea. | [🖥️](/clases/15/slides.qmd "Slides"){aria-label="Clase 15 slides"} | | | [🧪](/clases/15/lab.html "Lab"){aria-label="Clase 15 lab"} | |
 
 : {.striped .hover tbl-colwidths="[8, 8, 60, 8, 8, 8]"}

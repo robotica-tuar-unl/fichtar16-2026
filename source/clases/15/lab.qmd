@@ -1,0 +1,250 @@
+---
+metadata-files:
+  - _variables.yml
+title: Clase {{< meta clase_nro >}} - Laboratorio
+format:
+    html:
+        code-fold: true
+        code-summary: "Show the code"
+        # code-copy: false
+        # code-overflow: wrap
+        code-line-numbers: false
+        code-annotations: hover
+        notebook-links: false
+        toc: true
+        anchor-sections: false
+        number-sections: true
+        number-depth: 2
+bread-crumbs: true
+page-navigation: true
+---
+
+# Simulación de sensores con *Gazebo* (Parte III)
+
+## Sensor de tipo Cámara
+
+- #### Descripción del sensor
+
+```{.xml code-line-numbers="false"}
+<gazebo reference="{nombre_link}">
+    <sensor name="{nombre_sensor}" type="camera">
+
+        <!-- Atributos -->
+        <update_rate>{fps}</update_rate>
+        <topic>{nombre_topic}</topic>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+    </sensor>
+
+    <camera_camera_info_topic>camera_info</camera_camera_info_topic>
+    <optical_frame_id>{nombre_optical_link}</optical_frame_id>
+
+    <camera name="{nombre_camara}">
+        <image>
+            <width>{ancho_pixeles}</width>
+            <height>{alto_pixeles}</height>
+            <format>R8G8B8</format>
+        </image>
+        <horizontal_fov>{horizontal_fov}</horizontal_fov>
+        <lens>
+            <intrinsics>
+                <fx>{f_x}</fx>
+                <fy>{f_y}</fy>
+                <cx>{c_x}</cx>
+                <cy>{c_y}</cy>
+                <s>0</s>
+            </intrinsics>
+        </lens>
+        <clip>
+            <near>{plano_cercano}</near>
+            <far>{plano_lejano}</far>
+        </clip>
+        <noise>
+            <type>gaussian</type>
+            <mean>{ruido_mean}</mean>
+            <stddev>{ruido_std}</stddev>
+        </noise>
+    </camera>
+</gazebo>
+```
+
+::: {.aside}
+::: {.callout-note appearance="simple" title="Recuerda modificar el *URDF* para añadir los `link` y las `joint` correspondiente"}
+
+:::
+:::
+
+----------
+
+- Parámetros de simulación de lente:
+$$\texttt{f\_x} = \frac{W}{2 \cdot \tan(\frac{H_{FoV} \mathrm{[rad]}}{2})} \qquad \texttt{f\_y} = \frac{H}{2 \cdot \tan(\frac{V_{FoV} \mathrm{[rad]}}{2})}$$
+$$\texttt{c\_x} = \frac{W - 1}{2} \qquad \texttt{c\_y} = \frac{H - 1}{2}$$
+
+------
+
+# Sistema de seguimiento de líneas
+
+#### Objetivos
+
+- Implementar un sensor simulado en *Gazebo* de tipo cámara siguiendo especificaciones de un sensor real
+- Crear un nodo para obtener imágenes desde un topic de *ROS2* de tipo `sensor_msgs/Image`
+- Utilizar procesamiento de imágenes para detectar el camino en el suelo
+- Enviar comandos de `Twist` al topic `/cmd_vel` para que el robot siga el camino
+
+
+## Modificar el *URDF* del robot diferencial
+
+- Agregar al *URDF* los *links* y *joints* necesarios para montar un sensor de tipo cámara al frente del vehículo
+
+- Crear un archivo de descripción `sim_camera.xacro` con la estructura necesaria para simular una cámara de tipo [*Raspberry Pi Camera Module v2*](https://www.raspberrypi.com/documentation/accessories/camera.html#hardware-specification){target=_blank} con los siguientes parámetros:
+
+>   - Profundidad de campo: 10 [cm] a $\infty$
+>   - Distancia focal: 3.04 [mm]
+>   - Campo de visión (FoV) horizontal: 62.2°
+>   - Campo de visión (FoV) vertical: 48.8°
+>   - Tamaño: 25 x 24 x 9 [mm]
+
+
+::: {.callout-tip appearance="simple" title="Probar el funcionamiento del sensor y la configuración de la simulación mediante `rqt_image_view`"}
+
+:::
+
+- Configurar de manera adecuada el `ros_gz_bridge` para obtener los mensajes en *ROS*
+
+```yaml {code-line-numbers="false"}
+- topic_name: "/<nombre_topic>"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+```
+
+
+## Configuración del escenario
+
+- #### Descomprimir el archivo <a href="resources/LineTrack.zip" download target="_blank">`LineTrack.zip`</a> en una carpeta `models` dentro del paquete donde se encuentre el *launch* de Gazebo
+
+
+::: {.callout-note appearance="simple" title="Recuerda configurar adecuadamente el archivo `setup.py` para instalar los archivos correctamente"}
+
+:::
+
+
+### Modificar el *launch* de Gazebo
+
+- #### Configurar la nueva ubicación de los modelos:
+
+> ```
+> gz_resource_path = AppendEnvironmentVariable(
+>     'GZ_SIM_RESOURCE_PATH',
+>     PathJoinSubstitution(
+>         [FindPackageShare("<nombre_paquete>"), "models"]
+>     ),
+> )
+> # ..
+> return LaunchDescription([
+>     gz_resource_path,
+> ])
+> ```
+
+- #### Agregar la directiva `--render-engine` a la ejecución de Gazebo:
+
+```py {code-line-numbers="false"}
+# Launch Gazebo
+gz_sim = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+        PathJoinSubstitution(
+            [FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py']
+        ),
+    ),
+    launch_arguments={
+        'gz_args': '-r --render-engine ogre empty.sdf',
+    }.items()
+)
+```
+
+- #### Eliminar el suelo (*ground plane*) por defecto:
+
+```py {code-line-numbers="false"}
+remove_ground_plane = Node(
+    package="ros_gz_sim",
+    executable="remove",
+    parameters=[
+        { 'entity_name': 'ground_plane'},
+    ],
+    output="screen",
+)
+```
+
+- #### Cargar el modelo `LineTrack`:
+
+```py {code-line-numbers="false"}
+load_track = Node(
+    package="ros_gz_sim",
+    executable="create",
+    arguments=[
+        "-entity", "track",
+        "-file", "model://LineTrack",
+    ],
+    output="screen",
+)
+```
+
+
+## Crear el nodo: `LineDetector`
+
+#### Crear un nodo que suscriba al topic `/camera` y obtenga los mensajes de tipo `Image` provenientes de la cámara simulada
+
+- Importar las librería `cv_bridge`, `cv2` y mensajes de tipo `Image`
+
+```py {code-line-numbers="false"}
+from sensor_msgs.msg import Image
+import cv_bridge
+import cv2
+```
+
+- Crear un `CvBridge` para convertir las imágenes 
+
+```py {code-line-numbers="false"}
+class LineDetector(Node):
+    def __init__(self):
+        # ..        
+        self.bridge = cv_bridge.CvBridge()
+```
+
+- Convertir mensajes de tipo `Image` 
+
+```{.py }
+def sub_callback(self, msg: Image):
+    image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+```
+
+#### Realizar el procesamiento necesario para detectar el camino
+
+- Publicar un mensaje de tipo `std_msgs/Float32` con valores entre `1.0` y `-1.0` indicando si el camino se encuentra a izquierda o derecha respectivamente y de forma proporcional a la posición en la imágen
+
+
+::: {.callout-tip appearance="simple" title="Se sugiere mostrar la imagen procesada al mismo tiempo para detectar errores o verificar el algoritmo"}
+
+:::
+
+
+## Crear el nodo: `LineFollower`
+
+#### Crear un nodo que se suscriba al *topic* que publica el nodo `LineDetector` y genere comandos de velocidad de tipo `Twist` en el *topic* `/cmd_vel`
+
+- Parametrizar los valores máximos y mínimos de las velocidades lineales y angulares
+
+
+## Integración y prueba
+
+#### Crear un archivo *launch* que incluya todo el escenario propuesto:
+
+- Iniciar la simulación con los parámetros y modelos adecuados
+- Ejecutar los nodos de control correspondientes al robot diferencial
+- Ejecute los nodos `LineDetector` y `LineFollower`
+
+::: {.callout-tip appearance="simple" title="Puede incorporar la ejecución del `rqt_image_view`"}
+
+:::
+
+#### Pruebe que el sistema es capaz de realizar una vuelta completa

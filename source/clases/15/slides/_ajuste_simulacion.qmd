@@ -1,0 +1,129 @@
+## Modificaciones en la simulación {.smaller}
+
+- Quitar los elementos del mundo `empty.sdf`
+- Añadir el modelo de la pista y las paredes
+
+
+![](slides/figs/gazebo_view.png){width="100%" fig-align="center"}
+
+
+## Alojar modelos de *Gazebo* {.smaller}
+
+> Se añade una carpeta `models` al paquete para alojar los modelos de *Gazebo*
+
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Se debe configurar adecuadamente el archivo `setup.py` para instalar los archivos correctamente
+
+<br>
+
+
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+
+```default {code-line-numbers="false" code-line-numbers="4-6" filename="Workspace"}
+📂 src
+└── 📂 diffbot_gz
+    ├── 📁 diffbot_gz
+    ├── 📂 models
+    │   ├── 📁 modelo_ejemplo
+    │   └── ...
+    ├── 📦 package.xml
+    ├── 📁 resource
+    ├── ⚙️ setup.cfg
+    └── 🛠️ setup.py
+```
+
+:::
+:::
+
+<br>
+
+```py {filename="setup.py" code-fold="true" code-line-numbers="false"}
+setup(
+  # ..
+  data_files=[
+    # ...
+    # Install models inside the 'models/*' folder
+    *[(os.path.join('share', package_name, os.path.split(p)[0]), [p])
+         for p in glob(os.path.join('models', '**', '*.*'), recursive=True)]
+  ],
+
+```
+
+
+
+## Añadir modelos a *Gazebo* {.smaller}
+
+> Se agrega la carpeta `models` del paquete a la ruta (`PATH`) de *Gazebo*
+
+<br>
+
+```py {filename="gazebo.launch.py" code-line-numbers="false" code-line-numbers="|1|5-8|10-13"}
+from launch.actions import AppendEnvironmentVariable
+
+def generate_launch_description():
+    # ..
+    gz_resource_path = AppendEnvironmentVariable(
+        'GZ_SIM_RESOURCE_PATH',
+        PathJoinSubstitution([FindPackageShare("<nombre_paquete>"), "models"]),
+    )
+    # ..
+    return LaunchDescription([
+        gz_resource_path,
+        # ..
+    ])
+
+```
+
+
+## Agregar y quitar entidades en *Gazebo* {.smaller}
+
+> Para agregar entidades (similar al *spawn* de robots con *URDF*)
+
+```py {filename="gazebo.launch.py" code-line-numbers="false" code-line-numbers="|3-5|7|8|13-16"}
+def generate_launch_description():
+    # ..
+    load_model = Node(
+        package="ros_gz_sim",
+        executable="create",
+        arguments=[
+            "-entity", "<nombre_entidad>",
+            "-file", "model://<nombre_modelo>",
+        ],
+        output="screen",
+    )
+    # ..
+    return LaunchDescription([
+        load_model,
+        # ..
+    ])
+
+```
+
+## Agregar y quitar entidades en *Gazebo* {.smaller}
+
+> Para quitar entidades: `remove` del paquete `ros_gz_sim`
+
+```py {filename="gazebo.launch.py" code-line-numbers="false" code-line-numbers="|3-5|6-8|12-15"}
+def generate_launch_description():
+    # ..
+    remove_model = Node(
+        package="ros_gz_sim",
+        executable="remove",
+        parameters=[
+            { 'entity_name': '<nombre_entidad>'},
+        ],
+        output="screen",
+    )
+    # ..
+    return LaunchDescription([
+        remove_model,
+        # ..
+    ])
+
+```

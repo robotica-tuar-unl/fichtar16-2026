@@ -1,0 +1,224 @@
+## Simulación de cámara {.smaller}
+
+> Sensor de referencia: Raspberry Pi Camera V2
+
+::: {.columns}
+::: {.column width="60%"}
+
+- `Sensor model`: **Sony IMX219** - 8MP
+- `Video modes`: 1080p47, 1640x1232p41 and 640x480p206
+- `Depth of field`: $10 \mathrm{[cm]}$ to $\infty$ 
+- `Focal length`: $3.04 \mathrm{[mm]}$
+- `Horizontal Field of View (FoV)`: $62.2 \mathrm{°}$
+- `Vertical Field of View (FoV)`: $48.8 \mathrm{°}$
+- `Size`: $25 \times 24 \times 9 \mathrm{[mm]}$
+
+:::
+::: {.column width="40%"}
+
+[![Fuente: Raspberry Pi (<a href="https://www.raspberrypi.com" target="_blank">www.raspberrypi.com</a>)](https://assets.raspberrypi.com/static/6a75fa481019db1ac6bca74e5192cb5b/9ff6b/ffa68a46-fd44-4995-9ad4-ac846a5563f1_Camera%2BV2%2BHero.webp "Camera Module 2"){fig-align="center" fig-env="figure*"} ](https://www.raspberrypi.com/products/camera-module-v2/){target=_blank}
+
+:::
+:::
+
+::: {.aside}
+[Especificaciones Camera Module v2 (www.raspberrypi.com)](https://www.raspberrypi.com/documentation/accessories/camera.html#hardware-specification){target=_blank}
+:::
+
+## Simulación de cámara {.smaller visibility="hidden"}
+
+- Crear el `link` y la `joint` correspondiente
+
+```xml {code-line-numbers=""}
+<link name="cam_link">
+  <visual>
+    <origin xyz="0 0 -0.0024" rpy="${pi/2} 0 ${pi/2}"/>
+    <geometry>
+        <mesh filename="file://$(find diffbot_description)/meshes/RPi_Camera_V2.1.stl"
+              scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="red" />
+  </visual>
+
+  <collision>
+    <origin xyz="0.00175 0 -0.0024" rpy="${pi/2} 0 ${pi/2}"/>
+    <geometry>
+        <box size="0.024 0.025 0.0083"/> <!-- 25mm x 24mm x 8.3mm-->
+    </geometry>
+  </collision>
+  
+  <xacro:dummy_inertial />
+</link>
+
+<joint name="cam_joint" type="fixed">
+  <parent link="base_link" />
+  <child link="cam_link" />
+  <!-- 8cm hacia adelante y 2.5cm hacia arriba -->  
+  <origin xyz="0.08 0 0.025" rpy="0 0 0" />
+</joint>
+
+<!-- Link óptico de la cámara que representa el lente -->
+<link name="cam_optical_link"></link>
+
+<joint name="cam_optical_joint" type="fixed">
+    <!-- Las coordenadas son X horizontal, Y vertical, Z hacia adentro --> 
+    <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+    <parent link="cam_link" />
+    <child link="cam_optical_link" />
+</joint>
+```
+
+## Sistema de coordenadas {.smaller}
+
+- Por lo general la dirección del eje $\require{color} \textcolor{red}{\mathbf{x}}$ es de izquierda a derecha y la dirección del eje $\require{color} \textcolor{green}{\mathbf{y}}$ de arriba hacia abajo
+- Por regla de la mano derecha, el eje $\require{color} \textcolor{blue}{\mathbf{z}}$ debe ir hacia adelante de la cámara
+
+![](https://facebookresearch.github.io/projectaria_tools/assets/images/camera3d-coordinate-frame-8e7eb3a8462f8402724205da4332725a.png){fig-align="center"}
+
+## Sistema de coordenadas {.smaller}
+
+- Para solucionarlo utilizamos dos marcos:
+  - uno para la cámara (con orientación **ENU**): `cam_link`
+  - otro que represente el marco óptico: `cam_optical_link`
+
+```xml {code-line-numbers="false" code-line-numbers="4"}
+<link name="cam_optical_link"></link>
+
+<joint name="cam_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+    <parent link="cam_link" />
+    <child link="cam_optical_link" />
+</joint>
+```
+
+<br>
+
+::: {.callout-note appearance="simple"}
+Luego los *headers* de los mensages de `Image` y `CameraInfo` deben hacer referencia al `cam_optical_link` 
+:::
+
+## Parámetros de la cámara {.smaller}
+
+- Descripción del sensor: *RPiCamV2*
+  - Links: `cam_link`, `cam_optical_link`
+  - Fotogramas por segundo: 25
+
+```xml {filename="sim_camera.xacro" code-line-numbers="|1-2,14-15|3,4|7-9|10-13"}
+  <gazebo reference="cam_link">
+    <sensor name="RPiCamV2" type="camera">
+      <always_on>1</always_on>
+      <update_rate>25</update_rate>
+      <visualize>true</visualize>
+      
+      <topic>camera</topic>
+      <camera_camera_info_topic>camera_info</camera_camera_info_topic>
+      <optical_frame_id>cam_optical_link</optical_frame_id>
+
+      <camera name="IMX219">
+          <!-- Parámetros de la cámara -->
+      </camera>
+    </sensor>
+  </gazebo>
+```
+
+## Parámetros de la cámara {.smaller}
+
+::: {.columns}
+::: {.column}
+
+- Descripción de los parámetros de la cámara
+
+- $W = 640 \mathrm{px}$, $H = 480 \mathrm{px}$
+- $H_{\textrm{FOV}} = 62.2 \mathrm{°} \approx 1.085595 \mathrm{[rad]}$
+- $V_{\textrm{FOV}} = 48.8 \mathrm{°} \approx 0.851721 \mathrm{[rad]}$
+- $\texttt{fx} = \frac{W}{2 ~\tan\left(\frac{H_{\textrm{FOV}}}{2} \right)} \approx 530.47$
+- $\texttt{fy} = \frac{H}{2 ~\tan\left(\frac{V_{\textrm{FOV}}}{2} \right)} \approx 529.08$
+- $\texttt{cx} = \frac{W - 1}{2} = \frac{639}{2} = 319.5$
+- $\texttt{cy} = \frac{H - 1}{2} = \frac{479}{2} = 239.5$
+
+:::
+::: {.column}
+
+```xml {filename="sim_camera.xacro" code-line-numbers="|2-6|7|8-16|17-20|21-25"}
+<camera name="IMX219">
+  <image> <!-- 640x480 mode -->
+    <width>640</width>
+    <height>480</height>
+    <format>R8G8B8</format>
+  </image>
+  <horizontal_fov>1.085595</horizontal_fov>
+  <lens>
+    <intrinsics>
+      <fx>530.47</fx>
+      <fy>529.08</fy>
+      <cx>319.5</cx>
+      <cy>239.5</cy>
+      <s>0</s>
+    </intrinsics>
+  </lens>
+  <clip>
+    <near>0.01</near>
+    <far>25</far>
+  </clip>
+  <noise>
+    <type>gaussian</type>
+    <mean>0</mean>
+    <stddev>0.007</stddev>
+  </noise>
+</camera>
+```
+
+:::
+:::
+
+
+## Plugin de sensores {.smaller}
+
+- Para la simulación del sensor es necesario tener en el `URDF` el plugin de `Sensors` 
+
+```xml {filename="sim_camera.xacro"  code-line-numbers="false"}
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+  <!-- .. -->
+  <gazebo>
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+  </gazebo>
+  <!-- .. -->
+</robot>
+```
+
+
+## `ros_gz_bridge` y `rqt_image_view` {.smaller}
+
+
+::: {.columns}
+::: {.column}
+
+> Actualizar el archivo de configuración para obtener la imagen desde *Gazebo*
+
+```yaml {filename="gz_bridge.yaml" code-line-numbers="false"}
+# Image from camera
+- topic_name: "/camera"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+```
+
+<br>
+
+> Visualizar la imagen con el paquete `rqt_image_view`
+
+```sh {code-line-numbers="false"}
+  $ ros2 run rqt_image_view rqt_image_view
+```
+
+:::
+::: {.column}
+
+![](slides/figs/rqt_image_view.png){width="100%" fig-align="center"}
+
+:::
+:::
