@@ -188,11 +188,11 @@ window.Quarto = {
   </ul></li>
   <li><a href="#sistema-de-seguimiento-de-líneas" id="toc-sistema-de-seguimiento-de-líneas" class="nav-link" data-scroll-target="#sistema-de-seguimiento-de-líneas"><span class="header-section-number">2</span> Sistema de seguimiento de líneas</a>
   <ul class="collapse">
-  <li><a href="#configuración-del-escenario" id="toc-configuración-del-escenario" class="nav-link" data-scroll-target="#configuración-del-escenario"><span class="header-section-number">2.1</span> Configuración del escenario</a>
+  <li><a href="#modificar-el-urdf-del-robot-diferencial" id="toc-modificar-el-urdf-del-robot-diferencial" class="nav-link" data-scroll-target="#modificar-el-urdf-del-robot-diferencial"><span class="header-section-number">2.1</span> Modificar el <em>URDF</em> del robot diferencial</a></li>
+  <li><a href="#configuración-del-escenario" id="toc-configuración-del-escenario" class="nav-link" data-scroll-target="#configuración-del-escenario"><span class="header-section-number">2.2</span> Configuración del escenario</a>
   <ul class="collapse">
   <li><a href="#modificar-el-launch-de-gazebo" id="toc-modificar-el-launch-de-gazebo" class="nav-link" data-scroll-target="#modificar-el-launch-de-gazebo">Modificar el <em>launch</em> de Gazebo</a></li>
   </ul></li>
-  <li><a href="#modificar-el-urdf-del-robot-diferencial" id="toc-modificar-el-urdf-del-robot-diferencial" class="nav-link" data-scroll-target="#modificar-el-urdf-del-robot-diferencial"><span class="header-section-number">2.2</span> Modificar el <em>URDF</em> del robot diferencial</a></li>
   <li><a href="#crear-el-nodo-linedetector" id="toc-crear-el-nodo-linedetector" class="nav-link" data-scroll-target="#crear-el-nodo-linedetector"><span class="header-section-number">2.3</span> Crear el nodo: <code>LineDetector</code></a></li>
   <li><a href="#crear-el-nodo-linefollower" id="toc-crear-el-nodo-linefollower" class="nav-link" data-scroll-target="#crear-el-nodo-linefollower"><span class="header-section-number">2.4</span> Crear el nodo: <code>LineFollower</code></a></li>
   <li><a href="#integración-y-prueba" id="toc-integración-y-prueba" class="nav-link" data-scroll-target="#integración-y-prueba"><span class="header-section-number">2.5</span> Integración y prueba</a></li>
@@ -288,7 +288,6 @@ window.Quarto = {
 <ul>
 <li>Parámetros de simulación de lente: <span class="math display">\[\texttt{f\_x} = \frac{W}{2 \cdot \tan(\frac{H_{FoV} \mathrm{[rad]}}{2})} \qquad \texttt{f\_y} = \frac{H}{2 \cdot \tan(\frac{V_{FoV} \mathrm{[rad]}}{2})}\]</span> <span class="math display">\[\texttt{c\_x} = \frac{W - 1}{2} \qquad \texttt{c\_y} = \frac{H - 1}{2}\]</span></li>
 </ul>
-
 <hr>
 </section>
 </section>
@@ -303,8 +302,44 @@ window.Quarto = {
 <li>Enviar comandos de <code>Twist</code> al topic <code>/cmd_vel</code> para que el robot siga el camino</li>
 </ul>
 </section>
-<section id="configuración-del-escenario" class="level2" data-number="2.1">
-<h2 data-number="2.1" data-anchor-id="configuración-del-escenario"><span class="header-section-number">2.1</span> Configuración del escenario</h2>
+<section id="modificar-el-urdf-del-robot-diferencial" class="level2" data-number="2.1">
+<h2 data-number="2.1" data-anchor-id="modificar-el-urdf-del-robot-diferencial"><span class="header-section-number">2.1</span> Modificar el <em>URDF</em> del robot diferencial</h2>
+<ul>
+<li><p>Agregar al <em>URDF</em> los <em>links</em> y <em>joints</em> necesarios para montar un sensor de tipo cámara al frente del vehículo</p></li>
+<li><p>Crear un archivo de descripción <code>sim_camera.xacro</code> con la estructura necesaria para simular una cámara de tipo <a href="https://www.raspberrypi.com/documentation/accessories/camera.html#hardware-specification" target="_blank"><em>Raspberry Pi Camera Module v2</em></a> con los siguientes parámetros:</p></li>
+</ul>
+<blockquote class="blockquote">
+<ul>
+<li>Profundidad de campo: 10 [cm] a <span class="math inline">\(\infty\)</span></li>
+<li>Distancia focal: 3.04 [mm]</li>
+<li>Campo de visión (FoV) horizontal: 62.2°</li>
+<li>Campo de visión (FoV) vertical: 48.8°</li>
+<li>Tamaño: 25 x 24 x 9 [mm]</li>
+</ul>
+</blockquote>
+<div class="callout callout-style-simple callout-tip callout-empty-content callout-titled" title="Probar el funcionamiento del sensor y la configuración de la simulación mediante `rqt_image_view`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Probar el funcionamiento del sensor y la configuración de la simulación mediante <code>rqt_image_view</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<ul>
+<li>Configurar de manera adecuada el <code>ros_gz_bridge</code> para obtener los mensajes en <em>ROS</em></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">topic_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"/&lt;nombre_topic&gt;"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ros_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"sensor_msgs/msg/Image"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">gz_type_name</span><span class="kw">:</span><span class="at"> </span><span class="st">"gz.msgs.Image"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">direction</span><span class="kw">:</span><span class="at"> GZ_TO_ROS</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="configuración-del-escenario" class="level2" data-number="2.2">
+<h2 data-number="2.2" data-anchor-id="configuración-del-escenario"><span class="header-section-number">2.2</span> Configuración del escenario</h2>
 <ul>
 <li><h4 id="descomprimir-el-archivo-linetrack.zip-en-una-carpeta-models-dentro-del-paquete-donde-se-encuentre-el-launch-de-gazebo">Descomprimir el archivo <a href="resources/LineTrack.zip" download="" target="_blank"><code>LineTrack.zip</code></a> en una carpeta <code>models</code> dentro del paquete donde se encuentre el <em>launch</em> de Gazebo</h4></li>
 </ul>
@@ -341,70 +376,41 @@ return LaunchDescription([
 <ul>
 <li><h4 id="agregar-la-directiva---render-engine-a-la-ejecución-de-gazebo">Agregar la directiva <code>--render-engine</code> a la ejecución de Gazebo:</h4></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch Gazebo</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gz_sim <span class="op">=</span> IncludeLaunchDescription(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    PythonLaunchDescriptionSource(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        PathJoinSubstitution(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            [FindPackageShare(<span class="st">'ros_gz_sim'</span>), <span class="st">'launch'</span>, <span class="st">'gz_sim.launch.py'</span>]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    launch_arguments<span class="op">=</span>{</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'gz_args'</span>: <span class="st">'-r --render-engine ogre empty.sdf'</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    }.items()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch Gazebo</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gz_sim <span class="op">=</span> IncludeLaunchDescription(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    PythonLaunchDescriptionSource(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        PathJoinSubstitution(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            [FindPackageShare(<span class="st">'ros_gz_sim'</span>), <span class="st">'launch'</span>, <span class="st">'gz_sim.launch.py'</span>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    launch_arguments<span class="op">=</span>{</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'gz_args'</span>: <span class="st">'-r --render-engine ogre empty.sdf'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    }.items()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><h4 id="eliminar-el-suelo-ground-plane-por-defecto">Eliminar el suelo (<em>ground plane</em>) por defecto:</h4></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>remove_ground_plane <span class="op">=</span> Node(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    package<span class="op">=</span><span class="st">"ros_gz_sim"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    executable<span class="op">=</span><span class="st">"remove"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span>[</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'entity_name'</span>: <span class="st">'ground_plane'</span>},</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    output<span class="op">=</span><span class="st">"screen"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>remove_ground_plane <span class="op">=</span> Node(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    package<span class="op">=</span><span class="st">"ros_gz_sim"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    executable<span class="op">=</span><span class="st">"remove"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    parameters<span class="op">=</span>[</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        { <span class="st">'entity_name'</span>: <span class="st">'ground_plane'</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    output<span class="op">=</span><span class="st">"screen"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><h4 id="cargar-el-modelo-linetrack">Cargar el modelo <code>LineTrack</code>:</h4></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>load_track <span class="op">=</span> Node(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    package<span class="op">=</span><span class="st">"ros_gz_sim"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    executable<span class="op">=</span><span class="st">"create"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    arguments<span class="op">=</span>[</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"-entity"</span>, <span class="st">"track"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"-file"</span>, <span class="st">"model://LineTrack"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    output<span class="op">=</span><span class="st">"screen"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>load_track <span class="op">=</span> Node(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    package<span class="op">=</span><span class="st">"ros_gz_sim"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    executable<span class="op">=</span><span class="st">"create"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    arguments<span class="op">=</span>[</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"-entity"</span>, <span class="st">"track"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"-file"</span>, <span class="st">"model://LineTrack"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    output<span class="op">=</span><span class="st">"screen"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-</section>
-<section id="modificar-el-urdf-del-robot-diferencial" class="level2" data-number="2.2">
-<h2 data-number="2.2" data-anchor-id="modificar-el-urdf-del-robot-diferencial"><span class="header-section-number">2.2</span> Modificar el <em>URDF</em> del robot diferencial</h2>
-<ul>
-<li><p>Agregar al <em>URDF</em> los <em>links</em> y <em>joints</em> necesarios para montar un sensor de tipo cámara al frente del vehículo</p></li>
-<li><p>Crear un archivo de descripción <code>sim_camera.xacro</code> con la estructura necesaria para simular una cámara de tipo <a href="https://www.raspberrypi.com/documentation/accessories/camera.html#hardware-specification" target="_blank"><em>Raspberry Pi Camera Module v2</em></a> con los siguientes parámetros:</p></li>
-</ul>
-<blockquote class="blockquote">
-<ul>
-<li>Profundidad de campo: 10 [cm] a <span class="math inline">\(\infty\)</span></li>
-<li>Distancia focal: 3.04 [mm]</li>
-<li>Campo de visión (FoV) horizontal: 62.2°</li>
-<li>Campo de visión (FoV) vertical: 48.8°</li>
-<li>Tamaño: 25 x 24 x 9 [mm]</li>
-</ul>
-</blockquote>
-<div class="callout callout-style-simple callout-tip callout-empty-content callout-titled" title="Probar el funcionamiento del sensor y la configuración de la simulación mediante `rqt_image_view`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Probar el funcionamiento del sensor y la configuración de la simulación mediante <code>rqt_image_view</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
 </section>
 <section id="crear-el-nodo-linedetector" class="level2" data-number="2.3">
 <h2 data-number="2.3" data-anchor-id="crear-el-nodo-linedetector"><span class="header-section-number">2.3</span> Crear el nodo: <code>LineDetector</code></h2>
@@ -413,21 +419,21 @@ return LaunchDescription([
 <ul>
 <li>Importar las librería <code>cv_bridge</code>, <code>cv2</code> y mensajes de tipo <code>Image</code></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sensor_msgs.msg <span class="im">import</span> Image</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv_bridge</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sensor_msgs.msg <span class="im">import</span> Image</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv_bridge</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Crear un <code>CvBridge</code> para convertir las imágenes</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LineDetector(Node):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ..        </span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bridge <span class="op">=</span> cv_bridge.CvBridge()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LineDetector(Node):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ..        </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bridge <span class="op">=</span> cv_bridge.CvBridge()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Convertir mensajes de tipo <code>Image</code></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sub_callback(<span class="va">self</span>, msg: Image):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> <span class="va">self</span>.bridge.imgmsg_to_cv2(msg, desired_encoding<span class="op">=</span><span class="st">'bgr8'</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sub_callback(<span class="va">self</span>, msg: Image):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> <span class="va">self</span>.bridge.imgmsg_to_cv2(msg, desired_encoding<span class="op">=</span><span class="st">'bgr8'</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="realizar-el-procesamiento-necesario-para-detectar-el-camino" class="level4">
 <h4 data-anchor-id="realizar-el-procesamiento-necesario-para-detectar-el-camino">Realizar el procesamiento necesario para detectar el camino</h4>
@@ -483,7 +489,6 @@ return LaunchDescription([
 </section>
 <section id="pruebe-que-el-sistema-es-capaz-de-realizar-una-vuelta-completa" class="level4">
 <h4 data-anchor-id="pruebe-que-el-sistema-es-capaz-de-realizar-una-vuelta-completa">Pruebe que el sistema es capaz de realizar una vuelta completa</h4>
-
 
 
 </section>
