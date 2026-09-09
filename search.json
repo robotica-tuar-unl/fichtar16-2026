@@ -203,6 +203,286 @@
     "text": "3.2 Modificar logging en el nodo suscriber\n\nMostrar los mensajes recibidos en el suscriber a medida que llegan, estableciendo como máximo 1 mensaje por segundo\nVerificar el funcionamiento ejecutando el nodo publisher estableciendo el period en 0.2 segundos"
   },
   {
+    "objectID": "clases/15/index.html#simulación-de-sensores-parte-iii",
+    "href": "clases/15/index.html#simulación-de-sensores-parte-iii",
+    "title": "Robótica",
+    "section": "Simulación de sensores (parte III)",
+    "text": "Simulación de sensores (parte III)\n\nCaso práctico: Seguidor de línea\n\n\nSimular una cámara en Gazebo y obtener video desde ROS2\nUtilizar procesamiento de imágenes para detectar el camino\nControlar el robot para seguir la pista\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPoint-of-View"
+  },
+  {
+    "objectID": "clases/15/index.html#simulación-de-cámara-1",
+    "href": "clases/15/index.html#simulación-de-cámara-1",
+    "title": "Robótica",
+    "section": "Simulación de cámara",
+    "text": "Simulación de cámara\n\nSensor de referencia: Raspberry Pi Camera V2\n\n\n\n\nSensor model: Sony IMX219 - 8MP\nVideo modes: 1080p47, 1640x1232p41 and 640x480p206\nDepth of field: \\(10 \\mathrm{[cm]}\\) to \\(\\infty\\)\nFocal length: \\(3.04 \\mathrm{[mm]}\\)\nHorizontal Field of View (FoV): \\(62.2 \\mathrm{°}\\)\nVertical Field of View (FoV): \\(48.8 \\mathrm{°}\\)\nSize: \\(25 \\times 24 \\times 9 \\mathrm{[mm]}\\)\n\n\n\n\n\n\n\n\n\nFuente: Raspberry Pi (www.raspberrypi.com)\n\n\n\n\n\nEspecificaciones Camera Module v2 (www.raspberrypi.com)"
+  },
+  {
+    "objectID": "clases/15/index.html#sistema-de-coordenadas",
+    "href": "clases/15/index.html#sistema-de-coordenadas",
+    "title": "Robótica",
+    "section": "Sistema de coordenadas",
+    "text": "Sistema de coordenadas\n\nPor lo general la dirección del eje \\(\\require{color} \\textcolor{red}{\\mathbf{x}}\\) es de izquierda a derecha y la dirección del eje \\(\\require{color} \\textcolor{green}{\\mathbf{y}}\\) de arriba hacia abajo\nPor regla de la mano derecha, el eje \\(\\require{color} \\textcolor{blue}{\\mathbf{z}}\\) debe ir hacia adelante de la cámara"
+  },
+  {
+    "objectID": "clases/15/index.html#sistema-de-coordenadas-1",
+    "href": "clases/15/index.html#sistema-de-coordenadas-1",
+    "title": "Robótica",
+    "section": "Sistema de coordenadas",
+    "text": "Sistema de coordenadas\n\nPara solucionarlo utilizamos dos marcos:\n\nuno para la cámara (con orientación ENU): cam_link\notro que represente el marco óptico: cam_optical_link\n\n\n&lt;link name=\"cam_optical_link\"&gt;&lt;/link&gt;\n\n&lt;joint name=\"cam_optical_joint\" type=\"fixed\"&gt;\n    &lt;origin xyz=\"0 0 0\" rpy=\"${-pi/2} 0 ${-pi/2}\" /&gt;\n    &lt;parent link=\"cam_link\" /&gt;\n    &lt;child link=\"cam_optical_link\" /&gt;\n&lt;/joint&gt;\n\n\n\n\n\n\n\nLuego los headers de los mensages de Image y CameraInfo deben hacer referencia al cam_optical_link"
+  },
+  {
+    "objectID": "clases/15/index.html#parámetros-de-la-cámara",
+    "href": "clases/15/index.html#parámetros-de-la-cámara",
+    "title": "Robótica",
+    "section": "Parámetros de la cámara",
+    "text": "Parámetros de la cámara\n\nDescripción del sensor: RPiCamV2\n\nLinks: cam_link, cam_optical_link\nFotogramas por segundo: 25\n\n\n\n\nsim_camera.xacro\n\n  &lt;gazebo reference=\"cam_link\"&gt;\n    &lt;sensor name=\"RPiCamV2\" type=\"camera\"&gt;\n      &lt;always_on&gt;1&lt;/always_on&gt;\n      &lt;update_rate&gt;25&lt;/update_rate&gt;\n      &lt;visualize&gt;true&lt;/visualize&gt;\n      \n      &lt;topic&gt;camera&lt;/topic&gt;\n      &lt;camera_camera_info_topic&gt;camera_info&lt;/camera_camera_info_topic&gt;\n      &lt;optical_frame_id&gt;cam_optical_link&lt;/optical_frame_id&gt;\n\n      &lt;camera name=\"IMX219\"&gt;\n          &lt;!-- Parámetros de la cámara --&gt;\n      &lt;/camera&gt;\n    &lt;/sensor&gt;\n  &lt;/gazebo&gt;"
+  },
+  {
+    "objectID": "clases/15/index.html#parámetros-de-la-cámara-1",
+    "href": "clases/15/index.html#parámetros-de-la-cámara-1",
+    "title": "Robótica",
+    "section": "Parámetros de la cámara",
+    "text": "Parámetros de la cámara\n\n\n\nDescripción de los parámetros de la cámara\n\\(W = 640 \\mathrm{px}\\), \\(H = 480 \\mathrm{px}\\)\n\\(H_{\\textrm{FOV}} = 62.2 \\mathrm{°} \\approx 1.085595 \\mathrm{[rad]}\\)\n\\(V_{\\textrm{FOV}} = 48.8 \\mathrm{°} \\approx 0.851721 \\mathrm{[rad]}\\)\n\\(\\texttt{fx} = \\frac{W}{2 ~\\tan\\left(\\frac{H_{\\textrm{FOV}}}{2} \\right)} \\approx 530.47\\)\n\\(\\texttt{fy} = \\frac{H}{2 ~\\tan\\left(\\frac{V_{\\textrm{FOV}}}{2} \\right)} \\approx 529.08\\)\n\\(\\texttt{cx} = \\frac{W - 1}{2} = \\frac{639}{2} = 319.5\\)\n\\(\\texttt{cy} = \\frac{H - 1}{2} = \\frac{479}{2} = 239.5\\)\n\n\n\n\nsim_camera.xacro\n\n&lt;camera name=\"IMX219\"&gt;\n  &lt;image&gt; &lt;!-- 640x480 mode --&gt;\n    &lt;width&gt;640&lt;/width&gt;\n    &lt;height&gt;480&lt;/height&gt;\n    &lt;format&gt;R8G8B8&lt;/format&gt;\n  &lt;/image&gt;\n  &lt;horizontal_fov&gt;1.085595&lt;/horizontal_fov&gt;\n  &lt;lens&gt;\n    &lt;intrinsics&gt;\n      &lt;fx&gt;530.47&lt;/fx&gt;\n      &lt;fy&gt;529.08&lt;/fy&gt;\n      &lt;cx&gt;319.5&lt;/cx&gt;\n      &lt;cy&gt;239.5&lt;/cy&gt;\n      &lt;s&gt;0&lt;/s&gt;\n    &lt;/intrinsics&gt;\n  &lt;/lens&gt;\n  &lt;clip&gt;\n    &lt;near&gt;0.01&lt;/near&gt;\n    &lt;far&gt;25&lt;/far&gt;\n  &lt;/clip&gt;\n  &lt;noise&gt;\n    &lt;type&gt;gaussian&lt;/type&gt;\n    &lt;mean&gt;0&lt;/mean&gt;\n    &lt;stddev&gt;0.007&lt;/stddev&gt;\n  &lt;/noise&gt;\n&lt;/camera&gt;"
+  },
+  {
+    "objectID": "clases/15/index.html#plugin-de-sensores",
+    "href": "clases/15/index.html#plugin-de-sensores",
+    "title": "Robótica",
+    "section": "Plugin de sensores",
+    "text": "Plugin de sensores\n\nPara la simulación del sensor es necesario tener en el URDF el plugin de Sensors\n\n\n\nsim_camera.xacro\n\n&lt;robot xmlns:xacro=\"http://www.ros.org/wiki/xacro\"&gt; \n  &lt;!-- .. --&gt;\n  &lt;gazebo&gt;\n    &lt;plugin\n      filename=\"gz-sim-sensors-system\"\n      name=\"gz::sim::systems::Sensors\"&gt;\n      &lt;render_engine&gt;ogre2&lt;/render_engine&gt;\n    &lt;/plugin&gt;\n  &lt;/gazebo&gt;\n  &lt;!-- .. --&gt;\n&lt;/robot&gt;"
+  },
+  {
+    "objectID": "clases/15/index.html#ros_gz_bridge-y-rqt_image_view",
+    "href": "clases/15/index.html#ros_gz_bridge-y-rqt_image_view",
+    "title": "Robótica",
+    "section": "ros_gz_bridge y rqt_image_view",
+    "text": "ros_gz_bridge y rqt_image_view\n\n\n\nActualizar el archivo de configuración para obtener la imagen desde Gazebo\n\n\n\ngz_bridge.yaml\n\n# Image from camera\n- topic_name: \"/camera\"\n  ros_type_name: \"sensor_msgs/msg/Image\"\n  gz_type_name: \"gz.msgs.Image\"\n  direction: GZ_TO_ROS\n\n\n\nVisualizar la imagen con el paquete rqt_image_view\n\n  $ ros2 run rqt_image_view rqt_image_view"
+  },
+  {
+    "objectID": "clases/15/index.html#procesamiento-mediante-cv2",
+    "href": "clases/15/index.html#procesamiento-mediante-cv2",
+    "title": "Robótica",
+    "section": "Procesamiento mediante cv2",
+    "text": "Procesamiento mediante cv2\n\nEtapas\n\n\nCaptura\nPreprocesamiento\nDetección del camino\nEstimación del curso"
+  },
+  {
+    "objectID": "clases/15/index.html#captura-desde-ros2",
+    "href": "clases/15/index.html#captura-desde-ros2",
+    "title": "Robótica",
+    "section": "0. Captura desde ROS2",
+    "text": "0. Captura desde ROS2\n\nSe utiliza el paquete cv_bridge de vision_opencv para convertir los mensajes de tipo Image de ROS2 al tipo de dato utilizado por cv2\n\n\nDado el nodo LineDetector se crea el CvBridge y el subscriptor al topic /camera:\n\n\n\nLineDetector.py\n\nimport rclpy\nfrom rclpy.node import Node\n\nfrom sensor_msgs.msg import Image\nimport cv_bridge\n\nclass LineDetector(Node):\n    def __init__(self):\n        # ..        \n        self.bridge = cv_bridge.CvBridge()\n        self.sub = self.create_subscription(Image, 'camera', self.sub_callback, 10)\n\n    def sub_callback(self, msg: Image):\n        image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')\n        # .."
+  },
+  {
+    "objectID": "clases/15/index.html#captura-desde-ros2-1",
+    "href": "clases/15/index.html#captura-desde-ros2-1",
+    "title": "Robótica",
+    "section": "0. Captura desde ROS2",
+    "text": "0. Captura desde ROS2\n\nSe utiliza el paquete cv_bridge de vision_opencv para convertir los mensajes de tipo Image de ROS2 al tipo de dato utilizado por cv2"
+  },
+  {
+    "objectID": "clases/15/index.html#preprocesamiento",
+    "href": "clases/15/index.html#preprocesamiento",
+    "title": "Robótica",
+    "section": "1. Preprocesamiento",
+    "text": "1. Preprocesamiento\n\nDisminuir la resolución para reducir la carga computacional y obtener mejor rendimiento\n\nimage = cv2.resize(image, None, 1, 0.25, 0.25, cv2.INTER_CUBIC)\n\n\n\nRatio: 25% en ambos ejes"
+  },
+  {
+    "objectID": "clases/15/index.html#detección-del-camino",
+    "href": "clases/15/index.html#detección-del-camino",
+    "title": "Robótica",
+    "section": "2. Detección del camino",
+    "text": "2. Detección del camino\n\nAplicar una máscara sobre la representación HSV\n\n\nUtilizando la representación HSV podemos utilizar la información del canal de Value para detectar los píxeles de la línea\nRepresentaciones HSV:\n\n\n\n\n\nRepresentación RGB\nRepresentación HSV\n\n\n\n\n\nRed\nGreen\nBlue\nHue\nSat.\nValue\n\n\nrojo\n255\n0\n0\n0°\n100%\n100%\n\n\nverde\n0\n255\n0\n120°\n100%\n100%\n\n\nazul\n0\n0\n255\n240°\n100%\n100%\n\n\nblanco\n255\n255\n255\n-\n0%\n100%\n\n\nnegro\n0\n0\n0\n-\n-\n0%"
+  },
+  {
+    "objectID": "clases/15/index.html#detección-del-camino-1",
+    "href": "clases/15/index.html#detección-del-camino-1",
+    "title": "Robótica",
+    "section": "2. Detección del camino",
+    "text": "2. Detección del camino\n\n\nUsar la función inRange(..) para construir la máscara\n\n\nRecibe como parámetros:\n\nUna imágen de 3 canales: \\(I(x,y) = (H(x,y), S(x,y), V(x,y))\\)\nEl límite inferior: \\(L = (H_{min}, S_{min}, V_{min})\\)\nEl límite superior: \\(U = (H_{max}, S_{max}, V_{max})\\)\n\nDevuelve:\n\nUna imágen de 1 canal \\(M(x,y)\\): \\[\nM(x,y) = \\begin{cases}\n255 \\quad \\textrm{si} \\, \\left| \\begin{matrix} H_{min} \\leq H(x,y) \\leq H_{max} \\\\\nS_{min} \\leq  S(x,y) \\leq S_{max} \\\\\nV_{min} \\leq V(x,y) \\leq V_{max} \\\\\n\\end{matrix} \\right. \\\\\n0 \\quad \\textrm{en cualquier otro caso}\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#detección-del-camino-2",
+    "href": "clases/15/index.html#detección-del-camino-2",
+    "title": "Robótica",
+    "section": "2. Detección del camino",
+    "text": "2. Detección del camino\n\nUsar la función inRange(..) para construir la máscara\n\n\n\n\nEjemplo para el negro: H = [0, 180°] - S = [0, 100%] - V = [0, 30/255%]\n\n# Definir rango de la máscara\nlower = np.array([0, 0, 0])\nupper = np.array([255, 255, 30])\n# Aplicar máscara\nmask = cv2.inRange(image_hsv, lower, upper)"
+  },
+  {
+    "objectID": "clases/15/index.html#detección-del-camino-3",
+    "href": "clases/15/index.html#detección-del-camino-3",
+    "title": "Robótica",
+    "section": "2. Detección del camino",
+    "text": "2. Detección del camino\n\nUsar la función inRange(..) para construir la máscara\n\n\nAplicado a la imágen del camino:"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso",
+    "href": "clases/15/index.html#estimación-del-curso",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nRecibe como parámetro:\n\nUna imágen con intensidad de píxel \\(I(x,y)\\)\n\nDevuelve:\n\nMomentos hasta de 3er orden:\n\n\n\\[\nM_{pq} = \\sum_x \\sum_y x^p y^q I(x,y)\n\\]\ndonde \\(p\\) y \\(q\\) son los índices del momento, el orden se define como \\(p + q\\)"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-1",
+    "href": "clases/15/index.html#estimación-del-curso-1",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nMomento de orden cero: \\(p=0\\) y \\(q=0\\)\n\n\n\\[\nM_{00} = \\sum_x \\sum_y x^0 y^0 I(x,y) = \\sum_x \\sum_y (1) (1) I(x,y) = \\sum_x \\sum_y I(x,y)\n\\]\n\n\n\n\n\n\nEn una imágen binaria, es equivalente a contar la cantidad de píxeles con valor 1"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-2",
+    "href": "clases/15/index.html#estimación-del-curso-2",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nMomentos de orden uno: \\(\\langle p=1, q=0 \\rangle\\) y \\(\\langle p=0, q=1 \\rangle\\)\n\n\\[\nM_{10} = \\sum_x \\sum_y x^1 y^0 I(x,y) = \\sum_x \\sum_y x (1) I(x,y) = \\sum_x \\sum_y x I(x,y)\n\\]\n\\[\nM_{01} = \\sum_x \\sum_y x^0 y^1 I(x,y) = \\sum_x \\sum_y (1) y I(x,y) = \\sum_x \\sum_y y I(x,y)\n\\]\n\n\n\n\n\n\nEn una imágen binaria, es equivalente a sumar las coordenadas \\(x\\) (para \\(M_{10}\\)) e \\(y\\) (para \\(M_{01}\\)) de píxeles con valor 1"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-3",
+    "href": "clases/15/index.html#estimación-del-curso-3",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nA partir de los momentos es posible calcular el centroide \\((C_x, C_y)\\):\n\n\\[\nC_x = \\frac{M_{10}}{M_{00}} \\qquad C_y = \\frac{M_{01}}{M_{00}}\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-4",
+    "href": "clases/15/index.html#estimación-del-curso-4",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\n\n\nEjemplo numérico: Sea una imágen de \\(100\\times100\\) píxeles negros, con un cuadrado de \\(50\\times50\\) de píxeles blancos ubicados en el centro\nMomento de orden cero \\(M_{00}\\)\n\n\n\n\n\n\n\n\nPara todos los momentos solo se contalibilizaran los píxeles blancos, es decir, solo los píxeles \\((x,y)\\) tal que \\(25 \\leq x,y &lt; 75\\):\n\n\n\n\\[\nM_{00} = \\sum_{x=25}^{74} \\sum_{y=25}^{74} 1 = 50 \\times 50 = 2500\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-5",
+    "href": "clases/15/index.html#estimación-del-curso-5",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nEjemplo numérico: Sea una imágen de \\(100\\times100\\) píxeles negros, con un cuadrado de \\(50\\times50\\) de píxeles blancos ubicados en el centro\nMomento de orden 1 \\(M_{10}\\) (sumatoria en \\(x\\)): \\[\nM_{10} = \\sum_{x=25}^{74} \\sum_{y=25}^{74} x\n\\]\n\npara una coordenada \\(x\\) fija, en la sumatoria sobre \\(y\\), \\(x\\) es constante: \\[\nM_{10} = \\sum_{x=25}^{74} (50 \\cdot x) =  50 \\cdot \\sum_{x=25}^{74} x = 50 \\cdot \\frac{50 (25 + 74)}{2} = 50 \\cdot 2475 = 123750\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-6",
+    "href": "clases/15/index.html#estimación-del-curso-6",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nEjemplo numérico: Sea una imágen de \\(100\\times100\\) píxeles negros, con un cuadrado de \\(50\\times50\\) de píxeles blancos ubicados en el centro\nMomento de orden 1 \\(M_{01}\\) (sumatoria en \\(y\\)): \\[\nM_{01} = \\sum_{x=25}^{74} \\sum_{y=25}^{74} y\n\\]\n\nal ser simétrico el ejemplo, el valor es igual a \\(M_{10}\\) \\[\nM_{01} = \\sum_{y=25}^{74} (50 \\cdot y)  = 50 \\cdot 2475 = 123750\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-7",
+    "href": "clases/15/index.html#estimación-del-curso-7",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nEjemplo numérico: Sea una imágen de \\(100\\times100\\) píxeles negros, con un cuadrado de \\(50\\times50\\) de píxeles blancos ubicados en el centro\n\n\n\n\n\\[\nC_x = \\frac{M_{10}}{M_{00}} = \\frac{123750}{2500} = 49.5\n\\] \\[\nC_y = \\frac{M_{01}}{M_{00}} = \\frac{123750}{2500} = 49.5\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-8",
+    "href": "clases/15/index.html#estimación-del-curso-8",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\n\nOtros ejemplos"
+  },
+  {
+    "objectID": "clases/15/index.html#estimación-del-curso-9",
+    "href": "clases/15/index.html#estimación-del-curso-9",
+    "title": "Robótica",
+    "section": "3. Estimación del curso",
+    "text": "3. Estimación del curso\n\nEncontrar el centroide usando la función moments(..)\n\nM = cv2.moments(mask)\nif M['m00'] &gt; 0.0:\n    cx = int(M['m10']/M['m00'])\n    cy = int(M['m01']/M['m00'])"
+  },
+  {
+    "objectID": "clases/15/index.html#seguimiento-de-la-pista",
+    "href": "clases/15/index.html#seguimiento-de-la-pista",
+    "title": "Robótica",
+    "section": "Seguimiento de la pista",
+    "text": "Seguimiento de la pista\n\n\n\nUtilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso\n\n\nSea el centro de la imagen \\(W/2\\) y \\(e\\) la diferencia con la coordenada \\(x\\) del centroide, \\(c_x\\): \\[e = (W/2) - c_x\\]\nSi el centroide está a la izquierda: \\[0 \\leq c_x &lt; W/2 \\to 0 &lt; e \\leq W/2\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#seguimiento-de-la-pista-1",
+    "href": "clases/15/index.html#seguimiento-de-la-pista-1",
+    "title": "Robótica",
+    "section": "Seguimiento de la pista",
+    "text": "Seguimiento de la pista\n\n\n\nUtilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso\n\n\nSea el centro de la imagen \\(W/2\\) y \\(e\\) la diferencia con la coordenada \\(x\\) del centroide, \\(c_x\\): \\[e = (W/2) - c_x\\]\nSi el centroide está a la derecha: \\[W/2 &lt; c_x \\leq W \\to -W/2 \\leq e &lt; 0\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#seguimiento-de-la-pista-2",
+    "href": "clases/15/index.html#seguimiento-de-la-pista-2",
+    "title": "Robótica",
+    "section": "Seguimiento de la pista",
+    "text": "Seguimiento de la pista\n\n\n\nUtilizando la desviación horizontal del centroide respecto del centro podemos controlar el robot para mantener el curso\n\n\nSea el centro de la imagen \\(W/2\\) y \\(e\\) la diferencia con la coordenada \\(x\\) del centroide, \\(c_x\\): \\[e = (W/2) - c_x\\]\n\n\n\n\n\n\n\n\n\nPor lo tanto: \\[\n\\left.\n\\begin{alignat}{2}\n% c_x &lt; W/2& \\to      -W/2 &&\\leq e  &lt; 0 \\\\\n0 \\leq c_x &lt; W/2& \\to \\qquad 0 &&&lt; e \\leq W/2 \\\\\n%c_x &gt; W/2& \\to \\qquad   0 &&&lt; e \\geq W/2\nW/2 &lt; c_x \\leq W& \\to -W/2 &&\\leq e &lt; 0\n\\end{alignat}\\right\\} -W/2 \\leq e \\leq W/2\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#seguimiento-de-la-pista-3",
+    "href": "clases/15/index.html#seguimiento-de-la-pista-3",
+    "title": "Robótica",
+    "section": "Seguimiento de la pista",
+    "text": "Seguimiento de la pista\nComando de Twist\n\nVelocidad lineal: puede ser constante \\(\\to 0.25 \\textrm{[m/s]}\\)\nVelocidad angular: variable entre \\(\\to (-\\dot\\theta_{max},\\dot\\theta_{max}) \\textrm{[rad/s]}\\)\n\n\n\\[\n\\require{color}\n\\dot\\theta = \\textcolor{Maroon}{\\alpha} * \\dot\\theta_{max} \\quad \\textrm{con} \\ \\textcolor{Maroon}{\\alpha} \\in (-1, 1)\n\\]\n\n\n\nDividiendo \\(e\\) por \\(W/2\\) se puede acotar entre \\((-1, 1)\\):\n\n\\[\n-W/2 \\leq e \\leq W/2 \\ \\to \\ -1 \\leq \\frac{e}{W/2} \\leq 1\n\\] \n\n\n\\[\n\\textcolor{Maroon}{\\alpha} = \\frac{e}{W/2} = \\frac{(W/2) - c_x}{W/2} = 1 - \\frac{c_x}{W/2} = 1 - \\frac{2 * c_x}{W}\n\\]"
+  },
+  {
+    "objectID": "clases/15/index.html#ejemplo-1",
+    "href": "clases/15/index.html#ejemplo-1",
+    "title": "Robótica",
+    "section": "Ejemplo 1",
+    "text": "Ejemplo 1\n\n\n\nCentroide a la izquierda\n\n\\[\n\\textcolor{Maroon}{\\alpha} = 1 - \\frac{2 c_x}{W} = 1 - \\frac{2 * 54}{160} = 0.325\n\\]\n\\[\n\\begin{aligned}\n\\dot\\theta &= \\textcolor{Maroon}{\\alpha} * \\theta_{max} \\\\\n           &= 0.325 * 1.0 \\textrm{[rad/s]} \\\\\n           &= 0.325 \\textrm{[rad/s]}\n\\end{aligned}\n\\]\n\nComando:\n\n  { linear: { x: 0.25 }, angular: { z: 0.315 } }\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCon velocidad angular positiva el robot girará hacia su izquierda ✅"
+  },
+  {
+    "objectID": "clases/15/index.html#ejemplo-2",
+    "href": "clases/15/index.html#ejemplo-2",
+    "title": "Robótica",
+    "section": "Ejemplo 2",
+    "text": "Ejemplo 2\n\n\n\nCentroide a la derecha\n\n\\[\n\\textcolor{Maroon}{\\alpha} = 1 - \\frac{2 c_x}{W} = 1 - \\frac{2 * 99}{160} = -0.2375\n\\]\n\\[\n\\begin{aligned}\n\\dot\\theta &= \\textcolor{Maroon}{\\alpha} * \\theta_{max} \\\\\n           &= -0.2375 * 1.0 \\textrm{[rad/s]} \\\\\n           &= -0.2375 \\textrm{[rad/s]}\n\\end{aligned}\n\\]\n\nComando:\n\n  { linear: { x: 0.25 }, angular: { z: -0.2375 } }\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCon velocidad angular negativa el robot girará hacia su derecha ✅"
+  },
+  {
+    "objectID": "clases/15/index.html#funciones-auxiliares",
+    "href": "clases/15/index.html#funciones-auxiliares",
+    "title": "Robótica",
+    "section": "Funciones auxiliares",
+    "text": "Funciones auxiliares\n\nVer el procesamiento en tiempo real\n\n\nSe crea una ventana utilizando la función namedWindow en el constructor del nodo\n\n\n\nLineDetector.py\n\nclass LineDetector(Node):\n    def __init__(self):\n        # ..        \n        cv2.namedWindow(\"Robot_camera\", 1)\n\n\nLuego en el callback se puede mostrar el resultado\n\n\n\nLineDetector.py\n\n    def sub_callback(self, msg: Image):\n        image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')\n        # ..\n        # Dibujar el centroide\n        cv2.circle(image, (cx, cy), 5, (0,0,255), -1)\n        \n        cv2.imshow(\"Robot_camera\", image)\n        cv2.waitKey(3)"
+  },
+  {
+    "objectID": "clases/15/index.html#demo-1",
+    "href": "clases/15/index.html#demo-1",
+    "title": "Robótica",
+    "section": "Demo",
+    "text": "Demo"
+  },
+  {
+    "objectID": "clases/15/index.html#modificaciones-en-la-simulación",
+    "href": "clases/15/index.html#modificaciones-en-la-simulación",
+    "title": "Robótica",
+    "section": "Modificaciones en la simulación",
+    "text": "Modificaciones en la simulación\n\nQuitar los elementos del mundo empty.sdf\nAñadir el modelo de la pista y las paredes"
+  },
+  {
+    "objectID": "clases/15/index.html#alojar-modelos-de-gazebo",
+    "href": "clases/15/index.html#alojar-modelos-de-gazebo",
+    "title": "Robótica",
+    "section": "Alojar modelos de Gazebo",
+    "text": "Alojar modelos de Gazebo\n\nSe añade una carpeta models al paquete para alojar los modelos de Gazebo\n\n\n\n\nSe debe configurar adecuadamente el archivo setup.py para instalar los archivos correctamente\n\n\n\n\n\n\n\n\nWorkspace\n\n📂 src\n└── 📂 diffbot_gz\n    ├── 📁 diffbot_gz\n    ├── 📂 models\n    │   ├── 📁 modelo_ejemplo\n    │   └── ...\n    ├── 📦 package.xml\n    ├── 📁 resource\n    ├── ⚙️ setup.cfg\n    └── 🛠️ setup.py\n\n\n\n\n\nsetup.py\n\nsetup(\n  # ..\n  data_files=[\n    # ...\n    # Install models inside the 'models/*' folder\n    *[(os.path.join('share', package_name, os.path.split(p)[0]), [p])\n         for p in glob(os.path.join('models', '**', '*.*'), recursive=True)]\n  ],"
+  },
+  {
+    "objectID": "clases/15/index.html#añadir-modelos-a-gazebo",
+    "href": "clases/15/index.html#añadir-modelos-a-gazebo",
+    "title": "Robótica",
+    "section": "Añadir modelos a Gazebo",
+    "text": "Añadir modelos a Gazebo\n\nSe agrega la carpeta models del paquete a la ruta (PATH) de Gazebo\n\n\n\n\ngazebo.launch.py\n\nfrom launch.actions import AppendEnvironmentVariable\n\ndef generate_launch_description():\n    # ..\n    gz_resource_path = AppendEnvironmentVariable(\n        'GZ_SIM_RESOURCE_PATH',\n        PathJoinSubstitution([FindPackageShare(\"&lt;nombre_paquete&gt;\"), \"models\"]),\n    )\n    # ..\n    return LaunchDescription([\n        gz_resource_path,\n        # ..\n    ])"
+  },
+  {
+    "objectID": "clases/15/index.html#agregar-y-quitar-entidades-en-gazebo",
+    "href": "clases/15/index.html#agregar-y-quitar-entidades-en-gazebo",
+    "title": "Robótica",
+    "section": "Agregar y quitar entidades en Gazebo",
+    "text": "Agregar y quitar entidades en Gazebo\n\nPara agregar entidades (similar al spawn de robots con URDF)\n\n\n\ngazebo.launch.py\n\ndef generate_launch_description():\n    # ..\n    load_model = Node(\n        package=\"ros_gz_sim\",\n        executable=\"create\",\n        arguments=[\n            \"-entity\", \"&lt;nombre_entidad&gt;\",\n            \"-file\", \"model://&lt;nombre_modelo&gt;\",\n        ],\n        output=\"screen\",\n    )\n    # ..\n    return LaunchDescription([\n        load_model,\n        # ..\n    ])"
+  },
+  {
+    "objectID": "clases/15/index.html#agregar-y-quitar-entidades-en-gazebo-1",
+    "href": "clases/15/index.html#agregar-y-quitar-entidades-en-gazebo-1",
+    "title": "Robótica",
+    "section": "Agregar y quitar entidades en Gazebo",
+    "text": "Agregar y quitar entidades en Gazebo\n\nPara quitar entidades: remove del paquete ros_gz_sim\n\n\n\ngazebo.launch.py\n\ndef generate_launch_description():\n    # ..\n    remove_model = Node(\n        package=\"ros_gz_sim\",\n        executable=\"remove\",\n        parameters=[\n            { 'entity_name': '&lt;nombre_entidad&gt;'},\n        ],\n        output=\"screen\",\n    )\n    # ..\n    return LaunchDescription([\n        remove_model,\n        # ..\n    ])"
+  },
+  {
+    "objectID": "clases/15/index.html#laboratorio-1",
+    "href": "clases/15/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nSeguidor de lineas"
+  },
+  {
     "objectID": "clases/04/index.html#section-1",
     "href": "clases/04/index.html#section-1",
     "title": "Robótica",
@@ -1621,14 +1901,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -2924,6 +3204,55 @@
     "title": "Clase 04 - Laboratorio",
     "section": "2.2 Programación de suscriber",
     "text": "2.2 Programación de suscriber\nEl código del suscriber es casi idéntico al del publisher, excepto por la creación de un suscriptor en vez de un publicador, y que no requiere un timer. Recuerda que para que dos nodos se comuniquen, deben coincidir en el mismo topic.\n\n\n\n\n\n\n\n\nNotaPuede optar por crear un nuevo paquete o un nuevo archivo\n\n\n\n\n\n\n\n\nnodo_suscriptor.py\n\nimport rclpy\n\n# Importar el tipo de mensaje String\n1from std_msgs.msg import String\n\ndef main(args=None):\n    # 1. Inicialización\n    # ...\n\n    # 2. Creación de nodo\n    # nodo = ...\n\n    # 2.1 Programación de función de callback\n    def sub_callback(msg):\n        # Mostrar el mensaje en consola\n2        nodo.get_logger().info('Recibí: \"%s\"' % msg.data)\n\n    # 2.2 Creación de suscriptor\n    # ...\n\n    # 3. Procesamiento de mensajes y callback\n    rclpy.spin(nodo)\n\n    # 4. Finalización \n    rclpy.shutdown()\n\n\nif __name__ == '__main__':\n    main()\n\n\n1\n\nEste código tiene las mismas dependencias que el publisher, por lo tanto no hace falta añadirlas nuevamente\n\n2\n\nEl callback solo imprime el mensaje recibido por consola\n\n\n\nAñadir el ejecutable en el archivo setup.py\nCompilar y ejecutar el nodo\nVerificar el funcionamiento de ambos nodos"
+  },
+  {
+    "objectID": "clases/15/lab.html",
+    "href": "clases/15/lab.html",
+    "title": "Clase 15 - Laboratorio",
+    "section": "",
+    "text": "&lt;gazebo reference=\"{nombre_link}\"&gt;\n    &lt;sensor name=\"{nombre_sensor}\" type=\"camera\"&gt;\n\n        &lt;!-- Atributos --&gt;\n        &lt;update_rate&gt;{fps}&lt;/update_rate&gt;\n        &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n        &lt;always_on&gt;true&lt;/always_on&gt;\n        &lt;visualize&gt;true&lt;/visualize&gt;\n    &lt;/sensor&gt;\n\n    &lt;camera_camera_info_topic&gt;camera_info&lt;/camera_camera_info_topic&gt;\n    &lt;optical_frame_id&gt;{nombre_optical_link}&lt;/optical_frame_id&gt;\n\n    &lt;camera name=\"{nombre_camara}\"&gt;\n        &lt;image&gt;\n            &lt;width&gt;{ancho_pixeles}&lt;/width&gt;\n            &lt;height&gt;{alto_pixeles}&lt;/height&gt;\n            &lt;format&gt;R8G8B8&lt;/format&gt;\n        &lt;/image&gt;\n        &lt;horizontal_fov&gt;{horizontal_fov}&lt;/horizontal_fov&gt;\n        &lt;lens&gt;\n            &lt;intrinsics&gt;\n                &lt;fx&gt;{f_x}&lt;/fx&gt;\n                &lt;fy&gt;{f_y}&lt;/fy&gt;\n                &lt;cx&gt;{c_x}&lt;/cx&gt;\n                &lt;cy&gt;{c_y}&lt;/cy&gt;\n                &lt;s&gt;0&lt;/s&gt;\n            &lt;/intrinsics&gt;\n        &lt;/lens&gt;\n        &lt;clip&gt;\n            &lt;near&gt;{plano_cercano}&lt;/near&gt;\n            &lt;far&gt;{plano_lejano}&lt;/far&gt;\n        &lt;/clip&gt;\n        &lt;noise&gt;\n            &lt;type&gt;gaussian&lt;/type&gt;\n            &lt;mean&gt;{ruido_mean}&lt;/mean&gt;\n            &lt;stddev&gt;{ruido_std}&lt;/stddev&gt;\n        &lt;/noise&gt;\n    &lt;/camera&gt;\n&lt;/gazebo&gt;\n\n\n\n\n\n\n\n\nNotaRecuerda modificar el URDF para añadir los link y las joint correspondiente\n\n\n\n\n\n\n\n\nParámetros de simulación de lente: \\[\\texttt{f\\_x} = \\frac{W}{2 \\cdot \\tan(\\frac{H_{FoV} \\mathrm{[rad]}}{2})} \\qquad \\texttt{f\\_y} = \\frac{H}{2 \\cdot \\tan(\\frac{V_{FoV} \\mathrm{[rad]}}{2})}\\] \\[\\texttt{c\\_x} = \\frac{W - 1}{2} \\qquad \\texttt{c\\_y} = \\frac{H - 1}{2}\\]"
+  },
+  {
+    "objectID": "clases/15/lab.html#sensor-de-tipo-cámara",
+    "href": "clases/15/lab.html#sensor-de-tipo-cámara",
+    "title": "Clase 15 - Laboratorio",
+    "section": "",
+    "text": "&lt;gazebo reference=\"{nombre_link}\"&gt;\n    &lt;sensor name=\"{nombre_sensor}\" type=\"camera\"&gt;\n\n        &lt;!-- Atributos --&gt;\n        &lt;update_rate&gt;{fps}&lt;/update_rate&gt;\n        &lt;topic&gt;{nombre_topic}&lt;/topic&gt;\n        &lt;always_on&gt;true&lt;/always_on&gt;\n        &lt;visualize&gt;true&lt;/visualize&gt;\n    &lt;/sensor&gt;\n\n    &lt;camera_camera_info_topic&gt;camera_info&lt;/camera_camera_info_topic&gt;\n    &lt;optical_frame_id&gt;{nombre_optical_link}&lt;/optical_frame_id&gt;\n\n    &lt;camera name=\"{nombre_camara}\"&gt;\n        &lt;image&gt;\n            &lt;width&gt;{ancho_pixeles}&lt;/width&gt;\n            &lt;height&gt;{alto_pixeles}&lt;/height&gt;\n            &lt;format&gt;R8G8B8&lt;/format&gt;\n        &lt;/image&gt;\n        &lt;horizontal_fov&gt;{horizontal_fov}&lt;/horizontal_fov&gt;\n        &lt;lens&gt;\n            &lt;intrinsics&gt;\n                &lt;fx&gt;{f_x}&lt;/fx&gt;\n                &lt;fy&gt;{f_y}&lt;/fy&gt;\n                &lt;cx&gt;{c_x}&lt;/cx&gt;\n                &lt;cy&gt;{c_y}&lt;/cy&gt;\n                &lt;s&gt;0&lt;/s&gt;\n            &lt;/intrinsics&gt;\n        &lt;/lens&gt;\n        &lt;clip&gt;\n            &lt;near&gt;{plano_cercano}&lt;/near&gt;\n            &lt;far&gt;{plano_lejano}&lt;/far&gt;\n        &lt;/clip&gt;\n        &lt;noise&gt;\n            &lt;type&gt;gaussian&lt;/type&gt;\n            &lt;mean&gt;{ruido_mean}&lt;/mean&gt;\n            &lt;stddev&gt;{ruido_std}&lt;/stddev&gt;\n        &lt;/noise&gt;\n    &lt;/camera&gt;\n&lt;/gazebo&gt;\n\n\n\n\n\n\n\n\nNotaRecuerda modificar el URDF para añadir los link y las joint correspondiente\n\n\n\n\n\n\n\n\nParámetros de simulación de lente: \\[\\texttt{f\\_x} = \\frac{W}{2 \\cdot \\tan(\\frac{H_{FoV} \\mathrm{[rad]}}{2})} \\qquad \\texttt{f\\_y} = \\frac{H}{2 \\cdot \\tan(\\frac{V_{FoV} \\mathrm{[rad]}}{2})}\\] \\[\\texttt{c\\_x} = \\frac{W - 1}{2} \\qquad \\texttt{c\\_y} = \\frac{H - 1}{2}\\]"
+  },
+  {
+    "objectID": "clases/15/lab.html#configuración-del-escenario",
+    "href": "clases/15/lab.html#configuración-del-escenario",
+    "title": "Clase 15 - Laboratorio",
+    "section": "2.1 Configuración del escenario",
+    "text": "2.1 Configuración del escenario\n\nDescomprimir el archivo LineTrack.zip en una carpeta models dentro del paquete donde se encuentre el launch de Gazebo\n\n\n\n\n\n\n\nNotaRecuerda configurar adecuadamente el archivo setup.py para instalar los archivos correctamente\n\n\n\n\n\n\n\nModificar el launch de Gazebo\n\nConfigurar la nueva ubicación de los modelos:\n\n\ngz_resource_path = AppendEnvironmentVariable(\n    'GZ_SIM_RESOURCE_PATH',\n    PathJoinSubstitution(\n        [FindPackageShare(\"&lt;nombre_paquete&gt;\"), \"models\"]\n    ),\n)\n# ..\nreturn LaunchDescription([\n    gz_resource_path,\n])\n\n\nAgregar la directiva --render-engine a la ejecución de Gazebo:\n\n# Launch Gazebo\ngz_sim = IncludeLaunchDescription(\n    PythonLaunchDescriptionSource(\n        PathJoinSubstitution(\n            [FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py']\n        ),\n    ),\n    launch_arguments={\n        'gz_args': '-r --render-engine ogre empty.sdf',\n    }.items()\n)\n\nEliminar el suelo (ground plane) por defecto:\n\nremove_ground_plane = Node(\n    package=\"ros_gz_sim\",\n    executable=\"remove\",\n    parameters=[\n        { 'entity_name': 'ground_plane'},\n    ],\n    output=\"screen\",\n)\n\nCargar el modelo LineTrack:\n\nload_track = Node(\n    package=\"ros_gz_sim\",\n    executable=\"create\",\n    arguments=[\n        \"-entity\", \"track\",\n        \"-file\", \"model://LineTrack\",\n    ],\n    output=\"screen\",\n)"
+  },
+  {
+    "objectID": "clases/15/lab.html#modificar-el-urdf-del-robot-diferencial",
+    "href": "clases/15/lab.html#modificar-el-urdf-del-robot-diferencial",
+    "title": "Clase 15 - Laboratorio",
+    "section": "2.2 Modificar el URDF del robot diferencial",
+    "text": "2.2 Modificar el URDF del robot diferencial\n\nAgregar al URDF los links y joints necesarios para montar un sensor de tipo cámara al frente del vehículo\nCrear un archivo de descripción sim_camera.xacro con la estructura necesaria para simular una cámara de tipo Raspberry Pi Camera Module v2 con los siguientes parámetros:\n\n\n\nProfundidad de campo: 10 [cm] a \\(\\infty\\)\nDistancia focal: 3.04 [mm]\nCampo de visión (FoV) horizontal: 62.2°\nCampo de visión (FoV) vertical: 48.8°\nTamaño: 25 x 24 x 9 [mm]\n\n\n\n\n\n\n\n\nTipProbar el funcionamiento del sensor y la configuración de la simulación mediante rqt_image_view"
+  },
+  {
+    "objectID": "clases/15/lab.html#crear-el-nodo-linedetector",
+    "href": "clases/15/lab.html#crear-el-nodo-linedetector",
+    "title": "Clase 15 - Laboratorio",
+    "section": "2.3 Crear el nodo: LineDetector",
+    "text": "2.3 Crear el nodo: LineDetector\n\nCrear un nodo que suscriba al topic /camera y obtenga los mensajes de tipo Image provenientes de la cámara simulada\n\nImportar las librería cv_bridge, cv2 y mensajes de tipo Image\n\nfrom sensor_msgs.msg import Image\nimport cv_bridge\nimport cv2\n\nCrear un CvBridge para convertir las imágenes\n\nclass LineDetector(Node):\n    def __init__(self):\n        # ..        \n        self.bridge = cv_bridge.CvBridge()\n\nConvertir mensajes de tipo Image\n\ndef sub_callback(self, msg: Image):\n    image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')\n\n\nRealizar el procesamiento necesario para detectar el camino\n\nPublicar un mensaje de tipo std_msgs/Float32 con valores entre 1.0 y -1.0 indicando si el camino se encuentra a izquierda o derecha respectivamente y de forma proporcional a la posición en la imágen\n\n\n\n\n\n\n\nTipSe sugiere mostrar la imagen procesada al mismo tiempo para detectar errores o verificar el algoritmo"
+  },
+  {
+    "objectID": "clases/15/lab.html#crear-el-nodo-linefollower",
+    "href": "clases/15/lab.html#crear-el-nodo-linefollower",
+    "title": "Clase 15 - Laboratorio",
+    "section": "2.4 Crear el nodo: LineFollower",
+    "text": "2.4 Crear el nodo: LineFollower\n\nCrear un nodo que se suscriba al topic que publica el nodo LineDetector y genere comandos de velocidad de tipo Twist en el topic /cmd_vel\n\nParametrizar los valores máximos y mínimos de las velocidades lineales y angulares"
+  },
+  {
+    "objectID": "clases/15/lab.html#integración-y-prueba",
+    "href": "clases/15/lab.html#integración-y-prueba",
+    "title": "Clase 15 - Laboratorio",
+    "section": "2.5 Integración y prueba",
+    "text": "2.5 Integración y prueba\n\nCrear un archivo launch que incluya todo el escenario propuesto:\n\nIniciar la simulación con los parámetros y modelos adecuados\nEjecutar los nodos de control correspondientes al robot diferencial\nEjecute los nodos LineDetector y LineFollower\n\n\n\n\n\n\n\nTipPuede incorporar la ejecución del rqt_image_view\n\n\n\n\n\n\n\n\nPruebe que el sistema es capaz de realizar una vuelta completa"
   },
   {
     "objectID": "clases/05/index.html#resumen-clase-04",
