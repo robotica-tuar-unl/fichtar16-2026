@@ -112,6 +112,335 @@
     "text": "Taller de resolución\nEjercicios 9 al 12"
   },
   {
+    "objectID": "clases/16/index.html#navegación-1",
+    "href": "clases/16/index.html#navegación-1",
+    "title": "Robótica",
+    "section": "Navegación",
+    "text": "Navegación\n\nÁrea más desafiante en robótica móvil\n\n\n\n4 pilares\n\nPercepción\nLocalización\nCognición\nControl\n\n\n\n\n\nDominio de cuatro pilares:\n\nPercepción (interpretar sus sensores para extraer información significativa)\nLocalización (el robot debe determinar su posición en el entorno)\nCognición (el robot debe decidir cómo actuar para lograr sus objetivos)\nControl de movimiento (el robot debe controlar la respuesta de sus motores para lograr la trayectoria deseada)"
+  },
+  {
+    "objectID": "clases/16/index.html#localización-1",
+    "href": "clases/16/index.html#localización-1",
+    "title": "Robótica",
+    "section": "Localización",
+    "text": "Localización\n\nResponder a la pregunta: ¿Dónde está el robot ahora?\n\n\n\n\n\n\n\nSi se pudiera conectar un GPS preciso al robot todo el tiempo se solucionaría gran parte del problema\n\n\n\n\n\n\n\nRealidad\n\nPrecisión inaceptable para robots móviles a escala humana\nNo funciona en interiores ni áreas obstruidas (ej: calles rodeadas por edificios altos)\nPosición respecto al planeta Tierra\n\n\n\n\n\n\n\n\n\nFuente: U-blox (www.u-blox.com)\n\n\n\n\nUn GPS preciso en un robot solucionaría gran parte del problema de localización. El GPS informaría al robot de su posición exacta, en interiores y exteriores, y la respuesta a la pregunta “¿Dónde estoy?” siempre estaría disponible de inmediato.\nDesafortunadamente, un sensor de este tipo no es práctico. La red GPS proporciona una precisión inaceptable para localizar robots móviles a escala humana (utilizando módulos convencionales). Además, las tecnologías GPS no funciona en interiores ni en áreas obstruidas (ej, calles rodeadeas por edificios altos) y, por lo tanto, su área de trabajo está limitada."
+  },
+  {
+    "objectID": "clases/16/index.html#localización-2",
+    "href": "clases/16/index.html#localización-2",
+    "title": "Robótica",
+    "section": "Localización",
+    "text": "Localización\n\n\n\nMás problemas\n\nUn robot que interactúa con humanos\n\nSu posición relativa con respecto al objetivo es igualmente importante que su posición absoluta\nIdentificación de obstáculos dinámicos y estáticos: construir un mapa e identificar la posición en relación al mismo\n\n\nAño 2025\n\n\n\nExtraído de YouTube"
+  },
+  {
+    "objectID": "clases/16/index.html#localización-3",
+    "href": "clases/16/index.html#localización-3",
+    "title": "Robótica",
+    "section": "Localización",
+    "text": "Localización\n\n\n\nMás problemas\n\nUn robot que interactúa con humanos\n\nSu posición relativa con respecto al objetivo es igualmente importante que su posición absoluta\nIdentificación de obstáculos dinámicos y estáticos: construir un mapa e identificar la posición en relación al mismo\n\n\n2 tipos de posicionamiento\n\nAbsolutos\nRelativos\n\n\n\nEn 2026 la historia se repite\n\n\n\nExtraído de YouTube\n\n\n\n\n\nLa localización implica más que conocer la posición absoluta en el sistema de referencia terrestre.\nConsideremos un robot que interactúa con humanos. Su posición relativa con respecto a los humanos objetivo es igualmente importante que su posición absoluta. Su tarea de localización puede incluir identificar humanos mediante su conjunto de sensores y luego calcular su posición relativa.\nAdemás, durante la etapa de cognición, un robot seleccionará una estrategia para lograr sus objetivos. Si pretende llegar a una ubicación específica, la localización puede no ser suficiente. El robot puede necesitar adquirir o construir un modelo ambiental, un mapa, que le ayude a planificar una ruta hacia el objetivo. Una vez más, la localización significa más que simplemente determinar una posición absoluta en el espacio; significa construir un mapa y luego identificar la posición del robot en relación con ese mapa.\nClaramente, los sensores y efectores del robot desempeñan un papel integral en todas las formas de localización mencionadas. Debido a la inexactitud e incompletitud de estos sensores y efectores, la localización plantea grandes desafíos."
+  },
+  {
+    "objectID": "clases/16/index.html#métodos-absolutos",
+    "href": "clases/16/index.html#métodos-absolutos",
+    "title": "Robótica",
+    "section": "Métodos absolutos",
+    "text": "Métodos absolutos\n\n\n\nBasados en referencias y sensores exteroceptivos\n\nEjemplos:\n\nBrújulas magnéticas\nBalizas (beacons) de navegación\nSistema de posicionamiento global (GPS)\nPuntos de referencias (activos o pasivos)\nOtros..\n\n\n\n\n\nFrese, U., & Wagner, R. & Röfer, T. A SLAM overview from a users perspective. Künstl Intell 24, 191-198 (2010). 10.1007/s13218-010-0040-4.\n\n\n\n\n\nCada uno de estos enfoques puede implementarse mediante diversos métodos y sensores\nSin embargo, ninguno de los sistemas existentes es especialmente elegante.\nLos beacons y los puntos de referencia suelen requerir instalaciones y mantenimiento costosos, mientras que la navegación por satélite (GPS) suelen ser más lentos que la odometría y solo puede utilizarse en exteriores."
+  },
+  {
+    "objectID": "clases/16/index.html#métodos-relativos",
+    "href": "clases/16/index.html#métodos-relativos",
+    "title": "Robótica",
+    "section": "Métodos relativos",
+    "text": "Métodos relativos\n\nPor lo general basado en sensores propioceptivos\n\n\nSe determina la ubicación actual “avanzando” desde una posición previa, con la información de velocidad en un cierto período de tiempo, hacia una dirección conocida\n\n\\[\n\\require{color}\n\\textcolor{#1f77b4}{\\boldsymbol{p}_k} = \\textcolor{#d62728}{\\boldsymbol{p}_{k-1}} \\textcolor{#ff7f0e}{+} \\textcolor{#7f7f7f}{{\\boldsymbol{\\stackrel{\\cdot}{p}}_k}} \\cdot \\textcolor{#9467bd}{\\vec{\\boldsymbol{\\theta}}} \\cdot \\textcolor{#2ca02c}{\\Delta t}\n\\]\n\nTambién conocidos como dead-reckoning\n\nEjemplos:\n\nNavegación inercial\nOdometría\n\n\ndead-reckoning: Procedimiento matemático para determinar la ubicación actual “avanzando” desde una posición previa a través de un curso conocido con la información de velocidad en un cierto período de tiempo\nOtro enfoque se basa en la navegación inercial con giroscopos y/o acelerómetros. Los datos del acelerómetro deben integrarse dos veces para obtener la posición, lo que hace que estos sensores sean extremadamente sensibles al “bias” o deriva.\nOtro problema es que las aceleraciones en condiciones de funcionamiento típicas pueden ser muy pequeñas, del orden de 0,01 g. Sin embargo, ya se producen fluctuaciones de esta magnitud si el sensor se inclina tan solo 0,5° respecto del plano horizontal (por ejemplo, cuando el vehículo circula sobre superficies irregulares)\nLos giroscopios pueden ser más precisos, pero solo proporcionan información sobre la velocidad de rotación del vehículo (sus datos deben integrarse una sola vez)\nEste problema no existe con las brújulas electrónicas (o magnetómetros) que miden la orientación del robot respecto al campo magnético terrestre. Sin embargo, no se recomiendan para aplicaciones en interiores debido a las grandes distorsiones del campo magnético terrestre cerca de líneas eléctricas o estructuras de acero.\nLa odometría es el método más utilizado para determinar la posición en robótica móvil. Es sencilla, económica y fácil de implementar en tiempo real.\nProporciona información de posicionamiento en tiempo real y de fácil acceso entre mediciones periódicas de posición absoluta. La frecuencia con la que deben realizarse las mediciones absolutas (generalmente costosas y/o laboriosas) depende en gran medida de la precisión del sistema de odometría.\nLa GRAN desventaja de la odometría es su acumulación de error ilimitado (no acotado)."
+  },
+  {
+    "objectID": "clases/16/index.html#odometría-1",
+    "href": "clases/16/index.html#odometría-1",
+    "title": "Robótica",
+    "section": "Odometría",
+    "text": "Odometría\n\nEl método más utilizado y económico\nBuena precisión a corto plazo y alta frecuencia de muestreo\nImplementación más común a través de encoders ópticos acoplados a los ejes de las ruedas\nPara calcular la distancia incremental de ambas ruedas en el intervalo \\(i\\):\n\n\\[\n\\Delta s_{L|R,i} = \\pi \\cdot D_{L|R} \\cdot \\frac{N_{L|R, i}}{c_e}\n\\]\ndonde:\n\n\\(D_{L|R}\\): Diámetro de la rueda (en [mm])\n\\(N_{L|R, i}\\): incremento de pulsos del encoder en el intervalo\n\\(c_e\\): Resolución del encoder (en [pulsos por revolución])\n\n\nEs el método de navegación más utilizado para el posicionamiento de robots móviles. Es bien sabido que proporciona una buena precisión a corto plazo, es económica y permite frecuencias de muestreo muy altas. Sin embargo la acumulación de errores es inevitable.\nLa precisión de las mediciones de odometría para dead-reckoning es una acción directa del diseño cinemático de un vehículo. Se debe considerar detenidamente el diseño cinemático antes de intentar mejorar la precisión de la navegación a estima."
+  },
+  {
+    "objectID": "clases/16/index.html#repaso-odometría-cinemática",
+    "href": "clases/16/index.html#repaso-odometría-cinemática",
+    "title": "Robótica",
+    "section": "Repaso odometría cinemática",
+    "text": "Repaso odometría cinemática\n\nCalculo del desplazamiento desde una posición inicial mediante la medición de las revoluciones de las ruedas\n\n\nSea la posición en el instante \\(k-1\\): \\[\np_{k-1} = \\begin{bmatrix} x & y & \\theta \\end{bmatrix}^\\top\n\\]\nLa posición estimada para el instante \\(k\\) puede obtenerse sumando las distancias recorridas de forma incremental:\n\n\\[\np_{k} = p_{k-1} + \\Delta p\n\\]\n\nEl posicionamiento relativo suele basarse en la odometría (medición de las revoluciones de las ruedas para calcular el desplazamiento desde una posición inicial conocida).\nLa odometría calcula el desplazamiento horizontal relativo del robot y el cambio de orientación en función del desplazamiento horizontal incremental de las ruedas motrices.\nLa odometría se basa en ecuaciones sencillas de fácil implementación que utilizan datos de encoders incrementales de rueda económicos.\nSin embargo, parte de la suposición de que las revoluciones de la rueda pueden traducirse en un desplazamiento lineal con respecto al suelo. Esta suposición tiene una validez limitada. Un ejemplo extremo es el deslizamiento de una rueda: si una rueda patinara, por ejemplo, en un lugar con aceite, el encoder asociado a la rueda registraría las revoluciones aunque estas no correspondieran a un desplazamiento lineal.\nAdemás de este caso extremo de deslizamiento total, existen otras razones más sutiles que explican las imprecisiones en la traducción de las lecturas del encoder de rueda a movimiento lineal."
+  },
+  {
+    "objectID": "clases/16/index.html#repaso-odometría-cinemática-1",
+    "href": "clases/16/index.html#repaso-odometría-cinemática-1",
+    "title": "Robótica",
+    "section": "Repaso odometría cinemática",
+    "text": "Repaso odometría cinemática\n\n\nPara un robot differential-drive, con un período de muestreo fijo \\(\\Delta t\\):\n\n\\[\n\\Delta p =\n\\begin{bmatrix} \\Delta x \\\\ \\Delta y \\\\ \\Delta\\theta \\end{bmatrix} =\n\\begin{bmatrix}\n\\Delta s \\cos(\\theta + \\frac{\\Delta\\theta}{2})\\\\\n\\Delta s \\sin(\\theta + \\frac{\\Delta\\theta}{2})\\\\\n\\frac{\\Delta s_{R} - \\Delta s_{L}}{b}\n\\end{bmatrix}\n\\]\n\ndonde:\n\n\\(\\Delta x, \\Delta y, \\Delta\\theta\\): el avance en el último período\n\\(\\Delta s_{L|R}\\): la distancia recorrida por la rueda izquierda y derecha respectivamente\n\\(\\Delta s = (\\Delta s_{L} + \\Delta s_{R}) / 2\\)\n\\(b\\): la distancia entre ruedas"
+  },
+  {
+    "objectID": "clases/16/index.html#repaso-odometría-cinemática-2",
+    "href": "clases/16/index.html#repaso-odometría-cinemática-2",
+    "title": "Robótica",
+    "section": "Repaso odometría cinemática",
+    "text": "Repaso odometría cinemática\n\n\nUtilizando las definiciones de \\(\\Delta s\\) y \\(\\Delta\\theta\\) se obtiene la ecuación para la actualización de la posición\n\n\\[\\begin{align*}p_k &= p_{k-1} + \\Delta p\\\\ &= \\left[\\begin{matrix}x\\\\y\\\\\\theta\\end{matrix}\\right] + \\left[\\begin{matrix}\\left(\\frac{\\Delta s_{L}}{2} + \\frac{\\Delta s_{R}}{2}\\right) \\cos{\\left(\\theta + \\frac{- \\Delta s_{L} + \\Delta s_{R}}{2 b} \\right)}\\\\\\left(\\frac{\\Delta s_{L}}{2} + \\frac{\\Delta s_{R}}{2}\\right) \\sin{\\left(\\theta + \\frac{- \\Delta s_{L} + \\Delta s_{R}}{2 b} \\right)}\\\\\\frac{- \\Delta s_{L} + \\Delta s_{R}}{b}\\end{matrix}\\right]\\end{align*}\\]\n\n\\[\n\\def\\f{{\\boldsymbol{f}}}\n\\]\n\n\nDe forma reducida:\n\n\\[\np_{k} = \\f \\left( x, \\  y, \\  \\theta, \\  \\Delta s_{L}, \\  \\Delta s_{R}, \\  b\\right)\n\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#modelo-de-error-de-odometría-1",
+    "href": "clases/16/index.html#modelo-de-error-de-odometría-1",
+    "title": "Robótica",
+    "section": "Modelo de error de odometría",
+    "text": "Modelo de error de odometría\n\nPara el movimiento incremental \\(\\Delta s_L\\) y \\(\\Delta s_R\\) se asume una matriz de covarianza \\(\\Sigma_\\Delta\\):\n\n\\[\n\\Sigma_\\Delta = \\mathcal{covar}(\\Delta s_L, \\Delta s_R) = \\begin{bmatrix}\nk_L |\\Delta s_L|  & 0\\\\\n               0  & k_R |\\Delta s_R|\n\\end{bmatrix}\n\\]\n\nLos errores de las ruedas motrices son independientes\nLa varianza de los errores es proporcional al valor absoluto de la distancia recorrida\n\\(k_L\\) y \\(k_R\\) son coeficientes de error constantes\n\n\nLas actualizaciones de la posición odométrica solo pueden proporcionar una estimación muy aproximada de la posición real\nDebido a los errores de integración de las incertidumbres de p y a los errores de movimiento durante el movimiento incremental, el error de posición basado en la integración odométrica aumenta con el tiempo\nSe establecerá un modelo de error para la posición integrada \\(p_{k}\\) con el fin de obtener la matriz de covarianza \\(\\Sigma p_{k}\\) de la estimación de la posición odométrica.\nSe asume:\n\nEn el punto de partida se conoce la matriz de covarianza inicial \\(\\Sigma p_{k-1}\\)\n\\(k_R\\), \\(k_L\\) son constantes de error que representan los parámetros no deterministas del accionamiento del motor y la interacción de la rueda y el suelo\nLos dos errores de las ruedas motrices individuales son independientes\nLa varianza de los errores (ruedas izquierda y derecha) es proporcional al valor absoluto de las distancias recorridas\n\nEstas suposiciones no son perfectas, pero simplifican el desarrollo del modelo de error\nLos errores de movimiento se deben a movimientos imprecisos debido a la deformación de la rueda, deslizamiento, suelo irregular, errores en los codificadores, etc. Los valores de las constantes de error \\(k_L\\) y \\(k_R\\) dependen del robot y del entorno, y deben determinarse experimentalmente mediante la realización y el análisis de movimientos representativos."
+  },
+  {
+    "objectID": "clases/16/index.html#modelo-de-error-de-odometría-5",
+    "href": "clases/16/index.html#modelo-de-error-de-odometría-5",
+    "title": "Robótica",
+    "section": "Modelo de error de odometría",
+    "text": "Modelo de error de odometría\n\nDados los parámetros de error \\(k_L\\) y \\(k_R\\), se puede ver la evolución del error de posición\n\n\n\n\n\n\n\n* La incertidumbre en \\(y\\) crece mucho más rápido que en la dirección del movimiento\n\n\n\n\n\n\n\n* El eje principal de la elipse no permanece perpendicular a la dirección del movimiento\n\n\n\n\n\n\nLas FIGURAS muestran ejemplos típicos de cómo aumentan los errores de posición con el tiempo\nCrecimiento de la incertidumbre de la postura para el movimiento en línea recta: Nótese que la incertidumbre en y crece mucho más rápido que en la dirección del movimiento. Esto se debe a la integración de la incertidumbre sobre la orientación del robot\nCrecimiento de la incertidumbre de la pose para el movimiento circular (r = constante): Nuevamente, la incertidumbre perpendicular al movimiento crece mucho más rápido que la de la dirección del movimiento. Nótese que el eje principal de la elipse de incertidumbre no permanece perpendicular a la dirección del movimiento.\nLos errores deterministas se pueden compensar calibrando correctamente el robot. Sin embargo, los parámetros de error que especifican los errores no deterministas solo se pueden cuantificar mediante mediciones estadísticas (repetitivas)"
+  },
+  {
+    "objectID": "clases/16/index.html#fuentes-de-error-1",
+    "href": "clases/16/index.html#fuentes-de-error-1",
+    "title": "Robótica",
+    "section": "Fuentes de error",
+    "text": "Fuentes de error\n\nLa verdadera fuente de error generalmente se produce por un modelo incompleto del entorno\n\n\nErrores sistemáticos\nErrores aleatorios (o no sistemáticos)\n\n\nTodas estas fuentes de error se clasifican en dos categorías: (1) errores sistemáticos y (2) errores no sistemáticos."
+  },
+  {
+    "objectID": "clases/16/index.html#errores-no-sistemáticos",
+    "href": "clases/16/index.html#errores-no-sistemáticos",
+    "title": "Robótica",
+    "section": "Errores no sistemáticos",
+    "text": "Errores no sistemáticos\n\nCausados ​​por la interacción del robot con características impredecibles del entorno (aleatorios)\n\n\nDesplazamiento sobre superficies irregulares u objetos inesperados\nDeslizamientos:\n\nSuelo con baja adherencia\nGiro rápido (derrape)\nFuerzas externas (interacción con cuerpos externos)\nFuerzas internas (ruedas libres, patines, etc)\n\nContacto no puntual de las ruedas y el suelo\n\n\n\nPor ejemplo, las irregularidades de la superficie del suelo, como baches, grietas o residuos, harán que una rueda gire más de lo previsto.\nEn superficies rugosas con irregularidades significativas, son predominantes los errores no sistemáticos\nLos errores no sistemáticos representan un gran problema para las aplicaciones reales, mediante el uso de encoders redundantes, los errores no sistemáticos pueden reducirse"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-sistemáticos-1",
+    "href": "clases/16/index.html#errores-sistemáticos-1",
+    "title": "Robótica",
+    "section": "Errores sistemáticos",
+    "text": "Errores sistemáticos\n\nSuelen deberse a imperfecciones en la construcción de un robot móvil (deterministas)\n\n\nRuedas no alineadas o diámetro desiguales\nEl promedio de los diámetros difiere del nominal\nVariación en el punto de contacto de la rueda\nResolución y frecuencia de muestro de encoder limitada\nPor el propio modelo de odometría\n\n\nIncerteza en la separación de las ruedas (dado que el punto de contacto de la rueda con el suelo no es “un punto”)\nSe pueden introducir errores de odometría adicionales mediante las propias ecuaciones de odometría, ya que aproximan el movimiento arbitrario como una serie de segmentos rectos cortos. La precisión de esta aproximación depende de la frecuencia de muestreo con respecto a la velocidad del robot. Sin embargo, en nuestra experiencia práctica, este error es insignificante al trabajar con tiempos de muestreo típicos de Ts &lt; 10 ms y velocidades típicas de V &lt; 1 m/s."
+  },
+  {
+    "objectID": "clases/16/index.html#errores-sistemáticos-2",
+    "href": "clases/16/index.html#errores-sistemáticos-2",
+    "title": "Robótica",
+    "section": "Errores sistemáticos",
+    "text": "Errores sistemáticos\n\nNo suelen cambiar durante la operación\n\n\nPuede mejorarse la odometría midiendo las fuentes de error más predominantes y contrarrestando su efecto mediante software\n\n\n\n2 fuentes de error más comunes:\n\nDiámetro desiguales de las ruedas \\[D_L \\neq D_R\\]\nIncerteza en la distancia entre las ruedas \\[b?\\]\n\n\n\nLos errores sistemáticos son específicos del vehículo y no suelen cambiar durante la operación (aunque diferentes distribuciones de carga pueden modificar cuantitativamente algunos errores sistemáticos). Por lo tanto, la odometría puede mejorarse en significativamente midiendo la contribución individual de las fuentes de error más predominantes y contrarrestando su efecto en el software."
+  },
+  {
+    "objectID": "clases/16/index.html#incerteza-en-la-distancia-entre-ruedas",
+    "href": "clases/16/index.html#incerteza-en-la-distancia-entre-ruedas",
+    "title": "Robótica",
+    "section": "Incerteza en la distancia entre ruedas",
+    "text": "Incerteza en la distancia entre ruedas\n\n\n\nLas ruedas deformables no entran en contacto en un punto, sino en una zona de contacto\n\n\n\nDenominamos este error Tipo A asociado al coeficiente \\(E_b\\):\n\\[\nE_b = \\frac{b_{\\textrm{actual}}}{b_{\\textrm{nominal}}}\n\\]\ndonde \\(b\\) es la distancia entre ruedas\n\n\nEl Tipo A se define como un error de orientación que reduce (o aumenta) la rotación total del robot tanto en sentido horario como antihorario.\nLa distancia entre ejes se define como la distancia entre los puntos de contacto de las dos ruedas motrices y el suelo.\nEs necesario conocer la distancia entre ejes para calcular el número de pulsos del codificador diferencial correspondientes a una determinada rotación del vehículo. La incertidumbre se debe a que las ruedas (por lo general de goma) no entran en contacto con el suelo en un punto, sino en una zona de contacto.\nLa incertidumbre resultante puede ser del orden del 1%"
+  },
+  {
+    "objectID": "clases/16/index.html#diámetro-desiguales",
+    "href": "clases/16/index.html#diámetro-desiguales",
+    "title": "Robótica",
+    "section": "Diámetro desiguales",
+    "text": "Diámetro desiguales\n\n\n\nNo se fabrican 2 ruedas exactamente iguales\nRuedas deformables se expanden o comprimen\n\n\n\nDenominamos este error Tipo B asociado al coeficiente \\(E_d\\):\n\\[\nE_d = \\frac{D_R}{D_L}\n\\]\ndonde \\(D_{L|R}\\) es el diámetro de las ruedas izquierda y derecha respectivamente\n\n\n\\(E_d\\) y \\(E_b\\) son valores adimensionales, expresados ​​como fracciones del valor nominal\n\\(E_b\\) solo afecta al girar y \\(E_d\\) solo afecta al movimiento en línea recta\n\n\nEl Tipo B se define como un error de orientación que reduce (o aumenta) la rotación total en una dirección, pero la aumenta (o reduce) en la otra\nLa mayoría de los robots móviles utilizan ruedas de goma difíciles de fabricar con el mismo diámetro. Además, el material elástico se comprimen de forma diferente bajo una distribución asimétrica de la carga. Cualquiera de estos efectos puede causar errores odométricos considerables."
+  },
+  {
+    "objectID": "clases/16/index.html#errores-de-escala",
+    "href": "clases/16/index.html#errores-de-escala",
+    "title": "Robótica",
+    "section": "Errores de escala",
+    "text": "Errores de escala\n\nSi el promedio de los dos diámetros reales \\(D_a\\) difiere del diámetro nominal \\(D_n\\) el vehículo experimentará un error odométrico adicional, denominado error de escala \\(E_s\\)\nTambién conocidos como errores de alcance\n\\(E_s\\) afecta el movimiento en línea recta y el movimiento de giro puro\nPara largos períodos de tiempo, los errores de Tipo A y Tipo B superan los errores de escala\n\\(E_s\\) es fácil de medir y corregir con una regla o cinta métrica\n\n\nSi el promedio de los dos diámetros reales de las ruedas, \\(D_a\\), difiere del diámetro nominal de las ruedas, \\(D_n\\), el vehículo experimentará un error odométrico adicional, denominado error de escala \\(E_s\\). \\(E_s\\) afecta el movimiento en línea recta y el movimiento de giro puro. No obstante, aunque \\(E_s\\) puede ser un error significativo, es extremadamente fácil de medir. Por esta razón, asumiremos que \\(E_s\\) se ha medido y corregido antes de realizar cualquiera de los procedimientos descritos a continuación."
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-unidireccional-1",
+    "href": "clases/16/index.html#trayectoria-cuadrada-unidireccional-1",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada unidireccional",
+    "text": "Trayectoria cuadrada unidireccional\n\n\n\nSe compone de 4 segmentos en línea rcta y 4 rotaciones puras en las esquinas\n\n\nEl robot parte de la posición \\((x_0, y_0)\\), y angulo \\(\\theta_0\\)\nLa posición final muestra el error de odometría\n\n\n\n\n\n\n\n\n\nLa FIGURA muestra una trayectoria unidireccional cuadrada de \\(4 \\mathrm{[m]}\\) de lado. El robot parte de la posición \\(x_0\\), \\(y_0\\), \\(\\theta_0\\). El área de inicio debe ubicarse cerca de la esquina de dos paredes perpendiculares. Las paredes sirven como referencia fija antes y después de la carrera: medir la distancia entre tres puntos específicos del robot y las paredes permite determinar con precisión su posición y orientación absolutas.\nEstas mediciones absolutas se comparan con la posición y la orientación del vehículo, calculadas a partir de los datos odométricos. El resultado es un conjunto de errores de posición de retorno causados ​​por la odometría, denominados \\(\\epsilon_x\\), \\(\\epsilon_y\\) y \\(\\epsilon_\\theta\\)"
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-unidireccional-2",
+    "href": "clases/16/index.html#trayectoria-cuadrada-unidireccional-2",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada unidireccional",
+    "text": "Trayectoria cuadrada unidireccional\n\n\n\nAl comparar la pose del vehículo medida con la calculada por la odometría se obtiene un conjunto de errores \\(\\epsilon_x\\), \\(\\epsilon_y\\) y \\(\\epsilon_\\theta\\)\n\n\\[\n\\begin{gather*}\n\\epsilon_x = x_{\\textrm{abs}} - x_{\\textrm{calc}} \\\\\n\\epsilon_y = y_{\\textrm{abs}} - y_{\\textrm{calc}}\\\\\n\\epsilon_\\theta = \\theta_{\\textrm{abs}} - \\theta_{\\textrm{calc}}\n\\label{eq:errors}\n\\end{gather*}\n\\tag{1}\\]\ndonde:\n\n\\(\\{x,y,\\theta\\}_{\\textrm{abs}}\\): Posición y orientación absoluta del robot\n\\(\\{x,y,\\theta\\}_{\\textrm{calc}}\\): Posición y orientación del robot calculada por la odometría"
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-unidireccional-3",
+    "href": "clases/16/index.html#trayectoria-cuadrada-unidireccional-3",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada unidireccional",
+    "text": "Trayectoria cuadrada unidireccional\n\n\n\nEl error \\(\\require{color} \\textcolor{#9467bd}{E_d}\\) por diámetros desiguales se muestra en la trayectoria ligeramente curvada (línea punteada)\nEl error \\(\\textcolor{#d62728}{E_b}\\) por incertidumbre sobre la distancia entre ejes provoca un giro deficiente (línea discontinua)\n\n\n\n\n\n\n\n\n\nCualquiera de estos dos errores podría haber producido el mismo error de posición\n\n\n\n\n\n\n\n\n\n\n\n\nComo se puede ver en la FIGURA, cualquiera de estos dos casos podría haber producido aproximadamente el mismo error de posición. El hecho de que dos mecanismos de error diferentes puedan resultar en el mismo error general puede llevar al experimentador a cometer un grave error: corregir solo una de las dos fuentes de error en el software."
+  },
+  {
+    "objectID": "clases/16/index.html#simple-compensación-de-error",
+    "href": "clases/16/index.html#simple-compensación-de-error",
+    "title": "Robótica",
+    "section": "Simple compensación de error",
+    "text": "Simple compensación de error\n\n\n\nSe aumenta el valor de \\(b\\) para que el robot “gire más” en cada esquina, a lo que parece ser el valor “ideal”\n\n\n\n\n\n\n\n\n\nEste error es tan grave porque producirá resultados aparentemente “excelentes”, como se muestra en el ejemplo de la FIGURA. En este ejemplo, asumimos que el experimentador comenzó a “mejorar” el rendimiento ajustando la distancia entre ejes b en el software de control. El experimentador solo necesita aumentar el valor de b para que el robot gire más en cada giro nominal de 90°. Al hacerlo, el experimentador pronto habrá ajustado b a lo que parece ser el valor “ideal”, es decir, el que hará que el robot gire 93°, compensando así eficazmente el error de orientación de 3° introducido por cada tramo ligeramente curvado (pero nominalmente recto) de la trayectoria cuadrada."
+  },
+  {
+    "objectID": "clases/16/index.html#simple-compensación-de-error-1",
+    "href": "clases/16/index.html#simple-compensación-de-error-1",
+    "title": "Robótica",
+    "section": "Simple compensación de error",
+    "text": "Simple compensación de error\n\n\n\nSe aumenta el valor de \\(b\\) para que el robot “gire más” en cada esquina, a lo que parece ser el valor “ideal”\nEl robot “calibrado” tendrá enormes errores de odometría en sentido contrario, a pesar de que la trayectoria en un sentido muestre que está bien calibrado\n\n\n\n\n\n\n\n\n\nObviamente, el robot así “calibrado” incurriría en enormes errores de odometría, a pesar de que el procedimiento de calibración unidireccional demostró que el robot estaba bien calibrado.\nEl problema, por lo tanto, es cómo distinguir y calcular los errores de tipo A y tipo B a partir de los errores de posición final medidos del robot en el experimento de trayectoria cuadrada bidireccional"
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-bidireccional-1",
+    "href": "clases/16/index.html#trayectoria-cuadrada-bidireccional-1",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada bidireccional",
+    "text": "Trayectoria cuadrada bidireccional\n\n\n\nRealizar la misma trayectoria, pero en ambos sentidos de giro: horario (CW) y anti-horario (CCW)\nSe obtienen conjuntos de errores \\(\\epsilon_x\\), \\(\\epsilon_y\\) y \\(\\epsilon_\\theta\\) para cada sentido\nSe puede observar:\n\n\n\nLos errores se agrupan en dos áreas distintas\nLa distribución dentro de los grupos es el resultado de errores no sistemáticos\n\n\n\n\n\n\n\n\n\n\nLas posiciones de parada para cinco recorridos, cada uno en sentido horario (cw) y antihorario (ccw), se muestran en la FIGURA.\nLos resultados de la FIGURA pueden interpretarse de la siguiente manera: - a. Las posiciones de frenado después de las carreras en sentido horario y antihorario se agrupan en dos áreas distintas. - b. La distribución dentro de los grupos en sentido horario y antihorario es el resultado de errores no sistemáticos, como se menciona en la Sección 2.1. Sin embargo, la FIGURA muestra que, en un vehículo no calibrado que circula sobre un suelo de hormigón razonablemente liso, la contribución de los errores sistemáticos al error odométrico total es notablemente mayor que la de los errores no sistemáticos."
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-bidireccional-2",
+    "href": "clases/16/index.html#trayectoria-cuadrada-bidireccional-2",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada bidireccional",
+    "text": "Trayectoria cuadrada bidireccional\n\n\n\nCoordenadas de los centroides\n\n\n\\[\n\\def\\ccw#1{{\\underset{\\scriptsize \\textrm{CCW}}{#1}}}\n\\def\\cw#1{{\\underset{\\scriptsize \\textrm{CW}}{#1}}}\n\\def\\ccwcw#1{{\\underset{\\scriptsize \\textrm{CCW|CW}}{#1}}}\n\\]\n\n\\[\n\\ccwcw{\\bar{x}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{x_i}}\n\\label{eq:x_centroid}\n\\tag{2}\\]\n\\[\n\\ccwcw{\\bar{y}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{y_i}}\n\\label{eq:y_centroid}\n\\tag{3}\\] con \\(N = 3,5,7 \\cdots\\) la cantidad de repeticiones para cada lado\n\n\n\n\n\n\n\n\nTras realizar el experimento, se podría derivar un único valor numérico que exprese la precisión odométrica (con respecto a los errores sistemáticos) del vehículo probado. Para minimizar el efecto de los errores no sistemáticos, sugerimos considerar el centroide de cada grupo como representativo de los errores odométricos en las direcciones en sentido horario y antihorario."
+  },
+  {
+    "objectID": "clases/16/index.html#trayectoria-cuadrada-bidireccional-3",
+    "href": "clases/16/index.html#trayectoria-cuadrada-bidireccional-3",
+    "title": "Robótica",
+    "section": "Trayectoria cuadrada bidireccional",
+    "text": "Trayectoria cuadrada bidireccional\n\n\n\nOffset de los centroides con respecto al origen\n\n\\[\n\\ccw{\\bar{r}} = \\sqrt{\\ccw{\\bar{x}}^2 + \\ccw{\\bar{y}}^2}\n\\label{eq:r_ccw_centroid}\n\\]\n\\[\n\\cw{\\bar{r}} = \\sqrt{\\cw{\\bar{x}}^2 + \\cw{\\bar{y}}^2}\n\\label{eq:r_cw_centroid}\n\\]\n\nEl mayor valor como la medida para errores sistemáticos:\n\n\\[\nE_{\\textrm{max,sist.}} = \\max{\\left( \\ccw{\\bar{r}}, \\cw{\\bar{r}} \\right)}\n\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#análisis-de-los-errores-sistemáticos-1",
+    "href": "clases/16/index.html#análisis-de-los-errores-sistemáticos-1",
+    "title": "Robótica",
+    "section": "Análisis de los errores sistemáticos",
+    "text": "Análisis de los errores sistemáticos\n\nSe analizarán los errores por separado y posteriormente se superpondrán para representar condiciones reales\nUtilizaremos aproximaciones de ángulos pequeños (medidos en radianes):\n\n\\[ L\\sin(\\gamma) \\approx L \\gamma \\qquad L \\cos(\\gamma) \\approx L\\]\n\nPara simplicidad la posición inicial del robot \\((x_0, y_0) = (0,0)\\)"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-de-tipo-a",
+    "href": "clases/16/index.html#errores-de-tipo-a",
+    "title": "Robótica",
+    "section": "Errores de tipo A",
+    "text": "Errores de tipo A\n\nLa figura muestra la contribución de los errores de Tipo A (asociados a \\(E_b\\))\nCausan un giro excesivo (o insuficiente) en las esquinas\nLa diferencia de rotación en cada giro de 90° se denota como \\(\\alpha\\) (en \\(\\textrm{[rad]}\\))."
+  },
+  {
+    "objectID": "clases/16/index.html#errores-de-tipo-a-1",
+    "href": "clases/16/index.html#errores-de-tipo-a-1",
+    "title": "Robótica",
+    "section": "Errores de tipo A",
+    "text": "Errores de tipo A\n\n\n\n\nSegmento 1: \\[\n\\begin{align*}\nx_1 &= x_0 + L\\\\\ny_1 &= y_0\n\\end{align*}\n\\]\nSegmento 2: \\[\n\\begin{align*}\nx_2 &= x_1 + L \\sin{\\alpha} \\approx (L) + L\\alpha\\\\\ny_2 &= y_1 + L \\cos{\\alpha} \\approx L\n\\end{align*}\n\\]\nSegmento 3: \\[\n\\begin{align*}\nx_3 &= x_2 - L \\cos{2 \\alpha} \\approx (L + L\\alpha) - L \\approx L\\alpha\\\\\ny_3 &= y_2 + L \\sin{2 \\alpha} \\approx (L) + 2 L \\alpha\n\\end{align*}\n\\]\nSegmento 4: \\[\n\\begin{align*}\nx_4 &= x_3 - L \\sin{3 \\alpha} \\approx (L\\alpha) - 3 L \\alpha \\approx \\boxed{-2 L \\alpha}\\\\\ny_4 &= y_3 - L \\cos{3 \\alpha} \\approx (L + 2 L \\alpha) - L \\approx \\boxed{2 L \\alpha}\n\\end{align*}\n\\]\n\n\n\n\n\nEn sentido anti-horario:"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-de-tipo-a-2",
+    "href": "clases/16/index.html#errores-de-tipo-a-2",
+    "title": "Robótica",
+    "section": "Errores de tipo A",
+    "text": "Errores de tipo A\n\n\n\n\nSegmento 1: \\[\n\\begin{align*}\nx_1 &= x_0 + L\\\\\ny_1 &= y_0\n\\end{align*}\n\\]\nSegmento 2: \\[\n\\begin{align*}\nx_2 &= x_1 + L \\sin{\\alpha} \\approx (L) + L\\alpha\\\\\ny_2 &= y_1 - L \\cos{\\alpha} \\approx -L\n\\end{align*}\n\\]\nSegmento 3: \\[\n\\begin{align*}\nx_3 &= x_2 - L \\cos{2 \\alpha} \\approx (L + L\\alpha) - L \\approx L\\alpha\\\\\ny_3 &= y_2 - L \\sin{2 \\alpha} \\approx (-L) - 2 L \\alpha \\approx -L -2 L \\alpha\n\\end{align*}\n\\]\nSegmento 4: \\[\n\\begin{align*}\nx_4 &= x_3 - L \\sin{3 \\alpha} \\approx (L\\alpha) - 3 L \\alpha \\approx \\boxed{-2 L \\alpha}\\\\\ny_4 &= y_3 + L \\cos{3 \\alpha} \\approx (-L - 2 L \\alpha) + L \\approx \\boxed{-2 L \\alpha}\n\\end{align*}\n\\]\n\n\n\n\n\nEn sentido horario:"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-tipo-b",
+    "href": "clases/16/index.html#errores-tipo-b",
+    "title": "Robótica",
+    "section": "Errores tipo B",
+    "text": "Errores tipo B\n\nLa figura muestra la contribución de los errores de Tipo B (asociados a \\(E_d\\))\nCausan una trayectoria ligeramente curva durante los tramos rectos\nEl robot adquiere un error de orientación incremental \\(\\beta\\) (en \\(\\textrm{[rad]}\\)).\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n \n\n\n\n\nLa línea auxiliar \\(c^\\prime_1\\) (que conecta los vértices de la trayectoria real) tiene una pendiente de \\(\\beta/2\\)"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-tipo-b-1",
+    "href": "clases/16/index.html#errores-tipo-b-1",
+    "title": "Robótica",
+    "section": "Errores tipo B",
+    "text": "Errores tipo B\n\n\n\n\nSegmento 1: \\[\n\\begin{align*}\nx_1 &= x_0 + L \\cos{\\beta/2} \\approx L\\\\\ny_1 &= y_0 + L \\sin{\\beta/2} \\approx L \\beta / 2\n\\end{align*}\n\\]\nSegmento 2: \\[\n\\begin{align*}\nx_2 &= x_1 - L \\sin{3 \\beta/2} \\approx L - L \\beta/2\\\\\ny_2 &= y_1 + L \\cos{3 \\beta/2} \\approx L \\beta/2 + L\n\\end{align*}\n\\]\nSegmento 3: \\[\n\\begin{align*}\nx_3 &= x_2 - L \\cos{5 \\beta/2} \\approx -3 L \\beta/2 \\\\\ny_3 &= y_2 - L \\sin{5 \\beta/2} \\approx -2 L \\beta/2 + L\n\\end{align*}\n\\]\nSegmento 4: \\[\n\\begin{align*}\nx_4 &= x_3 + L \\sin{7 \\beta/2} \\approx \\boxed{2 L \\beta}\\\\\ny_4 &= y_3 - L \\cos{7 \\beta/2} \\approx \\boxed{-2 L \\beta}\n\\end{align*}\n\\]\n\n\n\n\n\nEn sentido anti-horario:"
+  },
+  {
+    "objectID": "clases/16/index.html#errores-tipo-b-2",
+    "href": "clases/16/index.html#errores-tipo-b-2",
+    "title": "Robótica",
+    "section": "Errores tipo B",
+    "text": "Errores tipo B\n\n\n\n\nSegmento 1: \\[\n\\begin{align*}\nx_1 &= x_0 + L \\cos{\\beta/2} \\approx L\\\\\ny_1 &= y_0 + L \\sin{\\beta/2} \\approx L \\beta / 2\n\\end{align*}\n\\]\nSegmento 2: \\[\n\\begin{align*}\nx_2 &= x_1 + L \\sin{3 \\beta/2} \\approx L + 3 L \\beta/2\\\\\ny_2 &= y_1 - L \\cos{3 \\beta/2} \\approx L \\beta/2 - L\n\\end{align*}\n\\]\nSegmento 3: \\[\n\\begin{align*}\nx_3 &= x_2 - L \\cos{5 \\beta/2} \\approx  3 L \\beta/2 \\\\\ny_3 &= y_2 - L \\sin{5 \\beta/2} \\approx -L (\\beta/2 + 1)\n\\end{align*}\n\\]\nSegmento 4: \\[\n\\begin{align*}\nx_4 &= x_3 - L \\sin{7 \\beta/2} \\approx \\boxed{-2 L \\beta}\\\\\ny_4 &= y_3 + L \\cos{7 \\beta/2} \\approx \\boxed{-2 L \\beta}\n\\end{align*}\n\\]\n\n\n\n\n\nEn sentido horario:"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-de-tipo-a",
+    "href": "clases/16/index.html#corrección-de-errores-de-tipo-a",
+    "title": "Robótica",
+    "section": "Corrección de errores de Tipo A",
+    "text": "Corrección de errores de Tipo A\n\n\nError de Tipo A y Tipo B para la dirección \\(x\\) en trayectoria con sentido horario y anti-horario:\n\n\\[\n\\begin{alignat}{2}\n&\\textrm{A)} \\, \\cw{x} &= -2 L \\alpha \\qquad &&\\textrm{B)} \\, \\cw{x} &= -2 L \\beta \\\\\n&\\textrm{A)} \\, \\ccw{x} &= -2 L \\alpha \\qquad &&\\textrm{B)} \\, \\ccw{x} &= 2 L \\beta\n\\end{alignat}\n\\]\n\n\nSuperponiendo ambos tipos de error y sumando ambas expresiones: \n\n\n\\[\n\\left.\n\\begin{alignat}{3}\n&\\cw{\\textrm{x:}} \\, -&2 L \\alpha - &2 L \\beta\n&&= \\cw{\\bar{x}} \\\\\n&\\ccw{\\textrm{x:}} \\, -&2 L \\alpha + &2 L \\beta\n&&= \\ccw{\\bar{x}}\n\\end{alignat}\n\\right\\}\n-4 L \\alpha = \\cw{\\bar{x}} + \\ccw{\\bar{x}} \\to \\alpha = \\frac{\\cw{\\bar{x}} + \\ccw{\\bar{x}}}{-4L}\n\\tag{4}\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-de-tipo-a-1",
+    "href": "clases/16/index.html#corrección-de-errores-de-tipo-a-1",
+    "title": "Robótica",
+    "section": "Corrección de errores de Tipo A",
+    "text": "Corrección de errores de Tipo A\n\n\nEl mismo análisis para la dirección \\(y\\) muestra un resultado similar:\n\n\\[\n\\begin{alignat}{3}\n&\\textrm{A)} \\, &\\cw{y} &= -2 L \\alpha \\qquad &&\\textrm{B)} \\, \\cw{y} &= -2 L \\beta \\\\\n&\\textrm{A)} \\, &\\ccw{y} &= 2 L \\alpha \\qquad &&\\textrm{B)} \\, \\ccw{y} &= - 2 L \\beta\n\\end{alignat}\n\\]\n\nSuperponiendo ambos tipos de error y restando ambas expresiones:\n\n\\[\n\\left.\n\\begin{alignat}{4}\n&\\cw{\\textrm{y:}} \\, -&2 L \\alpha - &2 L \\beta\n&&= \\cw{\\bar{y}} \\\\\n&\\ccw{\\textrm{y:}} \\, &2 L \\alpha - &2 L \\beta\n&&= \\ccw{\\bar{y}}\n\\end{alignat}\n\\right\\}\n-4 L \\alpha = \\cw{\\bar{y}} - \\ccw{\\bar{y}} \\to \\alpha = \\frac{\\cw{\\bar{y}} - \\ccw{\\bar{y}}}{-4L}\n\\tag{5}\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-de-tipo-a-2",
+    "href": "clases/16/index.html#corrección-de-errores-de-tipo-a-2",
+    "title": "Robótica",
+    "section": "Corrección de errores de Tipo A",
+    "text": "Corrección de errores de Tipo A\n\n\nDado que la distancia entre ejes \\(b\\) es inversamente proporcional a la rotación real\n\n\\[\n\\frac{b_{\\textrm{actual}}}{\\pi / 2} = \\frac{b_{\\textrm{nominal}}}{\\pi / 2 - \\alpha} \\to b_{\\textrm{actual}} = \\frac{\\pi / 2}{\\pi / 2 - \\alpha} b_{\\textrm{nominal}}\n\\tag{6}\\]\ny por lo tanto:\n\\[\nE_b = \\frac{\\pi / 2}{\\pi / 2 - \\alpha}\n\\tag{7}\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-tipo-b",
+    "href": "clases/16/index.html#corrección-de-errores-tipo-b",
+    "title": "Robótica",
+    "section": "Corrección de errores Tipo B",
+    "text": "Corrección de errores Tipo B\n\n\nAnálisis similar al anterior para la dirección en \\(x\\)\n\n\\[\n\\begin{alignat}{2}\n&\\textrm{A)} \\, &\\cw{x} = -2 L \\alpha \\qquad &&\\textrm{B)} \\, &\\cw{x} &= -2 L \\beta \\\\\n&\\textrm{A)} \\, &\\ccw{x} = -2 L \\alpha \\qquad &&\\textrm{B)} \\, &\\ccw{x} &= 2 L \\beta\n\\end{alignat}\n\\]\n\nSuperponiendo ambos tipos de error y restando ambas expresiones:\n\n\\[\n\\left.\n\\begin{alignat}{3}\n&\\cw{\\textrm{x:}} \\, -&2 L \\alpha - &2 L \\beta\n&&= \\cw{\\bar{x}} \\\\\n&\\ccw{\\textrm{x:}} \\, -&2 L \\alpha + &2 L \\beta\n&&= \\ccw{\\bar{x}}\n\\end{alignat}\n\\right\\}\n-4 L \\beta = \\cw{\\bar{x}} - \\ccw{\\bar{x}} \\to \\beta = \\frac{\\cw{\\bar{x}} - \\ccw{\\bar{x}}}{-4L}\n\\tag{8}\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-tipo-b-1",
+    "href": "clases/16/index.html#corrección-de-errores-tipo-b-1",
+    "title": "Robótica",
+    "section": "Corrección de errores Tipo B",
+    "text": "Corrección de errores Tipo B\n\n\nEl mismo procedimiento para la dirección en \\(y\\) arroja un resultado similar\n\n\\[\n\\begin{alignat}{3}\n&\\textrm{A)} \\, &\\cw{y} &= -2 L \\alpha \\qquad &&\\textrm{B)} \\, \\cw{y} &= -2 L \\beta \\\\\n&\\textrm{A)} \\, &\\ccw{y} &= 2 L \\alpha \\qquad &&\\textrm{B)} \\, \\ccw{y} &= - 2 L \\beta\n\\end{alignat}\n\\]\n\nSuperponiendo ambos tipos de error y sumando ambas expresiones:\n\n\\[\n\\left.\n\\begin{alignat}{4}\n&\\cw{\\textrm{y:}} \\, -&2 L \\alpha - &2 L \\beta\n&&= \\cw{\\bar{y}} \\\\\n&\\ccw{\\textrm{y:}} \\, &2 L \\alpha - &2 L \\beta\n&&= \\ccw{\\bar{y}}\n\\end{alignat}\n\\right\\}\n-4 L \\beta = \\cw{\\bar{y}} + \\ccw{\\bar{y}} \\to \\beta = \\frac{\\cw{\\bar{y}} + \\ccw{\\bar{y}}}{-4L}\n\\tag{9}\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-errores-tipo-b-2",
+    "href": "clases/16/index.html#corrección-de-errores-tipo-b-2",
+    "title": "Robótica",
+    "section": "Corrección de errores Tipo B",
+    "text": "Corrección de errores Tipo B\n\n\n\nEl radio de curvatura \\(R\\) de las trayectorias en linea recta se puede encontrar a partir del triángulo \\({\\scriptsize \\overset{\\triangle}{ABM}}\\) en la figura \\[\nR = \\frac{L/2}{\\sin(\\beta/2)}\n\\tag{10}\\]\nPara determinar la relación entre los diámetros de las ruedas: \n\n\\[\nE_d = \\frac{D_R}{D_L} = \\frac{R + b/2}{R - b/2}\n\\label{eq:wheel_correction}\n\\tag{11}\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEsta relación se puede utilizar para corregir errores de Tipo B"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-ambos-tipo-de-error",
+    "href": "clases/16/index.html#corrección-de-ambos-tipo-de-error",
+    "title": "Robótica",
+    "section": "Corrección de ambos tipo de error",
+    "text": "Corrección de ambos tipo de error\n\nLa corrección del error de distancia entre ejes \\(E_b\\) es trivial\n\n\nLa distancia entre ejes \\(b\\) se redefine según la ecuación: \\[\nb_{\\textrm{actual}} = \\frac{\\pi / 2}{\\pi / 2 - \\alpha} b_{\\textrm{nominal}}\n\\]\n\n\nLa corrección para los diámetros de rueda desiguales \\(E_d\\) es más compleja\n\n\nAl aplicar un factor de compensación, debemos asegurarnos de no modificar el diámetro medio de la rueda \\(D_a = (D_R + D_L)/2\\)\n\n\nUna vez conocidos los valores cuantitativos de \\(E_d\\) y \\(E_b\\), es fácil compensar estos errores en el software.\nLa corrección del error de distancia entre ejes \\(E_b\\) es trivial: la distancia entre ejes \\(b\\) se redefine en el software según la ecuación \\(\\ref{eq:new_b}\\).\nLa corrección para los diámetros de rueda desiguales, \\(E_d\\), es ligeramente más compleja. Tras realizar los experimentos bidireccionales, se conoce la relación real de los diámetros de la ruedas \\(E_d = D_R/D_L\\) a partir de la ecuación \\(\\ref{eq:wheel_correction}\\). Sin embargo, al aplicar un factor de compensación, debemos asegurarnos de no modificar el diámetro medio de la rueda \\(D_a\\), ya que sería necesario recalibrar dicho parámetro. Por lo tanto \\(D_a = (D_R + D_L)/2\\)"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-ambos-tipo-de-error-1",
+    "href": "clases/16/index.html#corrección-de-ambos-tipo-de-error-1",
+    "title": "Robótica",
+    "section": "Corrección de ambos tipo de error",
+    "text": "Corrección de ambos tipo de error\n\nResolviendo\n\n\\[\n\\left.\n\\begin{aligned}\nD_a = (D_R + D_L)/2 \\\\\nE_d = \\frac{D_R}{D_L}\n\\end{aligned}\n\\right\\}\n%D_R + D_L = 2 D_a \\textrm{con} D_R = E_d D_L \\, D_L = \\frac{D_R}{E_d}\nE_d D_L + \\frac{D_R}{E_d} = 2 D_a\n\\]\n\nSe obtiene\n\n\\[\n\\begin{align*}\nE_d D_L + D_L = 2 D_a &\\to D_L = \\frac{2}{E_d +1} D_a \\\\\nD_R + \\frac{D_R}{E_d} = 2 D_a &\\to D_R = \\frac{2}{\\frac{1}{E_d} +1} D_a\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#corrección-de-ambos-tipo-de-error-2",
+    "href": "clases/16/index.html#corrección-de-ambos-tipo-de-error-2",
+    "title": "Robótica",
+    "section": "Corrección de ambos tipo de error",
+    "text": "Corrección de ambos tipo de error\n\nSe definen dos factores de corrección:\n\n\\[\n\\begin{align*}\nc_L &= \\frac{2}{E_d + 1} \\\\\nc_R &= \\frac{2}{\\frac{1}{E_d} + 1}\n\\end{align*}\n\\tag{12}\\]\n\nSe re-escribe la ecuación de desplazamiento lineal de las ruedas:\n\n\n\\[\n\\Delta s_{L|R,i} = \\pi \\cdot D_{L|R} \\cdot \\frac{N_{L|R, i}}{c_e} \\cdot c_{L|R}\n\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#resumen-del-procedimiento",
+    "href": "clases/16/index.html#resumen-del-procedimiento",
+    "title": "Robótica",
+    "section": "Resumen del procedimiento",
+    "text": "Resumen del procedimiento\n\nMedir la posición absoluta del vehículo.\nRealizar la trayectoria cuadrada de \\(n \\times n\\) metros en sentido horario, asegurándose de:\n\ndetenerse después de cada tramo recto\nrealizar un total de cuatro giros de 90°, uno en cada esquina\nutilizar una \\(v\\) pequeña para evitar deslizamientos\n\nAl regresar a la zona de inicio, medir la posición absoluta del vehículo.\nCompare la posición absoluta con la posición calculada del robot utilizando las ecuaciones en 1.\nRepita los pasos 1 a 4 al menos cuatro veces más\nRepita los pasos 1 a 5 en sentido antihorario\nUtilice las ecuaciones 2, 3 para obtener \\(\\ccwcw{\\bar{x}}\\) y \\(\\ccwcw{\\bar{y}}\\)"
+  },
+  {
+    "objectID": "clases/16/index.html#resumen-del-procedimiento-1",
+    "href": "clases/16/index.html#resumen-del-procedimiento-1",
+    "title": "Robótica",
+    "section": "Resumen del procedimiento",
+    "text": "Resumen del procedimiento\n\n\n\nCon \\(\\alpha\\) (ec. 4 o 5), obtener el nuevo valor de \\(b\\) (6): \\[\nb_{\\textrm{actual}} = \\frac{\\pi / 2}{\\pi / 2 - \\alpha} b_{\\textrm{nominal}}\n\\]\nCon \\(\\beta\\) (ec. 8 o 9), \\(R\\) (10) y \\(E_d\\) (11), obtener los coeficientes de corrección \\(c_L\\) y \\(c_R\\) (12): \\[\n\\begin{align*}\nc_L &= \\frac{2}{E_d + 1} \\\\\nc_R &= \\frac{2}{\\frac{1}{E_d} + 1}\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "clases/16/index.html#referencias-1",
+    "href": "clases/16/index.html#referencias-1",
+    "title": "Robótica",
+    "section": "Referencias",
+    "text": "Referencias\n\n\nBorenstein, J., y Liqiang Feng. 1996. «Measurement and correction of systematic odometry errors in mobile robots». IEEE Transactions on Robotics and Automation 12 (6): 869-80. https://doi.org/10.1109/70.544770.\n\n\nBorenstein, Johann, Hobart R. Everett, y Liqiang Feng. 1996. «Where am I?\" sensors and methods for mobile robot positioning». https://api.semanticscholar.org/CorpusID:59906505.\n\n\nBorenstein, Johann, Hobart R. Everett, Liqiang Feng, y David K. Wehe. 1997. «Mobile robot positioning: Sensors and techniques». J. Field Robotics 14: 231-49. https://api.semanticscholar.org/CorpusID:1045982.\n\n\nChong, Kok Seng, y L. Kleeman. 1997. «Accurate odometry and error modelling for a mobile robot». Proceedings of International Conference on Robotics and Automation 4: 2783-2788 vol.4. https://doi.org/10.1109/ROBOT.1997.606708."
+  },
+  {
+    "objectID": "clases/16/index.html#laboratorio-1",
+    "href": "clases/16/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nCalibración de odometría"
+  },
+  {
     "objectID": "clases/08/tres.html",
     "href": "clases/08/tres.html",
     "title": "Clase 08 - Taller de resolución",
@@ -1901,14 +2230,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -3624,6 +3953,34 @@
     "title": "Robótica",
     "section": "Taller de resolución",
     "text": "Taller de resolución\nEjercicios 1 y 2"
+  },
+  {
+    "objectID": "clases/16/lab.html",
+    "href": "clases/16/lab.html",
+    "title": "Clase 16 - Laboratorio",
+    "section": "",
+    "text": "Obtener los parámetros de calibración de odometría\nEditar los nodos de control y de cálculo de odometría para recibir los parámetros de calibración\nProbar la mejora de la estimación de posición\n\n\n\n\n\nCon la finalidad de comprobar el método de calibración, se realizará una prueba con una geometría más realista de las ruedas del robot diferencial.\nModificar el URDF del robot diferencial para utilizar la misma malla de visualización que de colisión para la simulación de las físicas en Gazebo\nEjemplo:\n\n\n\ndescription.urdf.xacro\n\n&lt;link name=\"${prefix}_wheel\"&gt;\n  &lt;visual&gt;\n    &lt;geometry&gt;\n      &lt;mesh filename=\"[ruta_del_archivo]/wheel.stl\" /&gt;\n    &lt;/geometry&gt;\n    &lt;!-- .. --&gt;\n  &lt;/visual&gt;\n\n  &lt;collision&gt;\n    &lt;geometry&gt;\n      &lt;mesh filename=\"[ruta_del_archivo]/wheel.stl\" /&gt;\n    &lt;/geometry&gt;\n    &lt;!-- .. --&gt;\n  &lt;/collision&gt;\n  &lt;!-- .. --&gt;\n&lt;/link&gt;\n\n\n\n\n\nPara obtener la posición precisa del robot y comparar la odometría calculada se utilizará el plugin provisto por Gazebo OdometryPublisher. Para esto será necesario añadirlo en el archivo XACRO como si fuera un sensor adicional.\n\n\n\nsim_sensors.xacro\n\n&lt;gazebo&gt;\n  &lt;plugin filename=\"gz-sim-odometry-publisher-system\"\n          name=\"gz::sim::systems::OdometryPublisher\"&gt;\n    &lt;odom_frame&gt;odom&lt;/odom_frame&gt;\n    &lt;robot_base_frame&gt;base_link&lt;/robot_base_frame&gt;\n    &lt;dimensions&gt;2&lt;/dimensions&gt;\n  &lt;/plugin&gt;\n&lt;/gazebo&gt;\n\n\nEl plugin publica el topic de gazebo /model/{nombre_del_robot}/odometry con el tipo gz.msgs.Odometry, por lo que será necesario configurar el ros_gz_bridge de forma que se publiquen los mensajes en ROS2 a través del tipo nav_msgs/msg/Odometry.\n\n\n\n\n\n\n\n\n\nDe ser necesario, listar los topics de Gazebo a través del comando gz topic -l (mientras Gazebo se encuentra en ejecución)\n\n\n\n\n\n\n\n\n\nProgramar un nodo para ejecutar una trayectoria cuadrada de \\(4 \\textrm{[m]}\\) de lado, con rotaciones puras en las esquinas\nPara simplificar el proceso, envíe comandos de velocidad lineal o velocidad angular preprogramados en un cierto intervalo de tiempo, sin utilizar retroalimetación o feedback de la posición. Es decir, programar para un segmento recto de \\(n \\textrm{[m]}\\) una velocidad lineal de \\(v \\textrm{[m/s]}\\) durante un período de \\(t = n / v \\textrm{[s]}\\).\nRecuerde enviar un comando con velocidad lineal y angular igual a 0 para detener el robot\nA través de un parámetro, seleccionar si la trayectoria es en sentido horario (CW) o anti-horario (CCW)\n\n\n\n\n\n\nCargar el robot en un mundo vacío (empty.sdf)\n\n\nEjecutar la trayectoria en sentido anti-horario\n\n\nObtener la posición en \\(x\\) e \\(y\\) calculada por el nodo de odometría\n\n\nObtener la posición en \\(x\\) e \\(y\\) real del robot mediante el topic de odometría publicado por Gazebo\n\n\nCalcular y almacenar los valores de error \\(\\epsilon_x\\) y \\(\\epsilon_y\\)\n\n\nRepetir los pasos A-D al menos cuatro veces más\n\n\nRepetir los pasos A-E para la trayectoria en sentido horario\n\n\n\n\n\n\n\n\nTipPara obtener las posiciones existen múltiples opciones:\n\n\n\n\nPuede utilizar el comando de consola ros2 topic echo con la opción --once\nProgramar un nodo extra que obtenga e imprima los valores\nProgramar en el mismo nodo de la trayectoria que se impriman ambos valores al finalizar\n\n\n\n\n\n\n\n\\[\n\\def\\ccw#1{{\\underset{\\scriptsize \\textrm{CCW}}{#1}}}\n\\def\\cw#1{{\\underset{\\scriptsize \\textrm{CW}}{#1}}}\n\\def\\ccwcw#1{{\\underset{\\scriptsize \\textrm{CCW|CW}}{#1}}}\n\\]\n\n\nCalcular los centroides de cada grupo \\(\\ccwcw{\\bar{x}}\\) y \\(\\ccwcw{\\bar{y}}\\)\n\n\\[\n\\ccwcw{\\bar{x}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{x_i}} \\qquad \\ccwcw{\\bar{y}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{y_i}}\n\\] con \\(N = 3,5,7 \\cdots\\) la cantidad de repeticiones para cada lado\n\nCalcular \\(\\alpha\\) y obtener el valor de \\(E_b\\):\n\n\\[\n\\alpha = \\frac{\\cw{\\bar{x}} + \\ccw{\\bar{x}}}{-4L} \\quad ó \\quad  \\alpha = \\frac{\\cw{\\bar{y}} - \\ccw{\\bar{y}}}{-4L}\n\\]\n\\[\nE_b = \\frac{\\pi / 2}{\\pi / 2 - \\alpha}\n\\]\n\nCalcular \\(\\beta\\), \\(R\\) y obtener el valor de \\(E_d\\):\n\n\\[\n\\beta = \\frac{\\cw{\\bar{x}} - \\ccw{\\bar{x}}}{-4L} \\quad ó \\quad  \\beta = \\frac{\\cw{\\bar{y}} + \\ccw{\\bar{y}}}{-4L}\n\\]\n\\[\nR = \\frac{L/2}{\\sin(\\beta/2)}\n\\]\n\\[\nE_d = \\frac{R + b/2}{R - b/2}\n\\label{eq:wheel_correction}\n\\]\n\nObtener los coeficientes de corrección \\(c_L\\) y \\(c_R\\):\n\n\\[\nc_L = \\frac{2}{E_d + 1} \\qquad\nc_R = \\frac{2}{\\frac{1}{E_d} + 1}\n\\]\n\n\n\n\nImplemente dentro de aquellos nodos que utilicen el modélo cinemático del robot diferencial los parámetros de corrección vistos en la clase\nLos nodos deben recibir los 3 parámetros (\\(c_L\\) \\(c_R\\) y \\(b\\)) y aplicar las correcciones:\n\n\\[\nb_{\\textrm{actual}} = E_b \\cdot b_{\\textrm{nominal}}\n\\] \\[\n\\Delta s_{L|R,i} = \\left( \\phi_{L|R,i} - \\phi_{L|R,i-1} \\right) \\cdot r_{L|R} \\cdot c_{L|R}\n\\]\n\n\n\n\nIncorpore a el/los archivo/s launch correspondientes los valores de los parámetros calculados anteriormente"
+  },
+  {
+    "objectID": "clases/16/lab.html#modificación-del-urdf",
+    "href": "clases/16/lab.html#modificación-del-urdf",
+    "title": "Clase 16 - Laboratorio",
+    "section": "",
+    "text": "Con la finalidad de comprobar el método de calibración, se realizará una prueba con una geometría más realista de las ruedas del robot diferencial.\nModificar el URDF del robot diferencial para utilizar la misma malla de visualización que de colisión para la simulación de las físicas en Gazebo\nEjemplo:\n\n\n\ndescription.urdf.xacro\n\n&lt;link name=\"${prefix}_wheel\"&gt;\n  &lt;visual&gt;\n    &lt;geometry&gt;\n      &lt;mesh filename=\"[ruta_del_archivo]/wheel.stl\" /&gt;\n    &lt;/geometry&gt;\n    &lt;!-- .. --&gt;\n  &lt;/visual&gt;\n\n  &lt;collision&gt;\n    &lt;geometry&gt;\n      &lt;mesh filename=\"[ruta_del_archivo]/wheel.stl\" /&gt;\n    &lt;/geometry&gt;\n    &lt;!-- .. --&gt;\n  &lt;/collision&gt;\n  &lt;!-- .. --&gt;\n&lt;/link&gt;"
+  },
+  {
+    "objectID": "clases/16/lab.html#cargar-el-plugin-odometrypublisher",
+    "href": "clases/16/lab.html#cargar-el-plugin-odometrypublisher",
+    "title": "Clase 16 - Laboratorio",
+    "section": "",
+    "text": "Para obtener la posición precisa del robot y comparar la odometría calculada se utilizará el plugin provisto por Gazebo OdometryPublisher. Para esto será necesario añadirlo en el archivo XACRO como si fuera un sensor adicional.\n\n\n\nsim_sensors.xacro\n\n&lt;gazebo&gt;\n  &lt;plugin filename=\"gz-sim-odometry-publisher-system\"\n          name=\"gz::sim::systems::OdometryPublisher\"&gt;\n    &lt;odom_frame&gt;odom&lt;/odom_frame&gt;\n    &lt;robot_base_frame&gt;base_link&lt;/robot_base_frame&gt;\n    &lt;dimensions&gt;2&lt;/dimensions&gt;\n  &lt;/plugin&gt;\n&lt;/gazebo&gt;\n\n\nEl plugin publica el topic de gazebo /model/{nombre_del_robot}/odometry con el tipo gz.msgs.Odometry, por lo que será necesario configurar el ros_gz_bridge de forma que se publiquen los mensajes en ROS2 a través del tipo nav_msgs/msg/Odometry.\n\n\n\n\n\n\n\n\n\nDe ser necesario, listar los topics de Gazebo a través del comando gz topic -l (mientras Gazebo se encuentra en ejecución)"
+  },
+  {
+    "objectID": "clases/16/lab.html#ejecutar-el-procedimiento-de-calibración",
+    "href": "clases/16/lab.html#ejecutar-el-procedimiento-de-calibración",
+    "title": "Clase 16 - Laboratorio",
+    "section": "",
+    "text": "Programar un nodo para ejecutar una trayectoria cuadrada de \\(4 \\textrm{[m]}\\) de lado, con rotaciones puras en las esquinas\nPara simplificar el proceso, envíe comandos de velocidad lineal o velocidad angular preprogramados en un cierto intervalo de tiempo, sin utilizar retroalimetación o feedback de la posición. Es decir, programar para un segmento recto de \\(n \\textrm{[m]}\\) una velocidad lineal de \\(v \\textrm{[m/s]}\\) durante un período de \\(t = n / v \\textrm{[s]}\\).\nRecuerde enviar un comando con velocidad lineal y angular igual a 0 para detener el robot\nA través de un parámetro, seleccionar si la trayectoria es en sentido horario (CW) o anti-horario (CCW)\n\n\n\n\n\n\nCargar el robot en un mundo vacío (empty.sdf)\n\n\nEjecutar la trayectoria en sentido anti-horario\n\n\nObtener la posición en \\(x\\) e \\(y\\) calculada por el nodo de odometría\n\n\nObtener la posición en \\(x\\) e \\(y\\) real del robot mediante el topic de odometría publicado por Gazebo\n\n\nCalcular y almacenar los valores de error \\(\\epsilon_x\\) y \\(\\epsilon_y\\)\n\n\nRepetir los pasos A-D al menos cuatro veces más\n\n\nRepetir los pasos A-E para la trayectoria en sentido horario\n\n\n\n\n\n\n\n\nTipPara obtener las posiciones existen múltiples opciones:\n\n\n\n\nPuede utilizar el comando de consola ros2 topic echo con la opción --once\nProgramar un nodo extra que obtenga e imprima los valores\nProgramar en el mismo nodo de la trayectoria que se impriman ambos valores al finalizar\n\n\n\n\n\n\n\n\\[\n\\def\\ccw#1{{\\underset{\\scriptsize \\textrm{CCW}}{#1}}}\n\\def\\cw#1{{\\underset{\\scriptsize \\textrm{CW}}{#1}}}\n\\def\\ccwcw#1{{\\underset{\\scriptsize \\textrm{CCW|CW}}{#1}}}\n\\]\n\n\nCalcular los centroides de cada grupo \\(\\ccwcw{\\bar{x}}\\) y \\(\\ccwcw{\\bar{y}}\\)\n\n\\[\n\\ccwcw{\\bar{x}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{x_i}} \\qquad \\ccwcw{\\bar{y}} = \\frac{1}{N} \\sum_{i = 1}^N \\ccwcw{\\epsilon_{y_i}}\n\\] con \\(N = 3,5,7 \\cdots\\) la cantidad de repeticiones para cada lado\n\nCalcular \\(\\alpha\\) y obtener el valor de \\(E_b\\):\n\n\\[\n\\alpha = \\frac{\\cw{\\bar{x}} + \\ccw{\\bar{x}}}{-4L} \\quad ó \\quad  \\alpha = \\frac{\\cw{\\bar{y}} - \\ccw{\\bar{y}}}{-4L}\n\\]\n\\[\nE_b = \\frac{\\pi / 2}{\\pi / 2 - \\alpha}\n\\]\n\nCalcular \\(\\beta\\), \\(R\\) y obtener el valor de \\(E_d\\):\n\n\\[\n\\beta = \\frac{\\cw{\\bar{x}} - \\ccw{\\bar{x}}}{-4L} \\quad ó \\quad  \\beta = \\frac{\\cw{\\bar{y}} + \\ccw{\\bar{y}}}{-4L}\n\\]\n\\[\nR = \\frac{L/2}{\\sin(\\beta/2)}\n\\]\n\\[\nE_d = \\frac{R + b/2}{R - b/2}\n\\label{eq:wheel_correction}\n\\]\n\nObtener los coeficientes de corrección \\(c_L\\) y \\(c_R\\):\n\n\\[\nc_L = \\frac{2}{E_d + 1} \\qquad\nc_R = \\frac{2}{\\frac{1}{E_d} + 1}\n\\]\n\n\n\n\nImplemente dentro de aquellos nodos que utilicen el modélo cinemático del robot diferencial los parámetros de corrección vistos en la clase\nLos nodos deben recibir los 3 parámetros (\\(c_L\\) \\(c_R\\) y \\(b\\)) y aplicar las correcciones:\n\n\\[\nb_{\\textrm{actual}} = E_b \\cdot b_{\\textrm{nominal}}\n\\] \\[\n\\Delta s_{L|R,i} = \\left( \\phi_{L|R,i} - \\phi_{L|R,i-1} \\right) \\cdot r_{L|R} \\cdot c_{L|R}\n\\]\n\n\n\n\nIncorpore a el/los archivo/s launch correspondientes los valores de los parámetros calculados anteriormente"
   },
   {
     "objectID": "clases/11/tres.html",
