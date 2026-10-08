@@ -1442,6 +1442,34 @@
     "text": "Laboratorio\n\nInvocar y analizar servicios\nComandos para setear y obtener parámetros"
   },
   {
+    "objectID": "clases/17/lab.html",
+    "href": "clases/17/lab.html",
+    "title": "Clase 17 - Laboratorio",
+    "section": "",
+    "text": "Implementar un nodo que, a partir de mediciones de LiDAR 2D de tipo sensor_msgs/msg/LaserScan, calcule y publique la odometría del robot\nCrear un archivo launch con Gazebo para iniciar el mundo de prueba correspondiente\nVerificar el desempeño de la odometría calculada vs. el modelo cinemático vs. el ground-truth de Gazebo\n\n\n\n\n\n\n\nConvertir de coordenada polar a cartesiana\nObtener las normales utilizando la función provista compute_normals_segments\nSi es el primer mensaje, guardar los puntos y las normales, y terminar\nSi no, obtener la transformación\nSi no convergió, terminar\nSi convergió, acumular pose y publicar odometría\nActualizar puntos y normales para la próxima ejecución\n\n\n\nVer estructura de ayuda\n\ndef scan_callback(self, msg: LaserScan):\n    # Convertir de coordenada polar a cartesiana\n    q_points = self.laser_scan_to_points(msg)\n\n    # Obtener las normales\n    q_normals, _, _ = compute_normals_segments(\n        q_points,\n        max_error = #..,\n        max_range_jump = #..,\n        min_points = #..\n    )\n    \n    # Si es el primer mensaje\n    if self.p_points is None:\n        # Guardar los puntos y las normales\n        # ..\n\n        return  # Termina\n    \n    # Obtener la transformación\n    R, t, converged, error = self.icp_matching(\n        self.p_points, \n        q_points,\n        self.p_normals\n    )\n\n    # Si no convergió\n    if not converged:\n        self.get_logger().warn(\"ICP did not converge\")\n        return  # Termina\n    \n    # Acumular pose\n    self.pose = self.update_homogeneous_matrix(\n        self.pose, R, t\n    )\n    \n    # Publicar la odometría\n    self.publish_odometry(msg.header.stamp)\n    \n    # Actualizar los puntos y las normales para el próximo scan\n    # ..\n    return\n\n\n\n\n\n\nInicializar el estado (transformación, convergencia, error anterior, etc.)\nConstruir el árbol para búsqueda de vecino más cercano\nBucle hasta \\(N\\) iteraciones:\n\nDado el conjunto de puntos actual, buscar las correspondencias\nSi no hay suficientes correspondencias, terminar sin convergencia\nSi hay, calcular el error de la correspondencia\nEstimar la transformación y transformar los puntos\nAcumular la transformación\nSi el cambio del error es menor que un umbral, cortar el bucle (convergió)\nSi no, actualizar el último error y volver al inicio\n\nRetornar la rotación y la traslación, el estado de convergencia y el error (opcional)\n\n\n\nVer estructura de ayuda\n\ndef icp_matching(self, p_points, q_points, previus_normals, initial_guess = None):    \n    # Inicializar el estado\n    converged = False\n    T = np.eye(3)\n    previous_error = np.inf\n    q_points_copy = q_points.copy()\n\n    # KD-tree para búsqueda de vecino más cercano\n    tree = KDTree(\n        # ..\n    )\n\n    # Bucle hasta un límite máximo de iteraciones \n    for # .. \n        \n        # Correspondencias\n        p_matched, q_matched, normals_matched, distances = \\\n            self.nearest_neighbor_association(\n                # ..\n            )\n\n        # Si no hay suficiencies correspondencias, terminar\n        if q_matched.shape[1] &lt; self.min_correspondences:\n            return None, None, converged, None\n\n        # Calcular el error\n        rmse = # ..\n\n        # Estimar la transformación entre las correspondencias de p y q\n        R, t = self.point_to_line_motion_estimation(\n            # ..\n        )\n\n        # Transformar los puntos de q a p con la trasnformación estimada\n        q_points_copy = # ..\n\n        # Acumular la transformación\n        H = self.update_homogeneous_matrix(T, R, t)\n\n        # Comprobar si el error disminuye menos que el umbral\n        if # .. \n            converged = True\n            break   # Terminar\n        \n        # Si no, actualizar el error\n        previous_error = rmse\n\n    # Extraer la rotación y traslación de la transformación estimada\n    R = T[0:2, 0:2]\n    t = T[0:2, 2]\n\n    return R, T, converged, rmse\n\n\n\n\n\n\n\nConstruir la matriz \\(\\mathbf{A}\\) y el vector \\(\\mathbf{b}\\):\n\n\\[\n\\mathbf{A}\n=\n\\begin{bmatrix}\n-\\eta_{\\mathbf{p}_1,x}\n&\n-\\eta_{\\mathbf{p}_1,y}\n&\n\\eta_{\\mathbf{p}_1,x}q_{1,y}\n-\n\\eta_{\\mathbf{p}_1,y}q_{1,x}\n\\\\\n-\\eta_{\\mathbf{p}_2,x}\n&\n-\\eta_{\\mathbf{p}_2,y}\n&\n\\eta_{\\mathbf{p}_2,x}q_{2,y}\n-\n\\eta_{\\mathbf{p}_2,y}q_{2,x}\n\\\\\n\\vdots\n&\n\\vdots\n&\n\\vdots\n\\\\\n-\\eta_{\\mathbf{p}_N,x}\n&\n-\\eta_{\\mathbf{p}_N,y}\n&\n\\eta_{\\mathbf{p}_N,x}q_{N,y}\n-\n\\eta_{\\mathbf{p}_N,y}q_{N,x}\n\\end{bmatrix}\n\\]\n\\[\n\\mathbf{b}\n=\n\\begin{bmatrix}\n\\boldsymbol{\\eta}_{\\mathbf{p}_1}^{T}\n(\\mathbf{p}_1-\\mathbf{q}_1)\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_2}^{T}\n(\\mathbf{p}_2-\\mathbf{q}_2)\n\\\\\n\\vdots\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_N}^{T}\n(\\mathbf{p}_N-\\mathbf{q}_N)\n\\end{bmatrix}\n\\]\n\nResolver la ecuación para el vector incógnita \\(\\boldsymbol{x} = \\begin{bmatrix} t_x & t_y & \\theta \\end{bmatrix}^\\top\\):\n\n\\[\n\\mathbf{A} ~\\boldsymbol{x} = \\mathbf{b}\n\\]\n\nFormar la matriz de rotación \\(\\mathbf{R}\\) y el vector de traslación \\(\\mathbf{t}\\)\n\n\\[\n\\mathbf{R}(\\theta) =\n\\begin{bmatrix}\n\\cos(\\theta) & -\\sin(\\theta) \\\\\n\\sin(\\theta) &  \\cos(\\theta)\n\\end{bmatrix}\n\\qquad\n\\mathbf{t} =\n\\begin{bmatrix}\nt_x \\\\\nt_y\n\\end{bmatrix}\n\\]\n\n\nVer estructura de ayuda\n\ndef point_to_line_motion_estimation(self, p_points, q_points, p_normals):\n    # Cantidad de puntos\n    N = q_points.shape[1]\n\n    # Inicializar matriz A y vector b\n    A = # ..  \n    b = # .. \n\n    for i in range(N):  # Para cada punto\n        px, py = p_points[i]\n        qx, qy = q_points[i]\n        nx, ny = p_normals[0, i]\n\n        # Completar la fila de la matriz\n        A[i, 0] = # ..\n        A[i, 1] = # ..\n        A[i, 2] = # ..\n\n        # Completar el vector\n        b[i] = (\n            # ..\n        )\n\n    # Resolver mínimos cuadrados: A @ x ~= b\n    x, _, _, _ = np.linalg.lstsq(A, b, rcond=None)\n\n    # Extraer la traslación y la rotación\n    tx, ty, theta = # ..\n\n    # Construir la matriz de rotación y el vector de traslación\n    R = # ..\n    t = # ..\n\n    return R, t\n\n\n\n\n\n\n\nVer código: compute_normals_segments\n\nimport numpy as np\n\ndef fit_segment_fast(points, start, max_error, max_range_jump, min_points=3):\n    N = points.shape[0]\n\n    count = 1\n\n    sum_x, sum_y = points[start]\n\n    sum_xx = points[start, 0] ** 2\n    sum_xy = points[start, 0] * points[start, 1]\n    sum_yy = points[start, 1] ** 2\n\n    best_normal = None\n    best_error = np.inf\n    best_end = start\n\n    for j in range(start + 1, N):\n\n        # Discontinuidad\n        dx = points[j, 0] - points[j - 1, 0]\n        dy = points[j, 1] - points[j - 1, 1]\n\n        if dx * dx + dy * dy &gt; max_range_jump ** 2:\n            break\n\n        # Añadir punto\n        x = points[j, 0]\n        y = points[j, 1]\n\n        count += 1\n\n        sum_x += x\n        sum_y += y\n\n        sum_xx += x * x\n        sum_xy += x * y\n        sum_yy += y * y\n\n        # Centroide\n        mean_x = sum_x / count\n        mean_y = sum_y / count\n\n        # Covarianza\n        cxx = sum_xx / count - mean_x * mean_x\n        cxy = sum_xy / count - mean_x * mean_y\n        cyy = sum_yy / count - mean_y * mean_y\n\n        # Autovalor menor de matriz 2x2\n        trace = cxx + cyy\n        diff = cxx - cyy\n\n        lambda_min = (\n            trace -\n            np.sqrt(diff * diff + 4.0 * cxy * cxy)\n        ) * 0.5\n\n        # Error RMS perpendicular\n        error = np.sqrt(max(lambda_min, 0.0))\n\n        if error &gt; max_error:\n            break\n\n        # Dirección principal\n        phi = 0.5 * np.arctan2(\n            2.0 * cxy,\n            cxx - cyy\n        )\n\n        # Normal\n        normal = np.array([\n            -np.sin(phi),\n             np.cos(phi)\n        ])\n\n        # Orientar hacia el LiDAR\n        if (normal[0] * (-mean_x) + normal[1] * (-mean_y)) &lt; 0:\n            normal = -normal\n\n        best_normal = normal\n        best_error = error\n        best_end = j\n\n    if best_end - start + 1 &lt; min_points:\n        return start, None, np.inf\n\n    return best_end, best_normal, best_error\n\ndef compute_normals_segments(points, max_error=0.05, max_range_jump=0.5, min_points=3):\n    \"\"\"\n    Calcula normales por segmentos lineales consecutivos.\n\n    Parameters\n    ----------\n    points : ndarray, shape (N, 2)\n        Nube de puntos 2D\n\n    Returns\n    -------\n    normals : ndarray, shape (N, 2)\n        Vector normal asociado a cada punto\n    confidence : ndarray, shape (N,)\n        Confianza asociada a cada punto\n    segment_ids : ndarray, shape (N,)\n        Segmento asociado a cada punto (-1 si no se pudo asociar)\n    \"\"\"\n\n    N = points.shape[0]\n\n    normals = np.zeros_like(points)\n    confidence = np.zeros(N)\n    segment_ids = -np.ones(N, dtype=int)\n\n    start = 0\n    segment_id = 0\n\n    while start &lt; N:\n        end, normal, error = fit_segment_fast(\n            points,\n            start,\n            max_error=max_error,\n            max_range_jump=max_range_jump,\n            min_points=min_points\n        )\n\n        # No se pudo formar un segmento\n        if normal is None:\n            start += 1\n            continue\n\n        # Asignar la misma normal a todos los puntos\n        normals[start:end + 1, :] = normal\n\n        # Confidence (simplificada) basada en el error\n        conf = np.exp(-error / max_error)\n\n        confidence[start:end + 1] = conf\n        segment_ids[start:end + 1] = segment_id\n\n        segment_id += 1\n\n        # Continuar después del segmento\n        start = end + 1\n\n    return normals, confidence, segment_ids\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNotaRecuerda configurar adecuadamente el archivo setup.py para instalar los archivos correctamente\n\n\n\n\n\n\n\n\n\n\n\n# Launch Gazebo\ngz_sim = IncludeLaunchDescription(\n  PythonLaunchDescriptionSource(\n    PathJoinSubstitution(\n      [FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py']\n    ),\n  ),\n  launch_arguments={\n    'gz_args': PythonExpression([\n      \"'-r ' + '\",\n      PathJoinSubstitution([\n        FindPackageShare(\"&lt;nombre_paquete&gt;\"), 'worlds', 'lidar_test.world',\n      ]),\n      \"'\",\n    ])\n  }.items()\n)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIniciar la simulación con los parámetros y modelos adecuados\nEjecutar los nodos de control correspondientes al robot diferencial\nEjecute el nodo LidarOdometry"
+  },
+  {
+    "objectID": "clases/17/lab.html#algoritmo-icp-punto-a-plano",
+    "href": "clases/17/lab.html#algoritmo-icp-punto-a-plano",
+    "title": "Clase 17 - Laboratorio",
+    "section": "",
+    "text": "Convertir de coordenada polar a cartesiana\nObtener las normales utilizando la función provista compute_normals_segments\nSi es el primer mensaje, guardar los puntos y las normales, y terminar\nSi no, obtener la transformación\nSi no convergió, terminar\nSi convergió, acumular pose y publicar odometría\nActualizar puntos y normales para la próxima ejecución\n\n\n\nVer estructura de ayuda\n\ndef scan_callback(self, msg: LaserScan):\n    # Convertir de coordenada polar a cartesiana\n    q_points = self.laser_scan_to_points(msg)\n\n    # Obtener las normales\n    q_normals, _, _ = compute_normals_segments(\n        q_points,\n        max_error = #..,\n        max_range_jump = #..,\n        min_points = #..\n    )\n    \n    # Si es el primer mensaje\n    if self.p_points is None:\n        # Guardar los puntos y las normales\n        # ..\n\n        return  # Termina\n    \n    # Obtener la transformación\n    R, t, converged, error = self.icp_matching(\n        self.p_points, \n        q_points,\n        self.p_normals\n    )\n\n    # Si no convergió\n    if not converged:\n        self.get_logger().warn(\"ICP did not converge\")\n        return  # Termina\n    \n    # Acumular pose\n    self.pose = self.update_homogeneous_matrix(\n        self.pose, R, t\n    )\n    \n    # Publicar la odometría\n    self.publish_odometry(msg.header.stamp)\n    \n    # Actualizar los puntos y las normales para el próximo scan\n    # ..\n    return\n\n\n\n\n\n\nInicializar el estado (transformación, convergencia, error anterior, etc.)\nConstruir el árbol para búsqueda de vecino más cercano\nBucle hasta \\(N\\) iteraciones:\n\nDado el conjunto de puntos actual, buscar las correspondencias\nSi no hay suficientes correspondencias, terminar sin convergencia\nSi hay, calcular el error de la correspondencia\nEstimar la transformación y transformar los puntos\nAcumular la transformación\nSi el cambio del error es menor que un umbral, cortar el bucle (convergió)\nSi no, actualizar el último error y volver al inicio\n\nRetornar la rotación y la traslación, el estado de convergencia y el error (opcional)\n\n\n\nVer estructura de ayuda\n\ndef icp_matching(self, p_points, q_points, previus_normals, initial_guess = None):    \n    # Inicializar el estado\n    converged = False\n    T = np.eye(3)\n    previous_error = np.inf\n    q_points_copy = q_points.copy()\n\n    # KD-tree para búsqueda de vecino más cercano\n    tree = KDTree(\n        # ..\n    )\n\n    # Bucle hasta un límite máximo de iteraciones \n    for # .. \n        \n        # Correspondencias\n        p_matched, q_matched, normals_matched, distances = \\\n            self.nearest_neighbor_association(\n                # ..\n            )\n\n        # Si no hay suficiencies correspondencias, terminar\n        if q_matched.shape[1] &lt; self.min_correspondences:\n            return None, None, converged, None\n\n        # Calcular el error\n        rmse = # ..\n\n        # Estimar la transformación entre las correspondencias de p y q\n        R, t = self.point_to_line_motion_estimation(\n            # ..\n        )\n\n        # Transformar los puntos de q a p con la trasnformación estimada\n        q_points_copy = # ..\n\n        # Acumular la transformación\n        H = self.update_homogeneous_matrix(T, R, t)\n\n        # Comprobar si el error disminuye menos que el umbral\n        if # .. \n            converged = True\n            break   # Terminar\n        \n        # Si no, actualizar el error\n        previous_error = rmse\n\n    # Extraer la rotación y traslación de la transformación estimada\n    R = T[0:2, 0:2]\n    t = T[0:2, 2]\n\n    return R, T, converged, rmse\n\n\n\n\n\n\n\nConstruir la matriz \\(\\mathbf{A}\\) y el vector \\(\\mathbf{b}\\):\n\n\\[\n\\mathbf{A}\n=\n\\begin{bmatrix}\n-\\eta_{\\mathbf{p}_1,x}\n&\n-\\eta_{\\mathbf{p}_1,y}\n&\n\\eta_{\\mathbf{p}_1,x}q_{1,y}\n-\n\\eta_{\\mathbf{p}_1,y}q_{1,x}\n\\\\\n-\\eta_{\\mathbf{p}_2,x}\n&\n-\\eta_{\\mathbf{p}_2,y}\n&\n\\eta_{\\mathbf{p}_2,x}q_{2,y}\n-\n\\eta_{\\mathbf{p}_2,y}q_{2,x}\n\\\\\n\\vdots\n&\n\\vdots\n&\n\\vdots\n\\\\\n-\\eta_{\\mathbf{p}_N,x}\n&\n-\\eta_{\\mathbf{p}_N,y}\n&\n\\eta_{\\mathbf{p}_N,x}q_{N,y}\n-\n\\eta_{\\mathbf{p}_N,y}q_{N,x}\n\\end{bmatrix}\n\\]\n\\[\n\\mathbf{b}\n=\n\\begin{bmatrix}\n\\boldsymbol{\\eta}_{\\mathbf{p}_1}^{T}\n(\\mathbf{p}_1-\\mathbf{q}_1)\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_2}^{T}\n(\\mathbf{p}_2-\\mathbf{q}_2)\n\\\\\n\\vdots\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_N}^{T}\n(\\mathbf{p}_N-\\mathbf{q}_N)\n\\end{bmatrix}\n\\]\n\nResolver la ecuación para el vector incógnita \\(\\boldsymbol{x} = \\begin{bmatrix} t_x & t_y & \\theta \\end{bmatrix}^\\top\\):\n\n\\[\n\\mathbf{A} ~\\boldsymbol{x} = \\mathbf{b}\n\\]\n\nFormar la matriz de rotación \\(\\mathbf{R}\\) y el vector de traslación \\(\\mathbf{t}\\)\n\n\\[\n\\mathbf{R}(\\theta) =\n\\begin{bmatrix}\n\\cos(\\theta) & -\\sin(\\theta) \\\\\n\\sin(\\theta) &  \\cos(\\theta)\n\\end{bmatrix}\n\\qquad\n\\mathbf{t} =\n\\begin{bmatrix}\nt_x \\\\\nt_y\n\\end{bmatrix}\n\\]\n\n\nVer estructura de ayuda\n\ndef point_to_line_motion_estimation(self, p_points, q_points, p_normals):\n    # Cantidad de puntos\n    N = q_points.shape[1]\n\n    # Inicializar matriz A y vector b\n    A = # ..  \n    b = # .. \n\n    for i in range(N):  # Para cada punto\n        px, py = p_points[i]\n        qx, qy = q_points[i]\n        nx, ny = p_normals[0, i]\n\n        # Completar la fila de la matriz\n        A[i, 0] = # ..\n        A[i, 1] = # ..\n        A[i, 2] = # ..\n\n        # Completar el vector\n        b[i] = (\n            # ..\n        )\n\n    # Resolver mínimos cuadrados: A @ x ~= b\n    x, _, _, _ = np.linalg.lstsq(A, b, rcond=None)\n\n    # Extraer la traslación y la rotación\n    tx, ty, theta = # ..\n\n    # Construir la matriz de rotación y el vector de traslación\n    R = # ..\n    t = # ..\n\n    return R, t\n\n\n\n\n\n\n\nVer código: compute_normals_segments\n\nimport numpy as np\n\ndef fit_segment_fast(points, start, max_error, max_range_jump, min_points=3):\n    N = points.shape[0]\n\n    count = 1\n\n    sum_x, sum_y = points[start]\n\n    sum_xx = points[start, 0] ** 2\n    sum_xy = points[start, 0] * points[start, 1]\n    sum_yy = points[start, 1] ** 2\n\n    best_normal = None\n    best_error = np.inf\n    best_end = start\n\n    for j in range(start + 1, N):\n\n        # Discontinuidad\n        dx = points[j, 0] - points[j - 1, 0]\n        dy = points[j, 1] - points[j - 1, 1]\n\n        if dx * dx + dy * dy &gt; max_range_jump ** 2:\n            break\n\n        # Añadir punto\n        x = points[j, 0]\n        y = points[j, 1]\n\n        count += 1\n\n        sum_x += x\n        sum_y += y\n\n        sum_xx += x * x\n        sum_xy += x * y\n        sum_yy += y * y\n\n        # Centroide\n        mean_x = sum_x / count\n        mean_y = sum_y / count\n\n        # Covarianza\n        cxx = sum_xx / count - mean_x * mean_x\n        cxy = sum_xy / count - mean_x * mean_y\n        cyy = sum_yy / count - mean_y * mean_y\n\n        # Autovalor menor de matriz 2x2\n        trace = cxx + cyy\n        diff = cxx - cyy\n\n        lambda_min = (\n            trace -\n            np.sqrt(diff * diff + 4.0 * cxy * cxy)\n        ) * 0.5\n\n        # Error RMS perpendicular\n        error = np.sqrt(max(lambda_min, 0.0))\n\n        if error &gt; max_error:\n            break\n\n        # Dirección principal\n        phi = 0.5 * np.arctan2(\n            2.0 * cxy,\n            cxx - cyy\n        )\n\n        # Normal\n        normal = np.array([\n            -np.sin(phi),\n             np.cos(phi)\n        ])\n\n        # Orientar hacia el LiDAR\n        if (normal[0] * (-mean_x) + normal[1] * (-mean_y)) &lt; 0:\n            normal = -normal\n\n        best_normal = normal\n        best_error = error\n        best_end = j\n\n    if best_end - start + 1 &lt; min_points:\n        return start, None, np.inf\n\n    return best_end, best_normal, best_error\n\ndef compute_normals_segments(points, max_error=0.05, max_range_jump=0.5, min_points=3):\n    \"\"\"\n    Calcula normales por segmentos lineales consecutivos.\n\n    Parameters\n    ----------\n    points : ndarray, shape (N, 2)\n        Nube de puntos 2D\n\n    Returns\n    -------\n    normals : ndarray, shape (N, 2)\n        Vector normal asociado a cada punto\n    confidence : ndarray, shape (N,)\n        Confianza asociada a cada punto\n    segment_ids : ndarray, shape (N,)\n        Segmento asociado a cada punto (-1 si no se pudo asociar)\n    \"\"\"\n\n    N = points.shape[0]\n\n    normals = np.zeros_like(points)\n    confidence = np.zeros(N)\n    segment_ids = -np.ones(N, dtype=int)\n\n    start = 0\n    segment_id = 0\n\n    while start &lt; N:\n        end, normal, error = fit_segment_fast(\n            points,\n            start,\n            max_error=max_error,\n            max_range_jump=max_range_jump,\n            min_points=min_points\n        )\n\n        # No se pudo formar un segmento\n        if normal is None:\n            start += 1\n            continue\n\n        # Asignar la misma normal a todos los puntos\n        normals[start:end + 1, :] = normal\n\n        # Confidence (simplificada) basada en el error\n        conf = np.exp(-error / max_error)\n\n        confidence[start:end + 1] = conf\n        segment_ids[start:end + 1] = segment_id\n\n        segment_id += 1\n\n        # Continuar después del segmento\n        start = end + 1\n\n    return normals, confidence, segment_ids"
+  },
+  {
+    "objectID": "clases/17/lab.html#configuración-del-escenario",
+    "href": "clases/17/lab.html#configuración-del-escenario",
+    "title": "Clase 17 - Laboratorio",
+    "section": "",
+    "text": "NotaRecuerda configurar adecuadamente el archivo setup.py para instalar los archivos correctamente\n\n\n\n\n\n\n\n\n\n\n\n# Launch Gazebo\ngz_sim = IncludeLaunchDescription(\n  PythonLaunchDescriptionSource(\n    PathJoinSubstitution(\n      [FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py']\n    ),\n  ),\n  launch_arguments={\n    'gz_args': PythonExpression([\n      \"'-r ' + '\",\n      PathJoinSubstitution([\n        FindPackageShare(\"&lt;nombre_paquete&gt;\"), 'worlds', 'lidar_test.world',\n      ]),\n      \"'\",\n    ])\n  }.items()\n)"
+  },
+  {
+    "objectID": "clases/17/lab.html#integración-y-prueba",
+    "href": "clases/17/lab.html#integración-y-prueba",
+    "title": "Clase 17 - Laboratorio",
+    "section": "",
+    "text": "Iniciar la simulación con los parámetros y modelos adecuados\nEjecutar los nodos de control correspondientes al robot diferencial\nEjecute el nodo LidarOdometry"
+  },
+  {
     "objectID": "clases/13/lab.html",
     "href": "clases/13/lab.html",
     "title": "Clase 13 - Laboratorio",
@@ -2230,14 +2258,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -3421,6 +3449,433 @@
     "title": "Robótica",
     "section": "Laboratorio",
     "text": "Laboratorio\nSimulación de sensores en Gazebo"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-1",
+    "href": "clases/17/index.html#localización-basada-en-lidar-1",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\nOdometría mediante LiDAR"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-2",
+    "href": "clases/17/index.html#localización-basada-en-lidar-2",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\nOdometría mediante LiDAR"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-3",
+    "href": "clases/17/index.html#localización-basada-en-lidar-3",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\nOdometría mediante LiDAR"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-4",
+    "href": "clases/17/index.html#localización-basada-en-lidar-4",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\nOdometría mediante LiDAR"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-5",
+    "href": "clases/17/index.html#localización-basada-en-lidar-5",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\nOdometría mediante LiDAR"
+  },
+  {
+    "objectID": "clases/17/index.html#localización-basada-en-lidar-6",
+    "href": "clases/17/index.html#localización-basada-en-lidar-6",
+    "title": "Robótica",
+    "section": "Localización basada en LiDAR",
+    "text": "Localización basada en LiDAR\n\n\n\nOdometría mediante LiDAR\n\n\nSe necesita resolver la transformación: \\[\\require{color} \\mathbf{T}(\\textcolor{ForestGreen}{\\theta}, \\textcolor{Maroon}{\\mathbf{t}})\\]\n\ntal que para un punto \\(\\textcolor{Blue}{p_i}\\) del scan anterior coincida con su correspondiente \\(\\textcolor{Orange}{q_i}\\) del scan:\n\\[\n\\textcolor{Blue}{p_i} = \\mathbf{R}(\\textcolor{ForestGreen}{\\theta}) ~\\textcolor{Orange}{q_i} + \\textcolor{Maroon}{\\mathbf{t}}\n\\]\n\n\n\n\\[\n\\mathbf{R}(\\textcolor{ForestGreen}{\\theta}) =\n\\begin{bmatrix}\n\\cos(\\textcolor{ForestGreen}{\\theta}) & -\\sin(\\textcolor{ForestGreen}{\\theta}) \\\\\n\\sin(\\textcolor{ForestGreen}{\\theta}) & \\cos(\\textcolor{ForestGreen}{\\theta})\n\\end{bmatrix}\n\\qquad\n\\textcolor{Maroon}{\\mathbf{t}} = \\begin{bmatrix}  \\textcolor{Maroon}{{t}_x} & \\textcolor{Maroon}{{t}_y} \\end{bmatrix}^\\top\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#definición-del-problema",
+    "href": "clases/17/index.html#definición-del-problema",
+    "title": "Robótica",
+    "section": "Definición del problema",
+    "text": "Definición del problema\n\n\n\nDadas:\n\n\ndos nubes de puntos\n\n\nun laser scan (local) y una nube de puntos (mapa global)\n\n\ndos mapas\n\n\nEncontrar la rotación \\(\\mathbf{R}(\\textcolor{ForestGreen}{\\theta})\\) y traslación \\(\\textcolor{Maroon}{\\mathbf{t}}\\) que los/las alinea\n\n\n\n\n\n\n\n\nSe asume que una transformación de cuerpo rígido es suficiente para alinear los escaneos\n\n\n\n\n\n\n\n\n\n\n\n\nQueremos una rotación + traslación -&gt; hay solamente 3 grados de libertad: \\(x, y, \\theta\\)\nPor simplicidad asumimos que una transformación de cuerpo rígido es suficiente para alinear los escaneos\nEn la realidad, existe un escalamiento y estrechamiento no uniforme, junto con otras transformaciones no lineales"
+  },
+  {
+    "objectID": "clases/17/index.html#definición-del-problema-1",
+    "href": "clases/17/index.html#definición-del-problema-1",
+    "title": "Robótica",
+    "section": "Definición del problema",
+    "text": "Definición del problema\n\nCaso ideal: los datos de asociación son conocidos (no ambiguos)\n\n\nSi la correspondencia correcta es conocida, la rotación y traslación relativa puede calcularse de forma cerrada\n\n\n\nSupongamos que alguien nos dice qué punto del scan anterior corresponde a cada punto del scan actual."
+  },
+  {
+    "objectID": "clases/17/index.html#definición-del-problema-2",
+    "href": "clases/17/index.html#definición-del-problema-2",
+    "title": "Robótica",
+    "section": "Definición del problema",
+    "text": "Definición del problema\n\nCaso ideal: los datos de asociación son conocidos (no ambiguos)\n\n\nDado dos conjuntos de puntos correspondientes:\n\n\\[\n\\mathcal{P} = \\{ p_1, p_2, \\dots , p_n \\} \\\\\n\\mathcal{Q} = \\{ q_1, q_2, \\dots , q_n \\}\n\\]\n\nEncontrar la matriz de rotación y el vector de traslación que minimiza la suma del error cuadrático:\n\n\\[\ne (\\textcolor{ForestGreen}{\\mathbf{R}}, \\textcolor{Maroon}{\\mathbf{t}})\n=\n\\frac{1}{N}\n\\sum_{i=1}^{N}\n|| p_i - (\\textcolor{ForestGreen}{\\mathbf{R}} ~q_i + \\textcolor{Maroon}{\\mathbf{t}}) ||^2\n\\]\ndonde \\(p_i\\) y \\(q_i\\) son puntos correspondientes"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e",
+    "href": "clases/17/index.html#minimización-del-error-e",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nSe puede separar en dos problemas: encontrar la traslación y por otro lado la rotación\n\n\nPartiendo de la ecuación del error\n\n\\[\ne =\n\\frac{1}{N}\n\\sum_{i}\n|| \\mathbf{p}_i - (\\mathbf{R} ~\\mathbf{q}_i + \\mathbf{t}) ||^2\n=\n\\frac{1}{N}\n\\sum_{i}\n\\left(\n\\mathbf{p}_i - \\mathbf{R}\\mathbf{q}_i - \\mathbf{t}\n\\right)^\\top\n\\left(\n\\mathbf{p}_i - \\mathbf{R}\\mathbf{q}_i - \\mathbf{t}\n\\right)\n\\]\n\nDada una \\(\\mathbf{R}\\) fija se busca la traslación \\(\\mathbf{t}\\) que minimiza el error\nSe define \\(\\mathbf{a}_i = \\mathbf{p}_i-\\mathbf{R}\\mathbf{q}_i\\):\n\n\\[\ne =\n\\sum_{i}\n(\\mathbf{a}_i-\\mathbf{t})^\\top\n(\\mathbf{a}_i-\\mathbf{t})\n=\n\\sum_{i}\n\\left(\n\\mathbf{a}_i^\\top\\mathbf{a}_i\n-\n2\\mathbf{t}^\\top\\mathbf{a}_i\n+\n\\mathbf{t}^\\top\\mathbf{t}\n\\right)\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-1",
+    "href": "clases/17/index.html#minimización-del-error-e-1",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nComo \\(\\mathbf{t}\\) es la variable respecto a la que se deriva:\n\n\\[\n\\begin{align*}\n\\frac{\\partial e}{\\partial\\mathbf{t}}\n&=\n\\frac{\\partial}{\\partial\\mathbf{t}} \\sum_{i=1}^{N}\n\\left( \\mathbf{a}_i^\\top\\mathbf{a}_i - 2\\mathbf{t}^\\top\\mathbf{a}_i + \\mathbf{t}^\\top\\mathbf{t}\\right)\n\\\\ &=\n\\sum_{i=1}^{N}\n\\left(\n\\frac{\\partial}{\\partial\\mathbf{t}}\n\\mathbf{a}_i^\\top\\mathbf{a}_i -\n\\frac{\\partial}{\\partial\\mathbf{t}}\n2\\mathbf{t}^\\top\\mathbf{a}_i\n+\n\\frac{\\partial}{\\partial\\mathbf{t}}\n\\mathbf{t}^\\top\\mathbf{t}\n\\right)\n\\\\ &=\n\\sum_{i=1}^{N}\n\\left(\n-2\\mathbf{a}_i\n+\n2\\mathbf{t}\n\\right)\n=\n-2\n\\sum_{i=1}^{N}\n\\mathbf{a}_i\n+\n2 N \\mathbf{t}\n\\end{align*}\n\\]\n\n\nReemplazando nuevamente \\(\\mathbf{a}_i = \\mathbf{p}_i-\\mathbf{R}\\mathbf{q}_i\\):\n\n\\[\n\\frac{\\partial e}{\\partial\\mathbf{t}}\n=\n-2\n\\sum_{i}\n\\left(\n\\mathbf{p}_i-\\mathbf{R}\\mathbf{q}_i\n\\right)\n+\n2N\\mathbf{t}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-2",
+    "href": "clases/17/index.html#minimización-del-error-e-2",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nEn el mínimo \\(\\dfrac{\\partial e}{\\partial\\mathbf{t}}=\\mathbf{0}\\):\n\n\\[\n-2\n\\sum_{i}\n\\left(\n\\mathbf{p}_i-\\mathbf{R}\\mathbf{q}_i\n\\right)\n+\n2N\\mathbf{t}\n=\n\\mathbf{0}\n\\]\n\nDividiendo por \\(2N\\) y resolviendo para \\(\\mathbf{t}\\):\n\n\\[\n\\mathbf{t}\n=\n\\frac{1}{N}\n\\sum_{i}\n\\left(\n\\mathbf{p}_i-\\mathbf{R}\\mathbf{q}_i\n\\right)\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-3",
+    "href": "clases/17/index.html#minimización-del-error-e-3",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nComo \\(\\mathbf{R}\\) es constante respecto de \\(\\mathbf{t}\\):\n\n\\[\n\\mathbf{t}\n=\n\\frac{1}{N}\\sum_{i=1}^{N}\\mathbf{p}_i\n-\n\\mathbf{R}\n\\frac{1}{N}\\sum_{i=1}^{N}\\mathbf{q}_i\n\\]\n\nSe definen los centroides:\n\n\\[\n\\boldsymbol{\\mu}_p = \\frac{1}{N_p} \\sum_{i=1}^{N_p} p_i \\qquad \\boldsymbol{\\mu}_q = \\frac{1}{N_q} \\sum_{i=1}^{N_q} q_i\n\\]\n\nY se obtiene la traslación óptima:\n\n\\[\n\\mathbf{t}^*\n=\n\\boldsymbol{\\mu}_p - \\mathbf{R}\\boldsymbol{\\mu}_q\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-4",
+    "href": "clases/17/index.html#minimización-del-error-e-4",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nConclusión: la traslación óptima \\(\\mathbf{t}^*\\) hace coincidir el centroide de \\(\\mathcal{Q}\\) (una vez rotado) con el centroide de \\(\\mathcal{P}\\)\n\n\\[\n\\mathbf{t}^*\n=\n\\boldsymbol{\\mu}_p - \\mathbf{R}\\boldsymbol{\\mu}_q\n\\quad \\to \\quad\n\\mathbf{R}\\boldsymbol{\\mu}_q+\\mathbf{t}^*\n=\n\\boldsymbol{\\mu}_p\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-5",
+    "href": "clases/17/index.html#minimización-del-error-e-5",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nSe sustituye \\(\\mathbf{t}\\) por \\(\\mathbf{t}^*\\) en la función del error:\n\n\\[\n|| \\mathbf{p}_i - (\\mathbf{R} ~\\mathbf{q}_i + \\mathbf{t}) ||^2 = || \\mathbf{p}_i - \\mathbf{R} ~\\mathbf{q}_i - \\boldsymbol{\\mu}_p - \\mathbf{R}\\boldsymbol{\\mu}_q ||^2\n\\]\n\nReordenando:\n\n\\[\n|| (\\boldsymbol{p}_i - \\boldsymbol{\\mu}_p) - \\mathbf{R} (\\boldsymbol{q}_i - \\boldsymbol{\\mu}_q) ||^2\n\\]\n\nReemplazando por las definiciones de \\(\\boldsymbol{p}_i'\\) y \\(\\boldsymbol{q}_i'\\) la función de error queda ahora como:\n\n\\[\ne(\\mathbf{R}) =\n\\sum_{i}\n|| \\boldsymbol{p}_i' - \\mathbf{R} ~\\boldsymbol{q}_i' ||^2\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-6",
+    "href": "clases/17/index.html#minimización-del-error-e-6",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nSe expande la expresión de \\(|| \\boldsymbol{p}_i' - \\mathbf{R} ~\\boldsymbol{q}_i' ||^2\\):\n\n\\[\n\\sum_{i}\n\\left(\n\\mathbf{q}_i'^\\top\\mathbf{q}_i'\n-\n\\mathbf{q}_i'^\\top\\mathbf{R}\\mathbf{p}_i'\n-\n\\mathbf{p}_i'^\\top\\mathbf{R}^\\top\\mathbf{q}_i'\n+\n\\mathbf{p}_i'^\\top\\mathbf{R}^\\top\\mathbf{R}\\mathbf{p}_i'\n\\right)\n\\]\n\nSiendo \\(\\mathbf{R}^\\top\\mathbf{R} = \\mathbf{I}\\) por ser una matriz de rotación y \\(\\mathbf{p}_i'^\\top\\mathbf{R}^\\top\\mathbf{q}_i​=\\mathbf{q}_i'^\\top\\mathbf{R}\\mathbf{p}_i'​\\):\n\n\\[\ne(\\mathbf{R})\n=\n\\sum_{i}\n\\left(\n\\mathbf{q}_i'^\\top \\mathbf{q}_i'\n-\n2 \\mathbf{q}_i'^\\top\\mathbf{R}\\mathbf{p}_i'\n+\n\\mathbf{p}_i'^\\top \\mathbf{p}_i'\n\\right)\n\\\\\ne(\\mathbf{R})\n=\n\\sum_{i}\n\\left(\n\\left\\|\\mathbf{q}_i'\\right\\|^2\n-\n2\\mathbf{q}_i'^\\top\\mathbf{R}\\mathbf{p}_i'\n+\n\\left\\|\\mathbf{p}_i'\\right\\|^2\n\\right)\n\\]\n\nEl único término que depende de la rotación \\(\\mathbf{R}\\) es:\n\n\\[\n\\boxed{\n-2\\mathbf{q}_i'^\\top\\mathbf{R}\\mathbf{p}_i'\n}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-7",
+    "href": "clases/17/index.html#minimización-del-error-e-7",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nSe define la matriz \\(\\mathbf{W}\\) como:\n\n\\[\n\\mathbf{W} = \\sum_{i=1}^{N_p} \\mathbf{p}_i' ~\\mathbf{q}_i'^\\top\n\\]\ny se calcula su Singular Value Decomposition (SVD):\n\\[\n\\mathbf{W} = \\mathbf{U}\n\\begin{bmatrix}\n\\sigma_1 & 0 \\\\\n0 & \\sigma_2 \\\\\n\\end{bmatrix}\n\\mathbf{V}^\\top\n\\]\ndonde \\(\\mathbf{U}, \\mathbf{V} \\in \\Re^{2 \\times 2}\\) son unitarios y \\(\\sigma_1 \\geq \\sigma_2\\) son los valores singulares de \\(\\mathbf{W}\\)\n\n\n\\(\\mathbf{W}\\) resume como se relacionan ambos conjuntos de puntos una vez centrados"
+  },
+  {
+    "objectID": "clases/17/index.html#minimización-del-error-e-8",
+    "href": "clases/17/index.html#minimización-del-error-e-8",
+    "title": "Robótica",
+    "section": "Minimización del error \\(e\\)",
+    "text": "Minimización del error \\(e\\)\n\nExiste un teorema 1 que demuestra que si el rango de la matriz \\(\\mathbf{W}\\) es igual a \\(2\\), la solución óptima de \\(e(\\mathbf{R})\\) es única y está dada por: \\[\n\\mathbf{R}^* = \\mathbf{V} ~\\mathbf{U}^\\top\n\\]\nLa traslación se obtiene reemplazando el valor de \\(\\mathbf{R}^*\\) en \\(\\mathbf{t}^*\\):\n\n\\[\n\\mathbf{t}^*\n=\n\\boldsymbol{\\mu}_q\n-\n\\mathbf{R}^*\n\\boldsymbol{\\mu}_p\n\\]\n\nSe obtuvieron las expresiones para la rotación y traslación óptimas dado dos conjuntos de puntos\n\nK. S. Arun, T. S. Huang and S. D. Blostein, “Least-Squares Fitting of Two 3-D Point Sets,” in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. PAMI-9, no. 5, pp. 698-700, Sept. 1987"
+  },
+  {
+    "objectID": "clases/17/index.html#implementación-en-python",
+    "href": "clases/17/index.html#implementación-en-python",
+    "title": "Robótica",
+    "section": "Implementación en Python",
+    "text": "Implementación en Python\n\n\n\n\n\n\nPaso 1: Sustraer los centros de masa de cada conjunto\n\n\n\\[\n\\mathcal{P}' = \\{ \\mathbf{p}_i' \\} = \\{ \\mathbf{p}_i - \\boldsymbol{\\mu}_p \\} \\\\\n\\mathcal{Q}' = \\{ \\mathbf{q}_i' \\} = \\{ \\mathbf{q}_i - \\boldsymbol{\\mu}_q \\}\n\\]\n\n\n\n\n\n\n\n\nPaso 2: Calcular la matriz \\(\\mathbf{W}\\)\n\n\n\\[\n\\mathbf{W} = \\sum_{i=1}^{N_p} p_i' ~q_i'^\\top\\\\\n\\]\n\n\n\n\n\n\n\n\nPaso 3: Realizar el SVD\n\n\n\\[\n\\mathbf{W} = \\mathbf{U} \\boldsymbol{\\Sigma} \\mathbf{V}^\\top\\\\\n\\]\n\n\n\n\n\n\n\n\nPaso 4: Recuperar la rotación y traslación óptima\n\n\n\\[\n{\\mathbf{R}}^{*} = \\mathbf{V} ~\\mathbf{U}^\\top\n\\]\n\\[\n\\mathbf{t}^* = \\boldsymbol{\\mu}_p - \\mathbf R^* \\boldsymbol{\\mu}_q\n\\]\n\n\n\n\n\nimport numpy as np\n\ndef svd_motion_estimation(p, q):\n    # Centroides\n    mu_p = np.mean(p, axis=1)\n    mu_q = np.mean(q, axis=1)\n\n    # Centrar las nubes de puntos\n    p_prima = (p - mu_p[:, np.newaxis])\n    q_prima = (q - mu_q[:, np.newaxis])\n\n    # Matriz de covarianza cruzada \n    W = q_prima @ p_prima.T\n\n    # SVD con la librería 'numpy'\n    U, _, Vt = np.linalg.svd(W)\n\n    # Rotación\n    R = (U @ Vt).T\n\n    # Corrección por reflexión\n    if np.linalg.det(R) &lt; 0:\n        Vt[-1, :] *= -1\n        R = (U @ Vt).T\n\n    # Traslación\n    T = mu_q - R @ mu_p\n\n    return R, T"
+  },
+  {
+    "objectID": "clases/17/index.html#aplicación-a-odometría",
+    "href": "clases/17/index.html#aplicación-a-odometría",
+    "title": "Robótica",
+    "section": "Aplicación a odometría",
+    "text": "Aplicación a odometría\n\nUna vez obtenidos \\(\\mathbf{t}^*\\) y \\(\\mathbf{R}^*\\), pueden utilizarse para relacionar mediciones consecutivas de LiDAR\n\n\\[\n\\mathbf{p}^{t-1} = \\mathbf{p} \\in \\mathcal{P}\n\\qquad\n\\mathbf{p}^{t} = \\mathbf{q} \\in \\mathcal{Q}\n\\]\nde manera tal que la rotación \\(\\mathbf{R}^{*}\\) y la traslación \\(\\mathbf{t}^{*}\\) permiten alinearlos:\n\\[\n\\mathbf{p}^{t-1} = \\mathbf{R}^{*} ~\\mathbf{p}^t + \\mathbf{t}^{*} \\to \\begin{cases}\n\\mathbf{R}^{*} = \\mathbf{R}{(t, t-1)} \\\\\n\\mathbf{t}^{*} = \\mathbf{t}{(t, t-1)}\n\\end{cases}\n\\]\n\nPodemos reconstruir la transformación homogénea utilizando:\n\n\\[\n\\mathbf{T}(\\mathbf{R}^{*}, \\mathbf{t}^{*}) =\n\\begin{bmatrix}\n\\cos(\\theta) & -\\sin(\\theta) & t_x \\\\\n\\sin(\\theta) &  \\cos(\\theta) & t_y \\\\\n           0 &             0 &   1\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#aplicación-a-odometría-1",
+    "href": "clases/17/index.html#aplicación-a-odometría-1",
+    "title": "Robótica",
+    "section": "Aplicación a odometría",
+    "text": "Aplicación a odometría\n\nUna vez obtenidos \\(\\mathbf{t}^*\\) y \\(\\mathbf{R}^*\\), pueden utilizarse para relacionar mediciones consecutivas de LiDAR\n\n\nLa transformación \\(\\mathbf{T}^{(t,t-1)}\\) representa el movimiento relativo del robot entre las mediciones \\(t-1\\) y \\(t\\)\nAl igual que en una odometría cinemática, la pose en el tiempo \\(t\\) puede obtenerse acumulando estas transformaciones a partir de una pose inicial:\n\n\\[\n\\mathbf{T}^{(t)}\n=\n\\mathbf{T}^{(1,0)}\n\\cdot\n\\mathbf{T}^{(2,1)}\n\\cdots\n\\mathbf{T}^{(t,t-1)}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2",
+    "href": "clases/17/index.html#nodo-de-ros2",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2-1",
+    "href": "clases/17/index.html#nodo-de-ros2-1",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\nConvertir los puntos a coordenadas cartesianas\n\n\n\\[\n\\mathbf{p}_i =\n\\begin{bmatrix}\nx_i \\\\\ny_i\n\\end{bmatrix}\n=\nr_i\n\\begin{bmatrix}\n\\cos(\\theta_i) \\\\\n\\sin(\\theta_i)\n\\end{bmatrix}\n\\]\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2-2",
+    "href": "clases/17/index.html#nodo-de-ros2-2",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\nConvertir los puntos a coordenadas cartesianas\nEstimar la transformación óptima\n\n\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2-3",
+    "href": "clases/17/index.html#nodo-de-ros2-3",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\nConvertir los puntos a coordenadas cartesianas\nEstimar la transformación óptima\nActualizar la pose\n\n\n\\[\n\\mathbf{T}^{(t)} = \\mathbf{T}^{(t-1)} \\cdot ~\\mathbf{T}^{(t, t-1)}\n\\]\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2-4",
+    "href": "clases/17/index.html#nodo-de-ros2-4",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\nConvertir los puntos a coordenadas cartesianas\nEstimar la transformación óptima\nActualizar la pose\nPublicar la odometría\n\n\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#nodo-de-ros2-5",
+    "href": "clases/17/index.html#nodo-de-ros2-5",
+    "title": "Robótica",
+    "section": "Nodo de ROS2",
+    "text": "Nodo de ROS2\n\n\n\nProcesar cada mensaje:\n\nConvertir los puntos a coordenadas cartesianas\nEstimar la transformación óptima\nActualizar la pose\nPublicar la odometría\nActualizar los puntos\n\n\n\ndef scan_callback(self, msg: LaserScan):\n  # Convertir de coordenada polar a cartesiana\n  q_points = self.laser_scan_to_points(msg)\n  \n  # Si es el primer mensaje\n  if self.previous_points is None:\n    self.p_points = q_points.copy()\n    return  # Termina\n  \n  # Obtener la transformación\n  Rt, Tt = self.svd_motion_estimation(\n    p_points, q_points\n  )\n  \n  # Acumular pose\n  self.pose = self.update_homogeneous_matrix(\n    self.pose, R, T\n  )\n  \n  # Publicar la odometría\n  self.publish_odometry(msg.header.stamp)\n  \n  # Actualizar el scan para la próxima iteración\n  self.p_points = q_points.copy()"
+  },
+  {
+    "objectID": "clases/17/index.html#definición-del-problema-3",
+    "href": "clases/17/index.html#definición-del-problema-3",
+    "title": "Robótica",
+    "section": "Definición del problema",
+    "text": "Definición del problema\n\nCaso real: los datos de asociación son desconocidos\n\n\nSi la correspondencia correcta no es conocida, es casi imposible determinar la rotación y traslación óptima en un solo paso"
+  },
+  {
+    "objectID": "clases/17/index.html#definición-del-problema-4",
+    "href": "clases/17/index.html#definición-del-problema-4",
+    "title": "Robótica",
+    "section": "Definición del problema",
+    "text": "Definición del problema\n\nCaso real: los datos de asociación son desconocidos\n\n\n\n\n\n\n---\ndisplayMode: compact\nconfig:\n  htmlLabels: false\n  flowchart:\n    curve: catmull\n---\nflowchart TD\n    A(Correspondencias)\n    B(Alineación)\n    A ==&gt;|\"`Para encontrar\n    buenas\n    correspondencias\n    necesito una buena\n    alineación`\"| B\n    B ==&gt;|\"`Para obtener una\n    buena alineación\n    necesito\n    correspondencias`\"| A\n\n\n\n\n\n\n\nHipótesis: si la alineación es aproximadamente correcta, los puntos correspondientes deberían estar cerca"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp",
+    "href": "clases/17/index.html#iterated-closest-points-icp",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\nIterar para encontrar el alineamiento\n\n\n\nAlgoritmo\n\n\nProponer correspondencias entre \\(\\mathcal{P}\\) y \\(\\mathcal{Q}\\)\nEncontrar el \\(\\mathbf{R}\\) y \\(\\mathbf{t}\\) óptimo para esa correspondencia\nAplicar la transformación y calcular el error\nSi el error disminuyó, volver a (1)\nSi no, devolver \\(\\mathbf{R}\\) y \\(\\mathbf{t}\\)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nConverge si los puntos inciales están lo “suficientemente cerca”"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-1",
+    "href": "clases/17/index.html#iterated-closest-points-icp-1",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nCorrespondencias: vecino más cercano (Nearest Neighbor)\n\n\nPara cada punto en \\(\\mathcal{P}\\) buscamos el punto más cercano en \\(\\mathcal{Q}\\):\n\n\\[ q_i = \\underset{q \\in \\mathcal{Q}}{\\operatorname{arg\\,min}} \\|\\mathbf{p}_i-\\mathbf{q}\\| \\]\n\nBúsqueda exhaustiva: para cada punto en \\(\\mathcal{P}\\) se mide la distancia a todos los puntos de \\(\\mathcal{Q}\\) y se comparan todos los candidatos\n\n\\[ d_{ij}=\\|\\mathbf p_i-\\mathbf q_j\\| \\]\n\\[ j^*=\\arg\\min_j d_{ij} \\]"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-2",
+    "href": "clases/17/index.html#iterated-closest-points-icp-2",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nCorrespondencias: vecino más cercano (Nearest Neighbor)\n\n\nProblema computacional: Con \\(N\\) puntos en \\(\\mathcal{P}\\) y \\(M\\) puntos en \\(\\mathcal{Q}\\) el problema es de orden \\(\\mathcal{O}(NM)\\)\nPrueba con 500 puntos: son 250.000 distancias y comparaciones\nSi por cada punto se consumen \\(\\sim 0.25 [ms]\\) la búsqueda de vecino más cercano toma alrededor de \\(125 [ms]\\)\nEsto lo debemos acumular por cada iteración del ICP: con 4 iteraciones ya suman \\(500 [ms]\\)\nPara un robot moviendose a \\(0.5 [m/s]\\) significan \\(25 [cm]\\) de error\nPara un LiDAR a \\(10 [Hz]\\) se debieron descartar 4 mediciones"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-3",
+    "href": "clases/17/index.html#iterated-closest-points-icp-3",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nCorrespondencias: vecino más cercano (Nearest Neighbor)\n\n\n\n\n\n\n\n\nPosible solución: utilizar KD-Tree\n\n\nfrom scipy.spatial import KDTree\n\n\n\n\n\nDentro del nodo, crear el árbol usando el vector de puntos p_points de \\(N \\times 2\\):\n\nself.kdtree = KDTree(p_points)\n\nPara obtener las correlaciones:\n\ndistances, indexes = tree.query(q_points,   # Para cada punto en q\n  k=1,                                      # el vecino más cercano\n  distance_upper_bound=self.max_distance    # (opcional) limitar la distancia\n)\n\n\n\n\n\n\n\nDevuelve \\(N\\) cuando no encuentra un vecino dentro de la distancia límite"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-4",
+    "href": "clases/17/index.html#iterated-closest-points-icp-4",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nPaso 0: Inicializar\n\n\n\\(k \\gets 0 \\hspace{3em} \\rhd \\text{Número de iteración}\\)\n\\(\\sigma \\gets \\infty \\hspace{2.6em} \\rhd \\text{RMSE}\\)\n\\(\\mathbf{T} \\gets \\mathbf{I} \\hspace{2.75em} \\rhd \\text{Transformación incial}\\)\n\n\nPaso 1: Pre-alinear\n\n\n\\(\\mathbf{c}^{p}, ~\\mathbf{c}^{q} \\gets \\text{Centro } (\\mathcal{P}, \\mathcal{Q}) \\qquad \\rhd \\mathbf{c} = [x_c, y_c]\\)\n\\(\\mathcal{P} = \\mathbf{T}(0, \\text{diff}(\\mathbf{c}^p, ~\\mathbf{c}^{q})) \\cdot \\mathcal{P}\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-5",
+    "href": "clases/17/index.html#iterated-closest-points-icp-5",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nPaso 2: búsqueda de “vecino más cercano”\n\n\n\\(\\text{Asociar } (\\mathcal{P}, \\mathcal{Q})\\)\n\n\\(\\mathbf{q}_i \\gets \\underset{\\mathbf{q}_j ~\\in ~\\mathcal{Q}}{\\mathrm{argmin}} ~\\|\\mathbf{p}_i-\\mathbf{q}_j\\|^2  ~\\forall ~\\mathbf{p}_i \\in \\mathcal{P} \\qquad \\rhd \\text{Algoritmo KNN con } k=1\\)\n\\(\\mathcal{C} \\gets \\left\\{ (\\mathbf{p}_i,\\mathbf{q}_i) \\right\\}\\)\n\n\n\nPaso 3: Calcular el \\(RMSE\\)\n\n\n\\(\\sigma^{+} \\gets \\sqrt{ \\frac{1}{N} \\sum_{i} \\|\\mathbf p_i-\\mathbf q_i\\|^2 }\\)\n\\(\\Delta\\sigma \\gets |\\sigma - \\sigma^{+}|\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-6",
+    "href": "clases/17/index.html#iterated-closest-points-icp-6",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nPaso 4: Estimar transformación\n\n\n\\((\\mathbf{R}, \\mathbf{t}) \\gets \\text{SVD}(\\mathcal{C})\\)\n\n\n\n\n\nPaso 5: Actualizar la nube de puntos y la transformación actual\n\n\n\\(\\mathcal{P}^{+} \\gets \\mathbf{R} \\cdot \\mathcal{P} + \\mathbf{t}\\)\n\\(\\mathbf{T}^{+} \\gets \\mathbf{T} \\cdot \\begin{bmatrix} {\\mathbf{R}} & \\mathbf{t} \\\\ \\mathbf{0} & 1 \\end{bmatrix}\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#iterated-closest-points-icp-7",
+    "href": "clases/17/index.html#iterated-closest-points-icp-7",
+    "title": "Robótica",
+    "section": "Iterated Closest Points (ICP)",
+    "text": "Iterated Closest Points (ICP)\n\nPaso 6: Verificar condiciones de corte\n\n\n\\(|\\sigma - \\sigma^{+}| &lt; \\epsilon \\quad \\lor \\quad k &gt; N_{\\textrm{MAX}} \\to \\text{Fin.}\\)\n\n\n\nPaso 7: Si no, continuar\n\n\n\\(k \\gets k+1\\)\n\\(\\sigma, \\textcolor{Blue}{P_{t}}, \\textcolor{gray}{\\mathbf{T}} \\gets \\sigma^{+}, \\textcolor{Blue}{P_{t}}^{+}, \\textcolor{gray}{\\mathbf{T}}^{+}\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-punto",
+    "href": "clases/17/index.html#icp-punto-a-punto",
+    "title": "Robótica",
+    "section": "ICP “punto a punto”",
+    "text": "ICP “punto a punto”\n\n\n\nProblemas con ICP point-to-point\n\n\nCorrespondencias ambiguas\nNo hay representación de la estructura geométrica\nPuntos equivalentes y movimientos mal condicionados\n\n\n\n\n\n\n\n\n\n\nLos puntos en realidad pertenecen a una superficie\n\n\nSi conocemos la superficie podemos añadir la información de su normal\n\n\n\n\n\n\n\n\n\n\n\n\n\nHay movimientos que cambian mucho las correspondencias individuales pero prácticamente no cambian la geometría de la superficie"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano",
+    "href": "clases/17/index.html#icp-punto-a-plano",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\n\n\nEn lugar de minimizar la distancia euclídea:\n\n\\[\ne_i\n=\n%\\sum_{i}\n\\| p_i - (\\mathbf{R} ~q_i + \\mathbf{t}) \\|^2\n\\]\n\nMinimiza la distancia a la superficie:\n\n\\[\ne_i\n=\n%\\sum_{i}\n[\n\\overbrace{\n\\underbrace{\n\\left(\np_i - (\\mathbf{R} ~q_i + \\mathbf{t})\n\\right)\n}_{\\text{Vector distancia}}\n\\cdot\n\\boldsymbol{\\eta}_i\n}^{\\text{Proyeccion sobre la normal}}\n]^2\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-1",
+    "href": "clases/17/index.html#icp-punto-a-plano-1",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\n\n\nPoint-to-point\nPoint-to-plane\n\n\n\n\nDistancia entre puntos\nDistancia a la superficie\n\n\nUsa posición\nUsa posición + normal\n\n\nError euclídeo\nError en dirección normal\n\n\nProblema cerrado con SVD\nRequiere otra formulación\n\n\n\n\n\n\n\n\n\n\n\nDos nuevos problemas:\n\n\n\nCalcular la normal para cada punto\nMinimizar el nuevo error \\(\\mathbf{e}\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales",
+    "href": "clases/17/index.html#superficies-y-normales",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nPara obtener una “superficie” en 2D (linea) se necesitan mínimo 2 puntos\n\n\n\n\nLa normal puede obtenerse a partir del vector distancia:\n\n\\[\n\\mathbf{d}\n=\n\\mathbf{p}_1\n-\n\\mathbf{p}_2\n\\]\n\\[\n\\boldsymbol{\\eta}\n=\n\\frac{1}{\\| \\mathbf{d} \\|}\n\\begin{bmatrix}\n-d_y\\\\\nd_x\n\\end{bmatrix}\n\\]\n\n\n\n\n\n\n\n\nProblemas con el ruido"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-1",
+    "href": "clases/17/index.html#superficies-y-normales-1",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nA mayor cantidad de puntos mejora la estimación.."
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-2",
+    "href": "clases/17/index.html#superficies-y-normales-2",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nA mayor cantidad de puntos mejora la estimación.. pero no siempre\n\n\n\n\nUtilizar una cantidad fija de puntos para estimar la superficie puede ser problemático\n\n\n\n\n\n\n\n\n\nNuevo problema:\n\n\n\nQué puntos pertenecen a la misma superficie?"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-3",
+    "href": "clases/17/index.html#superficies-y-normales-3",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nBeneficio de usar LiDAR\n\n\n\n\nLos puntos están ordenados de forma angular\n\n\\[\n\\mathbf{p}_0, \\mathbf{p}_1, \\mathbf{p}_2 \\cdots\n\\]\n\nUna superficie continua genera una secuencia de puntos cercanos\nUn salto grande entre dos mediciones puede indicar:\n\nCambio de superficie\nUn objeto diferente"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-4",
+    "href": "clases/17/index.html#superficies-y-normales-4",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nBeneficio de usar LiDAR\n\n\n\n\nSe puede introducir un umbral para dos puntos consecutivos:\n\n\\[\nd_j = \\| \\mathbf{p}_j-\\mathbf{p}_{j-1}\\|\n\\]\n\nSi \\(d_j &gt; \\overline{d_{\\max}}\\) probablemente existe una discontinuidad"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-5",
+    "href": "clases/17/index.html#superficies-y-normales-5",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nIncógnita cantidad de puntos a tomar\n\n\nSea una recta definida por un punto \\(\\mathbf{c}\\) y la normal \\(\\boldsymbol{\\eta}\\), y un grupo de puntos:\n\n\\[\n\\mathcal{S} :\n\\left[\n\\mathbf{p}_s, \\mathbf{p}_{s+1}, \\dots, \\mathbf{p}_j\n\\right]\n\\]\n\nPodemos definir el error de ajuste para cada punto usando:\n\n\\[\ne_i\n=\n|\n\\boldsymbol{\\eta}\n\\cdot\n\\left(\n\\mathbf{p}_i - \\mathbf{c}\n\\right)\n|\n\\]\n\\[\ne_{\\mathrm{RMS}}\n=\n\\sqrt{\n\\frac{1}{N}\n\\sum_i\n\\left[\n\\mathbf n^T(\\mathbf p_i-\\mathbf c)\n\\right]^2\n}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-6",
+    "href": "clases/17/index.html#superficies-y-normales-6",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nProceso iterativo (nuevamente)\n\n\n\n\nSe define un umbral \\[e_{\\mathrm{RMS}} &lt; e_{\\max}\\]\nPara cada nuevo punto \\(\\mathbf{p}_j\\):\n\nSe agrega al conjunto \\(\\mathcal{S}\\)\nSe obtiene \\(\\mathbf{c}\\) y \\(\\boldsymbol{\\eta}\\) de la recta\nSe calcula el error\nSi es pequeño, continuar\nSe descarta \\(\\mathbf{p}_j\\) y termina el segmento"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-7",
+    "href": "clases/17/index.html#superficies-y-normales-7",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nProceso iterativo (nuevamente)\n\n\n\n\nSe define un umbral \\[e_{\\mathrm{RMS}} &lt; e_{\\max}\\]\nPara cada nuevo punto \\(\\mathbf{p}_j\\):\n\nSe agrega al conjunto \\(\\mathcal{S}\\)\nSe obtiene \\(\\mathbf{c}\\) y \\(\\boldsymbol{\\eta}\\) de la recta\nSe calcula el error\nSi es pequeño, continuar\nSe descarta \\(\\mathbf{p}_j\\) y termina el segmento"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-8",
+    "href": "clases/17/index.html#superficies-y-normales-8",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nProceso iterativo (nuevamente)\n\n\n\n\nSe define un umbral \\[e_{\\mathrm{RMS}} &lt; e_{\\max}\\]\nPara cada nuevo punto \\(\\mathbf{p}_j\\):\n\nSe agrega al conjunto \\(\\mathcal{S}\\)\nSe obtiene \\(\\mathbf{c}\\) y \\(\\boldsymbol{\\eta}\\) de la recta\nSe calcula el error\nSi es pequeño, continuar\nSe descarta \\(\\mathbf{p}_j\\) y termina el segmento"
+  },
+  {
+    "objectID": "clases/17/index.html#superficies-y-normales-9",
+    "href": "clases/17/index.html#superficies-y-normales-9",
+    "title": "Robótica",
+    "section": "Superficies y normales",
+    "text": "Superficies y normales\n\nProceso iterativo (nuevamente)\n\n\n\n\nSe define un umbral \\[e_{\\mathrm{RMS}} &lt; e_{\\max}\\]\nPara cada nuevo punto \\(\\mathbf{p}_j\\):\n\nSe agrega al conjunto \\(\\mathcal{S}\\)\nSe obtiene \\(\\mathbf{c}\\) y \\(\\boldsymbol{\\eta}\\) de la recta\nSe calcula el error\nSi es pequeño, continuar\nSe descarta \\(\\mathbf{p}_j\\) y termina el segmento"
+  },
+  {
+    "objectID": "clases/17/index.html#volviendo-al-icp-punto-a-plano",
+    "href": "clases/17/index.html#volviendo-al-icp-punto-a-plano",
+    "title": "Robótica",
+    "section": "Volviendo al ICP “punto a plano”",
+    "text": "Volviendo al ICP “punto a plano”\n\nCon la función que obtiene segmentos y normales\n\n\n\n\nEjecutar la función para toda la nube de puntos\nLos puntos que pertenecen a un segmento comparten la misma normal\n\n\n\n\n\n\n\n\n\nSolo resta incorporar esta información en la función de error"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-2",
+    "href": "clases/17/index.html#icp-punto-a-plano-2",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nVolviendo a la función de error \\(\\mathbf{e}\\):\n\n\\[\ne(\\mathbf{R}, \\mathbf{t})\n=\n\\frac{1}{N}\n\\sum_{i=1}^N\n\\left(\n\\left(\n\\mathbf{p}_i - (\\mathbf{R} ~\\mathbf{q}_i + \\mathbf{t})\n\\right)\n\\cdot\n\\boldsymbol{\\eta}_{\\mathbf{p}_i}\n\\right)^2\n\\]\n\nDado los conjuntos \\(\\mathcal{P}\\), \\(\\mathcal{Q}\\) y las normales \\(\\boldsymbol{\\eta}_{\\mathbf{p}_i}\\) asociadas a todos lo puntos en \\(\\mathcal{P}\\), se obtiene la rotación y translación óptima minimizando la función de error:\n\n\\[\n\\mathbf{R}^*, \\mathbf{t}^*\n=\n\\underset{\\mathbf{R}^\\top \\mathbf{R} = \\mathbf{I}, \\mathbf{t}}{\\mathrm{argmin}}\n~\\sum_{i=1}^N\n\\left(\n\\left(\n\\mathbf{p}_i - (\\mathbf{R} ~\\mathbf{q}_i + \\mathbf{t})\n\\right)\n\\cdot\n\\boldsymbol{\\eta}_{\\mathbf{p}_i}\n\\right)^2\n\\]\n\n\n\n\n\n\n\nEl espacio de las rotaciones no es linear\n\n\nEl problema no tiene solución cerrada y no es posible aplicar SVD"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-3",
+    "href": "clases/17/index.html#icp-punto-a-plano-3",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nPara poder aplicar SVD debemos linearizar la matriz \\(\\mathbf{R}\\)\n\n\nHipótesis: los dos conjuntos de puntos son cercanos\nPor lo tanto, la rotación entre correpondencias es pequeña, por lo que podemos suponer rotación de angulos pequeños:\n\n\\[\n\\sin(\\alpha) \\approx \\alpha \\qquad \\cos(\\alpha) \\approx 1\n\\]\n\nSe define \\(\\hat{\\mathbf{R}}\\)\n\n\\[\n\\mathbf{R}(\\theta) =\n\\begin{bmatrix}\n\\cos(\\theta) & -\\sin(\\theta) \\\\\n\\sin(\\theta) &  \\cos(\\theta)\n\\end{bmatrix}\n\\approx\n\\begin{bmatrix}\n     1 & -\\theta \\\\\n\\theta &       1\n\\end{bmatrix}\n=\n\\hat{\\mathbf{R}}(\\theta)\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-4",
+    "href": "clases/17/index.html#icp-punto-a-plano-4",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nReemplazando esto en la expresión del error:\n\n\\[\ne(\\hat{\\mathbf{R}}(\\theta), \\mathbf{t})\n=\n\\sum_{i}\n\\left(\n\\left(\n\\mathbf{p}_i\n-\n\\begin{bmatrix}\n     1 & -\\theta \\\\\n\\theta &       1\n\\end{bmatrix}\n~\\mathbf{q}_i\n-\n\\begin{bmatrix}\nt_x \\\\\nt_y\n\\end{bmatrix}\n\\right)\n\\cdot\n\\boldsymbol{\\eta}_{\\mathbf{p}_i}\n\\right)^2\n\\]\n\\[\ne\n=\n\\sum_{i}\n\\left(\n\\left(\n\\begin{bmatrix}\np_{i,x} \\\\\np_{i,y}\n\\end{bmatrix}\n-\n\\begin{bmatrix}\nq_{i,x} -\\theta ~q_{i,y} \\\\\n\\theta ~q_{i,x} + q_{i,y}\n\\end{bmatrix}\n-\n\\begin{bmatrix}\nt_x \\\\\nt_y\n\\end{bmatrix}\n\\right)\n\\cdot\n\\begin{bmatrix}\n\\eta_{\\mathbf{p}_i,x} \\\\\n\\eta_{\\mathbf{p}_i,y}\n\\end{bmatrix}\n\\right)^2\n\\]\n\\[\ne\n=\n\\sum_{i}\n\\left(\n\\begin{bmatrix}\np_{i,x} - q_{i,x} + \\theta ~q_{i,y} - t_x \\\\\np_{i,y} - \\theta ~q_{i,x} - q_{i,y} - t_y\n\\end{bmatrix}\n\\cdot\n\\begin{bmatrix}\n\\eta_{\\mathbf{p}_i,x} \\\\\n\\eta_{\\mathbf{p}_i,y}\n\\end{bmatrix}\n\\right)^2\n\\]\n\\[\ne\n=\n\\sum_{i}\n\\left(\n\\eta_{\\mathbf{p}_i,x} \\left( p_{i,x} - q_{i,x} + \\theta ~q_{i,y} - t_x \\right)\n+\n\\eta_{\\mathbf{p}_i,y} \\left( p_{i,y} - \\theta ~q_{i,x} - q_{i,y} - t_y \\right)\n\\right)^2\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-5",
+    "href": "clases/17/index.html#icp-punto-a-plano-5",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nExpandiendo y reordenando:\n\n\n\\[\ne\n=\n\\sum_i\n(\n\\underbrace{\n\\eta_{\\mathbf{p}_i,x}(p_{i,x}-q_{i,x})\n+\n\\eta_{\\mathbf{p}_i,y}(p_{i,y}-q_{i,y})\n}_\\text{No depende de $\\theta$, $t_x$ ni de $t_y$}\n+\n\\left(\n\\eta_{\\mathbf{p}_i,x}q_{i,y}\n-\n\\eta_{\\mathbf{p}_i,y}q_{i,x}\n\\right)\\theta\n-\n\\eta_{\\mathbf{p}_i,x}t_x\n-\n\\eta_{\\mathbf{p}_i,y}t_y\n)^2\n\\]\n\nSe escribe el término constante como un producto interno:\n\n\\[\n\\begin{align*}\ne\n&=\n\\sum_i\n\\left(\n\\boldsymbol{\\eta}_{\\mathbf{p}_i}^\\top\n(\\mathbf{p}_i-\\mathbf{q}_i)\n+\n\\left(\n\\eta_{\\mathbf{p}_i,x}q_{i,y}\n-\n\\eta_{\\mathbf{p}_i,y}q_{i,x}\n\\right)\\theta\n-\n\\eta_{\\mathbf{p}_i,x}t_x\n-\n\\eta_{\\mathbf{p}_i,y}t_y\n\\right)^2\n\\\\\n&=\n\\sum_i\n\\left(\n{e}_{0,i}\n+\n\\left(\n\\eta_{\\mathbf{p}_i,x}q_{i,y}\n-\n\\eta_{\\mathbf{p}_i,y}q_{i,x}\n\\right)\\theta\n-\n\\eta_{\\mathbf{p}_i,x}t_x\n-\n\\eta_{\\mathbf{p}_i,y}t_y\n\\right)^2\n\\end{align*}\n\\]\ncon \\({e}_{0,i} = \\boldsymbol{\\eta}_{\\mathbf{p}_i}^\\top (\\mathbf{p}_i-\\mathbf{q}_i)\\)"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-6",
+    "href": "clases/17/index.html#icp-punto-a-plano-6",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nSe define un vector incógnitas \\(\\boldsymbol{x} = \\begin{bmatrix} t_x & t_y & \\theta \\end{bmatrix}^\\top\\) y un vector de \\(\\boldsymbol{a}_i\\) tal que:\n\n\\[\n\\boldsymbol{a}_i\n=\n\\begin{bmatrix}\n-\\eta_{\\mathbf{p}_i,x}\n&\n-\\eta_{\\mathbf{p}_i,y}\n&\n\\eta_{\\mathbf{p}_i,x}q_{i,y}\n-\n\\eta_{\\mathbf{p}_i,y}q_{i,x}\n\\end{bmatrix}\n\\]\n\nReemplazando en la expresión de \\(e\\):\n\n\\[\ne_i\n=\n{e}_{0,i}\n+\n\\underbrace{\n\\begin{bmatrix}\n-\\eta_{\\mathbf{p}_i,x}\n&\n-\\eta_{\\mathbf{p}_i,y}\n&\n\\eta_{\\mathbf{p}_i,x}q_{i,y}\n-\n\\eta_{\\mathbf{p}_i,y}q_{i,x}\n\\end{bmatrix}\n}_{\\boldsymbol{a}_i}\n\\underbrace{\n\\begin{bmatrix}\nt_x\\\\\nt_y\\\\\n\\theta\n\\end{bmatrix}\n}_{\\boldsymbol{x}}.\n\\]\n\nPor lo tanto:\n\n\\[\ne\n=\n\\sum_i\n\\left(\n{e}_{0,i}\n+\n\\boldsymbol{a}_i ~\\boldsymbol{x}\n\\right)^2\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-7",
+    "href": "clases/17/index.html#icp-punto-a-plano-7",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nFinalmente podemos expresar el problema como mínimos cuadrados\n\n\\[\n\\mathbf{A}\n=\n\\begin{bmatrix}\n-\\eta_{\\mathbf{p}_1,x}\n&\n-\\eta_{\\mathbf{p}_1,y}\n&\n\\eta_{\\mathbf{p}_1,x}q_{1,y}\n-\n\\eta_{\\mathbf{p}_1,y}q_{1,x}\n\\\\\n-\\eta_{\\mathbf{p}_2,x}\n&\n-\\eta_{\\mathbf{p}_2,y}\n&\n\\eta_{\\mathbf{p}_2,x}q_{2,y}\n-\n\\eta_{\\mathbf{p}_2,y}q_{2,x}\n\\\\\n\\vdots\n&\n\\vdots\n&\n\\vdots\n\\\\\n-\\eta_{\\mathbf{p}_N,x}\n&\n-\\eta_{\\mathbf{p}_N,y}\n&\n\\eta_{\\mathbf{p}_N,x}q_{N,y}\n-\n\\eta_{\\mathbf{p}_N,y}q_{N,x}\n\\end{bmatrix}\n\\qquad\n\\mathbf{b}\n=\n\\begin{bmatrix}\n\\boldsymbol{\\eta}_{\\mathbf{p}_1}^{T}\n(\\mathbf{p}_1-\\mathbf{q}_1)\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_2}^{T}\n(\\mathbf{p}_2-\\mathbf{q}_2)\n\\\\\n\\vdots\n\\\\\n\\boldsymbol{\\eta}_{\\mathbf{p}_N}^{T}\n(\\mathbf{p}_N-\\mathbf{q}_N)\n\\end{bmatrix}\n\\]\n\\[\ne\n=\n\\left\\|\n\\mathbf{A}\\boldsymbol{x}+\\mathbf{b}\n\\right\\|^2\n\\]\n\nY nuestro problema se convierte en:\n\n\\[\n\\underset{\\mathbf{R}, \\mathbf{t}}{\\mathrm{argmin}}\n~\\sum_{i=1}^N\n\\left(\n\\left(\n\\mathbf{p}_i - (\\mathbf{R} ~\\mathbf{q}_i + \\mathbf{t})\n\\right)\n\\cdot\n\\boldsymbol{\\eta}_{\\mathbf{p}_i}\n\\right)^2\n\\longrightarrow\n\\underset{\\boldsymbol{x}}{\\mathrm{argmin}}\n~\\left\\|\n\\mathbf{A}\\boldsymbol{x}+\\mathbf{b}\n\\right\\|^2\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#icp-punto-a-plano-8",
+    "href": "clases/17/index.html#icp-punto-a-plano-8",
+    "title": "Robótica",
+    "section": "ICP “punto a plano”",
+    "text": "ICP “punto a plano”\n\nEl problema linealizado conduce a un problema de mínimos cuadrados con una matriz rectangular \\(\\mathbf{A} \\in \\Re^{N \\times 3}\\)\n\n\nEs posible resolver utilizando la pseudo-inversa:\n\n\\[\n\\mathbf{A}^{+} = \\left( \\mathbf{A}^\\top  ~\\mathbf{A} \\right)^{-1} ~\\mathbf{A}^\\top\n\\]\n\\[\n\\boldsymbol{x}\n=\n\\begin{bmatrix} t_x \\\\ t_y \\\\ \\theta \\end{bmatrix}\n=\n- \\mathbf{A}^{+} ~\\mathbf{b}\n\\]"
+  },
+  {
+    "objectID": "clases/17/index.html#implementación-2",
+    "href": "clases/17/index.html#implementación-2",
+    "title": "Robótica",
+    "section": "Implementación",
+    "text": "Implementación\n\nCallback del suscriptor a \\scan\n\n\nSi es el primer mensaje almacena los puntos de referencia junto a sus normales\nA partir del segundo, para cada mensaje que recibe realiza el procesamiento completo\n\n\n\n\n\n\n---\ndisplayMode: compact\nconfig:\n  htmlLabels: false\n---\nflowchart LR\n    B[\"Mensaje&lt;br/&gt;LaserScan\"] --&gt; C[\"Coordenadas&lt;br&gt;cartesianas\"]\n\n    C --&gt; D[\"Segmentar superficies&lt;br&gt;y estimar normales\"]\n\n    D --&gt; E{\"¿Primer scan?\"}\n\n    E --&gt;|Sí| E2[\"Almacenar scan&lt;br&gt;y sus normales\"]\n    \n    E2 --&gt; F[\"Inicializar estado&lt;br&gt;Pose = I\"]\n\n    E --&gt;|No| H \n\n    subgraph ICP[\" \"]\n        H[\"Ejecutar ICP&lt;br&gt;con scan anterior&lt;br&gt;y normales\"]\n        H --&gt; I{\"¿Convergió ICP?\"}\n\n        I --&gt;|No| J[\"Descartar transformación\"]\n\n        J .- N\n\n        I --&gt;|Sí| K[\"Construir transformación&lt;br&gt;homogénea\"]\n        K --&gt; L[\"Acumular pose\"]\n        L --&gt; M[\"Publicar odometría\"]\n        M --&gt; N[\"Actualizar scan&lt;br&gt;y normales\"]\n    end\n\n    %% ICP -&gt; G\n    N --&gt; G\n    J --&gt; G\n    F --&gt; G[\"Fin\"]"
+  },
+  {
+    "objectID": "clases/17/index.html#implementación-3",
+    "href": "clases/17/index.html#implementación-3",
+    "title": "Robótica",
+    "section": "Implementación",
+    "text": "Implementación\n\nAlgoritmo ICP\n\n\n\n\n\n\n---\ndisplayMode: compact\nconfig:\n  htmlLabels: false\n---\nflowchart LR\n    A[\"Conjunto P, Q&lt;br/&gt;y normales\"] --&gt; B[\"Inicializar transformación&lt;br&gt;y el arbol de búsqueda\"]\n\n    B --&gt; C     \n\n    subgraph ICP[\"Bucle de iteraciones\"]\n        C{\"Máximas&lt;br&gt;iteraciones?\"}\n\n        C --&gt;|No| D[\"Asociación&lt;br&gt;Nearest-neighbor\"]\n\n        D --&gt; E{\"Comprobar&lt;br&gt;cantidad&lt;br&gt;de&lt;br&gt;correspondencias\"}\n\n        E --&gt;|Suficientes| F[\"Calcular error\"]\n\n        F --&gt; H[\"Obtener la&lt;br&gt;transformación&lt;br&gt;óptima\"]\n\n        H --&gt; I[\"Actualizar&lt;br&gt;transformación\"]\n\n        I --&gt; J[\"Aplicar la&lt;br&gt;transformación&lt;br&gt; a los puntos\"]\n\n        J --&gt; L{\"Disminuyó&lt;br&gt;el error?\"}\n\n        L --&gt;|Disminuyó| C\n    end\n\n    C --&gt;|Si| G[\"Fin\"]\n    E --&gt;|No suficientes| G\n    L --&gt;|No disminuyó| G"
+  },
+  {
+    "objectID": "clases/17/index.html#laboratorio-1",
+    "href": "clases/17/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nLiDAR Odometry"
   },
   {
     "objectID": "clases/03/lab.html",

@@ -1,0 +1,2928 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.30">
+
+  <title>Robótica 2026 – Clase 17</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-7a2228716d3390c2d9f9ac68278f7f70.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <meta name="mermaid-theme" content="neutral">
+  <script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>.mjx-chtml{ font-size: 100% !important; }</style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Robótica</h1>
+  <p class="subtitle">Clase 17</p>
+
+<div class="quarto-title-authors">
+</div>
+
+  <p class="date">Semana 24 - 10/07/2026</p>
+</section>
+<section>
+
+<section id="localización-basada-en-lidar-1" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<img data-src="slides_files/mediabag/robot-scene-1.svg" style="width:100.0%">
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="localización-basada-en-lidar-2" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<img data-src="slides_files/mediabag/robot-scene-2.svg" style="width:100.0%">
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="localización-basada-en-lidar-3" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<img data-src="slides_files/mediabag/robot-scene-3.svg" style="width:100.0%">
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="localización-basada-en-lidar-4" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<img data-src="slides_files/mediabag/robot-scene-4.svg" style="width:100.0%">
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="localización-basada-en-lidar-5" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:20%;">
+
+</div><div class="column" style="width:60%;">
+<img data-src="slides_files/mediabag/reference-frames.svg" style="width:100.0%">
+</div><div class="column" style="width:20%;">
+
+</div></div>
+</section>
+<section id="localización-basada-en-lidar-6" class="slide level2 smaller">
+<h2>Localización basada en <em>LiDAR</em></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<blockquote>
+<p>Odometría mediante LiDAR</p>
+</blockquote>
+<ul>
+<li>Se necesita resolver la transformación: <span class="math display">\[\require{color} \mathbf{T}(\textcolor{ForestGreen}{\theta}, \textcolor{Maroon}{\mathbf{t}})\]</span></li>
+</ul>
+<p>tal que para un punto <span class="math inline">\(\textcolor{Blue}{p_i}\)</span> del <em>scan</em> anterior coincida con su <u>correspondiente</u> <span class="math inline">\(\textcolor{Orange}{q_i}\)</span> del <em>scan</em>:</p>
+<p><span class="math display">\[
+\textcolor{Blue}{p_i} = \mathbf{R}(\textcolor{ForestGreen}{\theta}) ~\textcolor{Orange}{q_i} + \textcolor{Maroon}{\mathbf{t}}
+\]</span></p>
+</div><div class="column" style="width:50%;">
+<img data-src="slides_files/mediabag/reference-frames.svg" style="width:100.0%">
+</div></div>
+<p><span class="math display">\[
+\mathbf{R}(\textcolor{ForestGreen}{\theta}) =
+\begin{bmatrix}
+\cos(\textcolor{ForestGreen}{\theta}) &amp; -\sin(\textcolor{ForestGreen}{\theta}) \\
+\sin(\textcolor{ForestGreen}{\theta}) &amp; \cos(\textcolor{ForestGreen}{\theta})
+\end{bmatrix}
+\qquad
+\textcolor{Maroon}{\mathbf{t}} = \begin{bmatrix}  \textcolor{Maroon}{{t}_x} &amp; \textcolor{Maroon}{{t}_y} \end{bmatrix}^\top
+\]</span></p>
+
+</section>
+</section>
+<section>
+
+<section id="definición-del-problema" class="slide level2 smaller">
+<h2>Definición del problema</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Dadas:
+<ul>
+<li><ol type="A">
+<li><u>dos nubes de puntos</u></li>
+</ol></li>
+<li><ol start="2" type="A">
+<li>un <em>laser scan</em> (local) y una nube de puntos (mapa global)</li>
+</ol></li>
+<li><ol start="3" type="A">
+<li>dos mapas</li>
+</ol></li>
+</ul></li>
+<li>Encontrar la rotación <span class="math inline">\(\mathbf{R}(\textcolor{ForestGreen}{\theta})\)</span> y traslación <span class="math inline">\(\textcolor{Maroon}{\mathbf{t}}\)</span> que los/las alinea</li>
+</ul>
+<p><br></p>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p>Se asume que una transformación de cuerpo rígido es suficiente para alinear los escaneos</p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/2d_point_cloud.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+<aside class="notes">
+<ul>
+<li>Queremos una rotación + traslación -&gt; hay solamente 3 grados de libertad: <span class="math inline">\(x, y, \theta\)</span></li>
+<li>Por simplicidad asumimos que una transformación de cuerpo rígido es suficiente para alinear los escaneos</li>
+<li>En la realidad, existe un escalamiento y estrechamiento no uniforme, junto con otras transformaciones no lineales</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="definición-del-problema-1" class="slide level2 smaller">
+<h2>Definición del problema</h2>
+<blockquote>
+<p>Caso ideal: los datos de asociación son conocidos (no ambiguos)</p>
+</blockquote>
+<ul>
+<li>Si la correspondencia correcta es conocida, la rotación y traslación relativa puede calcularse de forma cerrada</li>
+</ul>
+
+<img data-src="slides/figs/asociacion_conocida.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"><aside class="notes">
+<p>Supongamos que alguien nos dice qué punto del scan anterior corresponde a cada punto del scan actual.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="definición-del-problema-2" class="slide level2 smaller">
+<h2>Definición del problema</h2>
+<blockquote>
+<p>Caso ideal: los datos de asociación son conocidos (no ambiguos)</p>
+</blockquote>
+<ul>
+<li>Dado dos conjuntos de puntos <u>correspondientes</u>:</li>
+</ul>
+<p><span class="math display">\[
+\mathcal{P} = \{ p_1, p_2, \dots , p_n \} \\
+\mathcal{Q} = \{ q_1, q_2, \dots , q_n \}
+\]</span></p>
+<ul>
+<li>Encontrar la matriz de rotación y el vector de traslación que minimiza la suma del error cuadrático:</li>
+</ul>
+<p><span class="math display">\[
+e (\textcolor{ForestGreen}{\mathbf{R}}, \textcolor{Maroon}{\mathbf{t}})
+=
+\frac{1}{N}
+\sum_{i=1}^{N}
+|| p_i - (\textcolor{ForestGreen}{\mathbf{R}} ~q_i + \textcolor{Maroon}{\mathbf{t}}) ||^2
+\]</span></p>
+<p>donde <span class="math inline">\(p_i\)</span> y <span class="math inline">\(q_i\)</span> son puntos correspondientes</p>
+<!--
+$$
+\textcolor{ForestGreen}{\mathbf{R}}^{*}, \textcolor{Maroon}{\mathbf{t}}^{*}
+=
+\mathop{\mathrm{argmin}}_{\textcolor{ForestGreen}{\mathbf{R}}, \textcolor{Maroon}{\mathbf{t}}}
+e (\textcolor{ForestGreen}{\mathbf{R}}, \textcolor{Maroon}{\mathbf{t}})
+$$
+
+-->
+</section></section>
+<section>
+
+<section id="minimización-del-error-e" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<blockquote>
+<p>Se puede separar en dos problemas: encontrar la traslación y por otro lado la rotación</p>
+</blockquote>
+<ul>
+<li>Partiendo de la ecuación del error</li>
+</ul>
+<p><span class="math display">\[
+e =
+\frac{1}{N}
+\sum_{i}
+|| \mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t}) ||^2
+=
+\frac{1}{N}
+\sum_{i}
+\left(
+\mathbf{p}_i - \mathbf{R}\mathbf{q}_i - \mathbf{t}
+\right)^\top
+\left(
+\mathbf{p}_i - \mathbf{R}\mathbf{q}_i - \mathbf{t}
+\right)
+\]</span></p>
+<ul>
+<li>Dada una <span class="math inline">\(\mathbf{R}\)</span> fija se busca la traslación <span class="math inline">\(\mathbf{t}\)</span> que minimiza el error</li>
+<li>Se define <span class="math inline">\(\mathbf{a}_i = \mathbf{p}_i-\mathbf{R}\mathbf{q}_i\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+e =
+\sum_{i}
+(\mathbf{a}_i-\mathbf{t})^\top
+(\mathbf{a}_i-\mathbf{t})
+=
+\sum_{i}
+\left(
+\mathbf{a}_i^\top\mathbf{a}_i
+-
+2\mathbf{t}^\top\mathbf{a}_i
++
+\mathbf{t}^\top\mathbf{t}
+\right)
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-1" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>Como <span class="math inline">\(\mathbf{t}\)</span> es la variable respecto a la que se deriva:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+\frac{\partial e}{\partial\mathbf{t}}
+&amp;=
+\frac{\partial}{\partial\mathbf{t}} \sum_{i=1}^{N}
+\left( \mathbf{a}_i^\top\mathbf{a}_i - 2\mathbf{t}^\top\mathbf{a}_i + \mathbf{t}^\top\mathbf{t}\right)
+\\ &amp;=
+\sum_{i=1}^{N}
+\left(
+\frac{\partial}{\partial\mathbf{t}}
+\mathbf{a}_i^\top\mathbf{a}_i -
+\frac{\partial}{\partial\mathbf{t}}
+2\mathbf{t}^\top\mathbf{a}_i
++
+\frac{\partial}{\partial\mathbf{t}}
+\mathbf{t}^\top\mathbf{t}
+\right)
+\\ &amp;=
+\sum_{i=1}^{N}
+\left(
+-2\mathbf{a}_i
++
+2\mathbf{t}
+\right)
+=
+-2
+\sum_{i=1}^{N}
+\mathbf{a}_i
++
+2 N \mathbf{t}
+\end{align*}
+\]</span></p>
+<!--
+
+$$
+\frac{\partial e}{\partial\mathbf{t}}
+=
+\frac{\partial}{\partial\mathbf{t}} \sum_{i=1}^{N}
+\left( \mathbf{a}_i^\top\mathbf{a}_i - 2\mathbf{t}^\top\mathbf{a}_i + \mathbf{t}^\top\mathbf{t}\right)
+$$
+
+$$
+\frac{\partial e}{\partial\mathbf{t}}
+=
+\sum_{i=1}^{N}
+\left(
+\frac{\partial}{\partial\mathbf{t}}
+\mathbf{a}_i^\top\mathbf{a}_i - 
+\frac{\partial}{\partial\mathbf{t}}
+2\mathbf{t}^\top\mathbf{a}_i 
++
+\frac{\partial}{\partial\mathbf{t}}
+\mathbf{t}^\top\mathbf{t}
+\right)
+=
+\sum_{i=1}^{N}
+\left(
+-2\mathbf{a}_i
++
+2\mathbf{t}
+\right)
+=
+-2
+\sum_{i=1}^{N}
+\mathbf{a}_i
++
+2 N \mathbf{t}
+$$
+
+-->
+<ul>
+<li>Reemplazando nuevamente <span class="math inline">\(\mathbf{a}_i = \mathbf{p}_i-\mathbf{R}\mathbf{q}_i\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\frac{\partial e}{\partial\mathbf{t}}
+=
+-2
+\sum_{i}
+\left(
+\mathbf{p}_i-\mathbf{R}\mathbf{q}_i
+\right)
++
+2N\mathbf{t}
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-2" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>En el mínimo <span class="math inline">\(\dfrac{\partial e}{\partial\mathbf{t}}=\mathbf{0}\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+-2
+\sum_{i}
+\left(
+\mathbf{p}_i-\mathbf{R}\mathbf{q}_i
+\right)
++
+2N\mathbf{t}
+=
+\mathbf{0}
+\]</span></p>
+<ul>
+<li>Dividiendo por <span class="math inline">\(2N\)</span> y resolviendo para <span class="math inline">\(\mathbf{t}\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{t}
+=
+\frac{1}{N}
+\sum_{i}
+\left(
+\mathbf{p}_i-\mathbf{R}\mathbf{q}_i
+\right)
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-3" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>Como <span class="math inline">\(\mathbf{R}\)</span> es constante respecto de <span class="math inline">\(\mathbf{t}\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{t}
+=
+\frac{1}{N}\sum_{i=1}^{N}\mathbf{p}_i
+-
+\mathbf{R}
+\frac{1}{N}\sum_{i=1}^{N}\mathbf{q}_i
+\]</span></p>
+<ul>
+<li>Se definen los centroides:</li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{\mu}_p = \frac{1}{N_p} \sum_{i=1}^{N_p} p_i \qquad \boldsymbol{\mu}_q = \frac{1}{N_q} \sum_{i=1}^{N_q} q_i
+\]</span></p>
+<ul>
+<li>Y se obtiene la traslación óptima:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{t}^*
+=
+\boldsymbol{\mu}_p - \mathbf{R}\boldsymbol{\mu}_q
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-4" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<blockquote>
+<p><u>Conclusión</u>: la traslación óptima <span class="math inline">\(\mathbf{t}^*\)</span> hace coincidir el centroide de <span class="math inline">\(\mathcal{Q}\)</span> (una vez rotado) con el centroide de <span class="math inline">\(\mathcal{P}\)</span></p>
+</blockquote>
+<p><span class="math display">\[
+\mathbf{t}^*
+=
+\boldsymbol{\mu}_p - \mathbf{R}\boldsymbol{\mu}_q
+\quad \to \quad
+\mathbf{R}\boldsymbol{\mu}_q+\mathbf{t}^*
+=
+\boldsymbol{\mu}_p
+\]</span></p>
+<p><br></p>
+<div class="columns">
+<div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/2d_point_cloud_centroid.png" class="quarto-figure quarto-figure-center" style="width:65.0%"></p>
+</figure>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/2d_point_cloud_centered.png" class="quarto-figure quarto-figure-center" style="width:65.0%"></p>
+</figure>
+</div>
+</div></div>
+<!--
+::: {.callout-note appearance="minimal" title="[Paso 1]{.underline}: Sustraer los centros de masa de cada conjunto"} 
+
+
+$$
+\mathbf{\mu}_p = \frac{1}{N_p} \sum_{i=1}^{N_p} p_i \qquad \mathbf{\mu}_q = \frac{1}{N_q} \sum_{i=1}^{N_q} q_i
+$$
+
+- Los conjuntos resultantes son:
+
+$$
+\mathcal{P}' = \{ \mathbf{p}_i' \} = \{ \mathbf{p}_i - \boldsymbol{\mu}_p \} \\
+\mathcal{Q}' = \{ \mathbf{q}_i' \} = \{ \mathbf{q}_i - \boldsymbol{\mu}_q \}
+$$
+
+:::
+-->
+</section>
+<section id="minimización-del-error-e-5" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>Se sustituye <span class="math inline">\(\mathbf{t}\)</span> por <span class="math inline">\(\mathbf{t}^*\)</span> en la función del error:</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t}) ||^2 = || \mathbf{p}_i - \mathbf{R} ~\mathbf{q}_i - \boldsymbol{\mu}_p - \mathbf{R}\boldsymbol{\mu}_q ||^2
+\]</span></p>
+<ul>
+<li>Reordenando:</li>
+</ul>
+<p><span class="math display">\[
+|| (\boldsymbol{p}_i - \boldsymbol{\mu}_p) - \mathbf{R} (\boldsymbol{q}_i - \boldsymbol{\mu}_q) ||^2
+\]</span></p>
+<ul>
+<li>Reemplazando por las definiciones de <span class="math inline">\(\boldsymbol{p}_i'\)</span> y <span class="math inline">\(\boldsymbol{q}_i'\)</span> la función de error queda ahora como:</li>
+</ul>
+<p><span class="math display">\[
+e(\mathbf{R}) =
+\sum_{i}
+|| \boldsymbol{p}_i' - \mathbf{R} ~\boldsymbol{q}_i' ||^2
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-6" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>Se expande la expresión de <span class="math inline">\(|| \boldsymbol{p}_i' - \mathbf{R} ~\boldsymbol{q}_i' ||^2\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+\sum_{i}
+\left(
+\mathbf{q}_i'^\top\mathbf{q}_i'
+-
+\mathbf{q}_i'^\top\mathbf{R}\mathbf{p}_i'
+-
+\mathbf{p}_i'^\top\mathbf{R}^\top\mathbf{q}_i'
++
+\mathbf{p}_i'^\top\mathbf{R}^\top\mathbf{R}\mathbf{p}_i'
+\right)
+\]</span></p>
+<ul>
+<li>Siendo <span class="math inline">\(\mathbf{R}^\top\mathbf{R} = \mathbf{I}\)</span> por ser una matriz de rotación y <span class="math inline">\(\mathbf{p}_i'^\top\mathbf{R}^\top\mathbf{q}_i​=\mathbf{q}_i'^\top\mathbf{R}\mathbf{p}_i'​\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+e(\mathbf{R})
+=
+\sum_{i}
+\left(
+\mathbf{q}_i'^\top \mathbf{q}_i'
+-
+2 \mathbf{q}_i'^\top\mathbf{R}\mathbf{p}_i'
++
+\mathbf{p}_i'^\top \mathbf{p}_i'
+\right)
+\\
+e(\mathbf{R})
+=
+\sum_{i}
+\left(
+\left\|\mathbf{q}_i'\right\|^2
+-
+2\mathbf{q}_i'^\top\mathbf{R}\mathbf{p}_i'
++
+\left\|\mathbf{p}_i'\right\|^2
+\right)
+\]</span></p>
+<ul>
+<li>El único término que depende de la rotación <span class="math inline">\(\mathbf{R}\)</span> es:</li>
+</ul>
+<p><span class="math display">\[
+\boxed{
+-2\mathbf{q}_i'^\top\mathbf{R}\mathbf{p}_i'
+}
+\]</span></p>
+</section>
+<section id="minimización-del-error-e-7" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li>Se define la matriz <span class="math inline">\(\mathbf{W}\)</span> como:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{W} = \sum_{i=1}^{N_p} \mathbf{p}_i' ~\mathbf{q}_i'^\top
+\]</span></p>
+<p>y se calcula su <em>Singular Value Decomposition</em> (<span title="Singular Value Decomposition">SVD</span>):</p>
+<p><span class="math display">\[
+\mathbf{W} = \mathbf{U}
+\begin{bmatrix}
+\sigma_1 &amp; 0 \\
+0 &amp; \sigma_2 \\
+\end{bmatrix}
+\mathbf{V}^\top
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{U}, \mathbf{V} \in \Re^{2 \times 2}\)</span> son unitarios y <span class="math inline">\(\sigma_1 \geq \sigma_2\)</span> son los valores singulares de <span class="math inline">\(\mathbf{W}\)</span></p>
+<aside class="notes">
+<ul>
+<li><span class="math inline">\(\mathbf{W}\)</span> resume como se relacionan ambos conjuntos de puntos una vez centrados</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="minimización-del-error-e-8" class="slide level2 smaller">
+<h2>Minimización del error <span class="math inline">\(e\)</span></h2>
+<ul>
+<li><p>Existe un teorema <sup>1</sup> que demuestra que si el rango de la matriz <span class="math inline">\(\mathbf{W}\)</span> es igual a <span class="math inline">\(2\)</span>, la solución óptima de <span class="math inline">\(e(\mathbf{R})\)</span> es única y está dada por: <span class="math display">\[
+\mathbf{R}^* = \mathbf{V} ~\mathbf{U}^\top
+\]</span></p></li>
+<li><p>La traslación se obtiene reemplazando el valor de <span class="math inline">\(\mathbf{R}^*\)</span> en <span class="math inline">\(\mathbf{t}^*\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{t}^*
+=
+\boldsymbol{\mu}_q
+-
+\mathbf{R}^*
+\boldsymbol{\mu}_p
+\]</span></p>
+<p><br></p>
+<h4 id="se-obtuvieron-las-expresiones-para-la-rotación-y-traslación-óptimas-dado-dos-conjuntos-de-puntos">Se obtuvieron las expresiones para la rotación y traslación óptimas dado dos conjuntos de puntos</h4>
+<!-- 
+## Definición del problema {.smaller}
+
+- [Paso 2]{.underline}: Formar la matriz $\mathbf{W}$
+
+$$
+\mathbf{W} = \sum_{i=1}^{N_p} p_i' ~q_i'^\top
+$$
+
+- y calcular su [SVD]{title="Singular Value Decomposition"}
+
+$$
+\mathbf{W} = \mathbf{U}
+\begin{bmatrix}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0 \\
+0 & 0 & \sigma_3 \\
+\end{bmatrix}
+\mathbf{V}^\top
+$$
+
+donde $\mathbf{U}, \mathbf{V} \in \Re^{3 \times 3}$ son unitarios y $\sigma_1 \geq \sigma_2 \geq \sigma_3$ son los valores singulares de $\mathbf{W}$
+
+
+## Definición del problema {.smaller}
+
+- Existe un teorema que demuestra que si el rango de la matriz $\mathbf{W}$ es igual a $3$, la solución óptima de $e (\textcolor{ForestGreen}{\mathbf{R}}, \textcolor{Maroon}{\mathbf{t}})$ es única y está dada por:
+
+$$
+\textcolor{ForestGreen}{\mathbf{R}}^{*} = \mathbf{U} ~\mathbf{V}^\top \\
+\textcolor{Maroon}{\mathbf{t}}^{*} = \mu_p - \textcolor{ForestGreen}{\mathbf{R}} ~\mu_q
+$$
+
+- El valor mínimo la función de error en $(\textcolor{ForestGreen}{\mathbf{R}}^{*}, \textcolor{Maroon}{\mathbf{t}}^{*})$ es:
+
+$$
+e (\textcolor{ForestGreen}{\mathbf{R}}^{*}, \textcolor{Maroon}{\mathbf{t}}^{*})
+=
+\frac{1}{N}
+\sum_{i=1}^{N}
+\left(
+|| {x_i}' ||^2 + || {y_i}' ||^2
+\right)
+- 2(\sigma_1 + \sigma_2 + \sigma_3)
+$$
+
+-->
+<aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://doi.org/10.1109/TPAMI.1987.4767965" target="_blank">K. S. Arun, T. S. Huang and S. D. Blostein, “Least-Squares Fitting of Two 3-D Point Sets,” in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol.&nbsp;PAMI-9, no. 5, pp.&nbsp;698-700, Sept.&nbsp;1987</a></p></li></ol></aside></section>
+<section id="implementación-en-python" class="slide level2 smaller">
+<h2>Implementación en <em>Python</em></h2>
+<div class="columns">
+<div class="column">
+<div title="[Paso 1]{.underline}: Sustraer los centros de masa de cada conjunto">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><u>Paso 1</u>: Sustraer los centros de masa de cada conjunto</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\mathcal{P}' = \{ \mathbf{p}_i' \} = \{ \mathbf{p}_i - \boldsymbol{\mu}_p \} \\
+\mathcal{Q}' = \{ \mathbf{q}_i' \} = \{ \mathbf{q}_i - \boldsymbol{\mu}_q \}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div title="[Paso 2]{.underline}: Calcular la matriz $\mathbf{W}$">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><u>Paso 2</u>: Calcular la matriz <span class="math inline">\(\mathbf{W}\)</span></strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\mathbf{W} = \sum_{i=1}^{N_p} p_i' ~q_i'^\top\\
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div title="[Paso 3]{.underline}: Realizar el *SVD*">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><u>Paso 3</u>: Realizar el <em>SVD</em></strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\mathbf{W} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^\top\\
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div title="[Paso 4]{.underline}: Recuperar la rotación y traslación óptima">
+<div class="callout callout-note no-icon callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><u>Paso 4</u>: Recuperar la rotación y traslación óptima</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+{\mathbf{R}}^{*} = \mathbf{V} ~\mathbf{U}^\top
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{t}^* = \boldsymbol{\mu}_p - \mathbf R^* \boldsymbol{\mu}_q
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="sourceCode" id="cb1" data-code-line-numbers="|4-6|8-10|12-13|15-16|18-19|21-24|26-27"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="kw">def</span> svd_motion_estimation(p, q):</span>
+<span id="cb1-4"><a></a>    <span class="co"># Centroides</span></span>
+<span id="cb1-5"><a></a>    mu_p <span class="op">=</span> np.mean(p, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-6"><a></a>    mu_q <span class="op">=</span> np.mean(q, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a>    <span class="co"># Centrar las nubes de puntos</span></span>
+<span id="cb1-9"><a></a>    p_prima <span class="op">=</span> (p <span class="op">-</span> mu_p[:, np.newaxis])</span>
+<span id="cb1-10"><a></a>    q_prima <span class="op">=</span> (q <span class="op">-</span> mu_q[:, np.newaxis])</span>
+<span id="cb1-11"><a></a></span>
+<span id="cb1-12"><a></a>    <span class="co"># Matriz de covarianza cruzada </span></span>
+<span id="cb1-13"><a></a>    W <span class="op">=</span> q_prima <span class="op">@</span> p_prima.T</span>
+<span id="cb1-14"><a></a></span>
+<span id="cb1-15"><a></a>    <span class="co"># SVD con la librería 'numpy'</span></span>
+<span id="cb1-16"><a></a>    U, _, Vt <span class="op">=</span> np.linalg.svd(W)</span>
+<span id="cb1-17"><a></a></span>
+<span id="cb1-18"><a></a>    <span class="co"># Rotación</span></span>
+<span id="cb1-19"><a></a>    R <span class="op">=</span> (U <span class="op">@</span> Vt).T</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a>    <span class="co"># Corrección por reflexión</span></span>
+<span id="cb1-22"><a></a>    <span class="cf">if</span> np.linalg.det(R) <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-23"><a></a>        Vt[<span class="op">-</span><span class="dv">1</span>, :] <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-24"><a></a>        R <span class="op">=</span> (U <span class="op">@</span> Vt).T</span>
+<span id="cb1-25"><a></a></span>
+<span id="cb1-26"><a></a>    <span class="co"># Traslación</span></span>
+<span id="cb1-27"><a></a>    T <span class="op">=</span> mu_q <span class="op">-</span> R <span class="op">@</span> mu_p</span>
+<span id="cb1-28"><a></a></span>
+<span id="cb1-29"><a></a>    <span class="cf">return</span> R, T</span></code></pre></div>
+</div></div>
+</section></section>
+<section>
+
+<section id="aplicación-a-odometría" class="slide level2 smaller">
+<h2>Aplicación a odometría</h2>
+<blockquote>
+<p>Una vez obtenidos <span class="math inline">\(\mathbf{t}^*\)</span> y <span class="math inline">\(\mathbf{R}^*\)</span>, pueden utilizarse para relacionar mediciones consecutivas de <em>LiDAR</em></p>
+</blockquote>
+<p><span class="math display">\[
+\mathbf{p}^{t-1} = \mathbf{p} \in \mathcal{P}
+\qquad
+\mathbf{p}^{t} = \mathbf{q} \in \mathcal{Q}
+\]</span></p>
+<p>de manera tal que la rotación <span class="math inline">\(\mathbf{R}^{*}\)</span> y la traslación <span class="math inline">\(\mathbf{t}^{*}\)</span> permiten alinearlos:</p>
+<p><span class="math display">\[
+\mathbf{p}^{t-1} = \mathbf{R}^{*} ~\mathbf{p}^t + \mathbf{t}^{*} \to \begin{cases}
+\mathbf{R}^{*} = \mathbf{R}{(t, t-1)} \\
+\mathbf{t}^{*} = \mathbf{t}{(t, t-1)}
+\end{cases}
+\]</span></p>
+<ul>
+<li>Podemos reconstruir la transformación homogénea utilizando:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{T}(\mathbf{R}^{*}, \mathbf{t}^{*}) =
+\begin{bmatrix}
+\cos(\theta) &amp; -\sin(\theta) &amp; t_x \\
+\sin(\theta) &amp;  \cos(\theta) &amp; t_y \\
+           0 &amp;             0 &amp;   1
+\end{bmatrix}
+\]</span></p>
+</section>
+<section id="aplicación-a-odometría-1" class="slide level2 smaller">
+<h2>Aplicación a odometría</h2>
+<blockquote>
+<p>Una vez obtenidos <span class="math inline">\(\mathbf{t}^*\)</span> y <span class="math inline">\(\mathbf{R}^*\)</span>, pueden utilizarse para relacionar mediciones consecutivas de <em>LiDAR</em></p>
+</blockquote>
+<ul>
+<li><p>La transformación <span class="math inline">\(\mathbf{T}^{(t,t-1)}\)</span> representa el <strong>movimiento relativo del robot</strong> entre las mediciones <span class="math inline">\(t-1\)</span> y <span class="math inline">\(t\)</span></p></li>
+<li><p>Al igual que en una odometría cinemática, la <em>pose</em> en el tiempo <span class="math inline">\(t\)</span> puede obtenerse acumulando estas transformaciones a partir de una <em>pose</em> inicial:</p></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{T}^{(t)}
+=
+\mathbf{T}^{(1,0)}
+\cdot
+\mathbf{T}^{(2,1)}
+\cdots
+\mathbf{T}^{(t,t-1)}
+\]</span></p>
+<!--
+- La transformación $\mathbf{T}(t, t-1): (\mathbf{R}{(t, t-1)}, ~\mathbf{t}{(t, t-1)})$ puede ser utilizada para obtener el desplazamiento del robot
+
+- Al igual que la odometría, la *pose* en el tiempo $t$ puede ser obtenida a partir de una incial:
+
+$$
+\mathbf{T}^{(t)} = \mathbf{T}^{(1, 0)} \cdot \mathbf{T}^{(2, 1)} ~\cdots ~\mathbf{T}^{(t, t-1)}
+$$
+-->
+</section>
+<section id="nodo-de-ros2" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:</li>
+</ul>
+</div><div class="column">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb2-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb2-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb2-4"><a></a>  </span>
+<span id="cb2-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb2-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb2-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb2-9"><a></a>  </span>
+<span id="cb2-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb2-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb2-12"><a></a>    p_points, q_points</span>
+<span id="cb2-13"><a></a>  )</span>
+<span id="cb2-14"><a></a>  </span>
+<span id="cb2-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb2-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb2-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb2-18"><a></a>  )</span>
+<span id="cb2-19"><a></a>  </span>
+<span id="cb2-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb2-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb2-22"><a></a>  </span>
+<span id="cb2-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb2-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+<!-- ```py
+class ICP_Odometry(Node):
+    def __init__(self):
+        super().__init__('icp_odometry_node')
+        
+        # Creación de los suscriptores
+        self.slam_sub = self.create_subscription(LaserScan, 'scan', self.scan_callback, 1)
+
+        # Conjunto de puntos 2D (x, y)
+        self.p_points = None
+        
+        # Creación del publisher
+        self.odom_pub = self.create_publisher(Odometry, 'icp_odom', 10)
+        
+        # Pose estimada (inicia como I)
+        self.pose = np.eye(3)
+``` -->
+</section>
+<section id="nodo-de-ros2-1" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:
+<ol type="1">
+<li>Convertir los puntos a coordenadas cartesianas</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{p}_i =
+\begin{bmatrix}
+x_i \\
+y_i
+\end{bmatrix}
+=
+r_i
+\begin{bmatrix}
+\cos(\theta_i) \\
+\sin(\theta_i)
+\end{bmatrix}
+\]</span></p>
+</div><div class="column">
+<div class="sourceCode" id="cb3" data-code-line-numbers="2-3|5-8"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb3-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb3-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb3-4"><a></a>  </span>
+<span id="cb3-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb3-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb3-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb3-9"><a></a>  </span>
+<span id="cb3-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb3-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb3-12"><a></a>    p_points, q_points</span>
+<span id="cb3-13"><a></a>  )</span>
+<span id="cb3-14"><a></a>  </span>
+<span id="cb3-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb3-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb3-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb3-18"><a></a>  )</span>
+<span id="cb3-19"><a></a>  </span>
+<span id="cb3-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb3-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb3-22"><a></a>  </span>
+<span id="cb3-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb3-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+</section>
+<section id="nodo-de-ros2-2" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:
+<ol type="1">
+<li>Convertir los puntos a coordenadas cartesianas</li>
+<li>Estimar la transformación óptima</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="sourceCode" id="cb4" data-code-line-numbers="10-13"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb4-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb4-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb4-4"><a></a>  </span>
+<span id="cb4-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb4-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb4-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb4-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb4-9"><a></a>  </span>
+<span id="cb4-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb4-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb4-12"><a></a>    p_points, q_points</span>
+<span id="cb4-13"><a></a>  )</span>
+<span id="cb4-14"><a></a>  </span>
+<span id="cb4-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb4-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb4-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb4-18"><a></a>  )</span>
+<span id="cb4-19"><a></a>  </span>
+<span id="cb4-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb4-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb4-22"><a></a>  </span>
+<span id="cb4-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb4-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+</section>
+<section id="nodo-de-ros2-3" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:
+<ol type="1">
+<li>Convertir los puntos a coordenadas cartesianas</li>
+<li>Estimar la transformación óptima</li>
+<li>Actualizar la <code>pose</code></li>
+</ol></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{T}^{(t)} = \mathbf{T}^{(t-1)} \cdot ~\mathbf{T}^{(t, t-1)}
+\]</span></p>
+</div><div class="column">
+<div class="sourceCode" id="cb5" data-code-line-numbers="15-18"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb5-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb5-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb5-4"><a></a>  </span>
+<span id="cb5-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb5-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb5-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb5-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb5-9"><a></a>  </span>
+<span id="cb5-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb5-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb5-12"><a></a>    p_points, q_points</span>
+<span id="cb5-13"><a></a>  )</span>
+<span id="cb5-14"><a></a>  </span>
+<span id="cb5-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb5-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb5-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb5-18"><a></a>  )</span>
+<span id="cb5-19"><a></a>  </span>
+<span id="cb5-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb5-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb5-22"><a></a>  </span>
+<span id="cb5-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb5-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+</section>
+<section id="nodo-de-ros2-4" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:
+<ol type="1">
+<li>Convertir los puntos a coordenadas cartesianas</li>
+<li>Estimar la transformación óptima</li>
+<li>Actualizar la <code>pose</code></li>
+<li>Publicar la odometría</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="sourceCode" id="cb6" data-code-line-numbers="20-21"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb6-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb6-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb6-4"><a></a>  </span>
+<span id="cb6-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb6-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb6-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb6-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb6-9"><a></a>  </span>
+<span id="cb6-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb6-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb6-12"><a></a>    p_points, q_points</span>
+<span id="cb6-13"><a></a>  )</span>
+<span id="cb6-14"><a></a>  </span>
+<span id="cb6-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb6-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb6-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb6-18"><a></a>  )</span>
+<span id="cb6-19"><a></a>  </span>
+<span id="cb6-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb6-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb6-22"><a></a>  </span>
+<span id="cb6-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb6-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+</section>
+<section id="nodo-de-ros2-5" class="slide level2 smaller">
+<h2>Nodo de <em>ROS2</em></h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Procesar cada mensaje:
+<ol type="1">
+<li>Convertir los puntos a coordenadas cartesianas</li>
+<li>Estimar la transformación óptima</li>
+<li>Actualizar la <code>pose</code></li>
+<li>Publicar la odometría</li>
+<li>Actualizar los puntos</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="sourceCode" id="cb7" data-code-line-numbers="23-24"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="kw">def</span> scan_callback(<span class="va">self</span>, msg: LaserScan):</span>
+<span id="cb7-2"><a></a>  <span class="co"># Convertir de coordenada polar a cartesiana</span></span>
+<span id="cb7-3"><a></a>  q_points <span class="op">=</span> <span class="va">self</span>.laser_scan_to_points(msg)</span>
+<span id="cb7-4"><a></a>  </span>
+<span id="cb7-5"><a></a>  <span class="co"># Si es el primer mensaje</span></span>
+<span id="cb7-6"><a></a>  <span class="cf">if</span> <span class="va">self</span>.previous_points <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb7-7"><a></a>    <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span>
+<span id="cb7-8"><a></a>    <span class="cf">return</span>  <span class="co"># Termina</span></span>
+<span id="cb7-9"><a></a>  </span>
+<span id="cb7-10"><a></a>  <span class="co"># Obtener la transformación</span></span>
+<span id="cb7-11"><a></a>  Rt, Tt <span class="op">=</span> <span class="va">self</span>.svd_motion_estimation(</span>
+<span id="cb7-12"><a></a>    p_points, q_points</span>
+<span id="cb7-13"><a></a>  )</span>
+<span id="cb7-14"><a></a>  </span>
+<span id="cb7-15"><a></a>  <span class="co"># Acumular pose</span></span>
+<span id="cb7-16"><a></a>  <span class="va">self</span>.pose <span class="op">=</span> <span class="va">self</span>.update_homogeneous_matrix(</span>
+<span id="cb7-17"><a></a>    <span class="va">self</span>.pose, R, T</span>
+<span id="cb7-18"><a></a>  )</span>
+<span id="cb7-19"><a></a>  </span>
+<span id="cb7-20"><a></a>  <span class="co"># Publicar la odometría</span></span>
+<span id="cb7-21"><a></a>  <span class="va">self</span>.publish_odometry(msg.header.stamp)</span>
+<span id="cb7-22"><a></a>  </span>
+<span id="cb7-23"><a></a>  <span class="co"># Actualizar el scan para la próxima iteración</span></span>
+<span id="cb7-24"><a></a>  <span class="va">self</span>.p_points <span class="op">=</span> q_points.copy()</span></code></pre></div>
+</div></div>
+</section></section>
+<section>
+
+<section id="definición-del-problema-3" class="slide level2 smaller">
+<h2>Definición del problema</h2>
+<blockquote>
+<p>Caso real: los datos de asociación son desconocidos</p>
+</blockquote>
+<ul>
+<li>Si la correspondencia correcta no es conocida, es casi imposible determinar la rotación y traslación óptima en <u>un solo paso</u></li>
+</ul>
+
+<img data-src="slides/figs/asociacion_desconocida.png" class="quarto-figure quarto-figure-center r-stretch" style="width:50.0%"></section>
+<section id="definición-del-problema-4" class="slide level2 smaller">
+<h2>Definición del problema</h2>
+<blockquote>
+<p>Caso real: los datos de asociación son desconocidos</p>
+</blockquote>
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+displayMode: compact
+config:
+  htmlLabels: false
+  flowchart:
+    curve: catmull
+---
+flowchart TD
+    A(Correspondencias)
+    B(Alineación)
+    A ==&gt;|"`Para encontrar
+    buenas
+    correspondencias
+    necesito una buena
+    alineación`"| B
+    B ==&gt;|"`Para obtener una
+    buena alineación
+    necesito
+    correspondencias`"| A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><u>Hipótesis</u>: si la alineación es <em>aproximadamente</em> correcta, los puntos correspondientes deberían estar cerca</li>
+</ul>
+</section>
+<section id="iterated-closest-points-icp" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<h4 id="iterar-para-encontrar-el-alineamiento">Iterar para encontrar el alineamiento</h4>
+<div class="columns">
+<div class="column" style="width:55%;">
+<blockquote>
+<p><u>Algoritmo</u></p>
+</blockquote>
+<ol type="1">
+<li>Proponer correspondencias entre <span class="math inline">\(\mathcal{P}\)</span> y <span class="math inline">\(\mathcal{Q}\)</span></li>
+<li>Encontrar el <span class="math inline">\(\mathbf{R}\)</span> y <span class="math inline">\(\mathbf{t}\)</span> óptimo para esa correspondencia</li>
+<li>Aplicar la transformación y calcular el error</li>
+<li>Si el error disminuyó, volver a (1)</li>
+<li>Si no, devolver <span class="math inline">\(\mathbf{R}\)</span> y <span class="math inline">\(\mathbf{t}\)</span></li>
+</ol>
+<!-- Cita: Paul J. Besl, and Neil D. McKay. A Method for
+Registration of 3-D Shapes. IEEE Transactions on Pattern
+Analysis and Machine Intelligence (PAMI), 14(2), pp. 239–
+256, 1992. -->
+</div><div class="column" style="width:45%;">
+<div class="quarto-embed-nb-cell" data-notebook="/workspaces/fichtar16-2026/source/clases/17/slides/_lidar_example.ipynb" data-notebook-cellid="cell-point-cloud-example">
+<div id="cell-point-cloud-example" class="cell">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/slides-_lidar_example-point-cloud-example-output-1.svg" id="point-cloud-example" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div title="Converge si los puntos inciales están lo &quot;suficientemente cerca&quot;">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Converge si los puntos inciales están lo “suficientemente cerca”</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="iterated-closest-points-icp-1" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p>Correspondencias: vecino más cercano (<em>Nearest Neighbor</em>)</p>
+</blockquote>
+<ul>
+<li>Para cada punto en <span class="math inline">\(\mathcal{P}\)</span> buscamos el punto más cercano en <span class="math inline">\(\mathcal{Q}\)</span>:</li>
+</ul>
+<p><span class="math display">\[ q_i = \underset{q \in \mathcal{Q}}{\operatorname{arg\,min}} \|\mathbf{p}_i-\mathbf{q}\| \]</span></p>
+<ul>
+<li><strong>Búsqueda exhaustiva</strong>: para cada punto en <span class="math inline">\(\mathcal{P}\)</span> se mide la distancia a todos los puntos de <span class="math inline">\(\mathcal{Q}\)</span> y se comparan todos los candidatos</li>
+</ul>
+<p><span class="math display">\[ d_{ij}=\|\mathbf p_i-\mathbf q_j\| \]</span></p>
+<p><span class="math display">\[ j^*=\arg\min_j d_{ij} \]</span></p>
+</section>
+<section id="iterated-closest-points-icp-2" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p>Correspondencias: vecino más cercano (<em>Nearest Neighbor</em>)</p>
+</blockquote>
+<ul>
+<li><p><strong>Problema computacional</strong>: Con <span class="math inline">\(N\)</span> puntos en <span class="math inline">\(\mathcal{P}\)</span> y <span class="math inline">\(M\)</span> puntos en <span class="math inline">\(\mathcal{Q}\)</span> el problema es de orden <span class="math inline">\(\mathcal{O}(NM)\)</span></p></li>
+<li><p><u>Prueba con 500 puntos</u>: son 250.000 distancias y comparaciones</p></li>
+<li><p>Si por cada punto se consumen <span class="math inline">\(\sim 0.25 [ms]\)</span> la búsqueda de vecino más cercano toma alrededor de <span class="math inline">\(125 [ms]\)</span></p></li>
+<li><p>Esto lo debemos acumular por cada iteración del <em>ICP</em>: con 4 iteraciones ya suman <span class="math inline">\(500 [ms]\)</span></p></li>
+<li><p>Para un robot moviendose a <span class="math inline">\(0.5 [m/s]\)</span> significan <span class="math inline">\(25 [cm]\)</span> de error</p></li>
+<li><p>Para un <em>LiDAR</em> a <span class="math inline">\(10 [Hz]\)</span> se debieron descartar 4 mediciones</p></li>
+</ul>
+</section>
+<section id="iterated-closest-points-icp-3" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p>Correspondencias: vecino más cercano (<em>Nearest Neighbor</em>)</p>
+</blockquote>
+<div title="Posible solución: utilizar *KD-Tree*">
+<div class="callout callout-tip callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Posible solución: utilizar <em>KD-Tree</em></strong></p>
+</div>
+<div class="callout-content">
+<div class="sourceCode" id="cb8"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> KDTree</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Dentro del nodo, crear el árbol usando el vector de puntos <code>p_points</code> de <span class="math inline">\(N \times 2\)</span>:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="va">self</span>.kdtree <span class="op">=</span> KDTree(p_points)</span></code></pre></div>
+<ul>
+<li>Para obtener las correlaciones:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource py number-lines"><code class="sourceCode python"><span id="cb10-1"><a></a>distances, indexes <span class="op">=</span> tree.query(q_points,   <span class="co"># Para cada punto en q</span></span>
+<span id="cb10-2"><a></a>  k<span class="op">=</span><span class="dv">1</span>,                                      <span class="co"># el vecino más cercano</span></span>
+<span id="cb10-3"><a></a>  distance_upper_bound<span class="op">=</span><span class="va">self</span>.max_distance    <span class="co"># (opcional) limitar la distancia</span></span>
+<span id="cb10-4"><a></a>)</span></code></pre></div>
+<div title="Devuelve $N$ cuando no encuentra un vecino dentro de la distancia límite">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Devuelve <span class="math inline">\(N\)</span> cuando no encuentra un vecino dentro de la distancia límite</strong></p>
+</div>
+<div class="callout-content">
+<!--
+```py {code-line-numbers="false"}
+# Para tener los puntos válidos:
+valid = ((indexes < p_points.shape[1]) & (distances != np.inf))
+
+q_matched = q_points[:, valid]
+p_matched = p_points[:, indexes[valid]]
+```
+-->
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="iterated-closest-points-icp-4" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p><u>Paso 0</u>: Inicializar</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(k \gets 0 \hspace{3em} \rhd \text{Número de iteración}\)</span></li>
+<li><span class="math inline">\(\sigma \gets \infty \hspace{2.6em} \rhd \text{RMSE}\)</span></li>
+<li><span class="math inline">\(\mathbf{T} \gets \mathbf{I} \hspace{2.75em} \rhd \text{Transformación incial}\)</span></li>
+</ul>
+<blockquote>
+<p><u>Paso 1</u>: Pre-alinear</p>
+</blockquote>
+<ul>
+<li><p><span class="math inline">\(\mathbf{c}^{p}, ~\mathbf{c}^{q} \gets \text{Centro } (\mathcal{P}, \mathcal{Q}) \qquad \rhd \mathbf{c} = [x_c, y_c]\)</span></p></li>
+<li><p><span class="math inline">\(\mathcal{P} = \mathbf{T}(0, \text{diff}(\mathbf{c}^p, ~\mathbf{c}^{q})) \cdot \mathcal{P}\)</span></p></li>
+</ul>
+</section>
+<section id="iterated-closest-points-icp-5" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p><u>Paso 2</u>: búsqueda de “vecino más cercano”</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(\text{Asociar } (\mathcal{P}, \mathcal{Q})\)</span>
+<ul>
+<li><span class="math inline">\(\mathbf{q}_i \gets \underset{\mathbf{q}_j ~\in ~\mathcal{Q}}{\mathrm{argmin}} ~\|\mathbf{p}_i-\mathbf{q}_j\|^2  ~\forall ~\mathbf{p}_i \in \mathcal{P} \qquad \rhd \text{Algoritmo KNN con } k=1\)</span></li>
+<li><span class="math inline">\(\mathcal{C} \gets \left\{ (\mathbf{p}_i,\mathbf{q}_i) \right\}\)</span></li>
+</ul></li>
+</ul>
+<blockquote>
+<p><u>Paso 3</u>: Calcular el <span class="math inline">\(RMSE\)</span></p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(\sigma^{+} \gets \sqrt{ \frac{1}{N} \sum_{i} \|\mathbf p_i-\mathbf q_i\|^2 }\)</span></li>
+<li><span class="math inline">\(\Delta\sigma \gets |\sigma - \sigma^{+}|\)</span></li>
+</ul>
+<!--
+- $\text{RMSE} \gets \sqrt{ \sum_{i=1}^{N} \frac{(p_i - q_i)^2}{N}}$
+- $\Delta \text{RMSE} \gets |\text{RMSE}^{t-1} - \text{RMSE}|$
+
+$\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^{N} \|\mathbf p_i-\mathbf q_i\|^2 }$
+
+Es mucho más claro que el cuadrado se aplica a la distancia euclídea, no componente a componente.
+-->
+</section>
+<section id="iterated-closest-points-icp-6" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p><u>Paso 4</u>: Estimar transformación</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\((\mathbf{R}, \mathbf{t}) \gets \text{SVD}(\mathcal{C})\)</span></li>
+</ul>
+<!-- - $\text{Single Value Decomposition } (\textcolor{Red}{P_{t-1}}, \textcolor{Blue}{P_{t}})$
+  - $\mathbf{s}^{t-1}, ~\mathbf{s}^{t} \gets \text{Centro } (\textcolor{Red}{P_{t-1}}, \textcolor{Blue}{P_{t}})$
+  - $\hat{P}_{t-1}, \hat{P}_{t} \gets \textcolor{Red}{P_{t-1}} - \mathbf{s}^{t-1}, \textcolor{Blue}{P_{t}} - \mathbf{s}^t$
+  - $\mathbf{W} \gets \hat{P}_{t} \cdot {\hat{P}_{t-1}}^\top$
+  - $\mathbf{U}, \mathbf{V} \gets \text{SVD }(\mathbf{W})$
+  - $\mathbf{R} \gets (\mathbf{U} \cdot \mathbf{V})^\top$
+  - $\mathbf{T} \gets \mathbf{s}^{t-1} - \mathbf{R} \cdot ~\mathbf{s}^{t}$ -->
+<!-- - $\text{Single Value Decomposition } (\textcolor{Red}{P_{t-1}}, \textcolor{Blue}{P_{t}})$
+  - $\mathbf{s}^{t-1}, ~\mathbf{s}^{t} \gets \text{Centro } (\textcolor{Red}{P_{t-1}}, \textcolor{Blue}{P_{t}})$
+  - $\hat{P}_{t-1} \gets \textcolor{Red}{P_{t-1}} - \mathbf{s}^{t-1}$
+  - $\hat{P}_{t} \gets \textcolor{Blue}{P_{t}} - \mathbf{s}^t$
+  - $\mathbf{W} \gets \hat{P}_{t} \cdot {\hat{P}_{t-1}}^\top$
+  - $\mathbf{U}, \mathbf{V} \gets \text{SVD }(\mathbf{W})$
+  - $\mathbf{R} \gets (\mathbf{U} \cdot \mathbf{V})^\top$
+  - $\mathbf{T} \gets \mathbf{s}^{t-1} - \mathbf{R} \cdot ~\mathbf{s}^{t}$ -->
+<!--
+- $\mathbf{R}, ~\mathbf{t} \gets \underset{\mathbf{R}, \mathbf{t}}{\mathrm{argmin}} \frac{1}{N} \sum_{i=1}^{N} || \mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t}) ||^2  \qquad \rhd \text{Single Value Decomposition}$
+-->
+<blockquote>
+<p><u>Paso 5</u>: Actualizar la nube de puntos y la transformación actual</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(\mathcal{P}^{+} \gets \mathbf{R} \cdot \mathcal{P} + \mathbf{t}\)</span></li>
+<li><span class="math inline">\(\mathbf{T}^{+} \gets \mathbf{T} \cdot \begin{bmatrix} {\mathbf{R}} &amp; \mathbf{t} \\ \mathbf{0} &amp; 1 \end{bmatrix}\)</span></li>
+</ul>
+<!--
+- $\textcolor{Blue}{P_{t}}^{+} \gets \mathbf{R} \cdot \textcolor{Blue}{P_{t}} + \mathbf{t}$
+- $\textcolor{gray}{\mathbf{T}}^{+}(\theta, \mathbf{t}) \gets \textcolor{gray}{\mathbf{T}}(\theta, \mathbf{t}) \cdot \begin{bmatrix} {\mathbf{R}(\theta)} & \mathbf{t} \\ \mathbf{0} & 1 \end{bmatrix}$
+-->
+<!--
+- $\textcolor{gray}{\mathbf{T}}(\theta, \mathbf{t}) \gets \textcolor{gray}{\mathbf{T}}(\theta, \mathbf{t}) \cdot \begin{bmatrix} \cos(\textcolor{ForestGreen}{\theta}) & -\sin(\textcolor{ForestGreen}{\theta}) & \textcolor{Maroon}{\mathbf{Q}_x} \\ \sin(\textcolor{ForestGreen}{\theta}) & \cos(\textcolor{ForestGreen}{\theta}) & \textcolor{Maroon} {\mathbf{Q}_y} \\ 0 & 0 & 1 \\ \end{bmatrix}$
+-->
+</section>
+<section id="iterated-closest-points-icp-7" class="slide level2 smaller">
+<h2>Iterated Closest Points (ICP)</h2>
+<blockquote>
+<p><u>Paso 6</u>: Verificar condiciones de corte</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(|\sigma - \sigma^{+}| &lt; \epsilon \quad \lor \quad k &gt; N_{\textrm{MAX}} \to \text{Fin.}\)</span></li>
+</ul>
+<!--
+- $\Delta\sigma < \epsilon \to \text{Fin.}$
+- $k > N_{\textrm{MAX}} \to \text{Fin.}$
+-->
+<blockquote>
+<p><u>Paso 7</u>: Si no, continuar</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(k \gets k+1\)</span></li>
+<li><span class="math inline">\(\sigma, \textcolor{Blue}{P_{t}}, \textcolor{gray}{\mathbf{T}} \gets \sigma^{+}, \textcolor{Blue}{P_{t}}^{+}, \textcolor{gray}{\mathbf{T}}^{+}\)</span></li>
+</ul>
+<!--
+- $k \gets k+1$
+- $\sigma \gets \sigma^{+}$
+- $\textcolor{Blue}{P_{t}} \gets \textcolor{Blue}{P_{t}}^{+}$
+- $\textcolor{gray}{\mathbf{T}} \gets \textcolor{gray}{\mathbf{T}}^{+}$
+-->
+</section></section>
+<section>
+
+<section id="icp-punto-a-punto" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a punto”</h2>
+<div class="columns">
+<div class="column">
+<blockquote>
+<p>Problemas con <em>ICP</em> <em>point-to-point</em></p>
+</blockquote>
+<ul>
+<li>Correspondencias ambiguas</li>
+<li>No hay representación de la estructura geométrica</li>
+<li>Puntos equivalentes y movimientos mal condicionados</li>
+</ul>
+<p><br></p>
+<div class="fragment">
+<div title="Los puntos en realidad pertenecen a una superficie">
+<div class="callout callout-tip callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Los puntos en realidad pertenecen a una superficie</strong></p>
+</div>
+<div class="callout-content">
+<p>Si conocemos la superficie podemos añadir la información de su normal</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/point2point_problem.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div></div>
+<aside class="notes">
+<p>Hay movimientos que cambian mucho las correspondencias individuales pero prácticamente no cambian la geometría de la superficie</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="icp-punto-a-plano" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>En lugar de minimizar la distancia euclídea:</li>
+</ul>
+<p><span class="math display">\[
+e_i
+=
+%\sum_{i}
+\| p_i - (\mathbf{R} ~q_i + \mathbf{t}) \|^2
+\]</span></p>
+<ul>
+<li>Minimiza la distancia a la superficie:</li>
+</ul>
+<p><span class="math display">\[
+e_i
+=
+%\sum_{i}
+[
+\overbrace{
+\underbrace{
+\left(
+p_i - (\mathbf{R} ~q_i + \mathbf{t})
+\right)
+}_{\text{Vector distancia}}
+\cdot
+\boldsymbol{\eta}_i
+}^{\text{Proyeccion sobre la normal}}
+]^2
+\]</span></p>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/point2plane.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="icp-punto-a-plano-1" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><em>Point-to-point</em></th>
+<th><em>Point-to-plane</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distancia entre puntos</td>
+<td>Distancia a la superficie</td>
+</tr>
+<tr class="even">
+<td>Usa posición</td>
+<td>Usa posición + <u>normal</u></td>
+</tr>
+<tr class="odd">
+<td>Error euclídeo</td>
+<td>Error en dirección normal</td>
+</tr>
+<tr class="even">
+<td>Problema cerrado con <em>SVD</em></td>
+<td><u>Requiere otra formulación</u></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<div title="Dos nuevos problemas:">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Dos nuevos problemas:</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Calcular la normal para cada punto</li>
+<li>Minimizar el nuevo error <span class="math inline">\(\mathbf{e}\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="superficies-y-normales" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Para obtener una “superficie” en 2D (linea) se necesitan <u>mínimo</u> 2 puntos</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li>La normal puede obtenerse a partir del vector distancia:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{d}
+=
+\mathbf{p}_1
+-
+\mathbf{p}_2
+\]</span></p>
+<p><span class="math display">\[
+\boldsymbol{\eta}
+=
+\frac{1}{\| \mathbf{d} \|}
+\begin{bmatrix}
+-d_y\\
+d_x
+\end{bmatrix}
+\]</span></p>
+<p><br></p>
+<div title="Problemas con el ruido">
+<div class="callout callout-warning callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Problemas con el ruido</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/normals_n2.png" class="quarto-figure quarto-figure-center" style="width:35.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-1" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>A mayor cantidad de puntos mejora la estimación..</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/normals_n2.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/normals_n3.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/normals_n5.png" class="quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-2" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>A mayor cantidad de puntos mejora la estimación.. <strong>pero no siempre</strong></p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Utilizar una cantidad fija de puntos para estimar la superficie puede ser problemático</li>
+</ul>
+<p><br></p>
+<div title="Nuevo problema:">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Nuevo problema:</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Qué puntos pertenecen a la misma superficie?</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/normals_n5_error.png" class="quarto-figure quarto-figure-center" style="width:35.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-3" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Beneficio de usar <em>LiDAR</em></p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Los puntos están ordenados de forma angular</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{p}_0, \mathbf{p}_1, \mathbf{p}_2 \cdots
+\]</span></p>
+<ul>
+<li>Una superficie continua genera una secuencia de puntos cercanos</li>
+<li>Un salto grande entre dos mediciones puede indicar:
+<ul>
+<li>Cambio de superficie</li>
+<li>Un objeto diferente</li>
+</ul></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/lidar_angular_correspondence.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-4" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Beneficio de usar <em>LiDAR</em></p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Se puede introducir un umbral para dos puntos consecutivos:</li>
+</ul>
+<p><span class="math display">\[
+d_j = \| \mathbf{p}_j-\mathbf{p}_{j-1}\|
+\]</span></p>
+<ul>
+<li>Si <span class="math inline">\(d_j &gt; \overline{d_{\max}}\)</span> probablemente existe una discontinuidad</li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/lidar_angular_correspondence.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-5" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Incógnita cantidad de puntos a tomar</p>
+</blockquote>
+<ul>
+<li>Sea una recta definida por un punto <span class="math inline">\(\mathbf{c}\)</span> y la normal <span class="math inline">\(\boldsymbol{\eta}\)</span>, y un grupo de puntos:</li>
+</ul>
+<p><span class="math display">\[
+\mathcal{S} :
+\left[
+\mathbf{p}_s, \mathbf{p}_{s+1}, \dots, \mathbf{p}_j
+\right]
+\]</span></p>
+<ul>
+<li>Podemos definir el error de ajuste para cada punto usando:</li>
+</ul>
+<p><span class="math display">\[
+e_i
+=
+|
+\boldsymbol{\eta}
+\cdot
+\left(
+\mathbf{p}_i - \mathbf{c}
+\right)
+|
+\]</span></p>
+<p><span class="math display">\[
+e_{\mathrm{RMS}}
+=
+\sqrt{
+\frac{1}{N}
+\sum_i
+\left[
+\mathbf n^T(\mathbf p_i-\mathbf c)
+\right]^2
+}
+\]</span></p>
+</section>
+<section id="superficies-y-normales-6" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Proceso iterativo (nuevamente)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Se define un umbral <span class="math display">\[e_{\mathrm{RMS}} &lt; e_{\max}\]</span></p></li>
+<li><p>Para cada nuevo punto <span class="math inline">\(\mathbf{p}_j\)</span>:</p>
+<ol type="1">
+<li>Se agrega al conjunto <span class="math inline">\(\mathcal{S}\)</span></li>
+<li>Se obtiene <span class="math inline">\(\mathbf{c}\)</span> y <span class="math inline">\(\boldsymbol{\eta}\)</span> de la recta</li>
+<li>Se calcula el error</li>
+<li>Si es pequeño, continuar</li>
+<li>Se descarta <span class="math inline">\(\mathbf{p}_j\)</span> y termina el segmento</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/iterated_normal_n4.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-7" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Proceso iterativo (nuevamente)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Se define un umbral <span class="math display">\[e_{\mathrm{RMS}} &lt; e_{\max}\]</span></p></li>
+<li><p>Para cada nuevo punto <span class="math inline">\(\mathbf{p}_j\)</span>:</p>
+<ol type="1">
+<li>Se agrega al conjunto <span class="math inline">\(\mathcal{S}\)</span></li>
+<li>Se obtiene <span class="math inline">\(\mathbf{c}\)</span> y <span class="math inline">\(\boldsymbol{\eta}\)</span> de la recta</li>
+<li>Se calcula el error</li>
+<li>Si es pequeño, continuar</li>
+<li>Se descarta <span class="math inline">\(\mathbf{p}_j\)</span> y termina el segmento</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/iterated_normal_n8.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-8" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Proceso iterativo (nuevamente)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Se define un umbral <span class="math display">\[e_{\mathrm{RMS}} &lt; e_{\max}\]</span></p></li>
+<li><p>Para cada nuevo punto <span class="math inline">\(\mathbf{p}_j\)</span>:</p>
+<ol type="1">
+<li>Se agrega al conjunto <span class="math inline">\(\mathcal{S}\)</span></li>
+<li>Se obtiene <span class="math inline">\(\mathbf{c}\)</span> y <span class="math inline">\(\boldsymbol{\eta}\)</span> de la recta</li>
+<li>Se calcula el error</li>
+<li>Si es pequeño, continuar</li>
+<li>Se descarta <span class="math inline">\(\mathbf{p}_j\)</span> y termina el segmento</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/iterated_normal_n12.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="superficies-y-normales-9" class="slide level2 smaller">
+<h2>Superficies y normales</h2>
+<blockquote>
+<p>Proceso iterativo (nuevamente)</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Se define un umbral <span class="math display">\[e_{\mathrm{RMS}} &lt; e_{\max}\]</span></p></li>
+<li><p>Para cada nuevo punto <span class="math inline">\(\mathbf{p}_j\)</span>:</p>
+<ol type="1">
+<li>Se agrega al conjunto <span class="math inline">\(\mathcal{S}\)</span></li>
+<li>Se obtiene <span class="math inline">\(\mathbf{c}\)</span> y <span class="math inline">\(\boldsymbol{\eta}\)</span> de la recta</li>
+<li>Se calcula el error</li>
+<li>Si es pequeño, continuar</li>
+<li>Se descarta <span class="math inline">\(\mathbf{p}_j\)</span> y termina el segmento</li>
+</ol></li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/iterated_normal_n13.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="volviendo-al-icp-punto-a-plano" class="slide level2 smaller">
+<h2>Volviendo al <em>ICP</em> “punto a plano”</h2>
+<blockquote>
+<p>Con la función que obtiene segmentos y normales</p>
+</blockquote>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Ejecutar la función para toda la nube de puntos</li>
+<li>Los puntos que pertenecen a un segmento comparten la misma normal</li>
+</ul>
+<p><br></p>
+<div title="Solo resta incorporar esta información en la función de error">
+<div class="callout callout-note callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Solo resta incorporar esta información en la función de error</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+</div>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides/figs/full_scan_normals.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="icp-punto-a-plano-2" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<blockquote>
+<p>Volviendo a la función de error <span class="math inline">\(\mathbf{e}\)</span>:</p>
+</blockquote>
+<p><span class="math display">\[
+e(\mathbf{R}, \mathbf{t})
+=
+\frac{1}{N}
+\sum_{i=1}^N
+\left(
+\left(
+\mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t})
+\right)
+\cdot
+\boldsymbol{\eta}_{\mathbf{p}_i}
+\right)^2
+\]</span></p>
+<ul>
+<li>Dado los conjuntos <span class="math inline">\(\mathcal{P}\)</span>, <span class="math inline">\(\mathcal{Q}\)</span> y las normales <span class="math inline">\(\boldsymbol{\eta}_{\mathbf{p}_i}\)</span> asociadas a todos lo puntos en <span class="math inline">\(\mathcal{P}\)</span>, se obtiene la rotación y translación óptima minimizando la función de error:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{R}^*, \mathbf{t}^*
+=
+\underset{\mathbf{R}^\top \mathbf{R} = \mathbf{I}, \mathbf{t}}{\mathrm{argmin}}
+~\sum_{i=1}^N
+\left(
+\left(
+\mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t})
+\right)
+\cdot
+\boldsymbol{\eta}_{\mathbf{p}_i}
+\right)^2
+\]</span></p>
+<div title="El espacio de las rotaciones no es linear">
+<div class="callout callout-warning callout-titled callout-style-simple">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>El espacio de las rotaciones no es linear</strong></p>
+</div>
+<div class="callout-content">
+<p>El problema no tiene solución cerrada y no es posible aplicar <em>SVD</em></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="icp-punto-a-plano-3" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<blockquote>
+<p>Para poder aplicar <em>SVD</em> debemos linearizar la matriz <span class="math inline">\(\mathbf{R}\)</span></p>
+</blockquote>
+<ul>
+<li><p><u>Hipótesis</u>: los dos conjuntos de puntos son cercanos</p></li>
+<li><p>Por lo tanto, la rotación entre correpondencias es pequeña, por lo que podemos suponer rotación de angulos pequeños:</p></li>
+</ul>
+<p><span class="math display">\[
+\sin(\alpha) \approx \alpha \qquad \cos(\alpha) \approx 1
+\]</span></p>
+<ul>
+<li>Se define <span class="math inline">\(\hat{\mathbf{R}}\)</span></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{R}(\theta) =
+\begin{bmatrix}
+\cos(\theta) &amp; -\sin(\theta) \\
+\sin(\theta) &amp;  \cos(\theta)
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+     1 &amp; -\theta \\
+\theta &amp;       1
+\end{bmatrix}
+=
+\hat{\mathbf{R}}(\theta)
+\]</span></p>
+</section>
+<section id="icp-punto-a-plano-4" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<ul>
+<li>Reemplazando esto en la expresión del error:</li>
+</ul>
+<p><span class="math display">\[
+e(\hat{\mathbf{R}}(\theta), \mathbf{t})
+=
+\sum_{i}
+\left(
+\left(
+\mathbf{p}_i
+-
+\begin{bmatrix}
+     1 &amp; -\theta \\
+\theta &amp;       1
+\end{bmatrix}
+~\mathbf{q}_i
+-
+\begin{bmatrix}
+t_x \\
+t_y
+\end{bmatrix}
+\right)
+\cdot
+\boldsymbol{\eta}_{\mathbf{p}_i}
+\right)^2
+\]</span></p>
+<p><span class="math display">\[
+e
+=
+\sum_{i}
+\left(
+\left(
+\begin{bmatrix}
+p_{i,x} \\
+p_{i,y}
+\end{bmatrix}
+-
+\begin{bmatrix}
+q_{i,x} -\theta ~q_{i,y} \\
+\theta ~q_{i,x} + q_{i,y}
+\end{bmatrix}
+-
+\begin{bmatrix}
+t_x \\
+t_y
+\end{bmatrix}
+\right)
+\cdot
+\begin{bmatrix}
+\eta_{\mathbf{p}_i,x} \\
+\eta_{\mathbf{p}_i,y}
+\end{bmatrix}
+\right)^2
+\]</span></p>
+<p><span class="math display">\[
+e
+=
+\sum_{i}
+\left(
+\begin{bmatrix}
+p_{i,x} - q_{i,x} + \theta ~q_{i,y} - t_x \\
+p_{i,y} - \theta ~q_{i,x} - q_{i,y} - t_y
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\eta_{\mathbf{p}_i,x} \\
+\eta_{\mathbf{p}_i,y}
+\end{bmatrix}
+\right)^2
+\]</span></p>
+<p><span class="math display">\[
+e
+=
+\sum_{i}
+\left(
+\eta_{\mathbf{p}_i,x} \left( p_{i,x} - q_{i,x} + \theta ~q_{i,y} - t_x \right)
++
+\eta_{\mathbf{p}_i,y} \left( p_{i,y} - \theta ~q_{i,x} - q_{i,y} - t_y \right)
+\right)^2
+\]</span></p>
+</section>
+<section id="icp-punto-a-plano-5" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<ul>
+<li>Expandiendo y reordenando:</li>
+</ul>
+<!--
+$$
+e
+=
+\sum_i
+\left(
+\eta_{\mathbf{p}_i,x}(p_{i,x}-q_{i,x})
++
+\eta_{\mathbf{p}_i,x}\theta q_{i,y}
+-
+\eta_{\mathbf{p}_i,x}t_x
++
+\eta_{\mathbf{p}_i,y}(p_{i,y}-q_{i,y})
+-
+\eta_{\mathbf{p}_i,y}\theta q_{i,x}
+-
+\eta_{\mathbf{p}_i,y}t_y
+\right)^2
+$$
+
+- Agrupando los términos independientes de las variables y los términos asociados a cada incógnita:
+
+-->
+<p><span class="math display">\[
+e
+=
+\sum_i
+(
+\underbrace{
+\eta_{\mathbf{p}_i,x}(p_{i,x}-q_{i,x})
++
+\eta_{\mathbf{p}_i,y}(p_{i,y}-q_{i,y})
+}_\text{No depende de $\theta$, $t_x$ ni de $t_y$}
++
+\left(
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+\right)\theta
+-
+\eta_{\mathbf{p}_i,x}t_x
+-
+\eta_{\mathbf{p}_i,y}t_y
+)^2
+\]</span></p>
+<ul>
+<li>Se escribe el término constante como un producto interno:</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+e
+&amp;=
+\sum_i
+\left(
+\boldsymbol{\eta}_{\mathbf{p}_i}^\top
+(\mathbf{p}_i-\mathbf{q}_i)
++
+\left(
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+\right)\theta
+-
+\eta_{\mathbf{p}_i,x}t_x
+-
+\eta_{\mathbf{p}_i,y}t_y
+\right)^2
+\\
+&amp;=
+\sum_i
+\left(
+{e}_{0,i}
++
+\left(
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+\right)\theta
+-
+\eta_{\mathbf{p}_i,x}t_x
+-
+\eta_{\mathbf{p}_i,y}t_y
+\right)^2
+\end{align*}
+\]</span></p>
+<p>con <span class="math inline">\({e}_{0,i} = \boldsymbol{\eta}_{\mathbf{p}_i}^\top (\mathbf{p}_i-\mathbf{q}_i)\)</span></p>
+</section>
+<section id="icp-punto-a-plano-6" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<ul>
+<li>Se define un vector incógnitas <span class="math inline">\(\boldsymbol{x} = \begin{bmatrix} t_x &amp; t_y &amp; \theta \end{bmatrix}^\top\)</span> y un vector de <span class="math inline">\(\boldsymbol{a}_i\)</span> tal que:</li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{a}_i
+=
+\begin{bmatrix}
+-\eta_{\mathbf{p}_i,x}
+&amp;
+-\eta_{\mathbf{p}_i,y}
+&amp;
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li>Reemplazando en la expresión de <span class="math inline">\(e\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+e_i
+=
+{e}_{0,i}
++
+\underbrace{
+\begin{bmatrix}
+-\eta_{\mathbf{p}_i,x}
+&amp;
+-\eta_{\mathbf{p}_i,y}
+&amp;
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+\end{bmatrix}
+}_{\boldsymbol{a}_i}
+\underbrace{
+\begin{bmatrix}
+t_x\\
+t_y\\
+\theta
+\end{bmatrix}
+}_{\boldsymbol{x}}.
+\]</span></p>
+<ul>
+<li>Por lo tanto:</li>
+</ul>
+<p><span class="math display">\[
+e
+=
+\sum_i
+\left(
+{e}_{0,i}
++
+\boldsymbol{a}_i ~\boldsymbol{x}
+\right)^2
+\]</span></p>
+</section>
+<section id="icp-punto-a-plano-7" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<ul>
+<li>Finalmente podemos expresar el problema como mínimos cuadrados</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{A}
+=
+\begin{bmatrix}
+-\eta_{\mathbf{p}_1,x}
+&amp;
+-\eta_{\mathbf{p}_1,y}
+&amp;
+\eta_{\mathbf{p}_1,x}q_{1,y}
+-
+\eta_{\mathbf{p}_1,y}q_{1,x}
+\\
+-\eta_{\mathbf{p}_2,x}
+&amp;
+-\eta_{\mathbf{p}_2,y}
+&amp;
+\eta_{\mathbf{p}_2,x}q_{2,y}
+-
+\eta_{\mathbf{p}_2,y}q_{2,x}
+\\
+\vdots
+&amp;
+\vdots
+&amp;
+\vdots
+\\
+-\eta_{\mathbf{p}_N,x}
+&amp;
+-\eta_{\mathbf{p}_N,y}
+&amp;
+\eta_{\mathbf{p}_N,x}q_{N,y}
+-
+\eta_{\mathbf{p}_N,y}q_{N,x}
+\end{bmatrix}
+\qquad
+\mathbf{b}
+=
+\begin{bmatrix}
+\boldsymbol{\eta}_{\mathbf{p}_1}^{T}
+(\mathbf{p}_1-\mathbf{q}_1)
+\\
+\boldsymbol{\eta}_{\mathbf{p}_2}^{T}
+(\mathbf{p}_2-\mathbf{q}_2)
+\\
+\vdots
+\\
+\boldsymbol{\eta}_{\mathbf{p}_N}^{T}
+(\mathbf{p}_N-\mathbf{q}_N)
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+e
+=
+\left\|
+\mathbf{A}\boldsymbol{x}+\mathbf{b}
+\right\|^2
+\]</span></p>
+<ul>
+<li>Y nuestro problema se convierte en:</li>
+</ul>
+<p><span class="math display">\[
+\underset{\mathbf{R}, \mathbf{t}}{\mathrm{argmin}}
+~\sum_{i=1}^N
+\left(
+\left(
+\mathbf{p}_i - (\mathbf{R} ~\mathbf{q}_i + \mathbf{t})
+\right)
+\cdot
+\boldsymbol{\eta}_{\mathbf{p}_i}
+\right)^2
+\longrightarrow
+\underset{\boldsymbol{x}}{\mathrm{argmin}}
+~\left\|
+\mathbf{A}\boldsymbol{x}+\mathbf{b}
+\right\|^2
+\]</span></p>
+<!--
+$$
+\mathbf{A}^{T}\mathbf{A}\mathbf{x}
+=
+-\mathbf{A}^{T}\mathbf{b}.
+$$
+
+$$
+e_i
+=
+\underbrace{
+\boldsymbol{\eta}_{\mathbf{p}_i}^{T}
+(\mathbf{p}_i-\mathbf{q}_i)
+}_{b_i}
++
+\underbrace{
+\begin{bmatrix}
+\eta_{\mathbf{p}_i,x}q_{i,y}
+-
+\eta_{\mathbf{p}_i,y}q_{i,x}
+&
+-\eta_{\mathbf{p}_i,x}
+&
+-\eta_{\mathbf{p}_i,y}
+\end{bmatrix}
+}_{\mathbf{A}_i}
+\underbrace{
+\begin{bmatrix}
+\theta\\
+t_x\\
+t_y
+\end{bmatrix}
+}_{\mathbf{x}}.
+$$
+-->
+</section>
+<section id="icp-punto-a-plano-8" class="slide level2 smaller">
+<h2><em>ICP</em> “punto a plano”</h2>
+<blockquote>
+<p>El problema linealizado conduce a un problema de mínimos cuadrados con una matriz rectangular <span class="math inline">\(\mathbf{A} \in \Re^{N \times 3}\)</span></p>
+</blockquote>
+<ul>
+<li>Es posible resolver utilizando la pseudo-inversa:</li>
+</ul>
+<p><span class="math display">\[
+\mathbf{A}^{+} = \left( \mathbf{A}^\top  ~\mathbf{A} \right)^{-1} ~\mathbf{A}^\top
+\]</span></p>
+<p><span class="math display">\[
+\boldsymbol{x}
+=
+\begin{bmatrix} t_x \\ t_y \\ \theta \end{bmatrix}
+=
+- \mathbf{A}^{+} ~\mathbf{b}
+\]</span></p>
+</section></section>
+<section>
+
+<section id="implementación-2" class="slide level2 smaller">
+<h2>Implementación</h2>
+<blockquote>
+<p><em>Callback</em> del suscriptor a <code>\scan</code></p>
+</blockquote>
+<ul>
+<li><p>Si es el primer mensaje almacena los puntos de referencia junto a sus normales</p></li>
+<li><p>A partir del segundo, para cada mensaje que recibe realiza el procesamiento completo</p></li>
+</ul>
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+displayMode: compact
+config:
+  htmlLabels: false
+---
+flowchart LR
+    B["Mensaje&lt;br/&gt;LaserScan"] --&gt; C["Coordenadas&lt;br&gt;cartesianas"]
+
+    C --&gt; D["Segmentar superficies&lt;br&gt;y estimar normales"]
+
+    D --&gt; E{"¿Primer scan?"}
+
+    E --&gt;|Sí| E2["Almacenar scan&lt;br&gt;y sus normales"]
+    
+    E2 --&gt; F["Inicializar estado&lt;br&gt;Pose = I"]
+
+    E --&gt;|No| H 
+
+    subgraph ICP[" "]
+        H["Ejecutar ICP&lt;br&gt;con scan anterior&lt;br&gt;y normales"]
+        H --&gt; I{"¿Convergió ICP?"}
+
+        I --&gt;|No| J["Descartar transformación"]
+
+        J .- N
+
+        I --&gt;|Sí| K["Construir transformación&lt;br&gt;homogénea"]
+        K --&gt; L["Acumular pose"]
+        L --&gt; M["Publicar odometría"]
+        M --&gt; N["Actualizar scan&lt;br&gt;y normales"]
+    end
+
+    %% ICP -&gt; G
+    N --&gt; G
+    J --&gt; G
+    F --&gt; G["Fin"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="implementación-3" class="slide level2 smaller">
+<h2>Implementación</h2>
+<blockquote>
+<p>Algoritmo <em>ICP</em></p>
+</blockquote>
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">---
+displayMode: compact
+config:
+  htmlLabels: false
+---
+flowchart LR
+    A["Conjunto P, Q&lt;br/&gt;y normales"] --&gt; B["Inicializar transformación&lt;br&gt;y el arbol de búsqueda"]
+
+    B --&gt; C     
+
+    subgraph ICP["Bucle de iteraciones"]
+        C{"Máximas&lt;br&gt;iteraciones?"}
+
+        C --&gt;|No| D["Asociación&lt;br&gt;Nearest-neighbor"]
+
+        D --&gt; E{"Comprobar&lt;br&gt;cantidad&lt;br&gt;de&lt;br&gt;correspondencias"}
+
+        E --&gt;|Suficientes| F["Calcular error"]
+
+        F --&gt; H["Obtener la&lt;br&gt;transformación&lt;br&gt;óptima"]
+
+        H --&gt; I["Actualizar&lt;br&gt;transformación"]
+
+        I --&gt; J["Aplicar la&lt;br&gt;transformación&lt;br&gt; a los puntos"]
+
+        J --&gt; L{"Disminuyó&lt;br&gt;el error?"}
+
+        L --&gt;|Disminuyó| C
+    end
+
+    C --&gt;|Si| G["Fin"]
+    E --&gt;|No suficientes| G
+    L --&gt;|No disminuyó| G
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+
+<section id="laboratorio-1" class="slide level2 center">
+<h2><a href="../../clases/17/lab.html">Laboratorio</a></h2>
+<p><em>LiDAR Odometry</em></p>
+
+
+</section></section>
+
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="../../">Robótica 2026 - Tecnicatura Universitaria en Automatización y Robótica </a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
