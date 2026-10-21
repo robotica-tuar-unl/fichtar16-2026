@@ -1113,6 +1113,27 @@
     "text": "Laboratorio\n\nCreación de paquetes\nProgramación y compilación de nodos"
   },
   {
+    "objectID": "clases/20/lab.html",
+    "href": "clases/20/lab.html",
+    "title": "Clase 20 - Laboratorio",
+    "section": "",
+    "text": "Implementar un controlador cinemático que dado un par de coordenadas objetivo envíe comandos de velocidad angular y velocidad lineal para conducir el robot a dicho punto\n\n\n\n\n\nCree un nodo que reciba mediante parámetros las coordenadas objetivo \\(\\boldsymbol{G} = [x_G, ~y_G]^\\top\\) y ejecute el algoritmo de control a una frecuencia fija\nObtenga la posición del robot mediante el topic de odometría /odom\nEscriba los comandos de velocidad lineal y angular en el topic /cmd_vel según la ley: \\[\n\\begin{cases}\nv = k_\\rho ~\\rho \\\\\n\\omega = k_\\alpha ~\\alpha + k_\\beta ~\\beta\n\\end{cases}\n\\] donde \\[\n\\begin{gather*}\n\\rho = \\sqrt{{\\Delta x}^2 + {\\Delta y}^2} \\\\\n\\alpha = \\arctan \\left( {\\frac{\\Delta y}{\\Delta x}} \\right) - \\theta\\\\\n\\beta = -\\theta - \\alpha\n\\end{gather*}\n\\]\nLos ángulos \\(\\alpha\\) y \\(\\beta\\) deben expresarse siempre en el intervalo \\((-\\pi, \\pi)\\)\nRecibir los coeficientes \\(k_\\rho\\), \\(k_\\beta\\) y \\(k_\\alpha\\) como parámetro y realizar las verificaciones según el criterio de estabilidad: \\[\nk_\\rho &gt; 0 \\quad k_\\beta &lt; 0 \\quad k_\\alpha - k_\\rho &gt; 0\n\\]\nUtilice dos parámetros adicionales \\(v_{max}\\) y \\(\\omega_{max}\\) para limitar el valor máximo (absoluto) de velocidad lineal y velocidad angular\nUtilice un parámetro \\(\\epsilon_{tol}\\) para configurar una tolerancia dentro de la cual se considerará alcanzado el punto objetivo si\n\n\\[\n\\lVert \\boldsymbol{P} - \\boldsymbol{G} \\rVert &lt; \\epsilon_{tol}\n\\]\n\n\n\n\nCree un archivo go_to_point.launch.py donde cargue la simulación y todo el sistema de control de robot diferencial\nConfigure adecuadamente los parámetros del controlador para poder alcanzar distintos puntos objetivo\nAl menos realizar 4 pruebas, con puntos en cada uno de los cuadrantes del ángulo \\(\\beta\\)"
+  },
+  {
+    "objectID": "clases/20/lab.html#programación-del-nodo",
+    "href": "clases/20/lab.html#programación-del-nodo",
+    "title": "Clase 20 - Laboratorio",
+    "section": "",
+    "text": "Cree un nodo que reciba mediante parámetros las coordenadas objetivo \\(\\boldsymbol{G} = [x_G, ~y_G]^\\top\\) y ejecute el algoritmo de control a una frecuencia fija\nObtenga la posición del robot mediante el topic de odometría /odom\nEscriba los comandos de velocidad lineal y angular en el topic /cmd_vel según la ley: \\[\n\\begin{cases}\nv = k_\\rho ~\\rho \\\\\n\\omega = k_\\alpha ~\\alpha + k_\\beta ~\\beta\n\\end{cases}\n\\] donde \\[\n\\begin{gather*}\n\\rho = \\sqrt{{\\Delta x}^2 + {\\Delta y}^2} \\\\\n\\alpha = \\arctan \\left( {\\frac{\\Delta y}{\\Delta x}} \\right) - \\theta\\\\\n\\beta = -\\theta - \\alpha\n\\end{gather*}\n\\]\nLos ángulos \\(\\alpha\\) y \\(\\beta\\) deben expresarse siempre en el intervalo \\((-\\pi, \\pi)\\)\nRecibir los coeficientes \\(k_\\rho\\), \\(k_\\beta\\) y \\(k_\\alpha\\) como parámetro y realizar las verificaciones según el criterio de estabilidad: \\[\nk_\\rho &gt; 0 \\quad k_\\beta &lt; 0 \\quad k_\\alpha - k_\\rho &gt; 0\n\\]\nUtilice dos parámetros adicionales \\(v_{max}\\) y \\(\\omega_{max}\\) para limitar el valor máximo (absoluto) de velocidad lineal y velocidad angular\nUtilice un parámetro \\(\\epsilon_{tol}\\) para configurar una tolerancia dentro de la cual se considerará alcanzado el punto objetivo si\n\n\\[\n\\lVert \\boldsymbol{P} - \\boldsymbol{G} \\rVert &lt; \\epsilon_{tol}\n\\]"
+  },
+  {
+    "objectID": "clases/20/lab.html#configuración-del-launch",
+    "href": "clases/20/lab.html#configuración-del-launch",
+    "title": "Clase 20 - Laboratorio",
+    "section": "",
+    "text": "Cree un archivo go_to_point.launch.py donde cargue la simulación y todo el sistema de control de robot diferencial\nConfigure adecuadamente los parámetros del controlador para poder alcanzar distintos puntos objetivo\nAl menos realizar 4 pruebas, con puntos en cada uno de los cuadrantes del ángulo \\(\\beta\\)"
+  },
+  {
     "objectID": "clases/10/index.html#cinemática-1",
     "href": "clases/10/index.html#cinemática-1",
     "title": "Robótica",
@@ -1855,6 +1876,244 @@
     "text": "2.5 Probar el sistema mediante ros2 launch\n\nEjecutar el archivo launchcreado para verificar el funcionamiento de los parámetros por defecto\nProbar distintas ejecuciones variando los parámetros definidos"
   },
   {
+    "objectID": "clases/18/index.html#mapeo",
+    "href": "clases/18/index.html#mapeo",
+    "title": "Robótica",
+    "section": "Mapeo",
+    "text": "Mapeo\n\nDadas todas las lecturas del LiDAR y sabiendo desde dónde se capturó cada una, ¿qué tan probable es un mapa del entorno?\n\n\nPor ejemplo: supongamos que el robot recorre un pasillo\nEn cada posición, el LiDAR mide distancias hacia las paredes y otros objetos\nUna medición aislada aporta información parcial, pero al combinar las mediciones tomadas desde diferentes posiciones, podemos construir una representación más completa del entorno"
+  },
+  {
+    "objectID": "clases/18/index.html#mapeo-1",
+    "href": "clases/18/index.html#mapeo-1",
+    "title": "Robótica",
+    "section": "Mapeo",
+    "text": "Mapeo\n\\[\np(\\mathbf{m} \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n\\]\nEsta expresión representa la distribución de probabilidad del mapa \\(\\mathbf{m}\\) dadas todas las mediciones del sensor y todas las poses del robot hasta el instante \\(t\\)\nPodemos definir la notación de la siguiente manera:\n\n\\(\\mathbf{m}\\) : el mapa del entorno que queremos construir\n\\(\\mathbf{z}_{t}\\) : la medición del sensor en el instante \\(t\\)\n\\(\\mathbf{z}_{1:t}\\) : el conjunto de todas las mediciones desde el instante inicial hasta \\(t\\)\n\\(\\mathbf{x}_{t}\\) : la pose del robot en el instante \\(t\\)\n\\(\\mathbf{x}_{1:t}\\) : el conjunto de poses del robot durante todo el recorrido desde el instante inicial hasta \\(t\\)\n\\(p(\\cdot)\\): representa una distribución de probabilidad"
+  },
+  {
+    "objectID": "clases/18/index.html#mapeo-2",
+    "href": "clases/18/index.html#mapeo-2",
+    "title": "Robótica",
+    "section": "Mapeo",
+    "text": "Mapeo\n\nProblemas: 1) Dimensionalidad\n\n\nSe divide el entorno en una grilla y para simplificar, suponemos inicialmente que cada celda solo puede estar en uno de dos estados:\n\nOcupada: hay un obstáculo en esa región\nLibre: no hay un obstáculo en esa región\n\nSi cada celda tiene dos estados posibles, una grilla de \\(N\\) celdas puede representar:\n\n\\[\nN_{\\text{mapas}}=2^N\n\\]\n\nPara un mapa de 10 celdas existen \\(2^{10}=1024\\) configuraciones\nPero si utilizamos una grilla de 100 o 1000 celdas:\n\n\\[\nN_{\\text{mapas}}= 2^{100} \\approx 1.26765 \\dots 10^{30}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#mapeo-3",
+    "href": "clases/18/index.html#mapeo-3",
+    "title": "Robótica",
+    "section": "Mapeo",
+    "text": "Mapeo\n\nProblemas: 1) Dimensionalidad\n\nSi intentáramos representar explícitamente la probabilidad de cada mapa completo, tendríamos que almacenar o calcular una cantidad de valores que crece exponencialmente con el número de celdas\n\n\nProblemas: 2) Error de odometía: el huevo o la gallina\n\n\nCuando el robot se mueve por su entorno, acumula errores de odometría, lo que reduce la precisión sobre la ubicación a la que se capturó la medición\nPara disminuir el error puedo usar un mapa, pero para tener el mapa necesito la ubicación de las mediciones"
+  },
+  {
+    "objectID": "clases/18/index.html#mapeo-4",
+    "href": "clases/18/index.html#mapeo-4",
+    "title": "Robótica",
+    "section": "Mapeo",
+    "text": "Mapeo\n\nSuposiciones para el desarrollo del algoritmo\n\n\nOdometría conocida y perfecta pero mediciones de LiDAR con ruido\nEl escenario es estático y por lo tanto el mapa también (no hay objetos en movimientos)\nEl algorimo a implementar será Grillas de ocupación"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo",
+    "href": "clases/18/index.html#desarrollo",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nDada una nueva medición, actualizamos la probabilidad de que una celda esté ocupada\n\n\\[\np(m_{i} = 1 \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n\\]\n\nReexpresando \\(\\mathbf{z}_{1:t}\\) como \\(\\mathbf{z}_{t}, \\mathbf{z}_{1:t-1}\\):\n\n\\[\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\n\\]\n\ny definiendo una condición auxiliar \\(\\mathbf{H}_t = \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}\\)\n\n\\[\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{H}_{t})\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-1",
+    "href": "clases/18/index.html#desarrollo-1",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nAplicando la regla de Bayes condicional para poder calcular la probabilidad de que la celda esté ocupada teniendo en cuenta una nueva medición de LiDAR\n\n\\[\np(A \\mid B, C) = \\frac{p(B \\mid A, C) ~p(A\\mid C)}{p(B\\mid C)}\n\\]\n\nSe obtiene:\n\n\\[\np(m_{i} = 1 \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) =\n\\frac{p(\\mathbf{z}_{t}\\mid m_{i}, \\mathbf{H}_{t}) ~p(m_{i}\\mid \\mathbf{H}_{t})}{p(\\mathbf{z}_{t}\\mid \\mathbf{H}_{t})}\n\\]\n\nRecuperando la expresión orginal con \\(\\mathbf{H}_t = \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}\\):\n\n\\[\np(m_{i} = 1 \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) =\n\\frac{p(\\mathbf{z}_{t}\\mid m_{i}, \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}) ~p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})}{p(\\mathbf{z}_{t} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t} )}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-2",
+    "href": "clases/18/index.html#desarrollo-2",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nReordenando se tiene:\n\n\\[\np(m_{i} = 1 \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) =\n\\frac{\np(\\mathbf{z}_{t} \\mid m_{i}, \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\n~p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t} )\n}\n\\]\n\nInterpretación\n\n\n\n\n\\(p(m_{i} = 1 \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\\)\nCreencia actual sobre la ocupación de la celda\n\n\n\\(p(\\mathbf{z}_{t} \\mid m_{i},\\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\\)\nQué tan compatible es la nueva medición con el estado de la celda (teniendo en cuenta la información anterior)\n\n\n\\(p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\\)\nCreencia que teníamos antes de incorporar la medición actual\n\n\n\\(p(\\mathbf{z}_t \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t})\\)\nFactor de normalización"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-3",
+    "href": "clases/18/index.html#desarrollo-3",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nSimplificaciones\n\n\nSi \\(C\\) es independiente de \\(A\\) dado \\(B\\), entonces \\(C\\) no provee información extra acerca de \\(A\\) luego de conocer \\(B\\):\n\n\\[\np(A \\mid B, C) = p(A \\mid B)\n\\]\n\nDado que mediciones actuales solo dependen del estado actual y de la celda del mapa, y no de la medición, el término puede simplificarse:\n\n\\[\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{1:t}, m_{i},\\mathbf{z}_{1:t-1}) = p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-4",
+    "href": "clases/18/index.html#desarrollo-4",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nSimplificaciones\n\n\nTambién podemos afirmar que el estado actual sin las mediciones actuales no aportan información adicional acerca de la ocupación de la celda:\n\n\\[\np(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t}) = p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})\n\\]\n\nReemplazando ambas simplificaciones:\n\n\\[\n\\begin{align*}\np(m_{i} \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t}) &=\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n~p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t} )\n}\n\\\\[1em]\n&=\n\\frac{\n1\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t} )\n}\n~p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n~p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})\n\\end{align*}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-5",
+    "href": "clases/18/index.html#desarrollo-5",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nReescribimos:\n\n\\[\n\\underbrace{\np(m_{i} \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n}_{\\text{b}_{(t)}(m_{i})}\n=\n\\underbrace{\n\\frac{1}{\np(\\mathbf{z}_{t} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t} )\n}\n}_{\\eta_{t}}\n~p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n\\underbrace{\n~p(m_{i} \\mid \\mathbf{z}_{1:t-1}, \\mathbf{x}_{1:t-1})\n}_{\\text{b}_{(t-1)}(m_{i})}\n\\]\nde manera que:\n\\[\n\\text{b}_{(t)}(m_{i})\n=\n\\eta_{t}\n~p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n~\\text{b}_{(t-1)}(m_{i})\n\\]\n\n\n\n\n\n\n\n\nPara actualizar una celda no necesitamos volver a procesar todo el historial, nos alcanza con la creencia que ya teníamos y con la información de la medición actual.\n\n\nPermite construir el mapa de forma incremental a medida que llegan nuevas mediciones"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-6",
+    "href": "clases/18/index.html#desarrollo-6",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nSea \\(\\text{b}_{(t)}(m_{i})\\) la probabilidad actual de que la celda esté ocupada\nDefinimos \\(\\text{b}_{(t)}(\\lnot ~m_{i})\\) como la probabilidad de que la celda esté libre\nAl ser una variable binaria:\n\n\\[\n\\text{b}_{(t)}(\\lnot ~m_{i}) = 1 - \\text{b}_{(t)}(m_{i})\n\\]\n\nSe define el cociente entre estas dos probabilidades denominado odds:\n\n\\[\n\\text{O}_{(t)}\n=\n\\frac{\\text{b}_{(t)}(m_{i})}{\\text{b}_{(t)}(\\lnot ~m_{i})}\n=\n\\frac{\\text{b}_{(t)}(m_{i})}{1 - \\text{b}_{(t)}(m_{i})}\n\\]\n\nEl numerador representa la probabilidad de ocupación y el denominador, la probabilidad de que la celda esté libre"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-7",
+    "href": "clases/18/index.html#desarrollo-7",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nAlgunos ejemplos para valores de \\(\\text{b}_{(t)}(m_{i})\\)\n\n\\[\n\\text{O}_{(t)}\n=\n\\frac{\\text{b}_{(t)}(m_{i})}{\\text{b}_{(t)}(\\lnot ~m_{i})}\n\\]\n\n\n\n\n\\(\\text{b}_{(t)} = 0.5\\)\n\\(\\text{O}_{(t)} = 1\\)\nMisma probabilidad para ambas hipótesis\n\n\n\\(\\text{b}_{(t)} = 0.8\\)\n\\(\\text{O}_{(t)} = 4\\)\nEs 4 veces más probable que esté ocupada que libre\n\n\n\\(\\text{b}_{(t)} = 0.2\\)\n\\(\\text{O}_{(t)} = 0.25\\)\nEs 4 veces menos probable que esté ocupada que libre"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-8",
+    "href": "clases/18/index.html#desarrollo-8",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nSe implementará un mecanismo matemático para simplificar los cálculos utilizando el logarítmo de las probabilidades\n\n\nSe definen las log-odds como el logaritmo del cociente entre las probabilidades de los dos estados:\n\n\\[\n\\log{(\\text{O}_{(t)})}\n=\n\\log{\n\\left(\n\\frac{\\text{b}_{(t)}(m_{i})}{\\text{b}_{(t)}(\\lnot ~m_{i})}\n\\right)\n}\n\\]\n\nAhora las probabilidades de un estado u otro están diferenciadas por el signo:\n\n\n\n\n\\(\\text{b}_{(t)} = 0.5\\)\n\\(\\text{O}_{(t)} = 1\\)\n\\(\\log{(1)} = 0\\)\nMisma probabilidad para ambas hipótesis\n\n\n\\(\\text{b}_{(t)} = 0.8\\)\n\\(\\text{O}_{(t)} = 4\\)\n\\(\\log{(4)} &gt; 0\\)\nEs más probable que esté ocupada\n\n\n\\(\\text{b}_{(t)} = 0.2\\)\n\\(\\text{O}_{(t)} = 0.25\\)\n\\(\\log{(0.25)} &lt; 0\\)\nEs menos probable que esté ocupada"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-9",
+    "href": "clases/18/index.html#desarrollo-9",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nDesarrollando las expresiones de \\(\\text{b}_{(t)}(m_{i})\\) y \\(\\text{b}_{(t)}(\\lnot m_{i})\\) en el cociente:\n\n\\[\n\\frac{\n\\text{b}_{(t)}(m_{i})\n}\n{\n\\text{b}_{(t)}(\\lnot m_{i})\n}\n=\n\\frac{\np(m_{i} \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{z}_{1:t}, \\mathbf{x}_{1:t})\n}\n=\n\\frac{\n\\eta_{t}\n}\n{\n\\eta_{t}\n}\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\frac{\n\\text{b}_{(t-1)}(m_{i})\n}\n{\n\\text{b}_{(t-1)}(\\lnot m_{i})\n}\n\\]\n\nEn este caso \\(\\eta_{t}\\) se simplifica por lo que no hace falta calcularlo, entonces:\n\n\\[\n\\frac{\n\\text{b}_{(t)}(m_{i})\n}\n{\n\\text{b}_{(t)}(\\lnot m_{i})\n}\n=\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\frac{\n\\text{b}_{(t-1)}(m_{i})\n}\n{\n\\text{b}_{(t-1)}(\\lnot m_{i})\n}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-10",
+    "href": "clases/18/index.html#desarrollo-10",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nAplicamos logaritmo a ambos lados y se define \\(l_{t}^{(i)}\\) como:\n\n\n\\[\nl_{t}^{(i)} =\n\\log{\\left(\\frac{\\text{b}_{(t)}(m_{i})}{\\text{b}_{(t)}(\\lnot ~m_{i})}\\right)}\n=\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\frac{\n\\text{b}_{(t-1)}(m_{i})\n}\n{\n\\text{b}_{(t-1)}(\\lnot m_{i})\n}\n\\right)}\n\\]\n\nPor propiedad de los logaritmos\n\n\\[\nl_{t}^{(i)} =\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\right)}\n+\n\\underbrace{\n\\log{\\left(\n\\frac{\n\\text{b}_{(t-1)}(m_{i})\n}\n{\n\\text{b}_{(t-1)}(\\lnot m_{i})\n}\n\\right)}\n}_{l_{t-1}^{(i)}}\n=\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\right)}\n+\nl_{t-1}^{(i)}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-11",
+    "href": "clases/18/index.html#desarrollo-11",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nLa expresión queda:\n\n\\[\nl_{t}^{(i)} =\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\right)}\n+\nl_{t-1}^{(i)}\n\\]\n\nSi quisieramos recuperar la probabilidad original:\n\n\\[\n\\text{b}_{(t)}(m_{i}) =\n1 -\n\\frac{1}\n{\n1 + \\exp({l_{t}^{(i)}})\n}\n\\]\n\nPor lo tanto, en la medida que podamos evaluar \\(\\frac{ p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})} {p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})}\\) podremos realizar la actualización de la probabilidad \\(\\text{b}_{(t)}(m_{i})\\)"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-12",
+    "href": "clases/18/index.html#desarrollo-12",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nModelos de medición\n\n\n\n\n\n\n\n\n\n\nModelo directo\nConociendo el estado del entorno \\(m_{i}\\) y el estado actual \\(\\mathbf{x}_{t}\\)\nQué medición \\(\\mathbf{z}_{t}\\) se espera tener\n\\(p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\\) o \\(p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\\)\n\n\nModelo inverso\nConociendo la medición del sensor \\(\\mathbf{z}_{t}\\) y el estado actual \\(\\mathbf{x}_{t}\\)\nQué estado de la celda \\(m_{i}\\) se espera tener\n\\(p(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\\) o \\(p(\\lnot m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\\)\n\n\n\n\nTanto el término \\(\\frac{ p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})} {p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})}\\) utiliza el modelo directo\n\n\n\n\n\n\n\n\n\nPara construir el mapa nos interesa el modelo inverso, convertir cada medición en evidencia sobre las celdas."
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-13",
+    "href": "clases/18/index.html#desarrollo-13",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nSe aplica nuevamente la regla de Bayes, ahora para relacionar:\n\n\\[\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t}) =\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n~p(m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t})\n}\n\\qquad\np(\\lnot m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t}) =\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n~p(\\lnot m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t})\n}\n\\]\n\nDividiendo ambas expresiones, se cancela el término \\(p(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t})\\):\n\n\\[\n\\frac{\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n=\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\frac{\np(m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{x}_{t})\n}\n\\]\n\nDespejando para el término del modelo directo y aplicando nuevamente el logaritmo del cociente:\n\n\\[\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\right)}\n=\n\\log{\\left(\n\\frac{\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n\\right)\n}\n-\n\\log{\\left(\n\\frac{\np(m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{x}_{t})\n}\n\\right)\n}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-14",
+    "href": "clases/18/index.html#desarrollo-14",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nLos términos \\(p(m_{i} \\mid \\mathbf{x}_{t})\\) y \\(p(\\lnot m_{i} \\mid \\mathbf{x}_{t})\\) pueden simplificarse debido a que sin mediciones \\(\\mathbf{z}\\), conocer el estado actual \\(\\mathbf{x}_{t}\\) no aporta información a la probabilidad del estado de una celda\n\n\\[\np(m_{i} \\mid \\mathbf{x}_{t}) = p(m_{i})\n\\qquad\np(\\lnot m_{i} \\mid \\mathbf{x}_{t}) = p(\\lnot m_{i})\n\\]\n\\[\n\\log{\\left(\n\\frac{\np(m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{x}_{t})\n}\n\\right)\n}\n=\n\\log{\\left(\n\\frac{\np(m_{i})\n}\n{\np(\\lnot m_{i})\n}\n\\right)\n}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-15",
+    "href": "clases/18/index.html#desarrollo-15",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nDefinimos \\(l_{0}^{(i)}\\) como las log-odds de la probabilidades previas de ocupación\n\n\\[\nl_{0}^{(i)}\n=\n\\log{\\left(\n\\frac{\np(m_{i} \\mid \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{x}_{t})\n}\n\\right)\n}\n=\n\\log{\\left(\n\\frac{\np(m_{i})\n}\n{\np(\\lnot m_{i})\n}\n\\right)\n}\n\\]\n\nDefinimos \\(l_{t,\\text{inv}}^{(i)}\\) como las log-odds que devuelve el modelo inverso del sensor\n\n\\[\nl_{t,\\text{inv}}^{(i)}\n=\n\\log{\\left(\n\\frac{\np(m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n{\np(\\lnot m_{i} \\mid \\mathbf{z}_{t}, \\mathbf{x}_{t})\n}\n\\right)\n}\n\\]\n\nPor lo tanto:\n\n\\[\n\\log{\\left(\n\\frac{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, m_{i})\n}\n{\np(\\mathbf{z}_{t} \\mid \\mathbf{x}_{t}, \\lnot m_{i})\n}\n\\right)}\n=\nl_{t,\\text{inv}}^{(i)}\n-\nl_{0}^{(i)}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-16",
+    "href": "clases/18/index.html#desarrollo-16",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\nReemplazando todos los términos en la definión de \\(l_{t}^{(i)}\\):\n\n\\[\n\\boxed{\n\\underbrace{\nl_{t}^{(i)}\n}_{\\text{Log-odds actual}}\n=\n\\underbrace{\nl_{t-1}^{(i)}\n}_{\\text{Log-odds previas}}\n+\n\\underbrace{\nl_{t,\\text{inv}}^{(i)}\n}_{\\text{Modelo inverso}}\n-\n\\underbrace{\nl_{0}^{(i)}\n}_{\\text{Log-odds iniciales}}\n}\n\\]\n\nCada celda \\(i\\) tiene un valor \\(l_{t}^{(i)}\\) asociado que “resume” la evidencia acumulada a partir de las mediciones\n\n\n\n\n\\(l_{t}^{(i)} &gt; 0\\)\nEs más probable que esté ocupada\n\n\n\\(l_{t}^{(i)} &lt; 0\\)\nEs menos probable que esté ocupada\n\n\n\\(l_{t}^{(i)} = 0\\)\nMisma probabilidad para ambas hipótesis"
+  },
+  {
+    "objectID": "clases/18/index.html#desarrollo-17",
+    "href": "clases/18/index.html#desarrollo-17",
+    "title": "Robótica",
+    "section": "Desarrollo",
+    "text": "Desarrollo\n\\[\n\\boxed{\n\\underbrace{\nl_{t}^{(i)}\n}_{\\text{Log-odds actual}}\n=\n\\underbrace{\nl_{t-1}^{(i)}\n}_{\\text{Log-odds previas}}\n+\n\\underbrace{\nl_{t,\\text{inv}}^{(i)}\n}_{\\text{Modelo inverso}}\n-\n\\underbrace{\nl_{0}^{(i)}\n}_{\\text{Log-odds iniciales}}\n}\n\\]\n\nLa actualización es una suma: Cada nueva medición aporta un incremento positivo o negativo a la evidencia acumulada\nSe necesita un modelo inverso del sensor: Determina qué evidencia aporta una medición a cada celda, según su posición respecto al sensor"
+  },
+  {
+    "objectID": "clases/18/index.html#modelo-de-medición-inversa",
+    "href": "clases/18/index.html#modelo-de-medición-inversa",
+    "title": "Robótica",
+    "section": "Modelo de medición inversa",
+    "text": "Modelo de medición inversa\n\nPor cada medición de LiDAR se tiene un conjunto de puntos:\n\n\\[\n\\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\n=\n\\begin{cases}\nr_{\\text{min}} \\leq r_k \\leq r_{\\text{max}} \\\\\n-\\frac{\\pi}{2} \\leq \\psi_k \\leq \\frac{\\pi}{2}\n\\end{cases}\n\\]\n\nConociendo la pose actual \\(\\begin{bmatrix} p_x & p_y & \\theta \\end{bmatrix}\\) se obtiene la ubicación de la medición en el mapa:\n\n\\[\n\\{ \\begin{pmatrix} x_k & y_k \\end{pmatrix} \\}\n=\n\\begin{cases}\nx_k = p_x + r_k \\cos(\\theta + \\psi_k) \\\\\ny_k = p_y + r_k \\sin(\\theta + \\psi_k)\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#modelo-de-medición-inversa-1",
+    "href": "clases/18/index.html#modelo-de-medición-inversa-1",
+    "title": "Robótica",
+    "section": "Modelo de medición inversa",
+    "text": "Modelo de medición inversa\n\nQué información se puede inferir a partir de un solo haz?\n\n\nRegión donde termina la medición (rebote)\n\nLa celda más cercana muy probablemente sea un obstáculo\n\nRegión antes de la medición\n\nSi el haz recorrió una región probablemente las celdas atravesadas estaban libres de obstáculos\n\nRegión detrás de la medición\n\nEl haz no permite determinar qué hay detrás, por lo que no se pueden considerar ni libres ni ocupadas\n\n\n\n\n\n\n\n\n\n\nExiste ruido, objetos pequeños, superficies reflectantes y retornos fallidos, por lo que no se trata de certezas absolutas"
+  },
+  {
+    "objectID": "clases/18/index.html#modelo-de-medición-inversa-2",
+    "href": "clases/18/index.html#modelo-de-medición-inversa-2",
+    "title": "Robótica",
+    "section": "Modelo de medición inversa",
+    "text": "Modelo de medición inversa\n\nEl modelo inverso transforma las inferencias geométricas del sensor en probabilidades\n\\[ p(m_i \\mid \\mathbf{x}_{t} \\mathbf{z}_{t})\\]\n\n\nDado una celda del mapa \\(m_{i}\\), la posición actual \\(\\mathbf{x}_{t} = \\begin{bmatrix} x_t & y_t & \\theta_t \\end{bmatrix}\\) y las mediciones \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\nEncontrar el índice \\(k\\) de la medición que está más en dirección de la celda \\(i\\)\n\n\n\n\n\n\n\n\n\n Celda \\(m_i\\)\n Inferencia\n Probabilidad de ocupación\n\n\n\n\nDelante de la medición \\(r_k\\)\nLibre\nValor mucho menor a \\(0.5\\)\n\n\nDetrás de la medición \\(r_k\\) (o fuera del campo de visión)\nNo hay suficiente información\nProbabilidad previa\n\n\nMuy cerca de la medición \\(r_k\\)\nOcupada\nValor mucho mayor a \\(0.5\\)"
+  },
+  {
+    "objectID": "clases/18/index.html#modelo-de-medición-inversa-3",
+    "href": "clases/18/index.html#modelo-de-medición-inversa-3",
+    "title": "Robótica",
+    "section": "Modelo de medición inversa",
+    "text": "Modelo de medición inversa\n\nPara la implementación los conceptos “delante”, “detrás” y “cerca” deberán definirse mediante tolerancias que serán parámetros del modelo inverso\nUna medición máxima puede significar que no se detectó ningún obstáculo dentro del alcance, y no que exista un obstáculo a esa distancia\nSea \\(r\\) la distancia entre el centro de la celda y el sensor y \\(r_k\\) la medición correspondiente al haz \\(k\\) que atraviesa la celda\n\n\n\n\n\n\n\n\n\n Celda \\(m_i\\)\n Condición\n Probabilidad de ocupación\n\n\n\n\nDelante de la medición \\(r_k\\)\n\\(r \\leq r_k\\)\nValor mucho menor a \\(0.5\\)\n\n\nDetrás de la medición \\(r_k\\) (o fuera del campo de visión)\n\\(r &gt; r_k + \\alpha /2\\) o \\(r &gt; r_{\\text{max}}\\)\nProbabilidad previa\n\n\nMuy cerca de la medición \\(r_k\\)\n\\(| r - r_k | &lt; \\alpha /2\\) y \\(r_k &lt;  r_{\\text{max}}\\)\nValor mucho mayor a \\(0.5\\)"
+  },
+  {
+    "objectID": "clases/18/index.html#occupancy-grid-1",
+    "href": "clases/18/index.html#occupancy-grid-1",
+    "title": "Robótica",
+    "section": "Occupancy Grid",
+    "text": "Occupancy Grid\n\nVolviendo a la formulación del mapa\n\n\\[\nl_{t}^{(i)}\n=\nl_{t-1}^{(i)}\n+\nl_{t,\\text{inv}}^{(i)}\n-\nl_{0}^{(i)}\n\\]\n\nPara cada caso:\n\nCelda libre: \\(l_{t,\\text{inv}}^{(i)} = \\log(&lt; 0.5) &lt; 0\\) y se reduce la creencia de ocupación\nCelda ocupada: \\(l_{t,\\text{inv}}^{(i)} = \\log(&gt; 0.5) &gt; 0\\) y se incrementa la creencia de ocupación\nSin información: \\(l_{t,\\text{inv}}^{(i)} = l_{0}^{(i)}\\) por lo que el valor almacenado no cambia"
+  },
+  {
+    "objectID": "clases/18/index.html#occupancy-grid-2",
+    "href": "clases/18/index.html#occupancy-grid-2",
+    "title": "Robótica",
+    "section": "Occupancy Grid",
+    "text": "Occupancy Grid\n\nAlgoritmo\n\n\nSean los valores de ocupación anteriores para cada celda del mapa \\(l_{t-1}^{(i)}\\)\nDada una nueva medición del lidar \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\ny la pose actual del robot \\(\\mathbf{x}_{t} = \\begin{bmatrix} x_t & y_t & \\theta_t \\end{bmatrix}\\)\nPara cada celda del mapa \\(m_i\\):\n\nSi la celda está en el campo de visión del sensor dada la pose \\(\\mathbf{x}_{t}\\):\n\nEvaluar el modelo inverso del sensor con \\(( x_i , y_i )\\) de la celda, \\(\\mathbf{x}_{t}\\) y \\(\\mathbf{z}_{t}\\)\nActualizar el valor de ocupación \\(l_{t}^{(i)} = l_{t-1}^{(i)} + l_{t,\\text{inv}}^{(i)} - l_{0}^{(i)}\\)\n\nSi no, mantener el valor anterior:\n\n\\(l_{t}^{(i)} = l_{t-1}^{(i)}\\)"
+  },
+  {
+    "objectID": "clases/18/index.html#implementación-en-ros2",
+    "href": "clases/18/index.html#implementación-en-ros2",
+    "title": "Robótica",
+    "section": "Implementación en ROS2",
+    "text": "Implementación en ROS2\n\nRecuperación de las probabilidades\n\n\nEn ROS2 se utiliza un valor porcentual entre \\(0\\) y \\(100\\) para indicar si una celda está libre u ocupada, respectivamente:\n\n\\[\n{p_{t}^{(i)}} = \\frac{1}{1 + \\exp{\\left( - l_{t}^{(i)} \\right)}} \\qquad 0 \\leq p_{t}^{(i)} \\leq 1\n\\]\n\nPor lo tanto:\n\n\\[\n{\\text{occ}_{t}^{(i)}} = \\text{round}(100 \\cdot p_{t}^{(i)})\n\\]"
+  },
+  {
+    "objectID": "clases/18/index.html#implementación-en-ros2-1",
+    "href": "clases/18/index.html#implementación-en-ros2-1",
+    "title": "Robótica",
+    "section": "Implementación en ROS2",
+    "text": "Implementación en ROS2\n\nMensaje de tipo nav_msgs/OccupancyGrid\n\n\n\nnav_msgs/OccupancyGrid.msg\n\n# This represents a 2-D grid map, in which each cell represents the probability of\n# occupancy.\n\nHeader header \n\n#MetaData for the map\nMapMetaData info\n\n# The map data, in row-major order, starting with (0,0).  Occupancy\n# probabilities are in the range [0,100].  Unknown is -1.\nint8[] data\n\n\nPara representar una celda “desconocida”, se utiliza el valor \\(-1\\)\nPara distinguir celdas con creencia cercana al \\(50 \\%\\) y celdas desconocidas es necesario mantener una bandera para cada celda que indique si recibió información o no"
+  },
+  {
+    "objectID": "clases/18/index.html#implementación-en-ros2-2",
+    "href": "clases/18/index.html#implementación-en-ros2-2",
+    "title": "Robótica",
+    "section": "Implementación en ROS2",
+    "text": "Implementación en ROS2\n\nCampo de tipo nav_msgs/MapMetaData\n\n\n\nnav_msgs/MapMetaData.msg\n\n# This hold basic information about the characterists of the OccupancyGrid\n\n# The time at which the map was loaded\ntime map_load_time\n# The map resolution [m/cell]\nfloat32 resolution\n# Map width [cells]\nuint32 width\n# Map height [cells]\nuint32 height\n# The origin of the map [m, m, rad].  This is the real-world pose of the\n# cell (0,0) in the map.\ngeometry_msgs/Pose origin"
+  },
+  {
+    "objectID": "clases/18/index.html#implementación-en-ros2-3",
+    "href": "clases/18/index.html#implementación-en-ros2-3",
+    "title": "Robótica",
+    "section": "Implementación en ROS2",
+    "text": "Implementación en ROS2\n\nParámetros a definir:\n\nResolución del mapa, en metros por celda\nLímites espaciales del mapa y ubicación del origen\nProbabilidad a priori (inciales) de ocupación\nProbabilidades o log-odds asignados a celdas libres y ocupadas por el modelo inverso\nTolerancias geométricas \\(\\alpha\\) alrededor del extremo de cada medición"
+  },
+  {
+    "objectID": "clases/18/index.html#laboratorio-1",
+    "href": "clases/18/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nOccupancy Grid"
+  },
+  {
     "objectID": "clases/14/index.html#percepción-repaso",
     "href": "clases/14/index.html#percepción-repaso",
     "title": "Robótica",
@@ -2258,14 +2517,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n26\n21/10\nLocalización con mapa. Desarrollo e implementación del algoritmo de Monte-Carlo\n\n\n\n\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n26\n21/10\nLocalización con mapa. Desarrollo e implementación del algoritmo de Monte-Carlo\n\n\n\n\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -2336,6 +2595,27 @@
     "title": "Clase 14 - Laboratorio",
     "section": "",
     "text": "NotaPuede mostrar la distancia mínima para cada zona o si supera cierto umbral enviar un mensaje indicando que zona/s"
+  },
+  {
+    "objectID": "clases/18/lab.html",
+    "href": "clases/18/lab.html",
+    "title": "Clase 18 - Laboratorio",
+    "section": "",
+    "text": "Implementar un nodo que, a partir de mediciones de LiDAR 2D de tipo sensor_msgs/msg/LaserScan y la pose del robot nav_msgs/Odometry calcule de forma incremental con el algoritmo Occupancy Grid una grilla de ocupación del escenario de simulación\nPublicar el mapa en el topic \\map de tipo nav_msgs/OccupancyGrid\nVerificar el mapa obtenido utilizando herramientas de visualización como Rviz2\n\n\n\n\n\nSean los valores de ocupación anteriores para cada celda del mapa \\(l_{t-1}^{(i)}\\)\nDada una nueva medición del lidar \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\ny la pose actual del robot \\(\\mathbf{x}_{t} = \\begin{bmatrix} x_t & y_t & \\theta_t \\end{bmatrix}\\)\nPara cada celda del mapa \\(m_i\\):\n\n\nSi la celda está en el campo de visión del sensor dada la pose \\(\\mathbf{x}_{t}\\):\n\nEvaluar el modelo inverso del sensor con \\(( x_i , y_i )\\) de la celda, \\(\\mathbf{x}_{t}\\) y \\(\\mathbf{z}_{t}\\)\nActualizar el valor de ocupación \\(l_{t}^{(i)} = l_{t-1}^{(i)} + l_{t,\\text{inv}}^{(i)} - l_{0}^{(i)}\\)\n\nSi no, mantener el valor anterior:\n\n\\(l_{t}^{(i)} = l_{t-1}^{(i)}\\)\n\n\n\n\n\n\nDada el centro \\((x_i, y_i)\\) de una celda, la posición del robot \\((p_x, p_y, \\theta)\\) y las mediciones \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\nCalcular la distancia de la celda al sensor: \\[\nr = \\|(x_i, y_i) - (p_x, p_y)\\|\n\\]\nCalcular el ángulo de la dirección entre la celda y el sensor: \\[\n\\phi = \\text{arctan2}(y_i-y, x_i-x) - \\theta\n\\]\nObtener el índice \\(k\\) de la medición más cercana a la dirección de la celda \\[\nk^{*} = \\underset{k}{\\mathrm{argmin}}{| \\phi - \\psi_k |}\n\\]\nEvaluar las condiciones:\n\n\nsi \\(r \\leq r_k\\) devolver la relación log-odds para una celda libre\nsi \\(| r - r_k | &lt; \\alpha /2\\) y \\(r_k &lt;  r_{\\text{max}}\\) devolver la relación log-odds para una celda ocupada\nsi \\(r &gt; r_k + \\alpha /2\\) o \\(r &gt; r_{\\text{max}}\\) devolver la relación log-odds para una celda sin información"
+  },
+  {
+    "objectID": "clases/18/lab.html#algoritmo-occupancy-grid",
+    "href": "clases/18/lab.html#algoritmo-occupancy-grid",
+    "title": "Clase 18 - Laboratorio",
+    "section": "",
+    "text": "Sean los valores de ocupación anteriores para cada celda del mapa \\(l_{t-1}^{(i)}\\)\nDada una nueva medición del lidar \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\ny la pose actual del robot \\(\\mathbf{x}_{t} = \\begin{bmatrix} x_t & y_t & \\theta_t \\end{bmatrix}\\)\nPara cada celda del mapa \\(m_i\\):\n\n\nSi la celda está en el campo de visión del sensor dada la pose \\(\\mathbf{x}_{t}\\):\n\nEvaluar el modelo inverso del sensor con \\(( x_i , y_i )\\) de la celda, \\(\\mathbf{x}_{t}\\) y \\(\\mathbf{z}_{t}\\)\nActualizar el valor de ocupación \\(l_{t}^{(i)} = l_{t-1}^{(i)} + l_{t,\\text{inv}}^{(i)} - l_{0}^{(i)}\\)\n\nSi no, mantener el valor anterior:\n\n\\(l_{t}^{(i)} = l_{t-1}^{(i)}\\)"
+  },
+  {
+    "objectID": "clases/18/lab.html#modelo-inverso-del-sensor-lidar",
+    "href": "clases/18/lab.html#modelo-inverso-del-sensor-lidar",
+    "title": "Clase 18 - Laboratorio",
+    "section": "",
+    "text": "Dada el centro \\((x_i, y_i)\\) de una celda, la posición del robot \\((p_x, p_y, \\theta)\\) y las mediciones \\(\\mathbf{z}_{t} = \\{ \\begin{pmatrix} r_k & \\psi_k \\end{pmatrix} \\}\\)\nCalcular la distancia de la celda al sensor: \\[\nr = \\|(x_i, y_i) - (p_x, p_y)\\|\n\\]\nCalcular el ángulo de la dirección entre la celda y el sensor: \\[\n\\phi = \\text{arctan2}(y_i-y, x_i-x) - \\theta\n\\]\nObtener el índice \\(k\\) de la medición más cercana a la dirección de la celda \\[\nk^{*} = \\underset{k}{\\mathrm{argmin}}{| \\phi - \\psi_k |}\n\\]\nEvaluar las condiciones:\n\n\nsi \\(r \\leq r_k\\) devolver la relación log-odds para una celda libre\nsi \\(| r - r_k | &lt; \\alpha /2\\) y \\(r_k &lt;  r_{\\text{max}}\\) devolver la relación log-odds para una celda ocupada\nsi \\(r &gt; r_k + \\alpha /2\\) o \\(r &gt; r_{\\text{max}}\\) devolver la relación log-odds para una celda sin información"
   },
   {
     "objectID": "clases/06/index.html#argumentos-en-ros2",
@@ -3946,6 +4226,181 @@
     "title": "Clase 10 - Taller de resolución",
     "section": "2.1 Cinemática",
     "text": "2.1 Cinemática\nCalcular la velocidad lineal y angular del robot y de las ruedas para que se complete:\n\nuna trayectoria recta de 1[m] en 10 [s].\nuna trayectoria circular con un radio de 0.5 [m] en sentido horario en 20 [s].\n\nExaminar la definición de los mensajes de tipo geometry_msgs/Twist y describir cuál sería la secuencia de comandos de velocidad a aplicar al robot para seguir la trayectoria mostrada en la Figura 1 utilizando dichos mensajes. La velocidad máxima de giro de los motores es de \\(50 [rpm]\\).\n\n\n\n\n\n\nFigura 1: Trayectoria para el ejercicio 6\n\n\n\n\n\n\n\n\n\nEl punto inicial del robot será asignado por el docente.\n\n\n\nExaminar la definición de los mensajes del topic suscripto por el JointGroupVelocityController. Calcule las velocidades angulares de las ruedas para cada comando del ejercicio 6 y construya la secuencia de mensajes de comando correspondientes.\n\n\n\n\n\n\nEl campo layout no se debe completar.\n\n\n\nDentro del paquete (*)_control, cree un nodo que reciba comandos de tipo geometry_msgs/Twist a través de un topic llamado cmd_vel, calcule las velocidades angulares en base al modelo cinemático inverso del robot y escriba los comandos de velocidad de cada rueda de tracción en los topics left_wheel_cmd y right_wheel_cmd. Tenga en cuenta que los parámetros del robot se encuentran en el robot description."
+  },
+  {
+    "objectID": "clases/20/index.html#navegación",
+    "href": "clases/20/index.html#navegación",
+    "title": "Robótica",
+    "section": "Navegación",
+    "text": "Navegación\n\nÁrea más desafiante en robótica móvil\n\n4 pilares\n\nPercepción\nLocalización\nControl\nCognición"
+  },
+  {
+    "objectID": "clases/20/index.html#control-cinemático-1",
+    "href": "clases/20/index.html#control-cinemático-1",
+    "title": "Robótica",
+    "section": "Control cinemático",
+    "text": "Control cinemático\n\n\n\nDos tipos de problemas principales\n\n\nPoint tracking\n\n\\[\n\\boldsymbol{p} = \\begin{bmatrix} p_x \\\\ p_y \\end{bmatrix}\n\\]\n\nPose tracking\n\n\\[\n\\boldsymbol{p} = \\begin{bmatrix} p_x \\\\ p_y \\\\ \\theta \\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#control-a-lazo-abierto",
+    "href": "clases/20/index.html#control-a-lazo-abierto",
+    "title": "Robótica",
+    "section": "Control a lazo abierto",
+    "text": "Control a lazo abierto\n\n\n\nEncontrar una secuencia finita de controles:\n\n\\[\n\\boldsymbol{u} = \\begin{bmatrix} v(t) \\\\ \\omega(t) \\end{bmatrix}\n\\]\n\npara desplazar el robot desde cualquier posición inicial \\(\\boldsymbol{p}\\) a cualquier otra posición deseada \\(\\boldsymbol{p}_G\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#control-a-lazo-abierto-1",
+    "href": "clases/20/index.html#control-a-lazo-abierto-1",
+    "title": "Robótica",
+    "section": "Control a lazo abierto",
+    "text": "Control a lazo abierto\n\n\n\nEjemplo:\n\n\\[\n\\boldsymbol{u}(t=0.0) = \\begin{bmatrix} 0.2 & -0.5 \\end{bmatrix}^\\top\n\\]\n\\[\n\\boldsymbol{u}(t=1.0) = \\begin{bmatrix} 0.2 & 0.0 \\end{bmatrix}^\\top\n\\]\n\\[\n\\boldsymbol{u}(t=3.0) = \\begin{bmatrix} 0.2 & 0.5 \\end{bmatrix}^\\top\n\\]\n\\[\n\\boldsymbol{u}(t=5.5) = \\begin{bmatrix} 0.0 & 0.0 \\end{bmatrix}^\\top\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#control-a-lazo-abierto-2",
+    "href": "clases/20/index.html#control-a-lazo-abierto-2",
+    "title": "Robótica",
+    "section": "Control a lazo abierto",
+    "text": "Control a lazo abierto\n\n\n\nEste tipo de sistemas son localmente controlables y factibles\nNo cuenta con verificación del error final\nProblemas:\n\nEntornos dinámicos\nAdaptabilidad\netc."
+  },
+  {
+    "objectID": "clases/20/index.html#control-a-lazo-cerrado",
+    "href": "clases/20/index.html#control-a-lazo-cerrado",
+    "title": "Robótica",
+    "section": "Control a lazo cerrado",
+    "text": "Control a lazo cerrado\n\nObjetivo: Diseñar lazos de retroalimentación que estabilicen el sistema en torno a un punto del espacio de estados\n\n\nSea \\(\\boldsymbol{p} = [x, y, \\theta]^\\top\\) la pose del robot y sea \\(\\boldsymbol{p}_G = [x_G, y_G, \\theta_G]^\\top\\) la pose de referencia\nSe busca una ley de control \\(\\boldsymbol{u}(\\boldsymbol{p}, \\boldsymbol{p}_G)\\) tal que el sistema a lazo cerrado:\n\n\\[\n\\dot{\\boldsymbol{p}} =\n\\boldsymbol{A}(\\boldsymbol{p})\\,\n\\boldsymbol{u}(\\boldsymbol{p}, \\boldsymbol{p}_G)\n\\]\nconverja a la pose de referencia (considerando la periodicidad de la orientación):\n\\[\n\\lim_{t\\to\\infty}\\boldsymbol{p}(t) \\in \\mathcal{P}\n\\]\n\\[\n\\mathcal{P} =\n\\left\\{\n(x,y,\\theta) =\n(x_G,y_G,\\theta_G+2\\pi n)\n\\;:\\; n\\in\\mathbb{Z}\n\\right\\}.\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#seguimiento-de-punto-1",
+    "href": "clases/20/index.html#seguimiento-de-punto-1",
+    "title": "Robótica",
+    "section": "Seguimiento de punto",
+    "text": "Seguimiento de punto\n\nDefinición del problema\n\n\n\n\nSea \\(\\boldsymbol{p}\\) la pose actual del robot y \\(\\boldsymbol{p}_G\\) la pose objetivo\nSe define el error respecto del objetivo, expresado en el marco del robot:\n\n\\[\n\\sideset{^\\textrm{R}}{}{\\boldsymbol{e}} = \\begin{bmatrix} x_\\textrm{R} \\\\ y_\\textrm{R} \\\\ \\theta_\\textrm{R} \\end{bmatrix}\n\\]\ndonde \\(x_R,y_R\\) es la posición del objetivo respecto del robot, y \\(\\theta_R\\) la diferencia entre la orientación objetivo y la orientación actual"
+  },
+  {
+    "objectID": "clases/20/index.html#seguimiento-de-punto-2",
+    "href": "clases/20/index.html#seguimiento-de-punto-2",
+    "title": "Robótica",
+    "section": "Seguimiento de punto",
+    "text": "Seguimiento de punto\n\nDefinición del problema\n\n\n\n\nSe busca diseñar una ley de control que determine las velocidades lineal \\(v(t)\\) y angular del robot \\(\\omega(t)\\) a partir del error de pose:\n\n\\[\n\\boldsymbol{u}(t) =\n\\begin{bmatrix}\nv(t) \\\\\n\\omega(t)\n\\end{bmatrix} = \\boldsymbol{K}(t) \\cdot \\boldsymbol{e}(t)\n% = \\boldsymbol{K} \\cdot {\\begin{bmatrix} x \\\\ y \\\\ \\theta \\end{bmatrix}}\n\\]\nreduciendo el vector de error \\(\\boldsymbol{e}\\) hacia cero:\n\\[\n\\lim_{t \\to \\infty} \\boldsymbol{e}(t) = 0\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#seguimiento-de-punto-3",
+    "href": "clases/20/index.html#seguimiento-de-punto-3",
+    "title": "Robótica",
+    "section": "Seguimiento de punto",
+    "text": "Seguimiento de punto\n\nDefinición del problema\n\n\n\n\nMatriz de control \\(\\boldsymbol{K}(t)\\):\n\n\\[\n\\boldsymbol{K}(t,\\boldsymbol{e}) = \\begin{bmatrix}\nk_{11} & k_{12} & k_{13} \\\\\nk_{21} & k_{22} & k_{23}\n\\end{bmatrix}\n\\]\ncon \\(k_{ij} = k_{ij}(t,\\boldsymbol{e})\\)\n\\[\n\\begin{bmatrix}\nv(t) \\\\\n\\omega(t)\n\\end{bmatrix} =\n\\begin{bmatrix}\nk_{11} & k_{12} & k_{13} \\\\\nk_{21} & k_{22} & k_{23}\n\\end{bmatrix}\n\\cdot\n{\\begin{bmatrix} x_\\textrm{R} \\\\ y_\\textrm{R} \\\\ \\theta_\\textrm{R} \\end{bmatrix}}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático",
+    "href": "clases/20/index.html#transformación-modelo-cinemático",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\n\n\n\nRecordando el modelo cinemático del robot diferencial para el marco inercial \\(\\left\\{ X_\\textrm{I}, Y_\\textrm{I}, \\theta \\right\\}\\):\n\n\n\n\\[\n\\sideset{^I}{}{\n\\begin{bmatrix}\n\\dot{x} \\\\\n\\dot{y} \\\\\n\\dot{\\theta}\n\\end{bmatrix}} =\n\\begin{bmatrix}\n\\cos{\\theta} & 0\\\\\n\\sin{\\theta} & 0\\\\\n0            & 1\n\\end{bmatrix}\n\\begin{bmatrix}\nv\\\\\n\\omega\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-1",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-1",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\n\n\n\nTransformación en coordenadas polares\n\n\nDefiniendo:\n\n\n\n\\[\n\\Delta x=x_G-x \\qquad \\Delta y=y_G-y\n\\]\n\n\n\nPodemos expresar las nuevas coordenadas como:\n\n\n\n\\[\n\\begin{cases}\n\\rho = \\sqrt{{\\Delta x}^2 + {\\Delta y}^2} \\\\\n\\alpha = \\arctan \\left( {\\frac{\\Delta y}{\\Delta x}} \\right) - \\theta\\\\\n\\beta = -\\theta - \\alpha\n\\end{cases}\n\\]\n\n\npara \\(\\alpha \\in \\boldsymbol{I_1} = \\left( -\\tfrac{\\pi}{2} , \\tfrac{\\pi}{2} \\right]\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-2",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-2",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nEncontrar el nuevo sistema de ecuaciones para el modelo cinemático:\n\n\\[\n\\begin{bmatrix}\n\\dot{\\rho} \\\\\n\\dot{\\alpha} \\\\\n\\dot{\\beta}\n\\end{bmatrix} =\n\\begin{bmatrix}\n? & ? \\\\\n? & ? \\\\\n? & ?\n\\end{bmatrix} \\cdot\n%\\boldsymbol{A} \\cdot\n\\begin{bmatrix}\nv\\\\\n\\omega\n\\end{bmatrix}\n\\]\n\nDado que \\(x_G\\) e \\(y_G\\) son constantes con respecto al tiempo\n\n\\[\n\\dot{\\Delta x}=-\\dot{x}=-v\\cos\\theta,\n\\qquad\n\\dot{\\Delta y}=-\\dot{y}=-v\\sin\\theta.\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-3",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-3",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nDerivando \\(\\rho\\) respecto del tiempo:\n\n\\[\n\\dot{\\rho}\n=\n\\frac{\\Delta x\\dot{\\Delta x}+ \\Delta y\\dot{\\Delta y}}{\\rho}\n=\n-v\\frac{\\Delta x\\cos\\theta + \\Delta y\\sin\\theta}{\\rho}\n\\]\n\nPor la definición de \\(\\alpha\\):\n\n\\[\n\\frac{\\Delta x}{\\rho}=\\cos(\\theta+\\alpha)\n\\qquad\n\\frac{\\Delta y}{\\rho}=\\sin(\\theta+\\alpha)\n\\]\n\nEntonces:\n\n\\[\n\\dot{\\rho}\n=\n-v\\left[\n\\cos(\\theta+\\alpha)\\cos\\theta\n+\\sin(\\theta+\\alpha)\\sin\\theta\n\\right]\n=\n\\boxed{-v\\cos\\alpha}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-4",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-4",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nDerivando \\(\\alpha\\) respecto del tiempo:\n\n\\[\n\\dot{\\alpha}=\n\\frac{\n\\Delta x\\dot{\\Delta y}-\\Delta y\\dot{\\Delta x}\n}{\n\\Delta x^2+\\Delta y^2\n}\n-\\dot{\\theta}\n\\]\n\nSe sustituyen las derivadas de las coordenadas relativas:\n\n\\[\n\\dot{\\alpha}\n=\n\\frac{\n-\\Delta x\\,v\\sin\\theta+\n\\Delta y\\,v\\cos\\theta\n}{\\rho^2}-\\omega\n=\n\\boxed{\\frac{\\sin\\alpha}{\\rho} v - \\omega}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-5",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-5",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nDerivando \\(\\beta\\) respecto del tiempo:\n\n\\[\n\\dot{\\beta}\n=\n-\\dot{\\theta}-\\dot{\\alpha}\n\\]\n\nSe sustituyen las expresiones anteriores:\n\n\\[\n\\dot{\\beta}\n=\n-\\omega\n-\\left(\\frac{\\sin\\alpha}{\\rho}v-\\omega\\right)\n=\n\\boxed{-\\frac{\\sin\\alpha}{\\rho}v}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-6",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-6",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\n\nLas tres ecuaciones se agrupan en la matriz que ya tenés:\n\n\n\n\\[\n\\begin{bmatrix}\n\\dot{\\rho} \\\\\n\\dot{\\alpha} \\\\\n\\dot{\\beta}\n\\end{bmatrix} =\n\\begin{bmatrix}\n-\\cos{\\alpha}                   & 0\\\\\n\\tfrac{\\sin{\\alpha}}{\\rho}      & -1\\\\\n-\\tfrac{\\sin{\\alpha}}{\\rho}     & 0\n\\end{bmatrix}\n\\cdot\n\\begin{bmatrix}\nv\\\\\n\\omega\n\\end{bmatrix}\n\\]\n\n\n\nSi \\(\\alpha \\in \\boldsymbol{I_2} = \\left( -\\pi , -\\tfrac{\\pi}{2} \\right] \\cup \\left( \\tfrac{\\pi}{2} , \\pi \\right]\\), se puede redefinir la dirección hacia adelante tal que \\(v = -v\\), y obtener un sistema similar:\n\n\n\n\\[\n\\begin{bmatrix}\n\\dot{\\rho} \\\\\n\\dot{\\alpha} \\\\\n\\dot{\\beta}\n\\end{bmatrix} =\n\\begin{bmatrix}\n\\cos{\\alpha}                   & 0\\\\\n-\\tfrac{\\sin{\\alpha}}{\\rho}    & -1\\\\\n\\tfrac{\\sin{\\alpha}}{\\rho}     & 0\n\\end{bmatrix}\n\\cdot\n\\begin{bmatrix}\nv\\\\\n\\omega\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-7",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-7",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nConsideraciones\n\n\nLa transformación de coordenadas no está definida en el punto \\(x = y = 0\\) \nPara \\(\\alpha \\in \\boldsymbol{I_1}\\), la dirección de avance del robot apunta hacia el objetivo, mientras que para \\(\\alpha \\in \\boldsymbol{I_2}\\), apunta en dirección opuesta"
+  },
+  {
+    "objectID": "clases/20/index.html#transformación-modelo-cinemático-8",
+    "href": "clases/20/index.html#transformación-modelo-cinemático-8",
+    "title": "Robótica",
+    "section": "Transformación modelo cinemático",
+    "text": "Transformación modelo cinemático\n\nConsideraciones\n\n\nAl definir correctamente la dirección de avance del robot en su configuración inicial, siempre es posible que \\(\\alpha \\in \\boldsymbol{I_1}\\) en \\(t = 0\\)\nSin embargo, esto no garantiza que \\(\\alpha\\) permanezca en \\(\\boldsymbol{I_1}\\) para todo tiempo \\(t\\)\nPor lo tanto, para evitar que el robot cambie de dirección al acercarse al objetivo, es necesario, diseñar el controlador de forma que \\(\\alpha \\in \\boldsymbol{I_1}\\) para todo \\(t\\), siempre que \\(\\alpha(t=0) \\in \\boldsymbol{I_1}\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#diseño-del-controlador",
+    "href": "clases/20/index.html#diseño-del-controlador",
+    "title": "Robótica",
+    "section": "Diseño del controlador",
+    "text": "Diseño del controlador\n\nSe deben diseñar dos señales de control \\(v\\) y \\(\\omega\\), que conduzcan el robot desde la posición actual \\(\\left( \\rho, \\alpha, \\beta \\right)\\) a la posición objetivo\nEl sistema presenta una discontinuidad en \\(\\rho = 0\\) (\\(x = y = 0\\))\nSi consideramos la ley de control lineal\n\n\\[\n\\begin{cases}\nu = k_\\rho \\rho \\\\\n\\omega = k_\\alpha \\alpha + k_\\beta \\beta\n\\end{cases}\n\\]\n\nSe obtiene el sistema a lazo cerrado descripto por:\n\n\\[\n\\begin{bmatrix}\n\\dot{\\rho} \\\\\n\\dot{\\alpha} \\\\\n\\dot{\\beta}\n\\end{bmatrix} =\n\\begin{bmatrix}\n-\\cos{\\alpha}                   & 0\\\\\n\\tfrac{\\sin{\\alpha}}{\\rho}      & -1\\\\\n-\\tfrac{\\sin{\\alpha}}{\\rho}     & 0\n\\end{bmatrix}\n\\cdot\n\\begin{bmatrix}\nk_\\rho \\rho\\\\\nk_\\alpha \\alpha + k_\\beta \\beta\n\\end{bmatrix} =\n\\begin{bmatrix}\n-\\cos{(\\alpha)} k_\\rho \\rho \\\\\n\\sin{(\\alpha)} k_\\rho - k_\\alpha \\alpha - k_\\beta \\beta \\\\\n-\\sin{(\\alpha)} k_\\rho\n\\end{bmatrix}\n\\]"
+  },
+  {
+    "objectID": "clases/20/index.html#diseño-del-controlador-1",
+    "href": "clases/20/index.html#diseño-del-controlador-1",
+    "title": "Robótica",
+    "section": "Diseño del controlador",
+    "text": "Diseño del controlador\n\\[\n\\begin{bmatrix}\n\\dot{\\rho} \\\\\n\\dot{\\alpha} \\\\\n\\dot{\\beta}\n\\end{bmatrix} =\n\\begin{bmatrix}\n-\\cos{(\\alpha)} k_\\rho \\rho \\\\\n\\sin{(\\alpha)} k_\\rho - k_\\alpha \\alpha - k_\\beta \\beta \\\\\n-\\sin{(\\alpha)} k_\\rho\n\\end{bmatrix}\n\\]\n\nEl sistema ya no presenta singularidad en \\(\\rho = 0\\)\nTiene un único punto de equilibrio en \\(\\left( \\rho, \\alpha, \\beta \\right) = \\left( 0, 0, 0 \\right)\\), por lo tanto, conducirá al robot a dicho punto, que corresponde a la posición objetivo\nLos ángulos \\(\\alpha\\) y \\(\\beta\\) deben expresarse siempre en el intervalo \\((-\\pi, \\pi)\\)\nEl control de velocidad lineal \\(v\\) siempre tiene un signo constante: es positiva cuando \\(\\alpha(t = 0) \\in \\boldsymbol{I_1}\\) y negativa en cualquier otro caso\n\nEs decir, el robot realiza la maniobra siempre en una sola dirección, sin invertir el sentido de su movimiento.\n\nEl sistema es estable para \\(k_\\rho &gt; 0\\), \\(k_\\beta &lt; 0\\) y \\(k_\\alpha - k_\\rho &gt; 0\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#simulaciones",
+    "href": "clases/20/index.html#simulaciones",
+    "title": "Robótica",
+    "section": "Simulaciones",
+    "text": "Simulaciones\n\n\n\nTrayectorias resultantes al inicializar el robot en un circulo de radio 2\nValores de \\(\\theta = \\left[ -135°; 180°\\right]\\) a intervalos de \\(45°\\)\nValores adoptados:\n\n\\(k_\\rho = 3.0\\)\n\\(k_\\alpha = 8.0\\)\n\\(k_\\beta = -1.5\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#simulaciones-1",
+    "href": "clases/20/index.html#simulaciones-1",
+    "title": "Robótica",
+    "section": "Simulaciones",
+    "text": "Simulaciones\n\n\n\nAnálisis de sensibilidad de \\(k_\\rho\\)\n\\(\\theta_0 = 90°\\)\n\\(k_\\alpha = 8.0\\) y \\(k_\\beta = -1.5\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#simulaciones-2",
+    "href": "clases/20/index.html#simulaciones-2",
+    "title": "Robótica",
+    "section": "Simulaciones",
+    "text": "Simulaciones\n\n\n\nAnálisis de sensibilidad de \\(k_\\alpha\\)\n\\(\\theta_0 = 90°\\)\n\\(k_\\rho = 3.0\\) y \\(k_\\beta = -1.5\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#simulaciones-3",
+    "href": "clases/20/index.html#simulaciones-3",
+    "title": "Robótica",
+    "section": "Simulaciones",
+    "text": "Simulaciones\n\n\n\nAnálisis de sensibilidad de \\(k_\\beta\\)\n\\(\\theta_0 = 90°\\)\n\\(k_\\rho = 3.0\\) y \\(k_\\alpha = 8.0\\)"
+  },
+  {
+    "objectID": "clases/20/index.html#laboratorio-1",
+    "href": "clases/20/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nControlador point follower"
   },
   {
     "objectID": "clases/04/lab.html",
