@@ -206,7 +206,169 @@
 </section>
 <section>
 
+<section id="algoritmo-de-búsqueda-a-1" class="slide level2 smaller">
+<h2>Algoritmo de búsqueda <em>A*</em></h2>
+<blockquote>
+<p>Método de planeamiento de trayectoria más utilizado (1968<sup>1</sup>): Videojuegos, robots en <em>warehouse</em>, vehículos autónomos, aplicaciones de rutas, etc.</p>
+</blockquote>
+<ul>
+<li><em>A-estrella</em>, <em>A-star</em> o <em>A*</em> busca a través de la ubicación que parece menos costosa para alcanzar el objetivo</li>
+<li>El costo de una ubicación se divide en:
+<ul>
+<li>Lo que ha costado llegar hasta esa posición</li>
+<li>Una <u>estimación</u> de lo que costará completar el trayecto</li>
+</ul></li>
+<li>Se conoce como: “un algoritmo de <em>Dijkstra</em> con sentido de <em>orientacion</em>”</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Dijkstra siempre expande el nodo al que ha resultado más barato llegar hasta el momento (recorre casi todo el mapa)</li>
+<li>A* expande el nodo que parece más económico (menos costos) para alcanzar el objetivo</li>
+<li>La estimación es heurística, dado que no se conoce a priori exactamente ese valor</li>
+<li>El cálculo de la estimación debe ser instantáneo (<span class="math inline">\(\mathcal{O}(1)\)</span>)</li>
+<li>La estimación es la que orienta la búsqueda hacia el objetivo en lugar de que el algoritmo se extienda por todo el mapa</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>P. E. Hart, N. J. Nilsson and B. Raphael, “A Formal Basis for the Heuristic Determination of Minimum Cost Paths,” in IEEE Transactions on Systems Science and Cybernetics, vol.&nbsp;4, no. 2, pp.&nbsp;100-107, July 1968, doi: <a href="https://doi.org/10.1109%2FTSSC.1968.300136" target="_blank">10.1109/TSSC.1968.300136</a>.</p></li></ol></aside></section>
+<section id="algoritmo-de-búsqueda-a-2" class="slide level2 smaller">
+<h2>Algoritmo de búsqueda <em>A*</em></h2>
+<ul>
+<li>El mapa se conforma por nodos (representación por grafos)</li>
+<li>Existe un nodo inicial <span class="math inline">\(n_S\)</span> y un nodo objetivo <span class="math inline">\(n_G\)</span></li>
+<li>Cada nodo <span class="math inline">\(n\)</span> tiene un costo <span class="math inline">\(f(n)\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+f(n) = h(n) + g(n)
+\]</span></p>
+<ul>
+<li><span class="math inline">\(g(n)\)</span> es el costo del mejor camino desde el nodo inicial <span class="math inline">\(n_S\)</span> hasta <span class="math inline">\(n\)</span> (igual que <em>Dijkstra</em>)</li>
+<li><span class="math inline">\(h(n)\)</span> es una estimación del costo desde <span class="math inline">\(n\)</span> al objetivo <span class="math inline">\(n_G\)</span> (representa la heurística)</li>
+<li><span class="math inline">\(f(n)\)</span> representa el costo estimado del mejor camino que pasa por <span class="math inline">\(n\)</span></li>
+</ul>
+</section>
+<section id="algoritmo-de-búsqueda-a-3" class="slide level2 smaller">
+<h2>Algoritmo de búsqueda <em>A*</em></h2>
+<ul>
+<li><p>Se pueden ejemplificar 2 casos particulares:</p>
+<ul>
+<li>Si <span class="math inline">\(h(n) = 0 \, \forall \, n\)</span> entonces <span class="math inline">\(f(n) = g(n)\)</span> y el algoritmo se convierte en el algoritmo de <em>Dijkstra</em></li>
+<li>Si <span class="math inline">\(h(n)\)</span> es perfecta y conoce el costo real para llegar a <span class="math inline">\(n_G\)</span>, el algoritmo se dirige directamente por el camino óptimo sin expandir otras ubicaciones</li>
+</ul></li>
+<li><p>Cualquier otra heurística que de valores a <span class="math inline">\(h(n)\)</span> pone al algoritmo <em>A*</em> entre medio de estas dos situaciones</p></li>
+<li><p>Un ejemplo para <span class="math inline">\(h(n)\)</span> es la distancia entre <span class="math inline">\(n\)</span> y <span class="math inline">\(n_G\)</span> (sin contar obstáculos)</p></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>La heurística puede ser la distancia sin tener en cuenta obstáculos</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="heurísticas-admisibles-y-consistencia" class="slide level2 smaller">
+<h2>Heurísticas admisibles y consistencia</h2>
+<blockquote>
+<p>El algoritmo garantiza encontrar el camino de menor costo si la heurística es admisible</p>
+</blockquote>
+<ul>
+<li><span class="math inline">\(h(n)\)</span> es admisible si <strong>nunca estima un valor superior</strong> al costo real <span class="math inline">\(h^*(n)\)</span> restante</li>
+</ul>
+<p><span class="math display">\[
+h(n) \leq h^*(n) \, \forall \, n
+\]</span></p>
+<ul>
+<li><u>De forma intuitiva</u>: si la estimación para la mejor ruta real es más alta, dicha ruta parecerá ser peor de lo que realmente es, provocando que el algoritmo “ignore” dicha ruta</li>
+<li>Si la estimación es demasiado baja, la ruta parecerá mejor de lo que es, será examinada pero la solución encontrada quizás sea otra</li>
+</ul>
+</section>
+<section id="heurísticas-admisibles-y-consistencia-1" class="slide level2 smaller">
+<h2>Heurísticas admisibles y consistencia</h2>
+<blockquote>
+<p>La consistencia establece que el valor de la heurística nunca puede disminuir en una cantidad superior al coste de un único movimiento</p>
+</blockquote>
+<ul>
+<li>Se trata de aplicar la desigualdad triangular a la estimación</li>
+</ul>
+<p><span class="math display">\[
+h(n) \leq w(n, m) + h(m) \, \textrm{ para cada } \, n \rightarrow m
+\]</span></p>
+<ul>
+<li>Una heurística consistente es siempre admisible y ofrece una ventaja práctica: una vez que un nodo se considera <em>“resuelto”</em> su coste ya no cambia (igual que en el algoritmo de <em>Dijkstra</em>)</li>
+</ul>
+</section>
 <section id="ejemplo-en-una-cuadricula-2d" class="slide level2 smaller">
+<h2>Ejemplo en una cuadricula 2D</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Cada celda se identifica por el valor de fila <span class="math inline">\(r\)</span> y columna <span class="math inline">\(c\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+n = \begin{pmatrix} r &amp; c \end{pmatrix}
+\]</span></p>
+<ul>
+<li>Asuminedo que el robot se desplaza en 4 direcciones <span class="math inline">\(\uparrow\)</span>, <span class="math inline">\(\downarrow\)</span>, <span class="math inline">\(\rightarrow\)</span>, <span class="math inline">\(\leftarrow\)</span></li>
+<li>Cada movimiento tiene costo de 1 unidad</li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://commons.wikimedia.org/wiki/File:Manhattan_distance_bgiu.png#/media/File:Manhattan_distance_bgiu.png" target="_blank"><img data-src="https://upload.wikimedia.org/wikipedia/commons/d/de/Manhattan_distance_bgiu.png" title="Distancia Manhattan" class="quarto-figure quarto-figure-center" style="width:80.0%" data-fig-env="figure*"></a></p>
+</figure>
+</div>
+<figcaption>Fuente: Wikipedia (<a href="https://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank">distancia Manhattan</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-en-una-cuadricula-2d-1" class="slide level2 smaller">
+<h2>Ejemplo en una cuadricula 2D</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>La distancia hacia el objetivo se puede calcular como:</li>
+</ul>
+<p><span class="math display">\[
+h(n) = | r^{(n)} - r^{(n_G)} | + | c^{(n)} - c^{(n_G)} |
+\]</span> conocida como distancia <em>Manhattan</em></p>
+<ul>
+<li>Cualquier trayectoria al objetivo requiere, como mínimo, esa cantidad de movimientos</li>
+<li>Por lo tanto, nunca sobrestima el coste ✅</li>
+</ul>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://commons.wikimedia.org/wiki/File:Manhattan_distance_bgiu.png#/media/File:Manhattan_distance_bgiu.png" target="_blank"><img data-src="https://upload.wikimedia.org/wikipedia/commons/d/de/Manhattan_distance_bgiu.png" title="Distancia Manhattan" class="quarto-figure quarto-figure-center" style="width:80.0%" data-fig-env="figure*"></a></p>
+</figure>
+</div>
+<figcaption>Fuente: Wikipedia (<a href="https://en.wikipedia.org/wiki/Taxicab_geometry" target="_blank">distancia Manhattan</a>)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ejemplo-en-una-cuadricula-2d-2" class="slide level2 smaller">
 <h2>Ejemplo en una cuadricula 2D</h2>
 <div class="columns">
 <div class="column">
@@ -238,7 +400,7 @@ h(n_1) = 12 &gt; h^*(n) = 6
 </div>
 </div></div>
 </section>
-<section id="ejemplo-en-una-cuadricula-2d-1" class="slide level2 smaller">
+<section id="ejemplo-en-una-cuadricula-2d-3" class="slide level2 smaller">
 <h2>Ejemplo en una cuadricula 2D</h2>
 <div class="columns">
 <div class="column">
@@ -262,7 +424,7 @@ h(n_1) = 12 &gt; h^*(n) = 6
 </div>
 </div></div>
 </section>
-<section id="ejemplo-en-una-cuadricula-2d-2" class="slide level2 smaller">
+<section id="ejemplo-en-una-cuadricula-2d-4" class="slide level2 smaller">
 <h2>Ejemplo en una cuadricula 2D</h2>
 <blockquote>
 <p>En mapas donde se permiten movimientos en diagonal</p>
@@ -283,7 +445,7 @@ h(n) = \max(| 6 - 0 |, | 6 - 0 |) = \max(| 6 |, | 6 |) = 6 \leq h^*(n) = 6
 <li>Se recupera la propiedad de <em>admisibilidad</em> ✅</li>
 </ul>
 </section>
-<section id="ejemplo-en-una-cuadricula-2d-3" class="slide level2 smaller">
+<section id="ejemplo-en-una-cuadricula-2d-5" class="slide level2 smaller">
 <h2>Ejemplo en una cuadricula 2D</h2>
 <blockquote>
 <p>Para situaciones de movimiento libre se utiliza la distancia <em>Euclidea</em></p>
@@ -301,7 +463,7 @@ h(n) = m \cdot \sqrt{ \left( r^{(n_G)} - r^{(n)} \right)^2 + \left( c^{(n_G)} - 
 <li>Esta heurística representa la distancia en línea recta entre la posición actual y el objetivo, y cumple la propiedad de <em>admisibilidad</em> ✅</li>
 </ul>
 </section>
-<section id="ejemplo-en-una-cuadricula-2d-4" class="slide level2 smaller">
+<section id="ejemplo-en-una-cuadricula-2d-6" class="slide level2 smaller">
 <h2>Ejemplo en una cuadricula 2D</h2>
 <blockquote>
 <p>Comparación de los tipos de distancia</p>
@@ -317,7 +479,7 @@ h(n) = m \cdot \sqrt{ \left( r^{(n_G)} - r^{(n)} \right)^2 + \left( c^{(n_G)} - 
 </figure>
 </div>
 </section>
-<section id="algoritmo-de-búsqueda-a-1" class="slide level2 smaller">
+<section id="algoritmo-de-búsqueda-a-4" class="slide level2 smaller">
 <h2>Algoritmo de búsqueda <em>A*</em></h2>
 <blockquote>
 <p>Algoritmo</p>
@@ -329,7 +491,7 @@ h(n) = m \cdot \sqrt{ \left( r^{(n_G)} - r^{(n)} \right)^2 + \left( c^{(n_G)} - 
 </ol>
 
 </section>
-<section id="algoritmo-de-búsqueda-a-2" class="slide level2 smaller">
+<section id="algoritmo-de-búsqueda-a-5" class="slide level2 smaller">
 <h2>Algoritmo de búsqueda <em>A*</em></h2>
 <blockquote>
 <p>Algoritmo</p>
@@ -348,7 +510,7 @@ h(n) = m \cdot \sqrt{ \left( r^{(n_G)} - r^{(n)} \right)^2 + \left( c^{(n_G)} - 
 </ul></li>
 </ol>
 </section>
-<section id="algoritmo-de-búsqueda-a-3" class="slide level2 smaller">
+<section id="algoritmo-de-búsqueda-a-6" class="slide level2 smaller">
 <h2>Algoritmo de búsqueda <em>A*</em></h2>
 <blockquote>
 <p>Algoritmo</p>
@@ -368,7 +530,7 @@ h(n) = m \cdot \sqrt{ \left( r^{(n_G)} - r^{(n)} \right)^2 + \left( c^{(n_G)} - 
 </ul></li>
 </ol>
 </section>
-<section id="algoritmo-de-búsqueda-a-4" class="slide level2 smaller">
+<section id="algoritmo-de-búsqueda-a-7" class="slide level2 smaller">
 <h2>Algoritmo de búsqueda <em>A*</em></h2>
 <blockquote>
 <p>Algoritmo</p>
@@ -538,7 +700,7 @@ y = y_0 + (c + 0.5) \cdot m
 </ul></li>
 <li class="fragment">Estructura para almacenar el menor costo y los padres de cada nodo
 <ul>
-<li class="fragment">En <em>Python</em> se puede utilizar lista (<code>list</code>) o diccionario (<code>set</code>)</li>
+<li class="fragment">En <em>Python</em> se puede utilizar lista (<code>list</code>) o diccionario (<code>dict</code>)</li>
 </ul></li>
 </ul>
 </section>
@@ -589,6 +751,7 @@ y = y_0 + (c + 0.5) \cdot m
 
 
 </section></section>
+
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
