@@ -1820,6 +1820,27 @@
     "text": "3.2 ROS2 control\nEditar el archivo de definición del robot y agregar los elementos necesarios para configurar ROS2 control y Gazebo de forma tal que las juntas correspondientes a las ruedas de tracción reciban comandos de velocidad y devuelvan el estado de posición y velocidad. Para esto deberá añadir los tags &lt;ros2_control&gt; y &lt;gazebo&gt;.\nCrear un paquete (*)_control, con una carpeta config y un archivo de configuración en formato YAML con los parámetros necesarios para que el controller_manager de ROS2 control cargue un JointStateBroadcaster y dos controladores de velocidad de tipo JointGroupVelocityController, uno para cada rueda de tracción.\nEditar el archivo launch del ejercicio 3 para invocar al comando load_controller de ros2_control y cargar los controladores del inciso anterior."
   },
   {
+    "objectID": "clases/21/lab.html",
+    "href": "clases/21/lab.html",
+    "title": "Clase 21 - Laboratorio",
+    "section": "",
+    "text": "Implementar un nodo que, a partir de un mapa de tipo OccupancyGrid, la pose actual del robot y una pose objetivo dada, calcule una trayectoria a través del mapa que conecte ambos puntos\nPublicar la trayectoria en el topic /plan de tipo nav_msgs/Path\nVerificar la trayectoria obtenida utilizando herramientas de visualización como Rviz\n\n\n\n\n\nEstablece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado\nPara cada vecino \\(m\\) de \\(n\\):\n\nSi el nodo es el destino, recorre los enlaces hacia los nodos padres hasta llegar al inicio para obtener el camino\nSi el nodo representa un obstáculo o ya fue procesado se ignora\nSi no calcula \\(g(n) + w(n, m)\\)\n\nSi este valor es menor que el mejor \\(g(m)\\) conocido hasta el momento:\n\nActualiza \\(g(m)\\)\nEstablece a \\(n\\) como el nodo padre de \\(m\\)\nInserta \\(m\\) en la cola con una prioridad de \\(g(m) + h(m)\\)\n\nRepite el proceso desde el paso 1. Si la cola queda vacía, significa que no existe ningún camino.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIniciar la simulación con los parámetros y modelos adecuados\nEjecutar los nodos de control correspondientes al robot diferencial\nEjecute el nodo Occupancy Grid para obtener el mapa y el nodo AStarPlanner para realizar el planeamiento\nEnviar ubicaciones objetivo utilizando la interfaz gráfica de Rviz o publicando mensajes de forma manual con ros2 topic pub\nVisualizar las trayectorias resultantes utilizando la visualización provista en Rviz"
+  },
+  {
+    "objectID": "clases/21/lab.html#algoritmo-a",
+    "href": "clases/21/lab.html#algoritmo-a",
+    "title": "Clase 21 - Laboratorio",
+    "section": "",
+    "text": "Establece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado\nPara cada vecino \\(m\\) de \\(n\\):\n\nSi el nodo es el destino, recorre los enlaces hacia los nodos padres hasta llegar al inicio para obtener el camino\nSi el nodo representa un obstáculo o ya fue procesado se ignora\nSi no calcula \\(g(n) + w(n, m)\\)\n\nSi este valor es menor que el mejor \\(g(m)\\) conocido hasta el momento:\n\nActualiza \\(g(m)\\)\nEstablece a \\(n\\) como el nodo padre de \\(m\\)\nInserta \\(m\\) en la cola con una prioridad de \\(g(m) + h(m)\\)\n\nRepite el proceso desde el paso 1. Si la cola queda vacía, significa que no existe ningún camino."
+  },
+  {
+    "objectID": "clases/21/lab.html#integración-y-prueba",
+    "href": "clases/21/lab.html#integración-y-prueba",
+    "title": "Clase 21 - Laboratorio",
+    "section": "",
+    "text": "Iniciar la simulación con los parámetros y modelos adecuados\nEjecutar los nodos de control correspondientes al robot diferencial\nEjecute el nodo Occupancy Grid para obtener el mapa y el nodo AStarPlanner para realizar el planeamiento\nEnviar ubicaciones objetivo utilizando la interfaz gráfica de Rviz o publicando mensajes de forma manual con ros2 topic pub\nVisualizar las trayectorias resultantes utilizando la visualización provista en Rviz"
+  },
+  {
     "objectID": "clases/06/lab.html",
     "href": "clases/06/lab.html",
     "title": "Clase 06 - Laboratorio",
@@ -2517,14 +2538,14 @@
     "href": "index.html",
     "title": "Robótica 2026",
     "section": "",
-    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n26\n21/10\nLocalización con mapa. Desarrollo e implementación del algoritmo de Monte-Carlo\n\n\n\n\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪"
+    "text": "Intro\n\nCarreras en FICH: Tecnicatura universitaria en automatización y robótica\nExtensión: Anual\nCarga Horaria: 120hs\nSitio: Robótica 2026\nDocente:\n\nCapovilla, Agustín (acapovilla@sinc.unl.edu.ar)\n\n\n\n\nClases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪\n\n\n\n29\n11/11\nPlaneamiento de trayectoria. Implementación del algoritmo A*\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/index.html",
     "href": "clases/index.html",
     "title": "Clases",
     "section": "",
-    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n26\n21/10\nLocalización con mapa. Desarrollo e implementación del algoritmo de Monte-Carlo\n\n\n\n\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪"
+    "text": "Clases\n\n\n\n\n\n\nNota\n\n\n\nEl siguiente cronograma puede sufrir modificaciones o ser actualizado con el correr del cursado\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSemana\nFecha\nTema\nSlides\nNotas\nT.\nLab.\nT.R.\n\n\n\n\n1\n17/03\nIntroducción a la Robótica. Organización de la materia. Herramientas de trabajo.\n🖥️\n📝\n\n\n\n\n\n2\n24/03\nFeriado 24 de Marzo - Día nacional de la memoria por la verdad y la justicia\n\n\n\n\n\n\n\n3\n31/03\nROS2: Definición y propósito. Conceptos básicos (nodos, topics, mensajes, contexto). Instalación y ejemplos básicos.\n🖥️\n📝\n\n🧪\n\n\n\n4\n07/04\nROS2: Componentes adicionales (parámetros, servicios, acciones). Ejercicios de aplicación.\n🖥️\n📝\n\n🧪\n\n\n\n5\n14/04\nROS2 R.E.P.’s. Entorno y workspace. Paquetes y librería rclpy: programación de nodos. Callbacks. Compilación y ejecución.\n🖥️\n📝\n\n🧪\n\n\n\n6\n21/04\nProgramación Orientada a Objetos en ROS2. Ejemplos de aplicación: Nodos y parámetros. Logging.\n🖥️\n📝\n\n🧪\n\n\n\n7\n28/04\nSistema roslaunch, aplicación en proyectos de ROS2. Argumentos. Práctica integradora unidad 1.\n🖥️\n📝\n\n🧪\n\n\n\n8\n05/05\nTraslación y rotación 2D. Pose y orientación 3D en ROS. Librería tf2 y publicación de transformaciones.\n🖥️\n📝\n\n🧪\n\n\n\n9\n12/05\nU.R.D.F.: Representación de geometría de un robot. Uso de XACRO, robot_state_publisher y tf2.\n🖥️\n📝\n\n\n🛠️\n\n\n10\n19/05\nGazebo: Entorno de simulación. Paquete ros2_control y gz_ros2_contol. Hardware interface y controladores.\n🖥️\n📝\n\n\n🛠️\n\n\n11\n26/05\nCinemática y locomoción: modelo cinemático de un robot diferencial. Cinemática inversa y directa.\n🖥️\n📝\n\n\n🛠️\n\n\n12\n02/06\nOdometría: Cálculo de posición en base al modelo cinemático directo.\n🖥️\n📝\n\n\n🛠️\n\n\n15\n23/06\nPresentación entregable 1\n\n\n\n\n\n\n\n16\n12/08\nRevisión entregable 1\n🖥️\n\n\n🧪\n\n\n\n18\n26/08\nPercepción: sensores. Clasificación y caracterización. Aplicación de sensores propioceptivos y simulación en Gazebo.\n🖥️\n\n\n🧪\n\n\n\n19\n02/09\nSensores exteroceptivos, aplicación y simulación en Gazebo.\n🖥️\n\n📼\n🧪\n\n\n\n20\n09/09\nSimulación de cámara en Gazebo, caso práctico: seguidor de línea.\n🖥️\n\n\n🧪\n\n\n\n22\n23/09\nLocalización. Incertidumbre y corrección de odometría cinemática.\n🖥️\n\n\n🧪\n\n\n\n23\n30/09\n30 de Septiembre - Día del Santo Patrono San Jerónimo de la ciudad de Santa Fe\n\n\n\n\n\n\n\n24\n07/10\nEstimación de posición utilizando LiDAR 2D.\n🖥️\n\n\n🧪\n\n\n\n25\n14/10\nMapeo. Desarrollo del algoritmo Occupancy Grid. Implementación en ROS2.\n🖥️\n\n\n🧪\n\n\n\n27\n28/10\nControl. Diseño e implementación de un controlador a lazo cerrado (sin evasión de obstáculos)\n🖥️\n\n\n🧪\n\n\n\n29\n11/11\nPlaneamiento de trayectoria. Implementación del algoritmo A*\n🖥️\n\n\n🧪"
   },
   {
     "objectID": "clases/02/lab.html",
@@ -2812,6 +2833,125 @@
     "title": "Robótica",
     "section": "Laboratorio",
     "text": "Laboratorio\n\nArchivos launch\nPráctica integradora"
+  },
+  {
+    "objectID": "clases/21/index.html#ejemplo-en-una-cuadricula-2d",
+    "href": "clases/21/index.html#ejemplo-en-una-cuadricula-2d",
+    "title": "Robótica",
+    "section": "Ejemplo en una cuadricula 2D",
+    "text": "Ejemplo en una cuadricula 2D\n\n\n\nEn mapas donde se permiten movimientos en diagonal existen conflictos\n\n\nPor ejemplo: se desplaza de una celda \\(n_1 = (0, 0)\\) a \\(n_2 = (6, 6)\\)\n\n\\[\nh(n) = | 6 - 0 | + | 6 - 0 | = 12\n\\]\n\nPero al permitirse movimientos en diagonal el costo real óptimo es \\(6\\):\n\n\\[\nh(n_1) = 12 &gt; h^*(n) = 6\n\\]\n\n\n\n\n\n\n\n\nFuente: Wikipedia (distancia Manhattan)"
+  },
+  {
+    "objectID": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-1",
+    "href": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-1",
+    "title": "Robótica",
+    "section": "Ejemplo en una cuadricula 2D",
+    "text": "Ejemplo en una cuadricula 2D\n\n\n\nEn mapas donde se permiten movimientos en diagonal existen conflictos\n\n\nLa distancia Manhattan sobre-estima el costo real para llegar al objetivo\nEn este caso no cumple la propiedad de admisibilidad ❌\n\n\n\n\n\n\n\n\n\nFuente: Wikipedia (distancia Manhattan)"
+  },
+  {
+    "objectID": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-2",
+    "href": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-2",
+    "title": "Robótica",
+    "section": "Ejemplo en una cuadricula 2D",
+    "text": "Ejemplo en una cuadricula 2D\n\nEn mapas donde se permiten movimientos en diagonal\n\n\nDistancia alternativa: distancia Chebyshev\n\n\\[\nh(n) = \\max(| r^{(n)} - r^{(n_G)} |, | c^{(n)} - c^{(n_G)} |)\n\\]\n\nPara el ejemplo de \\(n_1 = (0, 0)\\) a \\(n_2 = (6, 6)\\)\n\n\\[\nh(n) = \\max(| 6 - 0 |, | 6 - 0 |) = \\max(| 6 |, | 6 |) = 6 \\leq h^*(n) = 6\n\\]\n\nSe recupera la propiedad de admisibilidad ✅"
+  },
+  {
+    "objectID": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-3",
+    "href": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-3",
+    "title": "Robótica",
+    "section": "Ejemplo en una cuadricula 2D",
+    "text": "Ejemplo en una cuadricula 2D\n\nPara situaciones de movimiento libre se utiliza la distancia Euclidea\n\n\\[\nh(n) = \\sqrt{ \\left( r^{(n_G)} - r^{(n)} \\right)^2 + \\left( c^{(n_G)} - c^{(n)} \\right)^2 }\n\\]\n\nEn caso de un mapa de tipo Occupancy Grid, con resolución de celda \\(m\\):\n\n\\[\nh(n) = m \\cdot \\sqrt{ \\left( r^{(n_G)} - r^{(n)} \\right)^2 + \\left( c^{(n_G)} - c^{(n)} \\right)^2 }\n\\]\n\nEsta heurística representa la distancia en línea recta entre la posición actual y el objetivo, y cumple la propiedad de admisibilidad ✅"
+  },
+  {
+    "objectID": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-4",
+    "href": "clases/21/index.html#ejemplo-en-una-cuadricula-2d-4",
+    "title": "Robótica",
+    "section": "Ejemplo en una cuadricula 2D",
+    "text": "Ejemplo en una cuadricula 2D\n\nComparación de los tipos de distancia\n\n\n\n\n\n\n\n\nFuente: IBM Think (www.ibm.com/think)"
+  },
+  {
+    "objectID": "clases/21/index.html#algoritmo-de-búsqueda-a-1",
+    "href": "clases/21/index.html#algoritmo-de-búsqueda-a-1",
+    "title": "Robótica",
+    "section": "Algoritmo de búsqueda A*",
+    "text": "Algoritmo de búsqueda A*\n\nAlgoritmo\n\n\nEstablece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado"
+  },
+  {
+    "objectID": "clases/21/index.html#algoritmo-de-búsqueda-a-2",
+    "href": "clases/21/index.html#algoritmo-de-búsqueda-a-2",
+    "title": "Robótica",
+    "section": "Algoritmo de búsqueda A*",
+    "text": "Algoritmo de búsqueda A*\n\nAlgoritmo\n\n\nEstablece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado\n\n\nPara cada vecino \\(m\\) de \\(n\\):\n\nSi el nodo es el destino, recorre los enlaces hacia los nodos padres hasta llegar al inicio para obtener el camino\nSi el nodo representa un obstáculo o ya fue procesado se ignora\nSi no calcula \\(g(n) + w(n, m)\\)"
+  },
+  {
+    "objectID": "clases/21/index.html#algoritmo-de-búsqueda-a-3",
+    "href": "clases/21/index.html#algoritmo-de-búsqueda-a-3",
+    "title": "Robótica",
+    "section": "Algoritmo de búsqueda A*",
+    "text": "Algoritmo de búsqueda A*\n\nAlgoritmo\n\n\nEstablece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado\nPara cada vecino \\(m\\) de \\(n\\): …\n\n\nSi este valor es menor que el mejor \\(g(m)\\) conocido hasta el momento:\n\nActualiza \\(g(m)\\)\nEstablece a \\(n\\) como el nodo padre de \\(m\\)\nInserta \\(m\\) en la cola con una prioridad de \\(g(m) + h(m)\\)"
+  },
+  {
+    "objectID": "clases/21/index.html#algoritmo-de-búsqueda-a-4",
+    "href": "clases/21/index.html#algoritmo-de-búsqueda-a-4",
+    "title": "Robótica",
+    "section": "Algoritmo de búsqueda A*",
+    "text": "Algoritmo de búsqueda A*\n\nAlgoritmo\n\n\nEstablece un \\(g(n_S) = 0\\) y agrega el nodo al inicio de la cola con prioridad \\(h(n_S)\\)\nExtrae de la cola el nodo \\(n\\) que tenga valor de \\(f(n)\\) más bajo\nMarca el nodo \\(n\\) como procesado\nPara cada vecino \\(m\\) de \\(n\\): …\nSi este valor es menor que el mejor \\(g(m)\\) conocido hasta el momento: …\nRepite el proceso desde el paso 1. Si la cola queda vacía, significa que no existe ningún camino."
+  },
+  {
+    "objectID": "clases/21/index.html#comparación-entre-dijkstra-y-a",
+    "href": "clases/21/index.html#comparación-entre-dijkstra-y-a",
+    "title": "Robótica",
+    "section": "Comparación entre Dijkstra y A*",
+    "text": "Comparación entre Dijkstra y A*\n\n\n\n\n\n\n\n\n\nFuente: Wikipedia (en.wikipedia.org/wiki/Dijkstra’s_algorithm)\n\n\n\n\n\n\n\n\n\n\n(en.wikipedia.org/wiki/A*_search_algorithm)"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2",
+    "href": "clases/21/index.html#implementación-ros2",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nConversión de coordenadas: world ↔︎ map\n\n\nCoordenadas del mundo \\((x,y)\\) a grilla \\((r, c)\\)\n\n\\[\nr = \\left \\lfloor \\frac{x−x0​​}{m} \\right \\rfloor\n\\qquad\nc = \\left \\lfloor \\frac{y−y0​​}{m} \\right \\rfloor\n\\]\n\nDonde:\n\n\\(x_0​\\) e \\(y_0\\) es el origen del mapa\n\\(m\\) la resolución del mapa en metros\n\nEn caso de que el mapa se encuentre rotado es necesario aplicar primero la transformación"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2-1",
+    "href": "clases/21/index.html#implementación-ros2-1",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nConversión de coordenadas: world ↔︎ map\n\n\nCoordenadas de la grilla \\((r, c)\\) al mundo \\((x,y)\\)\n\n\\[\nx = x_0 + (r + 0.5) \\cdot m\n\\qquad\ny = y_0 + (c + 0.5) \\cdot m\n\\]\n\nDonde:\n\n\\(x_0​\\) e \\(y_0\\) es el origen del mapa\n\\(m\\) la resolución del mapa en metros\n\nEn caso de que el mapa se encuentre rotado es necesario aplicar luego la transformación"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2-2",
+    "href": "clases/21/index.html#implementación-ros2-2",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nDeterminar ocupación\n\n\nEl mapa presenta valores entre \\(0\\) y \\(100\\) de ocupación, y \\(-1\\) para celdas desconocidas\nPara determinar si la celda es “atravesable” se debe determinar un umbral\n\n\\[\n\\textrm{celda valida}(r,c) = \\begin{cases}\n1 & 0 \\leq O(r,c) &lt; T \\\\\n0 & \\textrm{en otro caso}\n\\end{cases}\n\\]"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2-3",
+    "href": "clases/21/index.html#implementación-ros2-3",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nFunción de costo \\(g(n)\\) y heurística \\(h(n)\\) para los movimientos permitidos\n\n\n\n\nMovimiento\n\\(\\Delta r\\)\n\\(\\Delta c\\)\nCoste\n\n\n\n\nArriba\n\\(0\\)\n\\(1\\)\n\\(1\\)\n\n\nAbajo\n\\(0\\)\n\\(-1\\)\n\\(1\\)\n\n\nDerecha\n\\(1\\)\n\\(0\\)\n\\(1\\)\n\n\nIzquierda\n\\(-1\\)\n\\(0\\)\n\\(1\\)\n\n\nDiagonal\n\\(\\pm 1\\)\n\\(\\pm 1\\)\n\\(\\sqrt{2}\\)\n\n\n\n\nCosto en unidades del mapa, en caso de utilizar metros se pueden multiplicar por la resolución \\(m\\)"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2-4",
+    "href": "clases/21/index.html#implementación-ros2-4",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nEstructura de datos\n\n\nEstructura para almacenar los nodos a evaluar, el primero posee menor \\(f(n)\\)\n\nEn Python se puede utilizar la cola con prioridad (heapq)\n\nEstructura para almacenar los nodos visitados, y consultar rapidamente una coincidencia\n\nEn Python se puede utilizar conjunto (set)\n\nEstructura para almacenar el menor costo y los padres de cada nodo\n\nEn Python se puede utilizar lista (list) o diccionario (set)"
+  },
+  {
+    "objectID": "clases/21/index.html#implementación-ros2-5",
+    "href": "clases/21/index.html#implementación-ros2-5",
+    "title": "Robótica",
+    "section": "Implementación ROS2",
+    "text": "Implementación ROS2\n\nPublicación de la trayectoria\n\n\nSe utilizará el tipo de dato nav_msgs/Path:\n\n\n\nnav_msgs/Path.msg\n\n#An array of poses that represents a Path for a robot to follow\nHeader header\ngeometry_msgs/PoseStamped[] poses\n\n\nTipo de dato geometry_msgs/PoseStamped:\n\n\n\ngeometry_msgs/PoseStamped.msg\n\n# A Pose with reference coordinate frame and timestamp\nHeader header\nPose pose\n\n\nTipo de dato geometry_msgs/Pose:\n\n\n\ngeometry_msgs/Pose.msg\n\n# A representation of pose in free space, composed of position and orientation. \nPoint position\nQuaternion orientation"
+  },
+  {
+    "objectID": "clases/21/index.html#laboratorio-1",
+    "href": "clases/21/index.html#laboratorio-1",
+    "title": "Robótica",
+    "section": "Laboratorio",
+    "text": "Laboratorio\nAlgoritmo de búsqueda A*"
   },
   {
     "objectID": "clases/01/index.html#organización-de-la-materia-1",
